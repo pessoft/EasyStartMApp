@@ -1,4 +1,5 @@
-import React, {Fragment} from 'react';
+import React, {Fragment} from 'react'
+import {Text} from 'react-native'
 
 const App = () => {
   return (
