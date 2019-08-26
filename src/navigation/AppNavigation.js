@@ -4,7 +4,7 @@ import StartLogoScreen from '../screens/start/StartLogoScreen'
 
 const AppNavigation = createSwitchNavigator(
   {
-    'StartApp': StartLogoScreen,
+    StartApp: StartLogoScreen,
     // 'UserSetInfo': LoginStack,
     // 'Main': MainBottomTab
   },

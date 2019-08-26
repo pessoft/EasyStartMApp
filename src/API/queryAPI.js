@@ -2,6 +2,6 @@
 const domain = 'https://easystart.conveyor.cloud'
 
 export const checkActualUserDataQuery = `${domain}/api/AdminApp/checkactualuserdata`
-export const getAllowedCityQuery = `${domain}/api/AdminApp/getallowedcity`
-export const getCityBranchesQuery = `${domain}/api/AdminApp/getcitybranches`
+export const getLocationQuery = `${domain}/api/AdminApp/getlocation`
+export const getMainDataQuery = `${domain}/api/AdminApp/getmaindata`
 

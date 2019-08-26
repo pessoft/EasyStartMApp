@@ -1,4 +1,4 @@
-import { checkActualUserDataFetch } from '../../API/settings'
+import { checkActualUserDataFetch } from '../../API/requiredAPI'
 
 export const SET_USER_PHONE_NUMBER = 'SET_USER_PHONE_NUMBER'
 export const SET_CITY_ID = 'SET_CITY_ID'
@@ -46,17 +46,17 @@ const requestPosts = () => {
   }
 }
 
-const successPosts = state => {
+const successPosts = isActual => {
   return {
     type: FETCH_POSTS_SUCCESS,
-    payload: state
+    payload: isActual
   }
 }
 
-const failurePosts = state => {
+const failurePosts = isErrorFetch => {
   return {
     type: FETCH_POSTS_FAILURE,
-    payload: state
+    payload: isErrorFetch
   }
 }
 

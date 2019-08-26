@@ -1,13 +1,15 @@
 import React, { Fragment } from 'react'
-import { Text } from 'react-native'
 import AppNavigation from './navigation/AppNavigation'
 import { Provider } from 'react-redux'
-import store from './store/store'
+import { store, persistor } from './store/store'
+import { PersistGate } from 'redux-persist/integration/react'
 
 const App = () => {
   return (
     <Provider store={store}>
-      <AppNavigation />
+      <PersistGate loading={null} persistor={persistor}>
+        <AppNavigation />
+      </PersistGate>
     </Provider>
   );
 };

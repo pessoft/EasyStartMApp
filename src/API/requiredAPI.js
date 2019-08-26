@@ -1,4 +1,4 @@
-import { checkActualUserDataQuery, getAllowedCityQuery, getCityBranchesQuery } from './queryAPI'
+import { checkActualUserDataQuery, getLocationQuery, getMainDataQuery } from './queryAPI'
 import { getFetchOption } from './helperAPI'
 
 export const checkActualUserDataFetch = async (userData) => {
@@ -9,12 +9,13 @@ export const checkActualUserDataFetch = async (userData) => {
   return isActual
 }
 
-export const getAllowedCityFetch = async () => {
-  return await getData(getAllowedCityQuery)
+export const getLocationFetch = async () => {
+  return await getData(getLocationQuery)
 }
 
-export const getCityBranchesFetch = async () => {
-  return await getData(getCityBranchesQuery)
+export const getMainDataFetch = async (branchId) => {
+  const options = getFetchOption(branchId)
+  return await getData(getMainDataQuery, options)
 }
 
 const getData = async (query, options) => {
