@@ -28,7 +28,8 @@ const getDataFromJsonResult = result => {
   if (result.Success)
     return {
       ...result.Data,
-      dataLoaded: true
+      dataLoaded: true,
+      isFetching: false
     }
 
   return {}

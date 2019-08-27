@@ -41,7 +41,7 @@ class PhoneScreen extends React.Component {
           type={'custom'}
           options={{ mask: '+9(999)999-99-99' }}
           value={this.props.phoneNumber}
-          style={Styles.inputNormalSize, Styles.textCenter, Styles.mb_10}
+          style={[Styles.inputNormalSize, Styles.textCenter, Styles.mb_10]}
           onChangeText={this.onPhoneChange}
         />
         <View style={Styles.inputNormalSize}>
