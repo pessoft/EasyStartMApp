@@ -23,6 +23,15 @@ class PhoneScreen extends React.Component {
     this.props.navigation.navigate(SET_CITY)
   }
 
+  isValidPhoneNumber = () => {
+    const regexp = /\+7[(]\d{3}\)\d{3}-\d{2}-\d{2}$/
+
+    if (this.props.phoneNumber.match(regexp))
+      return true
+
+    return false
+  }
+
   render() {
     return (
       <KeyboardAvoidingView style={Styles.screen} behavior='height'>
@@ -36,7 +45,7 @@ class PhoneScreen extends React.Component {
           onChangeText={this.onPhoneChange}
         />
         <View style={Styles.inputNormalSize}>
-          <Button title='Далее' onPress={this.onNextPage} />
+          <Button title='Далее' onPress={this.onNextPage} disabled={!this.isValidPhoneNumber()} />
         </View>
       </KeyboardAvoidingView>
     )
