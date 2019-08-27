@@ -1,10 +1,6 @@
-import { SET_USER_PHONE_NUMBER, SET_CITY_ID, SET_BRANCH_ID, FETCH_POSTS_REQUEST, FETCH_POSTS_SUCCESS, FETCH_POSTS_FAILURE } from './actions'
+import { SET_USER_PHONE_NUMBER, SET_CITY_ID, SET_BRANCH_ID, FETCH_POSTS_SUCCESS } from './actions'
 
 const defaultState = {
-  asyncInfo: {
-    isFetching: false,
-    isErrorFetch: false
-  },
   isLogin: false,
   phoneNumber: '',
   cityId: -1,
@@ -31,30 +27,10 @@ export const userReducer = (state = defaultState, action) => {
         ...state,
         branchId: action.payload
       }
-    case FETCH_POSTS_REQUEST:
-      return {
-        ...state,
-        asyncInfo: {
-          isFetching: true,
-          isErrorFetch: false,
-        }
-      }
     case FETCH_POSTS_SUCCESS:
       return {
         ...state,
         isLogin: action.payload,
-        asyncInfo: {
-          isFetching: false,
-          isErrorFetch: false,
-        }
-      }
-    case FETCH_POSTS_FAILURE:
-      return {
-        ...state,
-        asyncInfo: {
-          isFetching: false,
-          isErrorFetch: true,
-        }
       }
   }
 

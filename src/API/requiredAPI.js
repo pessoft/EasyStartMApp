@@ -10,12 +10,26 @@ export const checkActualUserDataFetch = async (userData) => {
 }
 
 export const getLocationFetch = async () => {
-  return await getData(getLocationQuery)
+  const result = await getData(getLocationQuery)
+
+  return getDataFromJsonResult(result)
 }
 
 export const getMainDataFetch = async (branchId) => {
   const options = getFetchOption(branchId)
-  return await getData(getMainDataQuery, options)
+  const result = await getData(getMainDataQuery, options)
+
+  return getDataFromJsonResult(result)
+}
+
+const getDataFromJsonResult = result => {
+  if (result.Success)
+    return {
+      ...result.Data,
+      dataLoaded: true
+    }
+
+  return {}
 }
 
 const getData = async (query, options) => {
