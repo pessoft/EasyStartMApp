@@ -1,4 +1,4 @@
-import { SET_USER_PHONE_NUMBER, SET_CITY_ID, SET_BRANCH_ID, FETCH_POSTS_SUCCESS } from './actions'
+import { SET_USER_PHONE_NUMBER, SET_CITY_ID, SET_BRANCH_ID, FETCH_CHECK_ACTUAL_USER_INFO_SUCCESS } from './actions'
 
 const defaultState = {
   isLogin: false,
@@ -27,7 +27,7 @@ export const userReducer = (state = defaultState, action) => {
         ...state,
         branchId: action.payload
       }
-    case FETCH_POSTS_SUCCESS:
+    case FETCH_CHECK_ACTUAL_USER_INFO_SUCCESS:
       return {
         ...state,
         isLogin: action.payload,

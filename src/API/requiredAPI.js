@@ -4,9 +4,11 @@ import { getFetchOption } from './helperAPI'
 export const checkActualUserDataFetch = async (userData) => {
   const options = getFetchOption(userData)
   const result = await getData(checkActualUserDataQuery, options)
-  const isActual = result && result.Success && result.Data
 
-  return isActual
+  if (result && result.Success && result.Data)
+    return true
+
+  return false
 }
 
 export const getLocationFetch = async () => {

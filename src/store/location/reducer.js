@@ -1,4 +1,4 @@
-import { FETCH_POSTS_REQUEST, FETCH_POSTS_SUCCESS, FETCH_POSTS_FAILURE } from './actions'
+import { FETCH_LOCATION_SUCCESS } from './actions'
 
 const defaultState = {
   dataLoaded: false,
@@ -10,7 +10,7 @@ const defaultState = {
 export const locationReducer = (state = defaultState, action) => {
 
   switch (action.type) {
-    case FETCH_POSTS_SUCCESS:
+    case FETCH_LOCATION_SUCCESS:
       return {
         ...state,
         ...action.payload

@@ -4,7 +4,7 @@ import FullScreenLogo from '../../components/full-screen-logo/FullScreenLogoCont
 import { checkActualUserData } from '../../store/user/actions'
 import { getMainData } from '../../store/main/actions'
 import { getLocation } from '../../store/location/actions'
-import { USER_SET_INFO, MAIN } from '../../navigation/navigate-point'
+import { USER_INFO, MAIN } from '../../navigation/pointsNavigate'
 
 class StartLogoScreen extends React.Component {
   userLogin = () => {
@@ -17,7 +17,7 @@ class StartLogoScreen extends React.Component {
 
   userRegister = () => {
     if (this.props.locationLoaded) {
-      this.props.navigation.navigate(USER_SET_INFO)
+      this.props.navigation.navigate(USER_INFO)
     } else {
       this.props.getLocation()
     }

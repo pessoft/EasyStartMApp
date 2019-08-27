@@ -5,9 +5,9 @@ export const SET_CITY_ID = 'SET_CITY_ID'
 export const SET_BRANCH_ID = 'SET_BRANCH_ID'
 export const SET_IS_LOGIN = 'SET_IS_LOGIN'
 
-export const FETCH_POSTS_REQUEST = 'FETCH_POSTS_REQUEST'
-export const FETCH_POSTS_SUCCESS = 'FETCH_POSTS_SUCCESS'
-export const FETCH_POSTS_FAILURE = 'FETCH_POSTS_FAILURE'
+export const FETCH_CHECK_ACTUAL_USER_INFO_REQUEST = 'FETCH_CHECK_ACTUAL_USER_INFO_REQUEST'
+export const FETCH_CHECK_ACTUAL_USER_INFO_SUCCESS = 'FETCH_CHECK_ACTUAL_USER_INFO_SUCCESS'
+export const FETCH_CHECK_ACTUAL_USER_INFO_FAILURE = 'FETCH_CHECK_ACTUAL_USER_INFO_FAILURE'
 
 export const setPhoneNumber = (phoneNumber) => {
   return {
@@ -42,20 +42,20 @@ export const checkActualUserData = (userData) => async dispatch => {
 
 const requestPosts = () => {
   return {
-    type: FETCH_POSTS_REQUEST
+    type: FETCH_CHECK_ACTUAL_USER_INFO_REQUEST
   }
 }
 
 const successPosts = isActual => {
   return {
-    type: FETCH_POSTS_SUCCESS,
+    type: FETCH_CHECK_ACTUAL_USER_INFO_SUCCESS,
     payload: isActual
   }
 }
 
 const failurePosts = isErrorFetch => {
   return {
-    type: FETCH_POSTS_FAILURE,
+    type: FETCH_CHECK_ACTUAL_USER_INFO_FAILURE,
     payload: isErrorFetch
   }
 }

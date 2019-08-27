@@ -1,8 +1,8 @@
 import { getMainDataFetch } from '../../API/requiredAPI'
 
-export const FETCH_POSTS_SUCCESS = 'FETCH_POSTS_SUCCESS'
-export const FETCH_POSTS_REQUEST = 'FETCH_POSTS_REQUEST'
-export const FETCH_POSTS_FAILURE = 'FETCH_POSTS_FAILURE'
+export const FETCH_MAIN_DATA_SUCCESS = 'FETCH_MAIN_DATA_SUCCESS'
+export const FETCH_MAIN_DATA_REQUEST = 'FETCH_MAIN_DATA_REQUEST'
+export const FETCH_MAIN_DATA_FAILURE = 'FETCH_MAIN_DATA_FAILURE'
 
 export const getMainData = branchId => async (dispatch) => {
     dispatch(requestPosts())
@@ -17,20 +17,20 @@ export const getMainData = branchId => async (dispatch) => {
 
 const requestPosts = () => {
     return {
-        type: FETCH_POSTS_REQUEST
+        type: FETCH_MAIN_DATA_REQUEST
     }
 }
 
 const successPosts = location => {
     return {
-        type: FETCH_POSTS_SUCCESS,
+        type: FETCH_MAIN_DATA_SUCCESS,
         payload: location
     }
 }
 
 const failurePosts = () => {
     return {
-        type: FETCH_POSTS_FAILURE,
+        type: FETCH_MAIN_DATA_FAILURE,
         payload: true
     }
 }

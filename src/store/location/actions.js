@@ -1,8 +1,8 @@
 import { getLocationFetch } from '../../API/requiredAPI'
 
-export const FETCH_POSTS_SUCCESS = 'FETCH_POSTS_SUCCESS'
-export const FETCH_POSTS_REQUEST = 'FETCH_POSTS_REQUEST'
-export const FETCH_POSTS_FAILURE = 'FETCH_POSTS_FAILURE'
+export const FETCH_LOCATION_SUCCESS = 'FETCH_LOCATION_SUCCESS'
+export const FETCH_LOCATION_REQUEST = 'FETCH_LOCATION_REQUEST'
+export const FETCH_LOCATION_FAILURE = 'FETCH_LOCATION_FAILURE'
 
 export const getLocation = () => async (dispatch) => {
     dispatch(requestPosts())
@@ -17,20 +17,20 @@ export const getLocation = () => async (dispatch) => {
 
 const requestPosts = () => {
     return {
-        type: FETCH_POSTS_REQUEST
+        type: FETCH_LOCATION_REQUEST
     }
 }
 
 const successPosts = location => {
     return {
-        type: FETCH_POSTS_SUCCESS,
+        type: FETCH_LOCATION_SUCCESS,
         payload: location
     }
 }
 
 const failurePosts = () => {
     return {
-        type: FETCH_POSTS_FAILURE,
+        type: FETCH_LOCATION_FAILURE,
         payload: true
     }
 }
