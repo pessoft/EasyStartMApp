@@ -1,4 +1,3 @@
-import React from 'react'
 import { createStackNavigator } from 'react-navigation'
 import PhoneScreen from '../screens/user-information/PhoneScreen'
 import CityScreen from '../screens/user-information/CityScreen'

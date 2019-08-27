@@ -4,3 +4,10 @@ export const MAIN = 'MainBottomTab'
 
 export const SET_PHONE_NUMBER = 'PhoneSet'
 export const SET_CITY = 'CitySet'
+
+export const CATEGORIES = 'Categories'
+export const PRODUCTS = 'Products'
+export const PRODUCT_INFO = 'ProductInfo'
+export const PRODUCT_REVIEW = 'ProductReview'
+
+export const CATALOG_TAB = 'Catalog'

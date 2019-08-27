@@ -1,16 +1,17 @@
-import React from 'react'
 import { createSwitchNavigator, createAppContainer } from 'react-navigation'
 import StartLogoScreen from '../screens/start/StartLogoScreen'
-import { userInfoStackNavigator } from './userInfoNavigator';
+import { userInfoStackNavigator } from './userInfoStackNavigator';
+import { mainBottomTab } from './mainBottomTabNavigator';
+import { START_APP } from './pointsNavigate';
 
 const appNavigation = createSwitchNavigator(
   {
     StartApp: StartLogoScreen,
     UserSetInfo: userInfoStackNavigator,
-    // 'Main': MainBottomTab
+    MainBottomTab: mainBottomTab
   },
   {
-    initialRouteName: 'StartApp',
+    initialRouteName: START_APP
   })
 
 export default createAppContainer(appNavigation)

@@ -29,7 +29,6 @@ const getDataFromJsonResult = result => {
     return {
       ...result.Data,
       dataLoaded: true,
-      isFetching: false
     }
 
   return {}

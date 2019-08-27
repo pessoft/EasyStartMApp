@@ -21,7 +21,8 @@ export const mainReducer = (state = defaultState, action) => {
     case FETCH_MAIN_DATA_SUCCESS:
       return {
         ...state,
-        ...action.payload
+        ...action.payload,
+        isFetching: false
       }
     case FETCH_MAIN_DATA_FAILURE:
       return {
