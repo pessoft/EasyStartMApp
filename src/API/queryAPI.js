@@ -1,7 +1,6 @@
+import {SERVER_URL} from './serverURL'
 
-const domain = 'https://easystart.conveyor.cloud'
-
-export const checkActualUserDataQuery = `${domain}/api/AdminApp/checkactualuserdata`
-export const getLocationQuery = `${domain}/api/AdminApp/getlocation`
-export const getMainDataQuery = `${domain}/api/AdminApp/getmaindata`
+export const checkActualUserDataQuery = `${SERVER_URL}/api/AdminApp/checkactualuserdata`
+export const getLocationQuery = `${SERVER_URL}/api/AdminApp/getlocation`
+export const getMainDataQuery = `${SERVER_URL}/api/AdminApp/getmaindata`
 

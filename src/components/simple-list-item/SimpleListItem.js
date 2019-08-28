@@ -4,15 +4,16 @@ import Styles from './style'
 
 export class SimpleListItem extends React.Component {
   onPress = () => {
-    this.props.onPress(this.props.id)
+    if(this.props.onPress)
+      this.props.onPress(this.props.id)
   }
 
   render() {
     return (
       <TouchableHighlight
         onPress={this.onPress}
-        style={Styles.simpleListItem}>
-        <Text style={[Styles.ph_10, this.props.selected ? Styles.selectedItem : null]}>
+        style={Styles.bodyItem}>
+        <Text style={[Styles.ph_10, Styles.text, this.props.selected ? Styles.selectedItem : null]}>
           {this.props.text}
         </Text>
       </TouchableHighlight >
