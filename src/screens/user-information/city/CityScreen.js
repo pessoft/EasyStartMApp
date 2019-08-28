@@ -1,11 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { ScrollView, FlatList, View, Button, ActivityIndicator } from 'react-native'
-import { setCityId, setBranchId } from '../../store/user/actions'
-import { getMainData } from '../../store/main/actions'
-import Styles from './cityScreenStyle'
-import { MAIN } from '../../navigation/pointsNavigate'
-import { SimpleListItem } from '../../components/simple-list-item/SimpleListItem'
+import { setCityId, setBranchId } from '../../../store/user/actions'
+import { getMainData } from '../../../store/main/actions'
+import Styles from './style'
+import { MAIN } from '../../../navigation/pointsNavigate'
+import { SimpleListItem } from '../../../components/simple-list-item/SimpleListItem'
 
 class CityScreen extends React.Component {
   static navigationOptions = {

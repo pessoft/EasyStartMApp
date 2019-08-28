@@ -2,9 +2,9 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { KeyboardAvoidingView, TextInput, Button, View } from 'react-native'
 import { TextInputMask } from 'react-native-masked-text'
-import { SET_CITY } from '../../navigation/pointsNavigate'
-import { setPhoneNumber } from '../../store/user/actions'
-import Styles from './phoneScreenStyle'
+import { SET_CITY } from '../../../navigation/pointsNavigate'
+import { setPhoneNumber } from '../../../store/user/actions'
+import Styles from './style'
 
 class PhoneScreen extends React.Component {
   static navigationOptions = {
