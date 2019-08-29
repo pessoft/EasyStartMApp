@@ -6,14 +6,20 @@ export default StyleSheet.create({
     justifyContent: 'center',
     height: 140
   },
+  captionCatalog: {
+    fontSize: 20
+  },
   directionRow: {
     flexDirection: 'row'
   },
   rounded: {
-    borderRadius: 3
+    borderRadius: 10
   },
   ph_10: {
     paddingHorizontal: 10
+  },
+  mh_15: {
+    marginHorizontal: 15
   },
   textWrap: { 
     flex: 1, 

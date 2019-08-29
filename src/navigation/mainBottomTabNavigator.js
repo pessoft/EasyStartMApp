@@ -1,6 +1,6 @@
 import React from 'react'
 import { createBottomTabNavigator } from 'react-navigation'
-import Ionicons from 'react-native-vector-icons/FontAwesome5'
+import Icon from 'react-native-vector-icons/FontAwesome5'
 import { catalogStackNavigator } from './catalogStackNavigator'
 import { CATALOG_TAB } from './pointsNavigate';
 
@@ -11,7 +11,7 @@ export const mainBottomTab = createBottomTabNavigator(
             navigationOptions: {
                 tabBarLabel: 'Меню',
                 tabBarIcon: ({ focused, horizontal, tintColor }) => {
-                    return <Ionicons name={'concierge-bell'} size={30} color={tintColor} />
+                    return <Icon name={'concierge-bell'} size={30} color={tintColor} />
                 }
             }
         },

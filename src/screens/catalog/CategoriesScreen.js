@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { ScrollView, FlatList } from 'react-native'
-import { CatalogItem } from '../../components/catalog/CatalogItem';
+import { CategoryItem } from '../../components/category/CategoryItem';
 import { setSelectedCatagory, setSelectedProduct } from '../../store/catalog/actions'
 import { PRODUCTS } from '../../navigation/pointsNavigate';
 
@@ -56,7 +56,7 @@ class CategoriesScreen extends React.Component {
     }
 
     renderItem = ({ item }) => {
-        return <CatalogItem
+        return <CategoryItem
             id={item.key}
             caption={item.caption}
             imageSource={item.imageSource}

@@ -10,5 +10,5 @@ export default combineReducers({
   user: userReducer,
   location: locationReducer,
   main: mainReducer,
-  catalog: catalogReducer
+  catalog: catalogReducer,
 })
