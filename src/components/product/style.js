@@ -4,7 +4,7 @@ export default StyleSheet.create({
   bodyItem: {
     alignSelf: 'stretch',
     justifyContent: 'center',
-    paddingVertical: 15
+    paddingVertical: 10
 
   },
   captionProduct: {
@@ -13,7 +13,7 @@ export default StyleSheet.create({
   directionRow: {
     flexDirection: 'row'
   },
-  bottmBorder: {
+  bottomBorder: {
     borderBottomWidth: 0.8,
     borderColor: '#e0e0e0'
   },
@@ -30,9 +30,9 @@ export default StyleSheet.create({
     flex: 1,
     flexWrap: 'wrap'
   },
-  imageNormalSize: {
-    width: 85,
-    height: 85
+  imageSmSize: {
+    width: 90,
+    height: 90
   },
   productHeader: {
     flex: 1,

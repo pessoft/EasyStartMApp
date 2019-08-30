@@ -16,6 +16,7 @@ export class IconButton extends React.Component {
     render() {
         return (
             <TouchableHighlight
+                underlayColor='#ececec'
                 style={Styles.iconSquareButton}
                 onPress={this.props.onPress} >
                 {this.renderIcon()}

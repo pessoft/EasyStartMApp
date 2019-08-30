@@ -11,7 +11,7 @@ export class SimpleListItem extends React.Component {
   render() {
     return (
       <TouchableHighlight
-        underlayColor='#f9f9f9'
+        underlayColor='#ececec'
         onPress={this.onPress}
         style={Styles.bodyItem}>
         <Text style={[Styles.ph_10, Styles.text, this.props.selected ? Styles.selectedItem : null]}>

@@ -11,7 +11,7 @@ export class CategoryItem extends React.PureComponent {
     render() {
         return (
             <TouchableHighlight
-                underlayColor='#f9f9f9'
+                underlayColor='#ececec'
                 style={[Styles.bodyItem, Styles.ph_10]}
                 onPress={this.onPress}>
                 <View style={Styles.directionRow}>
