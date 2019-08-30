@@ -17,8 +17,8 @@ class CategoriesScreen extends React.Component {
     }
 
     componentDidUpdate = () => {
-        if(Object.keys(this.props.selectedCategory).length > 0 
-        && this.props.selectedCategory.Id > 0 ) {
+        if (Object.keys(this.props.selectedCategory).length > 0
+            && this.props.selectedCategory.Id > 0) {
             this.props.navigation.navigate(PRODUCTS)
         }
     }
@@ -31,7 +31,7 @@ class CategoriesScreen extends React.Component {
     getCategoryById = id => {
         const results = this.props.categories.filter(p => p.Id == id)
 
-        if(results.length > 0)
+        if (results.length > 0)
             return results[0]
 
         return {}
@@ -68,6 +68,10 @@ class CategoriesScreen extends React.Component {
         return (
             <ScrollView>
                 <FlatList
+                    windowSize={4}
+                    removeClippedSubviews={true}
+                    initialNumToRender={2}
+                    maxToRenderPerBatch={1}
                     data={this.categoriesTransform()}
                     renderItem={this.renderItem}
                 />

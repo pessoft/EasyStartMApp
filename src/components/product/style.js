@@ -26,28 +26,29 @@ export default StyleSheet.create({
   mt_5: {
     marginTop: 5
   },
-  textWrap: { 
-    flex: 1, 
+  textWrap: {
+    flex: 1,
     flexWrap: 'wrap'
-   },
+  },
   imageNormalSize: {
     width: 85,
     height: 85
   },
   productHeader: {
-    flex:1,
+    flex: 1,
     alignSelf: 'stretch',
     marginHorizontal: 15,
     paddingBottom: 10
   },
   blockShopAction: {
+    justifyContent: 'center',
     flexDirection: 'row',
     marginTop: 10
   },
   blockShopButtons: {
-    flex:1,
+    flex: 1,
     flexDirection: 'row',
     justifyContent: 'flex-end',
-    alignItems:'flex-end'
+    alignItems: 'flex-end'
   }
 })

@@ -1,8 +1,8 @@
 import React from 'react'
 import { createBottomTabNavigator } from 'react-navigation'
-import Icon from 'react-native-vector-icons/FontAwesome5'
 import { catalogStackNavigator } from './catalogStackNavigator'
 import { CATALOG_TAB } from './pointsNavigate';
+import IcoMenu from '../images/font-awesome-svg/soup.svg'
 
 export const mainBottomTab = createBottomTabNavigator(
     {
@@ -11,7 +11,7 @@ export const mainBottomTab = createBottomTabNavigator(
             navigationOptions: {
                 tabBarLabel: 'Меню',
                 tabBarIcon: ({ focused, horizontal, tintColor }) => {
-                    return <Icon name={'concierge-bell'} size={30} color={tintColor} />
+                    return <IcoMenu width={20} height={20} color={tintColor} />
                 }
             }
         },

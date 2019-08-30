@@ -3,7 +3,7 @@ import { TouchableHighlight, Image, Text, View } from 'react-native'
 import Styles from './style'
 import { BasketButton } from '../buttons-square/BasketButton';
 
-export class ProductItem extends React.Component {
+export class ProductItem extends React.PureComponent {
     onPress = () => {
         if (this.props.onPress)
             this.props.onPress(this.props.id)
@@ -32,7 +32,7 @@ export class ProductItem extends React.Component {
                                 {`${this.props.product.price} ${this.props.product.currencyPrefix}`}
                             </Text>
                             <View style={Styles.blockShopButtons}>
-                                <BasketButton />
+                                <BasketButton size={18} />
                             </View>
                         </View>
                     </View>

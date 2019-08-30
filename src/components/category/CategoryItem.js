@@ -2,7 +2,7 @@ import React from 'react'
 import { TouchableHighlight, Image, Text, View } from 'react-native'
 import Styles from './style'
 
-export class CategoryItem extends React.Component {
+export class CategoryItem extends React.PureComponent {
     onPress = () => {
         if (this.props.onPress)
             this.props.onPress(this.props.id)
@@ -10,7 +10,7 @@ export class CategoryItem extends React.Component {
 
     render() {
         return (
-            <TouchableHighlight 
+            <TouchableHighlight
                 underlayColor='#f9f9f9'
                 style={[Styles.bodyItem, Styles.ph_10]}
                 onPress={this.onPress}>

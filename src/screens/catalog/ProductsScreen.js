@@ -58,6 +58,10 @@ class ProductsScreen extends React.Component {
         return (
             <ScrollView>
                 <FlatList
+                    windowSize={4}
+                    removeClippedSubviews={true}
+                    initialNumToRender={2}
+                    maxToRenderPerBatch={1}
                     data={this.productsTransform()}
                     renderItem={this.renderItem}
                 />
