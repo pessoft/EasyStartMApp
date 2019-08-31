@@ -7,7 +7,8 @@ const defaultState = {
   products: {},
   deliverySettings: {},
   organizationSettings: {},
-  stocks: []
+  stocks: [],
+  reviewsCount: {}
 }
 
 export const mainReducer = (state = defaultState, action) => {

@@ -84,8 +84,7 @@ const mapStateToProps = state => {
     return {
         serverURL: state.appSetting.serverURL,
         categories: state.main.categories,
-        selectedCategory: state.catalog.selectedCategory,
-        selectedProduct: state.catalog.selectedProduct
+        selectedCategory: state.catalog.selectedCategory
     }
 }
 

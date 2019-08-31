@@ -2,6 +2,8 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { ScrollView, FlatList } from 'react-native'
 import { ProductItem } from '../../components/product/ProductItem';
+import { setSelectedProduct } from '../../store/catalog/actions'
+import { PRODUCT_INFO } from '../../navigation/pointsNavigate'
 
 class ProductsScreen extends React.Component {
     static navigationOptions = ({ navigation }) => {
@@ -19,8 +21,23 @@ class ProductsScreen extends React.Component {
         this.props.navigation.setParams({ categoryName: this.props.selectedCategory.Name })
     }
 
-    onSelectedProduct = productId => {
+    componentDidUpdate = () => {
+        if (Object.keys(this.props.selectedProduct).length > 0
+            && this.props.selectedProduct.Id > 0) {
+            this.props.navigation.navigate(PRODUCT_INFO)
+        }
+    }
 
+    getProductById = (products, targetId) => {
+        return products.filter(p => p.Id == targetId)[0]
+    }
+
+    onSelectedProduct = productId => {
+        const categoryId = this.props.selectedCategory.Id
+        const products = this.props.products[categoryId]
+        const product = this.getProductById(products, productId)
+
+        this.props.setSelectedProduct(product)
     }
 
     getImageSource = imagePath => {
@@ -80,4 +97,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps)(ProductsScreen)
+export default connect(mapStateToProps, { setSelectedProduct })(ProductsScreen)
