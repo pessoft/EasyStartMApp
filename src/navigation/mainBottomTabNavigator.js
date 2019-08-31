@@ -21,6 +21,7 @@ export const mainBottomTab = createBottomTabNavigator(
             activeTintColor: '#171717',
             inactiveTintColor: '#777777',
             showLabel: true,
+            keyboardHidesTabBar: true
         },
         initialRouteName: CATALOG_TAB
     })

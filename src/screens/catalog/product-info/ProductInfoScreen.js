@@ -45,7 +45,7 @@ class ProductInfoScreen extends React.Component {
     }
 
     onPressReviews = () => {
-        this.props.navigator.navigate(PRODUCT_REVIEW)
+        this.props.navigation.navigate(PRODUCT_REVIEW)
     }
 
     render() {
@@ -59,7 +59,7 @@ class ProductInfoScreen extends React.Component {
                     <View style={Styles.productInfoContainer}>
                         <View style={Styles.leftBlock}>
                             <Rating
-                                imageSize={35}
+                                imageSize={32}
                                 fractions={1}
                                 startingValue={this.Product.Rating} />
                             <Text style={Styles.h6}>{this.getRatingText()}</Text>

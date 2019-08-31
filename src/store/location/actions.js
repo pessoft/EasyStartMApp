@@ -1,4 +1,4 @@
-import { getLocationFetch } from '../../API/requiredAPI'
+import { getLocationFetch } from '../../API/fetchAPI'
 
 export const FETCH_LOCATION_SUCCESS = 'FETCH_LOCATION_SUCCESS'
 export const FETCH_LOCATION_REQUEST = 'FETCH_LOCATION_REQUEST'

@@ -4,6 +4,7 @@ import { userReducer } from './user/reducer'
 import { locationReducer } from './location/reducer';
 import { mainReducer } from './main/reducer';
 import { catalogReducer } from './catalog/reducer';
+import { productReviewReducer } from './product-reviews/reducer';
 
 export default combineReducers({
   appSetting: appSettingReducer,
@@ -11,4 +12,5 @@ export default combineReducers({
   location: locationReducer,
   main: mainReducer,
   catalog: catalogReducer,
+  productReviews: productReviewReducer
 })

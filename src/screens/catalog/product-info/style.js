@@ -12,30 +12,31 @@ export default StyleSheet.create({
     productInfoContainer: {
         flexDirection: 'row',
         alignItems: 'center',
-        height: 115,
+        height: 105,
         paddingHorizontal: 5,
-        paddingBottom: 12,
+        marginHorizontal: 5,
+        paddingBottom: 10,
         borderBottomWidth: 0.8,
-        marginBottom: 12
+        marginBottom: 10
 
     },
     leftBlock: {
         flex:1.5,
         alignItems: 'flex-start',
         justifyContent: 'space-between',
-        height: 105,
+        height: 90,
     },
     rightBlock: {
         flex: 1,
         alignItems: 'flex-end',
-        justifyContent: 'space-around',
-        height: 105
+        justifyContent: 'flex-end',
+        height: 90
     },
     description: {
         alignItems: 'stretch',
-        textAlign:'justify',
         flexWrap: 'wrap',
-        lineHeight: 24
+        lineHeight: 24,
+        paddingHorizontal:5
     },
     h1: {
         fontSize: 30

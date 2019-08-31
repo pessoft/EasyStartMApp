@@ -1,4 +1,4 @@
-import { getMainDataFetch } from '../../API/requiredAPI'
+import { getMainDataFetch } from '../../API/fetchAPI'
 
 export const FETCH_MAIN_DATA_SUCCESS = 'FETCH_MAIN_DATA_SUCCESS'
 export const FETCH_MAIN_DATA_REQUEST = 'FETCH_MAIN_DATA_REQUEST'
@@ -21,10 +21,10 @@ const requestPosts = () => {
     }
 }
 
-const successPosts = location => {
+const successPosts = mainData => {
     return {
         type: FETCH_MAIN_DATA_SUCCESS,
-        payload: location
+        payload: mainData
     }
 }
 

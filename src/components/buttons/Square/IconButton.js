@@ -13,11 +13,22 @@ export class IconButton extends React.Component {
             color={this.props.color || '#000'} />
     }
 
+    isNonBorder = () => {
+        if (this.props.nonBorder)
+            return {
+                borderWidth: 0,
+                padding: 0
+            }
+        return {}
+    }
+
     render() {
         return (
             <TouchableHighlight
                 underlayColor='#ececec'
-                style={Styles.iconSquareButton}
+                style={[
+                    Styles.iconSquareButton,
+                    this.isNonBorder()]}
                 onPress={this.props.onPress} >
                 {this.renderIcon()}
             </TouchableHighlight>

@@ -1,4 +1,9 @@
-import { checkActualUserDataQuery, getLocationQuery, getMainDataQuery } from './queryAPI'
+import {
+  checkActualUserDataQuery,
+  getLocationQuery,
+  getMainDataQuery,
+  getProductReviewsQuery
+} from './queryAPI'
 import { getFetchOption } from './helperAPI'
 
 export const checkActualUserDataFetch = async (userData) => {
@@ -20,6 +25,13 @@ export const getLocationFetch = async () => {
 export const getMainDataFetch = async (branchId) => {
   const options = getFetchOption(branchId)
   const result = await getData(getMainDataQuery, options)
+
+  return getDataFromJsonResult(result)
+}
+
+export const getPrductReviewsFetch = async (productId) => {
+  const options = getFetchOption(productId)
+  const result = await getData(getProductReviewsQuery, options)
 
   return getDataFromJsonResult(result)
 }
