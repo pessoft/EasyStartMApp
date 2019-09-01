@@ -6,14 +6,11 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  inputNormalSize: {
-    width: 200,
+  inputPhoneNumber: {
+    textAlign: 'center',
+    marginBottom: 15
   },
-  textCenter: {
-    textAlign: 'center'
-  },
-  mb_10: {
-    marginBottom: 10
+  inputSize: {
+    width: 230,
   }
-
 })

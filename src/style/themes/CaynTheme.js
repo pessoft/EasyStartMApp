@@ -1,6 +1,9 @@
 import {StyleSheet} from 'react-native'
 
 export const CaynTheme = StyleSheet.create({
+    themeBody: {
+        backgroundColor: '#fafafa'
+    },
     darkPrimaryColor: {
         backgroundColor: '#0097A7'
     },

@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import FullScreenLogo from '../../components/full-screen-logo/FullScreenLogoContainer'
+import { FullScreenLogo } from '../../components/full-screen-logo/FullScreenLogo'
 import { checkActualUserData } from '../../store/user/actions'
 import { getMainData } from '../../store/main/actions'
 import { getLocation } from '../../store/location/actions'
@@ -48,19 +48,25 @@ class StartLogoScreen extends React.Component {
   }
 
   render() {
-    return <FullScreenLogo />
+    return (
+      <FullScreenLogo
+        source={this.props.logo}
+        theme={this.props.style.theme} />
+    )
   }
 }
 
 const mapStateToProps = state => {
   return {
     isLogin: state.user.isLogin,
+    logo: state.appSetting.logo,
     phoneNumber: state.user.phoneNumber,
     cityId: state.user.cityId,
     clientId: state.user.clientId,
     branchId: state.user.branchId,
     locationLoaded: state.location.dataLoaded,
     mainDataLoaded: state.main.dataLoaded,
+    style: state.style
   }
 }
 

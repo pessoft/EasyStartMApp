@@ -1,6 +1,9 @@
 import {StyleSheet} from 'react-native'
 
 export const RedTheme = StyleSheet.create({
+    themeBody: {
+        backgroundColor: '#fafafa'
+    },
     darkPrimaryColor: {
         backgroundColor: '#D32F2F'
     },

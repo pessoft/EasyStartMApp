@@ -5,8 +5,8 @@ import Styles from './style'
 export class FullScreenLogo extends React.Component {
   render() {
     return (
-      <View style={Styles.screen} >
-        <Image style={Styles.logo} source={this.props.src} />
+      <View style={[Styles.screen, this.props.theme.themBody]} >
+        <Image style={Styles.logo} source={this.props.source} />
       </View>
     )
   }

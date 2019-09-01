@@ -1,6 +1,9 @@
 import {StyleSheet} from 'react-native'
 
 export const OrangeTheme = StyleSheet.create({
+    themeBody: {
+        backgroundColor: '#fafafa'
+    },
     darkPrimaryColor: {
         backgroundColor: '#F57C00'
     },

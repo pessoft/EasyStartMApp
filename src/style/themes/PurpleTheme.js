@@ -1,6 +1,9 @@
 import {StyleSheet} from 'react-native'
 
 export const PurpleTheme = StyleSheet.create({
+    themeBody: {
+        backgroundColor: '#fafafa'
+    },
     darkPrimaryColor: {
         backgroundColor: '#7B1FA2'
     },

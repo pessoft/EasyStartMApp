@@ -41,11 +41,19 @@ class PhoneScreen extends React.Component {
           type={'custom'}
           options={{ mask: '+9(999)999-99-99' }}
           value={this.props.phoneNumber}
-          style={[Styles.inputNormalSize, Styles.textCenter, Styles.mb_10]}
+          style={[
+            Styles.inputPhoneNumber,
+            Styles.inputSize,
+            this.props.style.fontSize.h6]}
           onChangeText={this.onPhoneChange}
         />
-        <View style={Styles.inputNormalSize}>
-          <Button title='Далее' onPress={this.onNextPage} disabled={!this.isValidPhoneNumber()} />
+        <View style={Styles.inputSize}>
+          <Button
+            title='Далее'
+            onPress={this.onNextPage}
+            disabled={!this.isValidPhoneNumber()}
+            color={this.props.style.theme.darkPrimaryColor.backgroundColor}
+          />
         </View>
       </KeyboardAvoidingView>
     )
@@ -55,6 +63,7 @@ class PhoneScreen extends React.Component {
 const mapStateToProps = state => {
   return {
     phoneNumber: state.user.phoneNumber,
+    style: state.style
   }
 }
 

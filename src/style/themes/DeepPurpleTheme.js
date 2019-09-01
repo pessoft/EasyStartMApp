@@ -1,6 +1,9 @@
 import {StyleSheet} from 'react-native'
 
 export const DeepPurpleTheme = StyleSheet.create({
+    themeBody: {
+        backgroundColor: '#fafafa'
+    },
     darkPrimaryColor: {
         backgroundColor: '#512DA8'
     },

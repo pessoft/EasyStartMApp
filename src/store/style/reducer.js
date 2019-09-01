@@ -1,10 +1,10 @@
 import { CHANGE_COLOR_THEME } from './actions'
 import { IndigoTheme } from '../../style/themes/IndigoTheme'
-import {GloabalFontSize} from '../../style/GloabalFontSize'
+import { GlobalFontSize } from '../../style/GlobalFontSize'
 
 const defaultState = {
     theme: IndigoTheme,
-    fontSize: GloabalFontSize
+    fontSize: GlobalFontSize
 }
 
 export const styleReducer = (state = defaultState, action) => {

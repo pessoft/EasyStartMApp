@@ -1,6 +1,9 @@
 import {StyleSheet} from 'react-native'
 
-export const DeepOrangeTheme StyleSheet.create({
+export const DeepOrangeTheme = StyleSheet.create({
+    themeBody: {
+        backgroundColor: '#fafafa'
+    },
     darkPrimaryColor: {
         backgroundColor: '#E64A19'
     },

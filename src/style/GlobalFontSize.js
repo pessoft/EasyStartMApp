@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native'
 
-export const GlobalFontSilze = StyleSheet.create({
+export const GlobalFontSize = StyleSheet.create({
     h1: {
         fontSize: 32
     },

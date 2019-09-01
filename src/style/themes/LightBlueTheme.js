@@ -1,6 +1,9 @@
 import {StyleSheet} from 'react-native'
 
 export const LightBlueTheme = StyleSheet.create({
+    themeBody: {
+        backgroundColor: '#fafafa'
+    },
     darkPrimaryColor: {
         backgroundColor: '#0288D1'
     },
