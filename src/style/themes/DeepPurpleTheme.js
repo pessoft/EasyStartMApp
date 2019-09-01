@@ -1,0 +1,28 @@
+import {StyleSheet} from 'react-native'
+
+export const DeepPurpleTheme = StyleSheet.create({
+    darkPrimaryColor: {
+        backgroundColor: '#512DA8'
+    },
+    defaultPrimaryColor: {
+        backgroundColor:'#673AB7'
+    },
+    lightPrimaryColor: {
+        backgroundColor:'#D1C4E9'
+    },
+    textPrimaryColor:{
+        color:'#FFFFFF'
+    },
+    accentColor: {
+        backgroundColor: '#7C4DFF'
+    },
+    primaryTextColor: {
+        color:'#212121'
+    },
+    secondaryTextColor: {
+        color: '#757575'
+    },
+    dividerColor: {
+        borderColor: '#BDBDBD'
+    }
+})
