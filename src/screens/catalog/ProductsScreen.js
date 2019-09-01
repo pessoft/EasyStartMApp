@@ -19,6 +19,7 @@ class ProductsScreen extends React.Component {
     constructor(props) {
         super(props)
         this.props.navigation.setParams({ categoryName: this.props.selectedCategory.Name })
+        this.props.setSelectedProduct({})
     }
 
     componentDidUpdate = () => {

@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { ScrollView, FlatList } from 'react-native'
 import { CategoryItem } from '../../components/category/CategoryItem';
-import { setSelectedCatagory } from '../../store/catalog/actions'
+import { setSelectedCatagory, setSelectedProduct} from '../../store/catalog/actions'
 import { PRODUCTS } from '../../navigation/pointsNavigate';
 
 
@@ -14,6 +14,12 @@ class CategoriesScreen extends React.Component {
             textAlign: "center",
             flex: 1
         }
+    }
+
+    constructor(props) {
+        super(props)
+        this.props.setSelectedProduct({})
+        this.props.setSelectedCatagory({})
     }
 
     componentDidUpdate = () => {
@@ -90,6 +96,7 @@ const mapStateToProps = state => {
 
 const mapActionToProps = {
     setSelectedCatagory,
+    setSelectedProduct
 }
 
 export default connect(mapStateToProps, mapActionToProps)(CategoriesScreen)
