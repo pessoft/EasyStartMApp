@@ -4,24 +4,11 @@ export default StyleSheet.create({
   bodyItem: {
     alignSelf: 'stretch',
     justifyContent: 'center',
-    paddingVertical: 10
-
-  },
-  captionProduct: {
-    fontSize: 16
+    paddingVertical: 10,
+    paddingHorizontal: 10,
   },
   directionRow: {
     flexDirection: 'row'
-  },
-  bottomBorder: {
-    borderBottomWidth: 0.8,
-    borderColor: '#e0e0e0'
-  },
-  rounded: {
-    borderRadius: 10
-  },
-  ph_10: {
-    paddingHorizontal: 10
   },
   mt_5: {
     marginTop: 5
@@ -30,15 +17,17 @@ export default StyleSheet.create({
     flex: 1,
     flexWrap: 'wrap'
   },
-  imageSmSize: {
+  productImage: {
     width: 90,
-    height: 90
+    height: 90,
+    borderRadius: 10
   },
   productHeader: {
     flex: 1,
     alignSelf: 'stretch',
     marginHorizontal: 15,
-    paddingBottom: 10
+    paddingBottom: 10,
+    borderBottomWidth: 0.8,
   },
   blockShopAction: {
     justifyContent: 'center',

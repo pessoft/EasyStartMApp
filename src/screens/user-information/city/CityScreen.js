@@ -55,7 +55,7 @@ class CityScreen extends React.Component {
             title='Далее'
             onPress={this.onNextPage}
             disabled={this.props.cityId == -1}
-            color={this.props.style.theme.darkPrimaryColor.backgroundColor} />
+            color={this.props.style.theme.defaultPrimaryColor.backgroundColor} />
         </View >
       </View >
     )
@@ -64,7 +64,7 @@ class CityScreen extends React.Component {
   renderLoader() {
     return (
       <View style={Styles.centerScreen}>
-        <ActivityIndicator size="large" color={this.props.style.theme.darkPrimaryColor.backgroundColor} />
+        <ActivityIndicator size="large" color={this.props.style.theme.defaultPrimaryColor.backgroundColor} />
       </View>
     )
   }

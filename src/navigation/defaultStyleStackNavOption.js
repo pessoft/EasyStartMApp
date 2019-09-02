@@ -13,7 +13,7 @@ export const defaultStyleNavigationStackOptions = {
     headerStyle: {
       backgroundColor: style.theme.darkPrimaryColor.backgroundColor,
       borderBottomColor: style.theme.dividerColor.borderColor,
-      borderBottomWidth: 1,
+      borderBottomWidth: 0,
     },
     headerTintColor: style.theme.textPrimaryColor.color,
   },

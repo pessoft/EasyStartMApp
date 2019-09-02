@@ -1,9 +1,9 @@
 import { CHANGE_COLOR_THEME } from './actions'
-import { IndigoTheme } from '../../style/themes/IndigoTheme'
+import { BlueTheme } from '../../style/themes/BlueTheme'
 import { GlobalFontSize } from '../../style/GlobalFontSize'
 
 const defaultState = {
-    theme: IndigoTheme,
+    theme: BlueTheme,
     fontSize: GlobalFontSize
 }
 

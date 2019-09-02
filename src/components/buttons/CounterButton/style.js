@@ -9,7 +9,7 @@ export default StyleSheet.create({
   valueContainer: {
     textAlign: 'center',
     marginHorizontal: 5,
-    minWidth: 24,
+    minWidth: 26,
     fontSize: 16,
   }
 })

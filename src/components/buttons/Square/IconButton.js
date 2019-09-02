@@ -3,13 +3,19 @@ import { TouchableHighlight } from 'react-native'
 import Styles from './style'
 
 export class IconButton extends React.Component {
+    constructor(props) {
+        super(props)
+
+        this.defaultColor = '#000'
+    }
+
     renderIcon() {
         const Icon = this.props.icon
 
         return <Icon
             width={this.props.size}
             height={this.props.size}
-            color={this.props.color || '#000'} />
+            color={this.props.color || this.defaultColor} />
     }
 
     isNonBorder = () => {
@@ -24,10 +30,14 @@ export class IconButton extends React.Component {
     render() {
         return (
             <TouchableHighlight
-                underlayColor='#ececec'
+                underlayColor={this.props.underlayColor}
                 style={[
                     Styles.iconSquareButton,
-                    this.isNonBorder()]}
+                    this.isNonBorder(),
+                    {
+                        borderColor: this.props.color || this.defaultColor,
+                        backgroundColor: this.props.backgroundColor
+                    }]}
                 onPress={this.props.onPress} >
                 {this.renderIcon()}
             </TouchableHighlight>

@@ -67,6 +67,7 @@ class ProductsScreen extends React.Component {
 
     renderItem = ({ item }) => {
         return <ProductItem
+            style={this.props.style}
             id={item.key}
             product={item.product}
             onPress={this.onSelectedProduct}
@@ -95,7 +96,8 @@ const mapStateToProps = state => {
         currencyPrefix: state.appSetting.currencyPrefix,
         products: state.main.products,
         selectedCategory: state.catalog.selectedCategory,
-        selectedProduct: state.catalog.selectedProduct
+        selectedProduct: state.catalog.selectedProduct,
+        style: state.style
     }
 }
 

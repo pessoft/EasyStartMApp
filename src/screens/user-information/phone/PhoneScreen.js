@@ -49,7 +49,7 @@ class PhoneScreen extends React.Component {
             title='Далее'
             onPress={this.onNextPage}
             disabled={!this.isValidPhoneNumber()}
-            color={this.props.style.theme.darkPrimaryColor.backgroundColor}
+            color={this.props.style.theme.defaultPrimaryColor.backgroundColor}
           />
         </View>
       </KeyboardAvoidingView>
