@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { ScrollView, FlatList } from 'react-native'
 import { CategoryItem } from '../../components/category/CategoryItem';
-import { setSelectedCatagory, setSelectedProduct} from '../../store/catalog/actions'
+import { setSelectedCatagory, setSelectedProduct } from '../../store/catalog/actions'
 import { PRODUCTS } from '../../navigation/pointsNavigate';
 
 
@@ -63,6 +63,7 @@ class CategoriesScreen extends React.Component {
 
     renderItem = ({ item }) => {
         return <CategoryItem
+            style={this.props.style}
             id={item.key}
             caption={item.caption}
             imageSource={item.imageSource}
@@ -90,7 +91,8 @@ const mapStateToProps = state => {
     return {
         serverURL: state.appSetting.serverURL,
         categories: state.main.categories,
-        selectedCategory: state.catalog.selectedCategory
+        selectedCategory: state.catalog.selectedCategory,
+        style: state.style
     }
 }
 

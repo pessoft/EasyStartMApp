@@ -40,7 +40,8 @@ class PhoneScreen extends React.Component {
           style={[
             Styles.inputPhoneNumber,
             Styles.inputSize,
-            this.props.style.fontSize.h6]}
+            this.props.style.fontSize.h6,
+            this.props.style.theme.primaryTextColor]}
           onChangeText={this.onPhoneChange}
         />
         <View style={Styles.inputSize}>

@@ -4,29 +4,22 @@ export default StyleSheet.create({
   bodyItem: {
     alignSelf: 'stretch',
     justifyContent: 'center',
-    height: 140
+    height: 140,
+    paddingHorizontal: 10,
+    marginVertical: 5,
+
   },
   captionCatalog: {
-    fontSize: 20
+    flex: 1,
+    flexWrap: 'wrap',
+    marginHorizontal: 15
   },
   directionRow: {
     flexDirection: 'row'
   },
-  rounded: {
-    borderRadius: 10
-  },
-  ph_10: {
-    paddingHorizontal: 10
-  },
-  mh_15: {
-    marginHorizontal: 15
-  },
-  textWrap: { 
-    flex: 1, 
-    flexWrap: 'wrap'
-   },
-  imageNormalSize: {
+  catalogImage: {
     width: 115,
-    height: 115
+    height: 115,
+    borderRadius: 10
   }
 })

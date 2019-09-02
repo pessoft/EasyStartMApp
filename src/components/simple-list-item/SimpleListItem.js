@@ -4,17 +4,22 @@ import Styles from './style'
 
 export class SimpleListItem extends React.Component {
   onPress = () => {
-    if(this.props.onPress)
+    if (this.props.onPress)
       this.props.onPress(this.props.id)
   }
 
   render() {
     return (
       <TouchableHighlight
-        underlayColor='#ececec'
+        underlayColor={this.props.style.theme.lightPrimaryColor.backgroundColor}
         onPress={this.onPress}
         style={Styles.bodyItem}>
-        <Text style={[Styles.ph_10, Styles.text, this.props.selected ? Styles.selectedItem : null]}>
+        <Text style={[
+          Styles.text,
+          Styles.textWrap,
+          this.props.style.theme.dividerColor,
+          this.props.selected ? this.props.style.fontSize.h6 : this.props.style.fontSize.h9,
+          this.props.selected ? Styles.primaryTextColor : this.props.style.theme.secondaryTextColor]}>
           {this.props.text}
         </Text>
       </TouchableHighlight >

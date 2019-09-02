@@ -11,7 +11,7 @@ export default StyleSheet.create({
     flex: 1,
   },
   contentContainer: {
-    flex: 5
+    flex: 5,
   },
   footerContainer: {
     alignItems: 'stretch',
@@ -19,8 +19,8 @@ export default StyleSheet.create({
     justifyContent: 'center',
     flex: 1
   },
-  inputNormalSize: {
-    width: 200,
+  inputSize: {
+    width: 230,
   },
   centerScreen: {
     flex: 1,

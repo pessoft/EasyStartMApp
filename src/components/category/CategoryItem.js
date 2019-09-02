@@ -11,15 +11,18 @@ export class CategoryItem extends React.PureComponent {
     render() {
         return (
             <TouchableHighlight
-                underlayColor='#ececec'
-                style={[Styles.bodyItem, Styles.ph_10]}
+                underlayColor={this.props.style.theme.lightPrimaryColor.backgroundColor}
+                style={[Styles.bodyItem, this.props.style.theme.dividerColor]}
                 onPress={this.onPress}>
                 <View style={Styles.directionRow}>
                     <Image
                         source={this.props.imageSource}
-                        style={[Styles.imageNormalSize, Styles.rounded]}
+                        style={[Styles.catalogImage]}
                     />
-                    <Text style={[Styles.captionCatalog, Styles.mh_15, Styles.textWrap]}>
+                    <Text style={[
+                        this.props.style.fontSize.h6,
+                        Styles.captionCatalog,
+                        this.props.style.theme.primaryTextColor]}>
                         {this.props.caption}
                     </Text>
                 </View>

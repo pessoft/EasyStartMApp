@@ -4,18 +4,15 @@ export default StyleSheet.create({
   bodyItem: {
     alignSelf: 'stretch',
     justifyContent: 'center',
-    height: 60,
+  },
+  text: {
     borderBottomWidth: 1,
+    paddingVertical: 25,
+    paddingHorizontal: 15,
+    textAlign: 'center'
   },
-  textWrap: { 
-    flex: 1, 
+  textWrap: {
+    flex: 1,
     flexWrap: 'wrap'
-   },
-  selectedItem: {
-    fontWeight: 'bold',
-    fontSize: 17
   },
-  ph_10: {
-    paddingHorizontal: 10
-  }
 })

@@ -38,11 +38,11 @@ class CityScreen extends React.Component {
     return (
       <View style={Styles.bodyContainer}>
         <View style={Styles.contentContainer}>
-          <ScrollView >
+          <ScrollView>
             <FlatList
-              style={Styles.ph_10}
               data={this.citiesToArray()}
               renderItem={({ item }) => <SimpleListItem
+                style={this.props.style}
                 id={item.key}
                 text={item.city}
                 selected={this.props.cityId == item.key}
@@ -50,8 +50,12 @@ class CityScreen extends React.Component {
             />
           </ScrollView >
         </View>
-        <View style={[Styles.inputNormalSize, Styles.footerContainer, Styles.pv_20]}>
-          <Button title='Далее' onPress={this.onNextPage} disabled={this.props.cityId == -1} />
+        <View style={[Styles.inputSize, Styles.footerContainer, Styles.pv_20]}>
+          <Button
+            title='Далее'
+            onPress={this.onNextPage}
+            disabled={this.props.cityId == -1}
+            color={this.props.style.theme.darkPrimaryColor.backgroundColor} />
         </View >
       </View >
     )
@@ -60,7 +64,7 @@ class CityScreen extends React.Component {
   renderLoader() {
     return (
       <View style={Styles.centerScreen}>
-        <ActivityIndicator size="large" />
+        <ActivityIndicator size="large" color={this.props.style.theme.darkPrimaryColor.backgroundColor} />
       </View>
     )
   }
