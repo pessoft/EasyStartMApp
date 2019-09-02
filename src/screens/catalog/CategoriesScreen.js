@@ -10,10 +10,6 @@ import { PRODUCTS } from '../../navigation/pointsNavigate';
 class CategoriesScreen extends React.Component {
     static navigationOptions = {
         headerTitle: 'Категории',
-        headerTitleStyle: {
-            textAlign: "center",
-            flex: 1
-        }
     }
 
     constructor(props) {

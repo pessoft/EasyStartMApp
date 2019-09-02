@@ -6,14 +6,11 @@ import { getMainData } from '../../../store/main/actions'
 import Styles from './style'
 import { MAIN } from '../../../navigation/pointsNavigate'
 import { SimpleListItem } from '../../../components/simple-list-item/SimpleListItem'
+import CityIco from '../../../images/font-awesome-svg/city.svg'
 
 class CityScreen extends React.Component {
   static navigationOptions = {
     headerTitle: 'Выберите ваш город',
-    headerTitleStyle: {
-      textAlign: "center",
-      flex: 1
-    }
   }
 
   citiesToArray = () => {
@@ -38,11 +35,18 @@ class CityScreen extends React.Component {
     return (
       <View style={Styles.bodyContainer}>
         <View style={Styles.contentContainer}>
+          <View style={Styles.cityIco}>
+            <CityIco
+              width={130}
+              height={130}
+              color={this.props.style.theme.secondaryTextColor.color} />
+          </View>
           <ScrollView>
             <FlatList
               data={this.citiesToArray()}
               renderItem={({ item }) => <SimpleListItem
                 style={this.props.style}
+                nonBorder={item.nonBorder}
                 id={item.key}
                 text={item.city}
                 selected={this.props.cityId == item.key}

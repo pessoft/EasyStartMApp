@@ -29,7 +29,7 @@ export const getMainDataFetch = async (branchId) => {
   return getDataFromJsonResult(result)
 }
 
-export const getPrductReviewsFetch = async (productId) => {
+export const getProductReviewsFetch = async (productId) => {
   const options = getFetchOption(productId)
   const result = await getData(getProductReviewsQuery, options)
 

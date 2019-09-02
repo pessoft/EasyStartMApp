@@ -11,10 +11,6 @@ class ProductInfoScreen extends React.Component {
     static navigationOptions = ({ navigation }) => {
         return {
             headerTitle: navigation.getParam('productName', 'Блюдо'),
-            headerTitleStyle: {
-                textAlign: "center",
-                flex: 1
-            }
         }
     }
 
@@ -61,25 +57,34 @@ class ProductInfoScreen extends React.Component {
                         this.props.style.theme.dividerColor]}>
                         <View style={Styles.leftBlock}>
                             <Rating
-                                imageSize={32}
+                                type={'heart'}
+                                ratingBackgroundColor={this.props.style.theme.themeBody.backgroundColor}
+                                imageSize={26}
                                 fractions={1}
-                                startingValue={this.Product.Rating} />
+                                startingValue={this.Product.Rating}
+                            />
                             <Text style={[
                                 this.props.style.fontSize.h9,
-                                this.props.style.theme.secondaryTextColor]}>{this.getRatingText()}</Text>
+                                this.props.style.theme.secondaryTextColor]}>{this.getRatingText()}
+                            </Text>
                             <SimpleTextButton
                                 text={this.getReviewButtonText()}
                                 onPress={this.onPressReviews}
-                                sizeText={20}
-                                color={this.props.style.theme.accentColor.backgroundColor} />
+                                sizeText={this.props.style.fontSize.h6.fontSize}
+                                color={this.props.style.theme.accentColor.backgroundColor}
+                            />
                         </View>
                         <View style={Styles.rightBlock}>
                             <Text style={[
-                                this.props.style.fontSize.h8,
-                                this.props.style.theme.secondaryTextColor]}>{this.Product.AdditionInfo}</Text>
-                            <Text style={[
                                 this.props.style.fontSize.h4,
-                                this.props.style.theme.primaryTextColor]}>{this.getPriceProduct()}</Text>
+                                this.props.style.theme.primaryTextColor]}>
+                                {this.getPriceProduct()}
+                            </Text>
+                            <Text style={[
+                                this.props.style.fontSize.h8,
+                                this.props.style.theme.secondaryTextColor]}>
+                                {this.Product.AdditionInfo}
+                            </Text>
                         </View>
                     </View>
                     <Text style={[

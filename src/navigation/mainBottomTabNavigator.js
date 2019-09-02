@@ -23,10 +23,10 @@ export const mainBottomTab = createBottomTabNavigator(
     {
         tabBarOptions: {
             style: {
-                backgroundColor: style.theme.darkPrimaryColor.backgroundColor,
+                backgroundColor: style.theme.themeBody.backgroundColor,
                 borderTopColor: style.theme.dividerColor.borderColor
             },
-            activeTintColor: style.theme.textPrimaryColor.color,
+            activeTintColor: style.theme.primaryTextColor.color,
             inactiveTintColor: style.theme.secondaryTextColor.color,
             showLabel: true,
             keyboardHidesTabBar: true

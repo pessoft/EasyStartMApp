@@ -7,9 +7,10 @@ export default StyleSheet.create({
   },
   text: {
     borderBottomWidth: 1,
-    paddingVertical: 25,
+    minHeight: 70,
     paddingHorizontal: 15,
-    textAlign: 'center'
+    textAlign: 'center',
+    textAlignVertical: 'center'
   },
   textWrap: {
     flex: 1,

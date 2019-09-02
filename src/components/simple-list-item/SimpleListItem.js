@@ -1,5 +1,5 @@
 import React from 'react'
-import { TouchableHighlight, Text } from 'react-native'
+import { TouchableWithoutFeedback, Text } from 'react-native'
 import Styles from './style'
 
 export class SimpleListItem extends React.Component {
@@ -10,7 +10,7 @@ export class SimpleListItem extends React.Component {
 
   render() {
     return (
-      <TouchableHighlight
+      <TouchableWithoutFeedback
         underlayColor={this.props.style.theme.lightPrimaryColor.backgroundColor}
         onPress={this.onPress}
         style={Styles.bodyItem}>
@@ -22,7 +22,7 @@ export class SimpleListItem extends React.Component {
           this.props.selected ? Styles.primaryTextColor : this.props.style.theme.secondaryTextColor]}>
           {this.props.text}
         </Text>
-      </TouchableHighlight >
+      </TouchableWithoutFeedback  >
     )
   }
 }

@@ -1,34 +1,29 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import {
-    KeyboardAvoidingView,
     ScrollView,
     FlatList,
     View,
     Text,
-    TextInput,
     ActivityIndicator,
     TouchableWithoutFeedback,
     Keyboard
 } from 'react-native'
-import { SendButton } from '../../../components/buttons/Square/SendButton'
 import { ReviewItem } from '../../../components/review-item/ReviewItem'
 import Styles from './style'
-import { getProductReviews } from '../../../store/product-reviews/actions'
+import { getProductReviews, clearReviews } from '../../../store/product-reviews/actions'
 import CommentSmile from '../../../images/font-awesome-svg/comment-smile.svg'
+import { MessageInput } from '../../../components/message-input/MessageInput'
 
 class ProductReviewScreen extends React.Component {
     static navigationOptions = {
         headerTitle: 'Отзывы',
-        headerTitleStyle: {
-            textAlign: "center",
-            flex: 1
-        }
     }
 
     constructor(props) {
         super(props)
 
+        this.props.clearReviews()
         this.state = {
             newReviewText: ''
         }
@@ -79,7 +74,7 @@ class ProductReviewScreen extends React.Component {
         } else {
             date = new Date(value);
         }
-    
+
         return date;
     }
 
@@ -89,6 +84,7 @@ class ProductReviewScreen extends React.Component {
         for (review of this.props.reviews) {
             reviews.push({
                 key: review.Id.toString(),
+                style: this.props.style,
                 header: `Клиент ${review.PhoneNumber}`,
                 text: `${review.ReviewText}`,
                 date: this.toStringDateAndTime(this.jsonToDate(review.Date))
@@ -101,14 +97,25 @@ class ProductReviewScreen extends React.Component {
     renderLoader = () => {
         return (
             <View style={Styles.centerScreen}>
-                <ActivityIndicator size="large" />
+                <ActivityIndicator size="large" color={this.props.style.theme.defaultPrimaryColor.backgroundColor} />
             </View>
+        )
+    }
+
+    renderInputFooter = () => {
+        return (
+            <MessageInput
+                style={this.props.style}
+                placeholder={'Оставте свой отзыв...'}
+                buttonSize={24}
+                textSize={this.props.style.fontSize.h8}
+                onPress={this.onNewReviewText}
+            />
         )
     }
 
     renderReviews = () => {
         return (
-
             <React.Fragment>
                 <ScrollView style={Styles.reviews}>
                     <FlatList
@@ -116,23 +123,7 @@ class ProductReviewScreen extends React.Component {
                         renderItem={this.renderItem}
                     />
                 </ScrollView>
-                <KeyboardAvoidingView
-                    behavior={'height'}
-                    style={Styles.keywordAvoidReviewInput}>
-                    <View style={Styles.inputReview}>
-                        <TextInput
-                            multiline={true}
-                            placeholder={'Оставте ваш отзыв'}
-                            style={[Styles.h4, Styles.inputText]}
-                            onChangeText={this.onNewReviewText}
-                        />
-                        <SendButton
-                            size={36}
-                            nonBorder={true}
-                            color={this.state.newReviewText.length > 0 ? '#357ae8' : '#bbbcbc'}
-                        />
-                    </View>
-                </KeyboardAvoidingView>
+                {this.renderInputFooter()}
             </React.Fragment>
         )
     }
@@ -143,31 +134,14 @@ class ProductReviewScreen extends React.Component {
                 <View style={Styles.containerEmptyReviews}>
                     <View style={Styles.centerScreen}>
                         <CommentSmile
-                            width={120}
-                            height={120}
-                            color={'#bbbcbc'}
+                            width={100}
+                            height={100}
+                            color={this.props.style.theme.secondaryTextColor.color}
                         />
-                        <Text style={[Styles.h4, { color: '#bbbcbc' }]}>Будь первым!</Text>
-                        <Text style={[Styles.h4, { color: '#bbbcbc' }]}>Оставь свой отзыв!</Text>
+                        <Text style={[this.props.style.fontSize.h7, this.props.style.theme.secondaryTextColor]}>Будь первым!</Text>
+                        <Text style={[this.props.style.fontSize.h7, this.props.style.theme.secondaryTextColor]}>Оставь свой отзыв!</Text>
                     </View>
-                    <KeyboardAvoidingView
-                        behavior={'height'}
-                        returnKeyType={'done'}
-                        style={Styles.keywordAvoidReviewInput}>
-                        <View style={Styles.inputReview}>
-                            <TextInput
-                                multiline={true}
-                                placeholder={'Оставте ваш отзыв'}
-                                style={[Styles.h4, Styles.inputText]}
-                                onChangeText={this.onNewReviewText}
-                            />
-                            <SendButton
-                                size={36}
-                                nonBorder={true}
-                                color={this.state.newReviewText.trim().length > 0 ? '#357ae8' : '#bbbcbc'}
-                            />
-                        </View>
-                    </KeyboardAvoidingView>
+                    {this.renderInputFooter()}
                 </View>
             </TouchableWithoutFeedback>
         )
@@ -189,7 +163,8 @@ const mapStateToProps = state => {
         selectedProduct: state.catalog.selectedProduct,
         reviews: state.productReviews.reviews,
         isFetching: state.productReviews.isFetching,
+        style: state.style
     }
 }
 
-export default connect(mapStateToProps, { getProductReviews })(ProductReviewScreen)
+export default connect(mapStateToProps, { getProductReviews, clearReviews })(ProductReviewScreen)

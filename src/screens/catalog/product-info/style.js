@@ -12,7 +12,7 @@ export default StyleSheet.create({
     productInfoContainer: {
         flexDirection: 'row',
         alignItems: 'center',
-        height: 105,
+        height: 100,
         paddingHorizontal: 5,
         marginHorizontal: 5,
         paddingBottom: 10,
@@ -29,7 +29,7 @@ export default StyleSheet.create({
     rightBlock: {
         flex: 1,
         alignItems: 'flex-end',
-        justifyContent: 'flex-end',
+        justifyContent: 'flex-start',
         height: 90
     },
     description: {

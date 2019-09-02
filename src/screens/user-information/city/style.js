@@ -10,8 +10,15 @@ export default StyleSheet.create({
   bodyContainer: {
     flex: 1,
   },
+  cityIco: {
+    flex: 1,
+    alignItems: 'center',
+    marginTop: 20,
+    marginBottom: 100
+  },
   contentContainer: {
     flex: 5,
+    marginHorizontal: 25
   },
   footerContainer: {
     alignItems: 'stretch',

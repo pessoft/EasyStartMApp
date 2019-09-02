@@ -1,4 +1,4 @@
-import { FETCH_PRODUCT_REVIEWS_SUCCESS, FETCH_PRODUCT_REVIEWS_REQUEST, FETCH_PRODUCT_REVIEWS_FAILURE } from './actions'
+import { CLEAR_PRODUCT_REVIEWS, FETCH_PRODUCT_REVIEWS_SUCCESS, FETCH_PRODUCT_REVIEWS_REQUEST, FETCH_PRODUCT_REVIEWS_FAILURE } from './actions'
 
 const defaultState = {
     isFetching: false,
@@ -23,6 +23,12 @@ export const productReviewReducer = (state = defaultState, action) => {
                 ...state,
                 isFetching: false
             }
+        case CLEAR_PRODUCT_REVIEWS:
+            return {
+                ...state,
+                reviews: []
+            }
+
     }
 
     return state

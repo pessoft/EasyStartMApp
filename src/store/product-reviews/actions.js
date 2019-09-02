@@ -1,14 +1,22 @@
-import { getPrductReviewsFetch } from '../../API/fetchAPI'
+import { getProductReviewsFetch } from '../../API/fetchAPI'
 
 export const FETCH_PRODUCT_REVIEWS_SUCCESS = 'FETCH_PRODUCT_REVIEWS_SUCCESS'
 export const FETCH_PRODUCT_REVIEWS_REQUEST = 'FETCH_PRODUCT_REVIEWS_REQUEST'
 export const FETCH_PRODUCT_REVIEWS_FAILURE = 'FETCH_PRODUCT_REVIEWS_FAILURE'
 
+export const CLEAR_PRODUCT_REVIEWS = 'CLEAR_PRODUCT_REVIEWS'
+
+export const clearReviews = () => {
+    return {
+        type: CLEAR_PRODUCT_REVIEWS
+    }
+}
+
 export const getProductReviews = productId => async (dispatch) => {
     dispatch(requestPosts())
 
     try {
-        const reviews = await getPrductReviewsFetch(productId)
+        const reviews = await getProductReviewsFetch(productId)
         dispatch(successPosts(reviews))
     } catch {
         dispatch(failurePosts())
