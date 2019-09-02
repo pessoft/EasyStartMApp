@@ -16,12 +16,12 @@ export default StyleSheet.create({
         paddingHorizontal: 5,
         marginHorizontal: 5,
         paddingBottom: 10,
-        borderBottomWidth: 0.8,
+        borderBottomWidth: 0.5,
         marginBottom: 10
 
     },
     leftBlock: {
-        flex:1.5,
+        flex: 1.5,
         alignItems: 'flex-start',
         justifyContent: 'space-between',
         height: 90,
@@ -36,24 +36,6 @@ export default StyleSheet.create({
         alignItems: 'stretch',
         flexWrap: 'wrap',
         lineHeight: 24,
-        paddingHorizontal:5
+        paddingHorizontal: 5
     },
-    h1: {
-        fontSize: 30
-    },
-    h2: {
-        fontSize: 26
-    },
-    h3: {
-        fontSize: 20
-    },
-    h4: {
-        fontSize: 18
-    },
-    h5: {
-        fontSize: 16
-    },
-    h6: {
-        fontSize: 14
-    }
 })

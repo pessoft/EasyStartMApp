@@ -8,7 +8,8 @@ export class SimpleTextButton extends React.Component {
             <TouchableWithoutFeedback onPress={this.props.onPress}>
                 <Text style={{
                     fontSize: this.props.sizeText || 14,
-                    color:this.props.color || 'blue'
+                    color: this.props.color || 'blue',
+                    textAlign: 'center'
                 }}>
                     {this.props.text}
                 </Text>

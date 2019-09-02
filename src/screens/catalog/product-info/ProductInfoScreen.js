@@ -56,24 +56,36 @@ class ProductInfoScreen extends React.Component {
                     width={Dimensions.get('window').width}
                     resizeMode='contain' />
                 <View style={Styles.contentBody}>
-                    <View style={Styles.productInfoContainer}>
+                    <View style={[
+                        Styles.productInfoContainer,
+                        this.props.style.theme.dividerColor]}>
                         <View style={Styles.leftBlock}>
                             <Rating
                                 imageSize={32}
                                 fractions={1}
                                 startingValue={this.Product.Rating} />
-                            <Text style={Styles.h6}>{this.getRatingText()}</Text>
+                            <Text style={[
+                                this.props.style.fontSize.h9,
+                                this.props.style.theme.secondaryTextColor]}>{this.getRatingText()}</Text>
                             <SimpleTextButton
                                 text={this.getReviewButtonText()}
                                 onPress={this.onPressReviews}
-                                sizeText={20} />
+                                sizeText={20}
+                                color={this.props.style.theme.accentColor.backgroundColor} />
                         </View>
                         <View style={Styles.rightBlock}>
-                            <Text style={Styles.h5}>{this.Product.AdditionInfo}</Text>
-                            <Text style={Styles.h2}>{this.getPriceProduct()}</Text>
+                            <Text style={[
+                                this.props.style.fontSize.h8,
+                                this.props.style.theme.secondaryTextColor]}>{this.Product.AdditionInfo}</Text>
+                            <Text style={[
+                                this.props.style.fontSize.h4,
+                                this.props.style.theme.primaryTextColor]}>{this.getPriceProduct()}</Text>
                         </View>
                     </View>
-                    <Text style={[Styles.description, Styles.h5]}>
+                    <Text style={[
+                        Styles.description,
+                        this.props.style.fontSize.h8,
+                        this.props.style.theme.secondaryTextColor]}>
                         {this.Product.Description}
                     </Text>
                 </View>
@@ -87,7 +99,8 @@ const mapStateToProps = state => {
         serverURL: state.appSetting.serverURL,
         currencyPrefix: state.appSetting.currencyPrefix,
         selectedProduct: state.catalog.selectedProduct,
-        reviewsCount: state.main.reviewsCount
+        reviewsCount: state.main.reviewsCount,
+        style: state.style
     }
 }
 
