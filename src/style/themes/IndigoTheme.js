@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native'
+import { StyleSheet } from 'react-native'
 
 export const IndigoTheme = StyleSheet.create({
     themeBody: {
@@ -8,19 +8,19 @@ export const IndigoTheme = StyleSheet.create({
         backgroundColor: '#303F9F'
     },
     defaultPrimaryColor: {
-        backgroundColor:'#3F51B5'
+        backgroundColor: '#3F51B5'
     },
     lightPrimaryColor: {
-        backgroundColor:'#C5CAE9'
+        backgroundColor: '#C5CAE9'
     },
-    textPrimaryColor:{
-        color:'#FFFFFF'
+    textPrimaryColor: {
+        color: '#FFFFFF'
     },
     accentColor: {
         backgroundColor: '#448AFF'
     },
     primaryTextColor: {
-        color:'#212121'
+        color: '#212121'
     },
     secondaryTextColor: {
         color: '#757575'

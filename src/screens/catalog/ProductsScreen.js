@@ -37,7 +37,7 @@ class ProductsScreen extends React.Component {
         const categoryId = this.props.selectedCategory.Id
         const products = this.props.products[categoryId]
         const product = this.getProductById(products, productId)
-        
+
         this.props.setSelectedProduct({})
         this.props.setSelectedProduct(product)
     }

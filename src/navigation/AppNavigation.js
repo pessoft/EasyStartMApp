@@ -1,6 +1,6 @@
 import { createSwitchNavigator, createAppContainer } from 'react-navigation'
 import StartLogoScreen from '../screens/start/StartLogoScreen'
-import userInfoStackNavigator from './userInfoStackNavigator';
+import { userInfoStackNavigator } from './userInfoStackNavigator';
 import { mainBottomTab } from './mainBottomTabNavigator';
 import { START_APP } from './pointsNavigate';
 

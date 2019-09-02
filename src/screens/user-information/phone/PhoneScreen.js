@@ -9,10 +9,6 @@ import Styles from './style'
 class PhoneScreen extends React.Component {
   static navigationOptions = {
     headerTitle: 'Введите номер телефона',
-    headerTitleStyle: {
-      textAlign: "center",
-      flex: 1
-    }
   }
 
   onPhoneChange = phone => {

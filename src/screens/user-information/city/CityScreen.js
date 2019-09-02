@@ -80,7 +80,8 @@ const mapStateToProps = state => {
     cityId: state.user.cityId,
     branchId: state.user.branchId,
     mainDataLoaded: state.main.dataLoaded,
-    isFetching: state.main.isFetching
+    isFetching: state.main.isFetching,
+    style: state.style
   }
 }
 

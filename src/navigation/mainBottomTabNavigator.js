@@ -3,6 +3,10 @@ import { createBottomTabNavigator } from 'react-navigation'
 import { catalogStackNavigator } from './catalogStackNavigator'
 import { CATALOG_TAB } from './pointsNavigate';
 import IcoMenu from '../images/font-awesome-svg/soup.svg'
+import { store } from '../store/store'
+
+const state = store.getState()
+const style = state.style
 
 export const mainBottomTab = createBottomTabNavigator(
     {
@@ -18,8 +22,12 @@ export const mainBottomTab = createBottomTabNavigator(
     },
     {
         tabBarOptions: {
-            activeTintColor: '#171717',
-            inactiveTintColor: '#777777',
+            style: {
+                backgroundColor: style.theme.darkPrimaryColor.backgroundColor,
+                borderTopColor: style.theme.dividerColor.borderColor
+            },
+            activeTintColor: style.theme.textPrimaryColor.color,
+            inactiveTintColor: style.theme.secondaryTextColor.color,
             showLabel: true,
             keyboardHidesTabBar: true
         },
