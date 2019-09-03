@@ -1,10 +1,14 @@
 import {
+  SET_IS_LOGIN,
   SET_USER_NAME,
   SET_USER_PHONE_NUMBER,
   SET_CITY_ID, SET_BRANCH_ID,
   FETCH_CHECK_ACTUAL_USER_INFO_REQUEST,
   FETCH_CHECK_ACTUAL_USER_INFO_SUCCESS,
-  FETCH_CHECK_ACTUAL_USER_INFO_FAILURE
+  FETCH_CHECK_ACTUAL_USER_INFO_FAILURE,
+  FETCH_ADD_OR_UPDATE_USER_INFO_REQUEST,
+  FETCH_ADD_OR_UPDATE_USER_INFO_SUCCESS,
+  FETCH_ADD_OR_UPDATE_USER_INFO_FAILURE
 } from './actions'
 
 const defaultState = {
@@ -42,7 +46,13 @@ export const userReducer = (state = defaultState, action) => {
         ...state,
         branchId: action.payload
       }
+    case SET_IS_LOGIN:
+      return {
+        ...state,
+        isLogin: action.payload,
+      }
     case FETCH_CHECK_ACTUAL_USER_INFO_REQUEST:
+    case FETCH_ADD_OR_UPDATE_USER_INFO_REQUEST:
       return {
         ...state,
         isFetching: true,
@@ -54,7 +64,14 @@ export const userReducer = (state = defaultState, action) => {
         isLogin: action.payload,
         isFetching: false,
       }
+    case FETCH_ADD_OR_UPDATE_USER_INFO_SUCCESS:
+      return {
+        ...state,
+        ...action.payload,
+        isFetching: false,
+      }
     case FETCH_CHECK_ACTUAL_USER_INFO_FAILURE:
+    case FETCH_ADD_OR_UPDATE_USER_INFO_FAILURE:
       return {
         ...state,
         isFetchError: true,

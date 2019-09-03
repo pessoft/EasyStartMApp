@@ -3,9 +3,12 @@ import {
   getLocationQuery,
   getMainDataQuery,
   getProductReviewsQuery,
-  setProductReviewsQuery
+  setProductReviewsQuery,
+  addOrUpdateUserQuery
 } from './request-strings'
 import { fetchAPI } from './helper-api'
+
+export const addOrUpdateUserFetch = async (userData) => await fetchAPI(addOrUpdateUserQuery, userData)
 
 export const checkActualUserDataFetch = async (userData) => await fetchAPI(checkActualUserDataQuery, userData)
 

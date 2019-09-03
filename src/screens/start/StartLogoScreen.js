@@ -1,14 +1,14 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { FullScreenLogo } from '../../components/full-screen-logo/FullScreenLogo'
-import { checkActualUserData } from '../../store/user/actions'
+import { checkActualUserData, setIsLogin } from '../../store/user/actions'
 import { getMainData } from '../../store/main/actions'
 import { getLocation } from '../../store/location/actions'
 import { USER_INFO, MAIN } from '../../navigation/pointsNavigate'
 
 class StartLogoScreen extends React.Component {
   userLogin = () => {
-    if (this.props.main.categories.length > 0) {
+    if (this.props.categories.length > 0) {
       this.props.navigation.navigate(MAIN)
     } else {
       this.props.getMainData(this.props.branchId)
@@ -34,15 +34,19 @@ class StartLogoScreen extends React.Component {
   }
 
   componentDidUpdate() {
-    if (this.props.isLogin)
+    if (this.props.isLogin) {
       this.userLogin()
-    else
+    }
+    else if (!this.isFetching) {
       this.userRegister()
+    }
   }
 
   componentDidMount = () => {
-    if (this.props.isLogin)
+    if (this.props.isLogin) {
+      this.props.setIsLogin(false)
       this.checkActualUserData()
+    }
     else
       this.userRegister()
   }
@@ -66,12 +70,14 @@ const mapStateToProps = state => {
     branchId: state.user.branchId,
     cities: state.location.cities,
     categories: state.main.categories,
-    style: state.style
+    style: state.style,
+    isFetching: state.user.isFetching
   }
 }
 
 const mapDispatchToProps = {
   checkActualUserData,
+  setIsLogin,
   getMainData,
   getLocation
 }

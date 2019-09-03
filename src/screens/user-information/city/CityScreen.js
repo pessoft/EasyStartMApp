@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { ScrollView, FlatList, View, Button, ActivityIndicator } from 'react-native'
-import { setCityId, setBranchId } from '../../../store/user/actions'
+import { setCityId, setBranchId, addOrUpdateUser, setIsLogin } from '../../../store/user/actions'
 import { getMainData } from '../../../store/main/actions'
 import Styles from './style'
 import { MAIN } from '../../../navigation/pointsNavigate'
@@ -22,13 +22,29 @@ class CityScreen extends React.Component {
     this.props.setBranchId(this.props.cityBranches[cityId])
   }
 
-  onNextPage = () => {
-    this.props.getMainData(this.props.branchId)
+  onFinishSetUserData = () => {
+    const userData = {
+      id: this.props.clientId,
+      userName: this.props.userName,
+      phoneNumber: this.props.phoneNumber
+    }
+
+    this.props.addOrUpdateUser(userData)
+  }
+
+  nextPage = () => {
+    this.props.navigation.navigate(MAIN)
   }
 
   componentDidUpdate() {
-    if (this.props.categories.length > 0)
-      this.props.navigation.navigate(MAIN)
+    if (this.props.clientId > 0 &&
+      this.props.categories.length == 0 &&
+      !this.props.isFetchingMainData) {
+      this.props.setIsLogin(true)
+      this.props.getMainData(this.props.branchId)
+    } else if (this.props.categories.length > 0) {
+      this.nextPage()
+    }
   }
 
   renderScreen = () => {
@@ -57,7 +73,7 @@ class CityScreen extends React.Component {
         <View style={[Styles.inputSize, Styles.footerContainer, Styles.pv_20]}>
           <Button
             title='Далее'
-            onPress={this.onNextPage}
+            onPress={this.onFinishSetUserData}
             disabled={this.props.cityId == -1}
             color={this.props.style.theme.defaultPrimaryColor.backgroundColor} />
         </View >
@@ -74,7 +90,7 @@ class CityScreen extends React.Component {
   }
 
   render() {
-    if (this.props.isFetching)
+    if (this.props.isFetchingMainData || this.props.isFetchingLogin)
       return this.renderLoader()
     else
       return this.renderScreen()
@@ -87,16 +103,22 @@ const mapStateToProps = state => {
     cityBranches: state.location.cityBranches,
     cityId: state.user.cityId,
     branchId: state.user.branchId,
-    isFetching: state.main.isFetching,
+    isFetchingMainData: state.main.isFetching,
+    isFetchingLogin: state.user.isFetching,
+    clientId: state.user.clientId,
+    userName: state.user.userName,
+    phoneNumber: state.user.phoneNumber,
     categories: state.main.categories,
     style: state.style
   }
 }
 
 const mapDispatchToProps = {
+  setIsLogin,
   setCityId,
   setBranchId,
-  getMainData
+  getMainData,
+  addOrUpdateUser
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CityScreen)

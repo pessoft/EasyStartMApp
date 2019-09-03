@@ -1,4 +1,7 @@
-import { checkActualUserDataFetch } from '../../api/requests'
+import {
+  checkActualUserDataFetch,
+  addOrUpdateUserFetch
+} from '../../api/requests'
 
 export const SET_USER_PHONE_NUMBER = 'SET_USER_PHONE_NUMBER'
 export const SET_USER_NAME = 'SET_USER_NAME'
@@ -9,6 +12,17 @@ export const SET_IS_LOGIN = 'SET_IS_LOGIN'
 export const FETCH_CHECK_ACTUAL_USER_INFO_REQUEST = 'FETCH_CHECK_ACTUAL_USER_INFO_REQUEST'
 export const FETCH_CHECK_ACTUAL_USER_INFO_SUCCESS = 'FETCH_CHECK_ACTUAL_USER_INFO_SUCCESS'
 export const FETCH_CHECK_ACTUAL_USER_INFO_FAILURE = 'FETCH_CHECK_ACTUAL_USER_INFO_FAILURE'
+
+export const FETCH_ADD_OR_UPDATE_USER_INFO_REQUEST = 'FETCH_ADD_OR_UPDATE_USER_INFO_REQUEST'
+export const FETCH_ADD_OR_UPDATE_USER_INFO_SUCCESS = 'FETCH_ADD_OR_UPDATE_USER_INFO_SUCCESS'
+export const FETCH_ADD_OR_UPDATE_USER_INFO_FAILURE = 'FETCH_ADD_OR_UPDATE_USER_INFO_FAILURE'
+
+export const setIsLogin = (isLogin) => {
+  return {
+    type: SET_IS_LOGIN,
+    payload: isLogin
+  }
+}
 
 export const setPhoneNumber = (phoneNumber) => {
   return {
@@ -39,31 +53,60 @@ export const setBranchId = (branchId) => {
 }
 
 export const checkActualUserData = (userData) => async dispatch => {
-  dispatch(requestPosts())
+  dispatch(requestPostsCheckData())
   try {
     const isActual = await checkActualUserDataFetch(userData)
-    dispatch(successPosts(isActual))
+    dispatch(successPostsCheckData(isActual))
   } catch (err) {
-    dispatch(failurePosts(err))
+    dispatch(failurePostsCheckData(err))
   }
 }
 
-const requestPosts = () => {
+export const addOrUpdateUser = (userData) => async dispatch => {
+  dispatch(requestPostsAddOrUpdateUser())
+  try {
+    const newUserData = await addOrUpdateUserFetch(userData)
+    dispatch(successPostsAddOrUpdateUser(newUserData))
+  } catch (err) {
+    dispatch(failurePostsAddOrUpdateUser(err))
+  }
+}
+
+const requestPostsCheckData = () => {
   return {
     type: FETCH_CHECK_ACTUAL_USER_INFO_REQUEST
   }
 }
 
-const successPosts = result => {
+const successPostsCheckData = result => {
   return {
     type: FETCH_CHECK_ACTUAL_USER_INFO_SUCCESS,
     payload: result
   }
 }
 
-const failurePosts = () => {
+const failurePostsCheckData = () => {
   return {
     type: FETCH_CHECK_ACTUAL_USER_INFO_FAILURE,
+  }
+}
+
+const requestPostsAddOrUpdateUser = () => {
+  return {
+    type: FETCH_ADD_OR_UPDATE_USER_INFO_REQUEST
+  }
+}
+
+const successPostsAddOrUpdateUser = result => {
+  return {
+    type: FETCH_ADD_OR_UPDATE_USER_INFO_SUCCESS,
+    payload: result
+  }
+}
+
+const failurePostsAddOrUpdateUser = () => {
+  return {
+    type: FETCH_ADD_OR_UPDATE_USER_INFO_FAILURE,
   }
 }
 
