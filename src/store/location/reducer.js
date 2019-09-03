@@ -1,7 +1,12 @@
-import { FETCH_LOCATION_SUCCESS } from './actions'
+import {
+  FETCH_LOCATION_REQUEST,
+  FETCH_LOCATION_SUCCESS,
+  FETCH_LOCATION_FAILURE
+} from './actions'
 
 const defaultState = {
-  dataLoaded: false,
+  isFetching: false,
+  isFetchError: false,
   cities: {},
   cityBranches: {}
 
@@ -10,10 +15,23 @@ const defaultState = {
 export const locationReducer = (state = defaultState, action) => {
 
   switch (action.type) {
+    case FETCH_LOCATION_REQUEST:
+      return {
+        ...state,
+        isFetching: true,
+        isFetchError: false
+      }
     case FETCH_LOCATION_SUCCESS:
       return {
         ...state,
-        ...action.payload
+        ...action.payload,
+        isFetching: false
+      }
+    case FETCH_LOCATION_FAILURE:
+      return {
+        ...state,
+        isFetching: false,
+        isFetchError: true
       }
   }
 

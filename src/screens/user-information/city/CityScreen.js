@@ -27,7 +27,7 @@ class CityScreen extends React.Component {
   }
 
   componentDidUpdate() {
-    if (this.props.mainDataLoaded)
+    if (this.props.categories.length > 0)
       this.props.navigation.navigate(MAIN)
   }
 
@@ -87,8 +87,8 @@ const mapStateToProps = state => {
     cityBranches: state.location.cityBranches,
     cityId: state.user.cityId,
     branchId: state.user.branchId,
-    mainDataLoaded: state.main.dataLoaded,
     isFetching: state.main.isFetching,
+    categories: state.main.categories,
     style: state.style
   }
 }

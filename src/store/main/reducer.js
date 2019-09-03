@@ -1,8 +1,12 @@
-import { FETCH_MAIN_DATA_SUCCESS, FETCH_MAIN_DATA_REQUEST, FETCH_MAIN_DATA_FAILURE } from './actions'
+import {
+  FETCH_MAIN_DATA_SUCCESS,
+  FETCH_MAIN_DATA_REQUEST,
+  FETCH_MAIN_DATA_FAILURE
+} from './actions'
 
 const defaultState = {
   isFetching: false,
-  dataLoaded: false,
+  isFetchError: false,
   categories: [],
   products: {},
   deliverySettings: {},
@@ -17,7 +21,8 @@ export const mainReducer = (state = defaultState, action) => {
     case FETCH_MAIN_DATA_REQUEST:
       return {
         ...state,
-        isFetching: true
+        isFetching: true,
+        isFetchError: false
       }
     case FETCH_MAIN_DATA_SUCCESS:
       return {
@@ -28,7 +33,8 @@ export const mainReducer = (state = defaultState, action) => {
     case FETCH_MAIN_DATA_FAILURE:
       return {
         ...state,
-        isFetching: false
+        isFetching: false,
+        isFetchError: true
       }
   }
 

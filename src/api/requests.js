@@ -4,55 +4,11 @@ import {
   getMainDataQuery,
   getProductReviewsQuery
 } from './request-strings'
-import { getFetchOption } from './helper-api'
+import { fetchAPI } from './helper-api'
 
-export const checkActualUserDataFetch = async (userData) => {
-  const options = getFetchOption(userData)
-  const result = await getData(checkActualUserDataQuery, options)
+export const checkActualUserDataFetch = async (userData) => await fetchAPI(checkActualUserDataQuery, userData)
 
-  if (result && result.Success && result.Data)
-    return true
+export const getLocationFetch = async () => await fetchAPI(getLocationQuery)
+export const getMainDataFetch = async (branchId) => fetchAPI(getMainDataQuery, branchId)
 
-  return false
-}
-
-export const getLocationFetch = async () => {
-  const result = await getData(getLocationQuery)
-
-  return getDataFromJsonResult(result)
-}
-
-export const getMainDataFetch = async (branchId) => {
-  const options = getFetchOption(branchId)
-  const result = await getData(getMainDataQuery, options)
-
-  return getDataFromJsonResult(result)
-}
-
-export const getProductReviewsFetch = async (productId) => {
-  const options = getFetchOption(productId)
-  const result = await getData(getProductReviewsQuery, options)
-
-  return getDataFromJsonResult(result)
-}
-
-const getDataFromJsonResult = result => {
-  if (result.Success)
-    return {
-      ...result.Data,
-      dataLoaded: true,
-    }
-
-  return {}
-}
-
-const getData = async (query, options) => {
-  const response = await fetch(query, options)
-
-  if (response.ok) {
-    return await response.json()
-  }
-
-  const errMessage = await response.text()
-  throw new Error(errMessage)
-}
+export const getProductReviewsFetch = async (productId) => fetchAPI(getProductReviewsQuery, productId)

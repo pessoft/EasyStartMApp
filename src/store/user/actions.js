@@ -46,17 +46,16 @@ const requestPosts = () => {
   }
 }
 
-const successPosts = isActual => {
+const successPosts = result => {
   return {
     type: FETCH_CHECK_ACTUAL_USER_INFO_SUCCESS,
-    payload: isActual
+    payload: result
   }
 }
 
-const failurePosts = isErrorFetch => {
+const failurePosts = () => {
   return {
     type: FETCH_CHECK_ACTUAL_USER_INFO_FAILURE,
-    payload: isErrorFetch
   }
 }
 

@@ -8,7 +8,7 @@ import { USER_INFO, MAIN } from '../../navigation/pointsNavigate'
 
 class StartLogoScreen extends React.Component {
   userLogin = () => {
-    if (this.props.mainDataLoaded) {
+    if (this.props.main.categories.length > 0) {
       this.props.navigation.navigate(MAIN)
     } else {
       this.props.getMainData(this.props.branchId)
@@ -16,7 +16,7 @@ class StartLogoScreen extends React.Component {
   }
 
   userRegister = () => {
-    if (this.props.locationLoaded) {
+    if (Object.keys(this.props.cities).length > 0) {
       this.props.navigation.navigate(USER_INFO)
     } else {
       this.props.getLocation()
@@ -64,8 +64,8 @@ const mapStateToProps = state => {
     cityId: state.user.cityId,
     clientId: state.user.clientId,
     branchId: state.user.branchId,
-    locationLoaded: state.location.dataLoaded,
-    mainDataLoaded: state.main.dataLoaded,
+    cities: state.location.cities,
+    categories: state.main.categories,
     style: state.style
   }
 }
