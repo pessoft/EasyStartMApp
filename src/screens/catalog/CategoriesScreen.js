@@ -40,7 +40,7 @@ class CategoriesScreen extends React.Component {
     }
 
     getImageSource = imagePath => {
-        return { uri: `${this.props.serverURL}${imagePath}` }
+        return { uri: `${this.props.serverDomain}${imagePath}` }
     }
 
     categoriesTransform = () => {
@@ -85,7 +85,7 @@ class CategoriesScreen extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        serverURL: state.appSetting.serverURL,
+        serverDomain: state.appSetting.serverDomain,
         categories: state.main.categories,
         selectedCategory: state.catalog.selectedCategory,
         style: state.style

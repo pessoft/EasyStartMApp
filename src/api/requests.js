@@ -3,8 +3,8 @@ import {
   getLocationQuery,
   getMainDataQuery,
   getProductReviewsQuery
-} from './queryAPI'
-import { getFetchOption } from './helperAPI'
+} from './request-strings'
+import { getFetchOption } from './helper-api'
 
 export const checkActualUserDataFetch = async (userData) => {
   const options = getFetchOption(userData)

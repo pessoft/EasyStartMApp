@@ -1,4 +1,4 @@
-import { checkActualUserDataFetch } from '../../API/fetchAPI'
+import { checkActualUserDataFetch } from '../../api/requests'
 
 export const SET_USER_PHONE_NUMBER = 'SET_USER_PHONE_NUMBER'
 export const SET_CITY_ID = 'SET_CITY_ID'

@@ -1,9 +1,9 @@
 import Images from '../../images'
-import { SERVER_URL } from '../../API/serverURL'
+import { SERVER_DOMAIN } from '../../api/server-domain'
 
 const defaultState = {
   logo: Images.logo,
-  serverURL: SERVER_URL,
+  serverDomain: SERVER_DOMAIN,
   currencyPrefix: 'руб.'
 }
 

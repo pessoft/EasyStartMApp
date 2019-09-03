@@ -37,7 +37,7 @@ class ProductInfoScreen extends React.Component {
     }
 
     getImageSource() {
-        return { uri: `${this.props.serverURL}${this.Product.Image}` }
+        return { uri: `${this.props.serverDomain}${this.Product.Image}` }
     }
 
     onPressReviews = () => {
@@ -101,7 +101,7 @@ class ProductInfoScreen extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        serverURL: state.appSetting.serverURL,
+        serverDomain: state.appSetting.serverDomain,
         currencyPrefix: state.appSetting.currencyPrefix,
         selectedProduct: state.catalog.selectedProduct,
         reviewsCount: state.main.reviewsCount,

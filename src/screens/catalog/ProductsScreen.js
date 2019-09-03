@@ -43,7 +43,7 @@ class ProductsScreen extends React.Component {
     }
 
     getImageSource = imagePath => {
-        return { uri: `${this.props.serverURL}${imagePath}` }
+        return { uri: `${this.props.serverDomain}${imagePath}` }
     }
 
     productsTransform = () => {
@@ -92,7 +92,7 @@ class ProductsScreen extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        serverURL: state.appSetting.serverURL,
+        serverDomain: state.appSetting.serverDomain,
         currencyPrefix: state.appSetting.currencyPrefix,
         products: state.main.products,
         selectedCategory: state.catalog.selectedCategory,

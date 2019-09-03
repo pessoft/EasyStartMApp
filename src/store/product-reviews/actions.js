@@ -1,4 +1,4 @@
-import { getProductReviewsFetch } from '../../API/fetchAPI'
+import { getProductReviewsFetch } from '../../api/requests'
 
 export const FETCH_PRODUCT_REVIEWS_SUCCESS = 'FETCH_PRODUCT_REVIEWS_SUCCESS'
 export const FETCH_PRODUCT_REVIEWS_REQUEST = 'FETCH_PRODUCT_REVIEWS_REQUEST'

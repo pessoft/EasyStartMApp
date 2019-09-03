@@ -1,1 +1,0 @@
-export const SERVER_URL = 'https://easystart.conveyor.cloud'
