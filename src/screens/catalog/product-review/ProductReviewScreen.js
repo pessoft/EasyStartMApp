@@ -29,25 +29,13 @@ class ProductReviewScreen extends React.Component {
         }
     }
 
-    getTestReviews = () => {
-        const reviews = []
-
-        for (let i = 0; i < 20; ++i) {
-            reviews.push({
-                key: i.toString(),
-                header: 'Клиентв +7(964)645-23-45',
-                text: `${i}: Тут какой то текст отзыва, которые должне быть в нсколько строн`
-            })
-        }
-        return reviews
-    }
-
     renderItem = ({ item }) => {
         return <ReviewItem {...item} />
     }
 
-    onNewReviewText = text => {
+    onNewReview = text => {
         this.setState({ newReviewText: text })
+        //action to save review
     }
 
     componentDidMount = () => {
@@ -85,7 +73,7 @@ class ProductReviewScreen extends React.Component {
             reviews.push({
                 key: review.Id.toString(),
                 style: this.props.style,
-                header: `Клиент ${review.PhoneNumber}`,
+                header: review.Reviewer,
                 text: `${review.ReviewText}`,
                 date: this.toStringDateAndTime(this.jsonToDate(review.Date))
             })
@@ -109,7 +97,7 @@ class ProductReviewScreen extends React.Component {
                 placeholder={'Оставте свой отзыв...'}
                 buttonSize={24}
                 textSize={this.props.style.fontSize.h8}
-                onPress={this.onNewReviewText}
+                onPressButton={this.onNewReviewText}
             />
         )
     }

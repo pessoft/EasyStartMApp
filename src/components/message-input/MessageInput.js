@@ -17,8 +17,8 @@ export class MessageInput extends React.Component {
   }
 
   onPress = () => {
-    if (this.props.onPress)
-      this.props.onPress(this.state.text)
+    if (this.props.onPressButton)
+      this.props.onPressButton(this.state.text)
   }
 
   render() {
@@ -46,6 +46,7 @@ export class MessageInput extends React.Component {
             onChangeText={this.onChangeText}
           />
           <SendButton
+            onPress={this.onPress}
             size={this.props.buttonSize}
             nonBorder={true}
             color={
