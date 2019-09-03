@@ -1,5 +1,6 @@
 import {
     CLEAR_PRODUCT_REVIEWS,
+    ADD_PRODUCT_REVIEWS,
     FETCH_PRODUCT_REVIEWS_SUCCESS,
     FETCH_PRODUCT_REVIEWS_REQUEST,
     FETCH_PRODUCT_REVIEWS_FAILURE
@@ -35,6 +36,11 @@ export const productReviewReducer = (state = defaultState, action) => {
             return {
                 ...state,
                 reviews: []
+            }
+        case ADD_PRODUCT_REVIEWS:
+            return {
+                ...state,
+                reviews: [action.payload, ...state.reviews]
             }
     }
 

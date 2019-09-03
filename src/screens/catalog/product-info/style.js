@@ -38,4 +38,9 @@ export default StyleSheet.create({
         lineHeight: 24,
         paddingHorizontal: 5
     },
+    reviewsButtonWithIco: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center'
+    }
 })

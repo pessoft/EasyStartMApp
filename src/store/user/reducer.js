@@ -1,4 +1,5 @@
 import {
+  SET_USER_NAME,
   SET_USER_PHONE_NUMBER,
   SET_CITY_ID, SET_BRANCH_ID,
   FETCH_CHECK_ACTUAL_USER_INFO_REQUEST,
@@ -11,6 +12,7 @@ const defaultState = {
   isFetchError: false,
   isLogin: false,
   phoneNumber: '',
+  userName: '',
   cityId: -1,
   branchId: -1,
   clientId: -1,
@@ -20,6 +22,11 @@ const defaultState = {
 export const userReducer = (state = defaultState, action) => {
 
   switch (action.type) {
+    case SET_USER_NAME:
+      return {
+        ...state,
+        userName: action.payload
+      }
     case SET_USER_PHONE_NUMBER:
       return {
         ...state,

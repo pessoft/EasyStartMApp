@@ -11,7 +11,7 @@ import {
 } from 'react-native'
 import { ReviewItem } from '../../../components/review-item/ReviewItem'
 import Styles from './style'
-import { getProductReviews, clearReviews } from '../../../store/product-reviews/actions'
+import { getProductReviews, clearReviews, setProductReviews } from '../../../store/product-reviews/actions'
 import CommentSmile from '../../../images/font-awesome-svg/comment-smile.svg'
 import { MessageInput } from '../../../components/message-input/MessageInput'
 
@@ -24,18 +24,25 @@ class ProductReviewScreen extends React.Component {
         super(props)
 
         this.props.clearReviews()
-        this.state = {
-            newReviewText: ''
-        }
     }
 
     renderItem = ({ item }) => {
         return <ReviewItem {...item} />
     }
 
-    onNewReview = text => {
-        this.setState({ newReviewText: text })
-        //action to save review
+    onSetNewReview = text => {
+        const newReview = {
+            Id: new Date().getTime(),
+            ClientId: this.props.user.clientId,
+            CityId: this.props.user.cityId,
+            ProductId: this.props.selectedProduct.Id,
+            PhoneNumber: this.props.user.phoneNumber,
+            Reviewer: `${this.props.user.userName}`,
+            ReviewText: text,
+            Date: new Date().toString()
+        }
+
+        this.props.setProductReviews(newReview)
     }
 
     componentDidMount = () => {
@@ -97,7 +104,7 @@ class ProductReviewScreen extends React.Component {
                 placeholder={'Оставте свой отзыв...'}
                 buttonSize={24}
                 textSize={this.props.style.fontSize.h8}
-                onPressButton={this.onNewReviewText}
+                onPressButton={this.onSetNewReview}
             />
         )
     }
@@ -151,8 +158,15 @@ const mapStateToProps = state => {
         selectedProduct: state.catalog.selectedProduct,
         reviews: state.productReviews.reviews,
         isFetching: state.productReviews.isFetching,
+        user: state.user,
         style: state.style
     }
 }
 
-export default connect(mapStateToProps, { getProductReviews, clearReviews })(ProductReviewScreen)
+const mapActionToProps = {
+    getProductReviews,
+    clearReviews,
+    setProductReviews
+}
+
+export default connect(mapStateToProps, mapActionToProps)(ProductReviewScreen)

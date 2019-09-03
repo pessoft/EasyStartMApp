@@ -27,7 +27,7 @@ export default StyleSheet.create({
     flex: 1
   },
   inputSize: {
-    width: 230,
+    width: 280,
   },
   centerScreen: {
     flex: 1,

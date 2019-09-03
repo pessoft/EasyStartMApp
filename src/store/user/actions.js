@@ -1,6 +1,7 @@
 import { checkActualUserDataFetch } from '../../api/requests'
 
 export const SET_USER_PHONE_NUMBER = 'SET_USER_PHONE_NUMBER'
+export const SET_USER_NAME = 'SET_USER_NAME'
 export const SET_CITY_ID = 'SET_CITY_ID'
 export const SET_BRANCH_ID = 'SET_BRANCH_ID'
 export const SET_IS_LOGIN = 'SET_IS_LOGIN'
@@ -13,6 +14,13 @@ export const setPhoneNumber = (phoneNumber) => {
   return {
     type: SET_USER_PHONE_NUMBER,
     payload: phoneNumber
+  }
+}
+
+export const setUserName = (userName) => {
+  return {
+    type: SET_USER_NAME,
+    payload: userName
   }
 }
 

@@ -6,6 +6,7 @@ import { SimpleTextButton } from '../../../components/buttons/SimpleTextButton/S
 import { Rating } from 'react-native-ratings';
 import { PRODUCT_REVIEW } from '../../../navigation/pointsNavigate'
 import Styles from './style'
+import CommentLinesIco from '../../../images/font-awesome-svg/comment-lines.svg'
 
 class ProductInfoScreen extends React.Component {
     static navigationOptions = ({ navigation }) => {
@@ -26,10 +27,6 @@ class ProductInfoScreen extends React.Component {
     getRatingText() {
         const ratingValue = parseFloat(this.Product.Rating.toFixed(1))
         return `Оценка: ${ratingValue} (голосов: ${this.Product.VotesCount})`
-    }
-
-    getReviewButtonText() {
-        return `Отзывы (${this.props.reviewsCount[this.Product.Id]})`
     }
 
     getPriceProduct() {
@@ -67,12 +64,20 @@ class ProductInfoScreen extends React.Component {
                                 this.props.style.fontSize.h9,
                                 this.props.style.theme.secondaryTextColor]}>{this.getRatingText()}
                             </Text>
-                            <SimpleTextButton
-                                text={this.getReviewButtonText()}
-                                onPress={this.onPressReviews}
-                                sizeText={this.props.style.fontSize.h6.fontSize}
-                                color={this.props.style.theme.accentColor.backgroundColor}
-                            />
+                            <View style={Styles.reviewsButtonWithIco}>
+                                <SimpleTextButton
+                                    text={'Отзывы'}
+                                    onPress={this.onPressReviews}
+                                    sizeText={this.props.style.fontSize.h6.fontSize}
+                                    color={this.props.style.theme.accentColor.backgroundColor}
+                                />
+                                <CommentLinesIco
+                                    width={20}
+                                    height={20}
+                                    style={{ marginLeft: 5 }}
+                                    color={this.props.style.theme.accentColor.backgroundColor}
+                                />
+                            </View>
                         </View>
                         <View style={Styles.rightBlock}>
                             <Text style={[
@@ -104,7 +109,6 @@ const mapStateToProps = state => {
         serverDomain: state.appSetting.serverDomain,
         currencyPrefix: state.appSetting.currencyPrefix,
         selectedProduct: state.catalog.selectedProduct,
-        reviewsCount: state.main.reviewsCount,
         style: state.style
     }
 }
