@@ -3,10 +3,11 @@ import {
   TouchableWithoutFeedback,
   Text,
   Animated,
-  Easing
 } from 'react-native'
 import Styles from './style'
 import { stringLiteralTypeAnnotation } from '@babel/types';
+import { timingAnimation } from '../../animation/timingAnimation'
+
 
 export class SimpleListItem extends React.Component {
   constructor(props) {
@@ -17,17 +18,11 @@ export class SimpleListItem extends React.Component {
     }
   }
 
-  scaleAnimation = () => {
-    Animated.timing(this.state.fontSizeCity, {
-      toValue: this.props.selected ? this.props.style.fontSize.h6.fontSize : this.props.style.fontSize.h9.fontSize,
-      duration: 160,
-      easing: Easing.linear
-    }).start()
-  }
-
   componentDidUpdate(prevProps) {
-    if (this.props.selected != prevProps.selected)
-      this.scaleAnimation()
+    if (this.props.selected != prevProps.selected) {
+      let toValue = this.props.selected ? this.props.style.fontSize.h6.fontSize : this.props.style.fontSize.h9.fontSize
+      timingAnimation(this.state.fontSizeCity, toValue)
+    }
   }
 
   onPress = () => {

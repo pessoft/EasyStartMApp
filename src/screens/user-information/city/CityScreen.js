@@ -1,12 +1,23 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { ScrollView, FlatList, View, Button, ActivityIndicator } from 'react-native'
+import {
+  ScrollView,
+  FlatList,
+  View,
+  Button,
+  ActivityIndicator,
+  Animated,
+  Dimensions
+} from 'react-native'
 import { setCityId, setBranchId, addOrUpdateUser, setIsLogin } from '../../../store/user/actions'
 import { getMainData } from '../../../store/main/actions'
 import Styles from './style'
 import { MAIN } from '../../../navigation/pointsNavigate'
 import { SimpleListItem } from '../../../components/simple-list-item/SimpleListItem'
 import CityIco from '../../../images/font-awesome-svg/city.svg'
+import { springAnimation } from '../../../animation/springAnimation'
+
+const { width } = Dimensions.get('window')
 
 class CityScreen extends React.Component {
   static navigationOptions = {
@@ -17,8 +28,13 @@ class CityScreen extends React.Component {
     super(props)
 
     this.state = {
-      onFinishedButton: false
+      onFinishedButton: false,
+      xValue: new Animated.Value(width - 100)
     }
+  }
+
+  componentDidMount() {
+    springAnimation(this.state.xValue, 0, 0)
   }
 
   citiesToArray = () => {
@@ -60,7 +76,9 @@ class CityScreen extends React.Component {
 
   renderScreen = () => {
     return (
-      <View style={Styles.bodyContainer}>
+      <Animated.View style={[
+        Styles.bodyContainer,
+        { left: this.state.xValue }]}>
         <View style={Styles.contentContainer}>
           <View style={Styles.cityIco}>
             <CityIco
@@ -79,7 +97,7 @@ class CityScreen extends React.Component {
                 selected={this.props.cityId == item.key}
                 onPress={this.setCityId} />}
             />
-          </ScrollView >
+          </ScrollView>
         </View>
         <View style={[Styles.inputSize, Styles.footerContainer, Styles.pv_20]}>
           <Button
@@ -87,8 +105,8 @@ class CityScreen extends React.Component {
             onPress={this.onFinishSetUserData}
             disabled={this.props.cityId == -1}
             color={this.props.style.theme.defaultPrimaryColor.backgroundColor} />
-        </View >
-      </View >
+        </View>
+      </Animated.View>
     )
   }
 

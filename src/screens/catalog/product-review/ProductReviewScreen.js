@@ -7,13 +7,15 @@ import {
     Text,
     ActivityIndicator,
     TouchableWithoutFeedback,
-    Keyboard
+    Keyboard,
+    Animated
 } from 'react-native'
 import { ReviewItem } from '../../../components/review-item/ReviewItem'
 import Styles from './style'
 import { getProductReviews, clearReviews, setProductReviews } from '../../../store/product-reviews/actions'
 import CommentSmile from '../../../images/font-awesome-svg/comment-smile.svg'
 import { MessageInput } from '../../../components/message-input/MessageInput'
+import { springAnimation } from '../../../animation/springAnimation'
 
 class ProductReviewScreen extends React.Component {
     static navigationOptions = {
@@ -24,6 +26,10 @@ class ProductReviewScreen extends React.Component {
         super(props)
 
         this.props.clearReviews()
+
+        this.state = {
+            showScaleValue: new Animated.Value(0)
+        }
     }
 
     renderItem = ({ item }) => {
@@ -47,6 +53,12 @@ class ProductReviewScreen extends React.Component {
 
     componentDidMount = () => {
         this.props.getProductReviews(this.props.selectedProduct.Id)
+    }
+
+    componentDidUpdate() {
+        if (this.props.reviews.length == 0) {
+            springAnimation(this.state.showScaleValue, 1, 500, 2)
+        }
     }
 
     toStringDateAndTime = date => {
@@ -75,15 +87,24 @@ class ProductReviewScreen extends React.Component {
 
     getReviews = () => {
         const reviews = []
+        let delay = 0
+        const stepDelay = 50
+        const animationMaxCount = 10
 
         for (review of this.props.reviews) {
             reviews.push({
+                animation: {
+                    delay: delay,
+                    useAnimation: delay / stepDelay < animationMaxCount
+                },
                 key: review.Id.toString(),
                 style: this.props.style,
                 header: review.Reviewer,
                 text: `${review.ReviewText}`,
                 date: this.toStringDateAndTime(this.jsonToDate(review.Date))
             })
+
+            delay += stepDelay
         }
 
         return reviews;
@@ -127,7 +148,9 @@ class ProductReviewScreen extends React.Component {
         return (
             <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()} >
                 <View style={Styles.containerEmptyReviews}>
-                    <View style={Styles.centerScreen}>
+                    <Animated.View style={[
+                        Styles.centerScreen,
+                        { transform: [{ scale: this.state.showScaleValue }] }]} >
                         <CommentSmile
                             width={100}
                             height={100}
@@ -135,7 +158,7 @@ class ProductReviewScreen extends React.Component {
                         />
                         <Text style={[this.props.style.fontSize.h7, this.props.style.theme.secondaryTextColor]}>Будь первым!</Text>
                         <Text style={[this.props.style.fontSize.h7, this.props.style.theme.secondaryTextColor]}>Оставь свой отзыв!</Text>
-                    </View>
+                    </Animated.View>
                     {this.renderInputFooter()}
                 </View>
             </TouchableWithoutFeedback>

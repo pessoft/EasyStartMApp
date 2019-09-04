@@ -50,9 +50,15 @@ class ProductsScreen extends React.Component {
         const productsForRender = []
         const products = this.props.products[this.props.selectedCategory.Id]
 
+        let delay = 60
+        const animationMaxCount = 5
         for (let item of products) {
             productsForRender[item.OrderNumber - 1] = {
                 key: `${item.Id}`,
+                animation: {
+                    delay: delay * (item.OrderNumber - 1),
+                    useAnimation: item.OrderNumber < animationMaxCount
+                },
                 product: {
                     caption: item.Name,
                     imageSource: this.getImageSource(item.Image),
@@ -68,6 +74,7 @@ class ProductsScreen extends React.Component {
     renderItem = ({ item }) => {
         return <ProductItem
             style={this.props.style}
+            animation={item.animation}
             id={item.key}
             product={item.product}
             onPress={this.onSelectedProduct}

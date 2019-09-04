@@ -1,12 +1,19 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { View, Text, ScrollView, Dimensions } from 'react-native'
+import {
+    View,
+    Text,
+    ScrollView,
+    Dimensions,
+    Animated
+} from 'react-native'
 import Image from 'react-native-scalable-image'
 import { SimpleTextButton } from '../../../components/buttons/SimpleTextButton/SimpleTextButton'
 import { Rating } from 'react-native-ratings';
 import { PRODUCT_REVIEW } from '../../../navigation/pointsNavigate'
 import Styles from './style'
 import CommentLinesIco from '../../../images/font-awesome-svg/comment-lines.svg'
+import { springAnimation } from '../../../animation/springAnimation'
 
 class ProductInfoScreen extends React.Component {
     static navigationOptions = ({ navigation }) => {
@@ -18,6 +25,14 @@ class ProductInfoScreen extends React.Component {
     constructor(props) {
         super(props)
         this.props.navigation.setParams({ productName: this.Product.Name })
+
+        this.state = {
+            showScaleValue: new Animated.Value(0.2)
+        }
+    }
+
+    componentDidMount() {
+        springAnimation(this.state.showScaleValue, 1, 0, 6)
     }
 
     get Product() {
@@ -43,7 +58,7 @@ class ProductInfoScreen extends React.Component {
 
     render() {
         return (
-            <ScrollView>
+            <Animated.ScrollView style={{ transform: [{ scale: this.state.showScaleValue }] }}>
                 <Image
                     source={this.getImageSource()}
                     width={Dimensions.get('window').width}
@@ -99,7 +114,7 @@ class ProductInfoScreen extends React.Component {
                         {this.Product.Description}
                     </Text>
                 </View>
-            </ScrollView>
+            </Animated.ScrollView>
         )
     }
 }

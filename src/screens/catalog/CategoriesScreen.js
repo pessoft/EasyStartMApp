@@ -45,9 +45,14 @@ class CategoriesScreen extends React.Component {
 
     categoriesTransform = () => {
         const categories = []
-
+        let delay = 60
+        const animationMaxCount = 5
         for (let category of this.props.categories) {
             categories[category.OrderNumber - 1] = {
+                animation: {
+                    delay: delay * (category.OrderNumber - 1),
+                    useAnimation: category.OrderNumber < animationMaxCount
+                },
                 key: `${category.Id}`,
                 caption: category.Name,
                 imageSource: this.getImageSource(category.Image)
@@ -61,6 +66,7 @@ class CategoriesScreen extends React.Component {
         return <CategoryItem
             style={this.props.style}
             id={item.key}
+            animation={item.animation}
             caption={item.caption}
             imageSource={item.imageSource}
             onPress={this.onSelectedCategory}
@@ -71,10 +77,9 @@ class CategoriesScreen extends React.Component {
         return (
             <ScrollView>
                 <FlatList
-                    windowSize={4}
+                    windowSize={3}
                     removeClippedSubviews={true}
-                    initialNumToRender={2}
-                    maxToRenderPerBatch={1}
+                    initialNumToRender={3}
                     data={this.categoriesTransform()}
                     renderItem={this.renderItem}
                 />

@@ -1,9 +1,34 @@
 import React from 'react'
-import { TouchableHighlight, Image, Text, View } from 'react-native'
+import {
+    TouchableHighlight,
+    Image,
+    Text,
+    View,
+    Animated,
+    Dimensions
+} from 'react-native'
 import Styles from './style'
 import { ShoppingButton } from '../buttons/ShoppingButton/ShoppingButton';
+import { springAnimation } from '../../animation/springAnimation'
+
+const { width } = Dimensions.get('window')
 
 export class ProductItem extends React.PureComponent {
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            xValue: new Animated.Value(width - 100)
+        }
+    }
+
+    componentDidMount() {
+        if (this.props.animation.useAnimation)
+            springAnimation(this.state.xValue, 0, this.props.animation.delay)
+        else
+            this.setState({ xValue: 0 })
+    }
+
     onPress = () => {
         if (this.props.onPress)
             this.props.onPress(this.props.id)
@@ -15,7 +40,9 @@ export class ProductItem extends React.PureComponent {
                 underlayColor={this.props.style.theme.lightPrimaryColor.backgroundColor}
                 style={Styles.bodyItem}
                 onPress={this.onPress}>
-                <View style={Styles.directionRow}>
+                <Animated.View style={[
+                    Styles.directionRow,
+                    { left: this.state.xValue }]}>
                     <Image
                         source={this.props.product.imageSource}
                         style={Styles.productImage}
@@ -49,9 +76,8 @@ export class ProductItem extends React.PureComponent {
                                     backgroundColor={this.props.style.theme.accentColor.backgroundColor} />
                             </View>
                         </View>
-
                     </View>
-                </View>
+                </Animated.View>
             </TouchableHighlight >
         )
     }
