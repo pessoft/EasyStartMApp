@@ -1,8 +1,35 @@
 import React from 'react'
-import { TouchableWithoutFeedback, Text } from 'react-native'
+import {
+  TouchableWithoutFeedback,
+  Text,
+  Animated,
+  Easing
+} from 'react-native'
 import Styles from './style'
+import { stringLiteralTypeAnnotation } from '@babel/types';
 
 export class SimpleListItem extends React.Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      fontSizeCity: new Animated.Value(this.props.selected ? this.props.style.fontSize.h6.fontSize : this.props.style.fontSize.h9.fontSize)
+    }
+  }
+
+  scaleAnimation = () => {
+    Animated.timing(this.state.fontSizeCity, {
+      toValue: this.props.selected ? this.props.style.fontSize.h6.fontSize : this.props.style.fontSize.h9.fontSize,
+      duration: 160,
+      easing: Easing.linear
+    }).start()
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.selected != prevProps.selected)
+      this.scaleAnimation()
+  }
+
   onPress = () => {
     if (this.props.onPress)
       this.props.onPress(this.props.id)
@@ -14,14 +41,15 @@ export class SimpleListItem extends React.Component {
         underlayColor={this.props.style.theme.lightPrimaryColor.backgroundColor}
         onPress={this.onPress}
         style={Styles.bodyItem}>
-        <Text style={[
+        <Animated.Text style={[
           Styles.text,
           Styles.textWrap,
           this.props.style.theme.dividerColor,
-          this.props.selected ? this.props.style.fontSize.h6 : this.props.style.fontSize.h9,
+          { fontSize: this.state.fontSizeCity },
+          // this.props.selected ? this.props.style.fontSize.h6 : this.props.style.fontSize.h9,
           this.props.selected ? Styles.primaryTextColor : this.props.style.theme.secondaryTextColor]}>
           {this.props.text}
-        </Text>
+        </Animated.Text>
       </TouchableWithoutFeedback  >
     )
   }

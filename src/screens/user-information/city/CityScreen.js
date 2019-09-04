@@ -13,6 +13,14 @@ class CityScreen extends React.Component {
     headerTitle: 'Выберите ваш город',
   }
 
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      onFinishedButton: false
+    }
+  }
+
   citiesToArray = () => {
     return Object.keys(this.props.cities).map(p => ({ key: p, city: this.props.cities[p] }))
   }
@@ -29,7 +37,10 @@ class CityScreen extends React.Component {
       phoneNumber: this.props.phoneNumber
     }
 
-    this.props.addOrUpdateUser(userData)
+    this.setState({
+      onFinishedButton: true
+    },
+      () => this.props.addOrUpdateUser(userData))
   }
 
   nextPage = () => {
@@ -38,10 +49,10 @@ class CityScreen extends React.Component {
 
   componentDidUpdate() {
     if (this.props.clientId > 0 &&
-      this.props.categories.length == 0 &&
-      !this.props.isFetchingMainData) {
+      this.state.onFinishedButton) {
       this.props.setIsLogin(true)
       this.props.getMainData(this.props.branchId)
+      this.setState({ onFinishedButton: false })
     } else if (this.props.categories.length > 0) {
       this.nextPage()
     }
