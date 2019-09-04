@@ -1,6 +1,12 @@
-import {StyleSheet} from 'react-native'
+import { StyleSheet } from 'react-native'
 
 export const LightBlueTheme = StyleSheet.create({
+    navigationHeader: {
+        backgroundColor: '#0288D1'
+    },
+    navigationBottom: {
+        backgroundColor: '#fafafa'
+    },
     themeBody: {
         backgroundColor: '#fafafa'
     },
@@ -8,19 +14,19 @@ export const LightBlueTheme = StyleSheet.create({
         backgroundColor: '#0288D1'
     },
     defaultPrimaryColor: {
-        backgroundColor:'#03A9F4'
+        backgroundColor: '#03A9F4'
     },
     lightPrimaryColor: {
-        backgroundColor:'#B3E5FC'
+        backgroundColor: '#B3E5FC'
     },
-    textPrimaryColor:{
-        color:'#FFFFFF'
+    textPrimaryColor: {
+        color: '#FFFFFF'
     },
     accentColor: {
         backgroundColor: '#607D8B'
     },
     primaryTextColor: {
-        color:'#212121'
+        color: '#212121'
     },
     secondaryTextColor: {
         color: '#757575'

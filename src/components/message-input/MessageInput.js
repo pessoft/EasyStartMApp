@@ -30,11 +30,11 @@ export class MessageInput extends React.Component {
         style={[
           Styles.keywordAvoidReviewInput,
           this.props.style.theme.dividerColor,
-          this.props.style.theme.themeBody
+          this.props.style.theme.navigationBottom
         ]}>
         <View style={[
           Styles.inputReview,
-          this.props.style.theme.themeBody
+          this.props.style.theme.navigationBottom
         ]}>
           <TextInput
             multiline={true}
@@ -43,13 +43,13 @@ export class MessageInput extends React.Component {
               this.props.textSize,
               Styles.inputText,
               this.props.style.theme.dividerColor,
-              this.props.style.theme.themeBody,
+              this.props.style.theme.navigationBottom,
               this.props.style.theme.primaryTextColor]}
             onChangeText={this.onChangeText}
             value={this.state.text}
           />
           <SendButton
-            underlayColor={this.props.style.theme.themeBody.backgroundColor}
+            underlayColor={this.props.style.theme.navigationBottom.backgroundColor}
             onPress={this.onPress}
             size={this.props.buttonSize}
             nonBorder={true}

@@ -1,6 +1,12 @@
-import {StyleSheet} from 'react-native'
+import { StyleSheet } from 'react-native'
 
 export const DeepPurpleTheme = StyleSheet.create({
+    navigationHeader: {
+        backgroundColor: '#512DA8'
+    },
+    navigationBottom: {
+        backgroundColor: '#fafafa'
+    },
     themeBody: {
         backgroundColor: '#fafafa'
     },
@@ -8,19 +14,19 @@ export const DeepPurpleTheme = StyleSheet.create({
         backgroundColor: '#512DA8'
     },
     defaultPrimaryColor: {
-        backgroundColor:'#673AB7'
+        backgroundColor: '#673AB7'
     },
     lightPrimaryColor: {
-        backgroundColor:'#D1C4E9'
+        backgroundColor: '#D1C4E9'
     },
-    textPrimaryColor:{
-        color:'#FFFFFF'
+    textPrimaryColor: {
+        color: '#FFFFFF'
     },
     accentColor: {
         backgroundColor: '#7C4DFF'
     },
     primaryTextColor: {
-        color:'#212121'
+        color: '#212121'
     },
     secondaryTextColor: {
         color: '#757575'

@@ -11,7 +11,7 @@ export const defaultStyleNavigationStackOptions = {
       color: style.theme.textPrimaryColor.color
     },
     headerStyle: {
-      backgroundColor: style.theme.darkPrimaryColor.backgroundColor,
+      backgroundColor: style.theme.navigationHeader.backgroundColor,
       borderBottomColor: style.theme.dividerColor.borderColor,
       borderBottomWidth: 0,
     },

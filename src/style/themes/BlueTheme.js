@@ -1,6 +1,12 @@
 import { StyleSheet } from 'react-native'
 
 export const BlueTheme = StyleSheet.create({
+    navigationHeader: {
+        backgroundColor: '#1976D2'
+    },
+    navigationBottom: {
+        backgroundColor: '#fafafa'
+    },
     themeBody: {
         backgroundColor: '#fafafa'
     },

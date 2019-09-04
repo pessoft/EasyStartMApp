@@ -1,6 +1,12 @@
-import {StyleSheet} from 'react-native'
+import { StyleSheet } from 'react-native'
 
 export const CaynTheme = StyleSheet.create({
+    navigationHeader: {
+        backgroundColor: '#0097A7'
+    },
+    navigationBottom: {
+        backgroundColor: '#fafafa'
+    },
     themeBody: {
         backgroundColor: '#fafafa'
     },
@@ -8,19 +14,19 @@ export const CaynTheme = StyleSheet.create({
         backgroundColor: '#0097A7'
     },
     defaultPrimaryColor: {
-        backgroundColor:'#00BCD4'
+        backgroundColor: '#00BCD4'
     },
     lightPrimaryColor: {
-        backgroundColor:'#B2EBF2'
+        backgroundColor: '#B2EBF2'
     },
-    textPrimaryColor:{
-        color:'#FFFFFF'
+    textPrimaryColor: {
+        color: '#FFFFFF'
     },
     accentColor: {
         backgroundColor: '#00BCD4'
     },
     primaryTextColor: {
-        color:'#212121'
+        color: '#212121'
     },
     secondaryTextColor: {
         color: '#757575'

@@ -1,6 +1,12 @@
-import {StyleSheet} from 'react-native'
+import { StyleSheet } from 'react-native'
 
 export const DeepOrangeTheme = StyleSheet.create({
+    navigationHeader: {
+        backgroundColor: '#E64A19'
+    },
+    navigationBottom: {
+        backgroundColor: '#fafafa'
+    },
     themeBody: {
         backgroundColor: '#fafafa'
     },
@@ -8,19 +14,19 @@ export const DeepOrangeTheme = StyleSheet.create({
         backgroundColor: '#E64A19'
     },
     defaultPrimaryColor: {
-        backgroundColor:'#FF5722'
+        backgroundColor: '#FF5722'
     },
     lightPrimaryColor: {
-        backgroundColor:'#FFCCBC'
+        backgroundColor: '#FFCCBC'
     },
-    textPrimaryColor:{
-        color:'#FFFFFF'
+    textPrimaryColor: {
+        color: '#FFFFFF'
     },
     accentColor: {
         backgroundColor: '#FF5722'
     },
     primaryTextColor: {
-        color:'#212121'
+        color: '#212121'
     },
     secondaryTextColor: {
         color: '#757575'

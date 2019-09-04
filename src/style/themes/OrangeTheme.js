@@ -1,6 +1,12 @@
-import {StyleSheet} from 'react-native'
+import { StyleSheet } from 'react-native'
 
 export const OrangeTheme = StyleSheet.create({
+    navigationHeader: {
+        backgroundColor: '#F57C00'
+    },
+    navigationBottom: {
+        backgroundColor: '#fafafa'
+    },
     themeBody: {
         backgroundColor: '#fafafa'
     },
@@ -8,19 +14,19 @@ export const OrangeTheme = StyleSheet.create({
         backgroundColor: '#F57C00'
     },
     defaultPrimaryColor: {
-        backgroundColor:'#FF9800'
+        backgroundColor: '#FF9800'
     },
     lightPrimaryColor: {
-        backgroundColor:'#FFE0B2'
+        backgroundColor: '#FFE0B2'
     },
-    textPrimaryColor:{
-        color:'#212121'
+    textPrimaryColor: {
+        color: '#212121'
     },
     accentColor: {
         backgroundColor: '#FF9800'
     },
     primaryTextColor: {
-        color:'#212121'
+        color: '#212121'
     },
     secondaryTextColor: {
         color: '#757575'

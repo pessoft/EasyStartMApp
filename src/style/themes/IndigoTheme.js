@@ -1,6 +1,12 @@
 import { StyleSheet } from 'react-native'
 
 export const IndigoTheme = StyleSheet.create({
+    navigationHeader: {
+        backgroundColor: '#303F9F'
+    },
+    navigationBottom: {
+        backgroundColor: '#fafafa'
+    },
     themeBody: {
         backgroundColor: '#fafafa'
     },
