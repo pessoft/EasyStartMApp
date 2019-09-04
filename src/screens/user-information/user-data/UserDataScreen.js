@@ -12,7 +12,7 @@ import { TextInputMask } from 'react-native-masked-text'
 import { SET_CITY } from '../../../navigation/pointsNavigate'
 import { setPhoneNumber, setUserName } from '../../../store/user/actions'
 import Styles from './style'
-import { springAnimation } from '../../../animation/springAnimation'
+import { timingAnimation } from '../../../animation/timingAnimation'
 
 const { width } = Dimensions.get('window')
 
@@ -25,12 +25,12 @@ class UserDataScreen extends React.Component {
     super(props)
 
     this.state = {
-      xValue: new Animated.Value(width - 100)
+      showScaleAnimation: new Animated.Value(0)
     }
   }
 
   componentDidMount() {
-    springAnimation(this.state.xValue, 0, 0)
+    timingAnimation(this.state.showScaleAnimation, 1, 400, true)
   }
 
   onPhoneChange = phone => {
@@ -58,7 +58,7 @@ class UserDataScreen extends React.Component {
   render() {
     return (
       <KeyboardAvoidingView style={Styles.screen} behavior='height'>
-        <Animated.View style={{ left: this.state.xValue }}>
+        <Animated.View style={{ transform: [{ scale: this.state.showScaleAnimation }] }}>
           <TextInput
             placeholder='Ваше имя'
             value={this.props.userName}

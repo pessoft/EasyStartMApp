@@ -15,7 +15,7 @@ import Styles from './style'
 import { MAIN } from '../../../navigation/pointsNavigate'
 import { SimpleListItem } from '../../../components/simple-list-item/SimpleListItem'
 import CityIco from '../../../images/font-awesome-svg/city.svg'
-import { springAnimation } from '../../../animation/springAnimation'
+import { timingAnimation } from '../../../animation/timingAnimation'
 
 const { width } = Dimensions.get('window')
 
@@ -29,12 +29,12 @@ class CityScreen extends React.Component {
 
     this.state = {
       onFinishedButton: false,
-      xValue: new Animated.Value(width - 100)
+      showScaleAnimation: new Animated.Value(0)
     }
   }
 
   componentDidMount() {
-    springAnimation(this.state.xValue, 0, 0)
+    timingAnimation(this.state.showScaleAnimation, 1, 400, true)
   }
 
   citiesToArray = () => {
@@ -78,7 +78,7 @@ class CityScreen extends React.Component {
     return (
       <Animated.View style={[
         Styles.bodyContainer,
-        { left: this.state.xValue }]}>
+        { transform: [{ scale: this.state.showScaleAnimation }] }]}>
         <View style={Styles.contentContainer}>
           <View style={Styles.cityIco}>
             <CityIco

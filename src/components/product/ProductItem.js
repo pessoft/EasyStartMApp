@@ -5,28 +5,26 @@ import {
     Text,
     View,
     Animated,
-    Dimensions
 } from 'react-native'
 import Styles from './style'
 import { ShoppingButton } from '../buttons/ShoppingButton/ShoppingButton';
-import { springAnimation } from '../../animation/springAnimation'
-
-const { width } = Dimensions.get('window')
+import { timingAnimation } from '../../animation/timingAnimation'
 
 export class ProductItem extends React.PureComponent {
     constructor(props) {
         super(props)
 
         this.state = {
-            xValue: new Animated.Value(width - 100)
+            showScaleAnimation: new Animated.Value(0)
         }
     }
 
     componentDidMount() {
-        if (this.props.animation.useAnimation)
-            springAnimation(this.state.xValue, 0, this.props.animation.delay)
+        if (this.props.animation &&
+            this.props.animation.useAnimation)
+            timingAnimation(this.state.showScaleAnimation, 1, this.props.animation.duration, true)
         else
-            this.setState({ xValue: 0 })
+            this.setState({ showScaleAnimation: 1 })
     }
 
     onPress = () => {
@@ -42,7 +40,7 @@ export class ProductItem extends React.PureComponent {
                 onPress={this.onPress}>
                 <Animated.View style={[
                     Styles.directionRow,
-                    { left: this.state.xValue }]}>
+                    { transform: [{ scale: this.state.showScaleAnimation }] }]}>
                     <Image
                         source={this.props.product.imageSource}
                         style={Styles.productImage}

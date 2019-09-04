@@ -3,20 +3,17 @@ import {
     TouchableHighlight,
     Image,
     Text,
-    View,
-    Animated,
-    Dimensions
+    Animated
 } from 'react-native'
 import Styles from './style'
-import { springAnimation } from '../../animation/springAnimation'
-const { width } = Dimensions.get('window')
+import { timingAnimation } from '../../animation/timingAnimation'
 
 export class CategoryItem extends React.PureComponent {
     constructor(props) {
         super(props)
 
         this.state = {
-            xValue: new Animated.Value(width - 100)
+            showScaleAnimation: new Animated.Value(0)
         }
     }
 
@@ -26,10 +23,11 @@ export class CategoryItem extends React.PureComponent {
     }
 
     componentDidMount() {
-        if (this.props.animation.useAnimation)
-            springAnimation(this.state.xValue, 0, this.props.animation.delay)
+        if (this.props.animation &&
+            this.props.animation.useAnimation)
+            timingAnimation(this.state.showScaleAnimation, 1, this.props.animation.duration, true)
         else
-            this.setState({ xValue: 0 })
+            this.setState({ scale: 1 })
     }
 
     render() {
@@ -43,7 +41,7 @@ export class CategoryItem extends React.PureComponent {
                 <Animated.View
                     style={[
                         Styles.directionRow,
-                        { left: this.state.xValue }]}
+                        { transform: [{ scale: this.state.showScaleAnimation }] }]}
                 >
                     <Image
                         source={this.props.imageSource}

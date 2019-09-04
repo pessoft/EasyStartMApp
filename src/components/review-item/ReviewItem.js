@@ -4,29 +4,27 @@ import {
     Text,
     Image,
     Animated,
-    Dimensions
 } from 'react-native'
 import Styles from './style'
 import UserPhotoDefaultIco from '../../images/font-awesome-svg/user-circle.svg'
 import ClockIco from '../../images/font-awesome-svg/clock.svg'
-import { springAnimation } from '../../animation/springAnimation'
-
-const { width } = Dimensions.get('window')
+import { timingAnimation } from '../../animation/timingAnimation'
 
 export class ReviewItem extends React.Component {
     constructor(props) {
         super(props)
 
         this.state = {
-            xValue: new Animated.Value(width - 100)
+            showScaleAnimation: new Animated.Value(0)
         }
     }
 
     componentDidMount() {
-        if (this.props.animation.useAnimation)
-            springAnimation(this.state.xValue, 0, this.props.animation.delay)
+        if (this.props.animation &&
+            this.props.animation.useAnimation)
+            timingAnimation(this.state.showScaleAnimation, 1, this.props.animation.duration, true)
         else
-            this.setState({ xValue: 0 })
+            this.setState({ showScaleAnimation: 1 })
     }
 
     renderUserPhoto = () => {
@@ -41,7 +39,7 @@ export class ReviewItem extends React.Component {
             <Animated.View style={[
                 Styles.reviewItem,
                 this.props.style.theme.dividerColor,
-                { left: this.state.xValue }
+                { transform: [{ scale: this.state.showScaleAnimation }] }
             ]}>
                 {this.renderUserPhoto()}
                 <View style={Styles.reviewContainer}>

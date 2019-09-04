@@ -1,7 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import {
-    ScrollView,
     FlatList,
     View,
     Text,
@@ -15,7 +14,7 @@ import Styles from './style'
 import { getProductReviews, clearReviews, setProductReviews } from '../../../store/product-reviews/actions'
 import CommentSmile from '../../../images/font-awesome-svg/comment-smile.svg'
 import { MessageInput } from '../../../components/message-input/MessageInput'
-import { springAnimation } from '../../../animation/springAnimation'
+import { timingAnimation } from '../../../animation/timingAnimation'
 
 class ProductReviewScreen extends React.Component {
     static navigationOptions = {
@@ -28,7 +27,8 @@ class ProductReviewScreen extends React.Component {
         this.props.clearReviews()
 
         this.state = {
-            showScaleValue: new Animated.Value(0)
+            showScaleAnimation: new Animated.Value(0),
+            showScaleAnimationEmpty: new Animated.Value(0),
         }
     }
 
@@ -45,7 +45,11 @@ class ProductReviewScreen extends React.Component {
             PhoneNumber: this.props.user.phoneNumber,
             Reviewer: `${this.props.user.userName}`,
             ReviewText: text,
-            Date: new Date().toString()
+            Date: new Date().toString(),
+            animation: {
+                useAnimation: true,
+                duration: 300
+            }
         }
 
         this.props.setProductReviews(newReview)
@@ -56,8 +60,11 @@ class ProductReviewScreen extends React.Component {
     }
 
     componentDidUpdate() {
-        if (this.props.reviews.length == 0) {
-            springAnimation(this.state.showScaleValue, 1, 500, 2)
+        if (this.props.reviews.length == 0 && !this.props.isFetching){
+            timingAnimation(this.state.showScaleAnimationEmpty, 1, 300, true)
+        }
+        else if(this.props.reviews.length > 0){
+            timingAnimation(this.state.showScaleAnimation, 1, 300, true)
         }
     }
 
@@ -87,15 +94,11 @@ class ProductReviewScreen extends React.Component {
 
     getReviews = () => {
         const reviews = []
-        let delay = 0
-        const stepDelay = 50
-        const animationMaxCount = 10
 
         for (review of this.props.reviews) {
             reviews.push({
                 animation: {
-                    delay: delay,
-                    useAnimation: delay / stepDelay < animationMaxCount
+                    useAnimation: review.animation || false
                 },
                 key: review.Id.toString(),
                 style: this.props.style,
@@ -103,8 +106,6 @@ class ProductReviewScreen extends React.Component {
                 text: `${review.ReviewText}`,
                 date: this.toStringDateAndTime(this.jsonToDate(review.Date))
             })
-
-            delay += stepDelay
         }
 
         return reviews;
@@ -133,12 +134,16 @@ class ProductReviewScreen extends React.Component {
     renderReviews = () => {
         return (
             <React.Fragment>
-                <ScrollView style={Styles.reviews}>
+                <Animated.ScrollView style={[
+                    Styles.reviews,
+                    {opacity: this.state.showScaleAnimation},
+                    { transform: [{ scale: this.state.showScaleAnimation }] }
+                ]}>
                     <FlatList
                         data={this.getReviews()}
                         renderItem={this.renderItem}
                     />
-                </ScrollView>
+                </Animated.ScrollView>
                 {this.renderInputFooter()}
             </React.Fragment>
         )
@@ -150,7 +155,8 @@ class ProductReviewScreen extends React.Component {
                 <View style={Styles.containerEmptyReviews}>
                     <Animated.View style={[
                         Styles.centerScreen,
-                        { transform: [{ scale: this.state.showScaleValue }] }]} >
+                        {opacity: this.state.showScaleAnimationEmpty},
+                        { transform: [{ scale: this.state.showScaleAnimationEmpty }] }]} >
                         <CommentSmile
                             width={100}
                             height={100}

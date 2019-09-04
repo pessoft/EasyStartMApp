@@ -1,13 +1,13 @@
 import {
   Animated,
-  Dimensions,
   Easing
 } from 'react-native'
 
-export const timingAnimation = (value, toValue, duration = 160) => {
+export const timingAnimation = (value, toValue, duration = 160, useNativeDriver=false) => {
   Animated.timing(value, {
     toValue: toValue,
     duration: duration,
-    easing: Easing.linear
+    easing: Easing.linear,
+    useNativeDriver: useNativeDriver
   }).start()
 }

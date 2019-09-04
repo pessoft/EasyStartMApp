@@ -1,9 +1,13 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { ScrollView, FlatList } from 'react-native'
+import {
+    FlatList,
+    Animated
+} from 'react-native'
 import { ProductItem } from '../../components/product/ProductItem';
 import { setSelectedProduct } from '../../store/catalog/actions'
 import { PRODUCT_INFO } from '../../navigation/pointsNavigate'
+import { timingAnimation } from '../../animation/timingAnimation'
 
 class ProductsScreen extends React.Component {
     static navigationOptions = ({ navigation }) => {
@@ -20,6 +24,14 @@ class ProductsScreen extends React.Component {
         super(props)
         this.props.navigation.setParams({ categoryName: this.props.selectedCategory.Name })
         this.props.setSelectedProduct({})
+
+        this.state = {
+            showScaleAnimation: new Animated.Value(0)
+        }
+    }
+
+    componentDidMount = () => {
+        timingAnimation(this.state.showScaleAnimation, 1, 300, true)
     }
 
     componentDidUpdate = () => {
@@ -50,15 +62,9 @@ class ProductsScreen extends React.Component {
         const productsForRender = []
         const products = this.props.products[this.props.selectedCategory.Id]
 
-        let delay = 60
-        const animationMaxCount = 5
         for (let item of products) {
             productsForRender[item.OrderNumber - 1] = {
                 key: `${item.Id}`,
-                animation: {
-                    delay: delay * (item.OrderNumber - 1),
-                    useAnimation: item.OrderNumber < animationMaxCount
-                },
                 product: {
                     caption: item.Name,
                     imageSource: this.getImageSource(item.Image),
@@ -83,16 +89,18 @@ class ProductsScreen extends React.Component {
 
     render() {
         return (
-            <ScrollView>
+            <Animated.ScrollView
+                style={[
+                    { transform: [{ scale: this.state.showScaleAnimation }] }]}>
                 <FlatList
                     windowSize={4}
                     removeClippedSubviews={true}
-                    initialNumToRender={2}
+                    initialNumToRender={4}
                     maxToRenderPerBatch={1}
                     data={this.productsTransform()}
                     renderItem={this.renderItem}
                 />
-            </ScrollView>
+            </Animated.ScrollView>
         )
     }
 }

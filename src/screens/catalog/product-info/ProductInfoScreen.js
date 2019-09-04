@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import {
     View,
     Text,
-    ScrollView,
     Dimensions,
     Animated
 } from 'react-native'
@@ -13,7 +12,7 @@ import { Rating } from 'react-native-ratings';
 import { PRODUCT_REVIEW } from '../../../navigation/pointsNavigate'
 import Styles from './style'
 import CommentLinesIco from '../../../images/font-awesome-svg/comment-lines.svg'
-import { springAnimation } from '../../../animation/springAnimation'
+import { timingAnimation } from '../../../animation/timingAnimation'
 
 class ProductInfoScreen extends React.Component {
     static navigationOptions = ({ navigation }) => {
@@ -27,12 +26,12 @@ class ProductInfoScreen extends React.Component {
         this.props.navigation.setParams({ productName: this.Product.Name })
 
         this.state = {
-            showScaleValue: new Animated.Value(0.2)
+            showScaleAnimation: new Animated.Value(0)
         }
     }
 
     componentDidMount() {
-        springAnimation(this.state.showScaleValue, 1, 0, 6)
+        timingAnimation(this.state.showScaleAnimation, 1, 300, true)
     }
 
     get Product() {
@@ -58,7 +57,8 @@ class ProductInfoScreen extends React.Component {
 
     render() {
         return (
-            <Animated.ScrollView style={{ transform: [{ scale: this.state.showScaleValue }] }}>
+            <Animated.ScrollView style={[
+                { transform: [{ scale: this.state.showScaleAnimation }] }]}>
                 <Image
                     source={this.getImageSource()}
                     width={Dimensions.get('window').width}
@@ -70,7 +70,7 @@ class ProductInfoScreen extends React.Component {
                         <View style={Styles.leftBlock}>
                             <Rating
                                 type={'heart'}
-                                ratingBackgroundColor={this.props.style.theme.themeBody.backgroundColor}
+                                tintColor={this.props.style.theme.themeBody.backgroundColor}
                                 imageSize={26}
                                 fractions={1}
                                 startingValue={this.Product.Rating}

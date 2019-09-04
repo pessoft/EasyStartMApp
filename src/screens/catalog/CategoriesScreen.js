@@ -1,11 +1,13 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { ScrollView, FlatList } from 'react-native'
+import {
+    FlatList,
+    Animated
+} from 'react-native'
 import { CategoryItem } from '../../components/category/CategoryItem';
 import { setSelectedCatagory, setSelectedProduct } from '../../store/catalog/actions'
 import { PRODUCTS } from '../../navigation/pointsNavigate';
-
-
+import {timingAnimation} from '../../animation/timingAnimation'
 
 class CategoriesScreen extends React.Component {
     static navigationOptions = {
@@ -16,6 +18,14 @@ class CategoriesScreen extends React.Component {
         super(props)
         this.props.setSelectedProduct({})
         this.props.setSelectedCatagory({})
+
+        this.state = {
+            showScaleAnimation: new Animated.Value(0)
+        }
+    }
+
+    componentDidMount = () => {
+        timingAnimation(this.state.showScaleAnimation, 1, 300, true)
     }
 
     componentDidUpdate = () => {
@@ -45,14 +55,8 @@ class CategoriesScreen extends React.Component {
 
     categoriesTransform = () => {
         const categories = []
-        let delay = 60
-        const animationMaxCount = 5
         for (let category of this.props.categories) {
             categories[category.OrderNumber - 1] = {
-                animation: {
-                    delay: delay * (category.OrderNumber - 1),
-                    useAnimation: category.OrderNumber < animationMaxCount
-                },
                 key: `${category.Id}`,
                 caption: category.Name,
                 imageSource: this.getImageSource(category.Image)
@@ -66,7 +70,6 @@ class CategoriesScreen extends React.Component {
         return <CategoryItem
             style={this.props.style}
             id={item.key}
-            animation={item.animation}
             caption={item.caption}
             imageSource={item.imageSource}
             onPress={this.onSelectedCategory}
@@ -75,7 +78,8 @@ class CategoriesScreen extends React.Component {
 
     render() {
         return (
-            <ScrollView>
+            <Animated.ScrollView
+            style={{transform:[{scale: this.state.showScaleAnimation}]}}>
                 <FlatList
                     windowSize={3}
                     removeClippedSubviews={true}
@@ -83,7 +87,7 @@ class CategoriesScreen extends React.Component {
                     data={this.categoriesTransform()}
                     renderItem={this.renderItem}
                 />
-            </ScrollView>
+            </Animated.ScrollView>
         )
     }
 }
