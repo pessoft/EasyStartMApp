@@ -11,3 +11,7 @@ export const PRODUCT_INFO = 'ProductInfo'
 export const PRODUCT_REVIEW = 'ProductReview'
 
 export const CATALOG_TAB = 'Catalog'
+export const STOCK_TAB = 'StockTab'
+
+export const STOCKS = 'Stocks'
+export const STOCK_INFO = 'StockInfo'
