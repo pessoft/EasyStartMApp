@@ -27,7 +27,7 @@ export class CategoryItem extends React.PureComponent {
             this.props.animation.useAnimation)
             timingAnimation(this.state.showScaleAnimation, 1, this.props.animation.duration, true)
         else
-            this.setState({ scale: 1 })
+            this.setState({ showScaleAnimation: 1 })
     }
 
     render() {
