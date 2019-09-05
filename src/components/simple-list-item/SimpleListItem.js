@@ -42,7 +42,7 @@ export class SimpleListItem extends React.Component {
           this.props.style.theme.dividerColor,
           { fontSize: this.state.fontSizeCity },
           // this.props.selected ? this.props.style.fontSize.h6 : this.props.style.fontSize.h9,
-          this.props.selected ? Styles.primaryTextColor : this.props.style.theme.secondaryTextColor]}>
+          this.props.selected ? this.props.style.theme.primaryTextColor : this.props.style.theme.secondaryTextColor]}>
           {this.props.text}
         </Animated.Text>
       </TouchableWithoutFeedback  >

@@ -25,6 +25,9 @@ export const LightBlueTheme = StyleSheet.create({
     accentColor: {
         backgroundColor: '#607D8B'
     },
+    accentOther: {
+        backgroundColor: '#607D8B'
+    },
     primaryTextColor: {
         color: '#212121'
     },

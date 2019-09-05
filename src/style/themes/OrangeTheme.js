@@ -25,6 +25,9 @@ export const OrangeTheme = StyleSheet.create({
     accentColor: {
         backgroundColor: '#FF9800'
     },
+    accentOther: {
+        backgroundColor: '#FF9800'
+    },
     primaryTextColor: {
         color: '#212121'
     },

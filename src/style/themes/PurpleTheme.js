@@ -25,6 +25,9 @@ export const PurpleTheme = StyleSheet.create({
     accentColor: {
         backgroundColor: '#E040FB'
     },
+    accentOther: {
+        backgroundColor: '#E040FB'
+    },
     primaryTextColor: {
         color: '#212121'
     },

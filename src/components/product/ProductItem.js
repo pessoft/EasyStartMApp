@@ -71,6 +71,7 @@ export class ProductItem extends React.PureComponent {
                                     size={20}
                                     underlayColor={this.props.style.theme.lightPrimaryColor.backgroundColor}
                                     color={this.props.style.theme.textPrimaryColor.color}
+                                    borderColor={this.props.style.theme.dividerColor.borderColor}
                                     backgroundColor={this.props.style.theme.accentColor.backgroundColor} />
                             </View>
                         </View>

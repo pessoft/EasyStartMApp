@@ -35,7 +35,7 @@ export class IconButton extends React.Component {
                     Styles.iconSquareButton,
                     this.isNonBorder(),
                     {
-                        borderColor: this.props.color || this.defaultColor,
+                        borderColor: this.props.borderColor || this.defaultColor,
                         backgroundColor: this.props.backgroundColor
                     }]}
                 onPress={this.props.onPress} >

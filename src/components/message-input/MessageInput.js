@@ -39,6 +39,7 @@ export class MessageInput extends React.Component {
           <TextInput
             multiline={true}
             placeholder={this.props.placeholder}
+            placeholderTextColor={this.props.style.theme.secondaryTextColor.color}
             style={[
               this.props.textSize,
               Styles.inputText,
@@ -55,7 +56,7 @@ export class MessageInput extends React.Component {
             nonBorder={true}
             color={
               this.state.text.trim().replace(/\r/g, '').replace(/\n/g, '').length > 0 ?
-                this.props.style.theme.accentColor.backgroundColor :
+                this.props.style.theme.accentOther.backgroundColor :
                 this.props.style.theme.secondaryTextColor.color
             }
           />

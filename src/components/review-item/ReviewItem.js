@@ -46,7 +46,7 @@ export class ReviewItem extends React.Component {
                     <Text style={[
                         Styles.header,
                         this.props.style.fontSize.h8,
-                        { color: this.props.style.theme.darkPrimaryColor.backgroundColor }]}
+                        { color: this.props.style.theme.accentColor.backgroundColor }]}
                     >
                         {this.props.header}
                     </Text>

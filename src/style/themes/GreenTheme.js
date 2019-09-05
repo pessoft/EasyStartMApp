@@ -25,6 +25,9 @@ export const GreenTheme = StyleSheet.create({
     accentColor: {
         backgroundColor: '#4CAF50'
     },
+    accentOther: {
+        backgroundColor: '#4CAF50'
+    },
     primaryTextColor: {
         color: '#212121'
     },

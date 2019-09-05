@@ -25,6 +25,9 @@ export const BlueTheme = StyleSheet.create({
     accentColor: {
         backgroundColor: '#448AFF'
     },
+    accentOther: {
+        backgroundColor: '#448AFF'
+    },
     primaryTextColor: {
         color: '#212121'
     },
