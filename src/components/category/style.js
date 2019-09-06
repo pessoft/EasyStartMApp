@@ -18,7 +18,7 @@ export default StyleSheet.create({
     width: 88,
     height: 88,
     borderRadius: 5,
-    marginHorizontal: 24
+    marginHorizontal: 18
   },
   captionContainer: {
     flex: 1,

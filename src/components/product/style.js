@@ -20,7 +20,7 @@ export default StyleSheet.create({
     width: 80,
     height: 80,
     borderRadius: 5,
-    marginHorizontal: 24
+    marginHorizontal: 18
 
   },
   imageContainer: {
@@ -34,7 +34,8 @@ export default StyleSheet.create({
     justifyContent: 'center',
     borderBottomWidth: 1,
     minHeight: 102,
-    paddingVertical: 5
+    paddingVertical: 5,
+    paddingRight: 5
   },
   blockShopAction: {
     alignItems: 'center',
@@ -46,6 +47,6 @@ export default StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-end',
     alignItems: 'flex-end',
-    marginRight: 10
+    marginRight: 5
   }
 })
