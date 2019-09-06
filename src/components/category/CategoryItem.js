@@ -3,6 +3,7 @@ import {
     TouchableHighlight,
     Image,
     Text,
+    View,
     Animated
 } from 'react-native'
 import Styles from './style'
@@ -47,12 +48,16 @@ export class CategoryItem extends React.PureComponent {
                         source={this.props.imageSource}
                         style={[Styles.catalogImage]}
                     />
-                    <Text style={[
-                        this.props.style.fontSize.h6,
-                        Styles.captionCatalog,
-                        this.props.style.theme.primaryTextColor]}>
-                        {this.props.caption}
-                    </Text>
+                    <View style={[
+                        Styles.captionContainer,
+                        this.props.style.theme.dividerColor,]}>
+                        <Text style={[
+                            this.props.style.fontSize.h6,
+                            Styles.captionCatalog,
+                            this.props.style.theme.primaryTextColor]}>
+                            {this.props.caption}
+                        </Text>
+                    </View>
                 </Animated.View>
             </TouchableHighlight >
         )
