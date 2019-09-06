@@ -3,6 +3,7 @@ import {
   SET_USER_NAME,
   SET_USER_PHONE_NUMBER,
   SET_CITY_ID, SET_BRANCH_ID,
+  DROP_FETCH_FLAG,
   FETCH_CHECK_ACTUAL_USER_INFO_REQUEST,
   FETCH_CHECK_ACTUAL_USER_INFO_SUCCESS,
   FETCH_CHECK_ACTUAL_USER_INFO_FAILURE,
@@ -26,6 +27,12 @@ const defaultState = {
 export const userReducer = (state = defaultState, action) => {
 
   switch (action.type) {
+    case DROP_FETCH_FLAG:
+      return {
+        ...state,
+        isFetching: false,
+        isFetchError: false
+      }
     case SET_USER_NAME:
       return {
         ...state,
