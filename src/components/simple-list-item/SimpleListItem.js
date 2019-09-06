@@ -21,7 +21,7 @@ export class SimpleListItem extends React.Component {
   componentDidUpdate(prevProps) {
     if (this.props.selected != prevProps.selected) {
       let toValue = this.props.selected ? this.props.style.fontSize.h6.fontSize : this.props.style.fontSize.h9.fontSize
-      timingAnimation(this.state.fontSizeCity, toValue, 160, true)
+      timingAnimation(this.state.fontSizeCity, toValue, 160, false)
     }
   }
 
