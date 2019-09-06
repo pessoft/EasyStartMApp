@@ -158,8 +158,8 @@ class ProductReviewScreen extends React.Component {
                         {opacity: this.state.showScaleAnimationEmpty},
                         { transform: [{ scale: this.state.showScaleAnimationEmpty }] }]} >
                         <CommentSmile
-                            width={100}
-                            height={100}
+                            width={90}
+                            height={90}
                             color={this.props.style.theme.secondaryTextColor.color}
                         />
                         <Text style={[this.props.style.fontSize.h7, this.props.style.theme.secondaryTextColor]}>Будь первым!</Text>

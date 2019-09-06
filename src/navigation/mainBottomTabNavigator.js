@@ -60,15 +60,15 @@ export const mainBottomTab = createBottomTabNavigator(
                 }
             }
         },
-        OrganizationReviewsTab: {
-            screen: organizationReviewsStackNavigator,
-            navigationOptions: {
-                tabBarLabel: 'Отзывы',
-                tabBarIcon: ({ focused, horizontal, tintColor }) => {
-                    return <IcoReviews width={20} height={20} color={tintColor} />
-                }
-            }
-        },
+        // OrganizationReviewsTab: {
+        //     screen: organizationReviewsStackNavigator,
+        //     navigationOptions: {
+        //         tabBarLabel: 'Отзывы',
+        //         tabBarIcon: ({ focused, horizontal, tintColor }) => {
+        //             return <IcoReviews width={20} height={20} color={tintColor} />
+        //         }
+        //     }
+        // },
         ProfileTab: {
             screen: profileStackNavigator,
             navigationOptions: {
@@ -83,7 +83,15 @@ export const mainBottomTab = createBottomTabNavigator(
         tabBarOptions: {
             style: {
                 backgroundColor: style.theme.navigationBottom.backgroundColor,
-                borderTopColor: style.theme.dividerColor.borderColor
+                borderTopColor: style.theme.dividerColor.borderColor,
+                borderTopWidth: 0,
+                paddingTop: 5,
+                height: 54,
+                alignItems: 'center',
+            },
+            labelStyle: {
+                fontSize: style.fontSize.h10.fontSize,
+                paddingBottom: 5,
             },
             activeTintColor: style.theme.primaryTextColor.color,
             inactiveTintColor: style.theme.secondaryTextColor.color,

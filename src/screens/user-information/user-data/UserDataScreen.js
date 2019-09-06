@@ -30,7 +30,7 @@ class UserDataScreen extends React.Component {
   }
 
   componentDidMount() {
-    timingAnimation(this.state.showScaleAnimation, 1, 400, true)
+    timingAnimation(this.state.showScaleAnimation, 1, 300, true)
   }
 
   onPhoneChange = phone => {

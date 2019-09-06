@@ -30,7 +30,7 @@ class StocksScreen extends React.Component {
   }
 
   componentDidMount = () => {
-    timingAnimation(this.state.showScaleAnimation, 1, 400, true)
+    timingAnimation(this.state.showScaleAnimation, 1, 300, true)
   }
 
   componentDidUpdate = () => {
@@ -65,8 +65,8 @@ class StocksScreen extends React.Component {
         { opacity: this.state.showScaleAnimation },
         { transform: [{ scale: this.state.showScaleAnimation }] }]} >
         <SmileWink
-          width={100}
-          height={100}
+          width={90}
+          height={90}
           color={this.props.style.theme.secondaryTextColor.color}
         />
         <View style={Styles.textInfo}>
