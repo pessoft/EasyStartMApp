@@ -7,7 +7,7 @@ import {
 import { CategoryItem } from '../../components/category/CategoryItem';
 import { setSelectedCatagory, setSelectedProduct } from '../../store/catalog/actions'
 import { PRODUCTS } from '../../navigation/pointsNavigate';
-import {timingAnimation} from '../../animation/timingAnimation'
+import { timingAnimation } from '../../animation/timingAnimation'
 
 class CategoriesScreen extends React.Component {
     static navigationOptions = {
@@ -79,7 +79,9 @@ class CategoriesScreen extends React.Component {
     render() {
         return (
             <Animated.ScrollView
-            style={{transform:[{scale: this.state.showScaleAnimation}]}}>
+                style={[
+                    { opacity: this.state.showScaleAnimation },
+                    { transform: [{ scale: this.state.showScaleAnimation }] }]}>
                 <FlatList
                     windowSize={3}
                     removeClippedSubviews={true}

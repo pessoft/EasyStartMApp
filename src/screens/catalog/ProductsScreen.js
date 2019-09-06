@@ -91,6 +91,7 @@ class ProductsScreen extends React.Component {
         return (
             <Animated.ScrollView
                 style={[
+                    { opacity: this.state.showScaleAnimation },
                     { transform: [{ scale: this.state.showScaleAnimation }] }]}>
                 <FlatList
                     windowSize={4}
