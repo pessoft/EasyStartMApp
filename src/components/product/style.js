@@ -4,40 +4,48 @@ export default StyleSheet.create({
   bodyItem: {
     alignSelf: 'stretch',
     justifyContent: 'center',
-    paddingVertical: 10,
-    paddingHorizontal: 10,
+    minHeight: 112
   },
   directionRow: {
-    flexDirection: 'row'
+    flexDirection: 'row',
+    justifyContent: 'center'
   },
   mt_5: {
-    marginTop: 5
+    marginTop: 3
   },
   textWrap: {
-    flex: 1,
     flexWrap: 'wrap'
   },
   productImage: {
-    width: 90,
-    height: 90,
-    borderRadius: 10
+    width: 80,
+    height: 80,
+    borderRadius: 5,
+    marginHorizontal: 24
+
+  },
+  imageContainer: {
+    alignSelf: 'stretch',
+    justifyContent: 'center',
+    minHeight: 112
   },
   productHeader: {
     flex: 1,
     alignSelf: 'stretch',
-    marginHorizontal: 15,
-    paddingBottom: 10,
-    borderBottomWidth: 0.8,
+    justifyContent: 'center',
+    borderBottomWidth: 1,
+    minHeight: 102,
+    paddingVertical: 5
   },
   blockShopAction: {
+    alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
-    marginTop: 10
   },
   blockShopButtons: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'flex-end',
-    alignItems: 'flex-end'
+    alignItems: 'flex-end',
+    marginRight: 10
   }
 })

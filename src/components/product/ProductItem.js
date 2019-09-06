@@ -41,28 +41,33 @@ export class ProductItem extends React.PureComponent {
                 <Animated.View style={[
                     Styles.directionRow,
                     { transform: [{ scale: this.state.showScaleAnimation }] }]}>
-                    <Image
-                        source={this.props.product.imageSource}
-                        style={Styles.productImage}
-                    />
+                    <View style={Styles.imageContainer}>
+                        <Image
+                            source={this.props.product.imageSource}
+                            style={Styles.productImage}
+                        />
+                    </View>
                     <View style={[
                         Styles.productHeader,
                         this.props.style.theme.dividerColor]}>
                         <Text style={[
                             Styles.textWrap,
-                            this.props.style.fontSize.h7,
+                            this.props.style.fontSize.h8,
                             this.props.style.theme.primaryTextColor]}>
                             {this.props.product.caption}
                         </Text>
 
-                        <Text style={[Styles.mt_5, this.props.style.theme.secondaryTextColor]}>
+                        <Text style={[
+                            Styles.mt_5,
+                            this.props.style.theme.secondaryTextColor,
+                            this.props.style.fontSize.h11]}>
                             {this.props.product.additionInfo}
                         </Text>
 
                         <View style={Styles.blockShopAction}>
                             <Text style={[
                                 Styles.textWrap,
-                                this.props.style.fontSize.h7,
+                                this.props.style.fontSize.h9,
                                 this.props.style.theme.primaryTextColor]}>
                                 {`${this.props.product.price} ${this.props.product.currencyPrefix}`}
                             </Text>
