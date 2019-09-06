@@ -1,12 +1,18 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { FullScreenLogo } from '../../components/full-screen-logo/FullScreenLogo'
-import { checkActualUserData, setIsLogin } from '../../store/user/actions'
+import { checkActualUserData, setIsLogin, dropFetchFlag } from '../../store/user/actions'
 import { getMainData } from '../../store/main/actions'
 import { getLocation } from '../../store/location/actions'
 import { USER_INFO, MAIN } from '../../navigation/pointsNavigate'
 
 class StartLogoScreen extends React.Component {
+  constructor(props) {
+    super(props)
+
+    this.props.dropFetchFlag()
+  }
+
   userLogin = () => {
     if (this.props.categories.length > 0) {
       this.props.navigation.navigate(MAIN)
@@ -37,7 +43,7 @@ class StartLogoScreen extends React.Component {
     if (this.props.isLogin) {
       this.userLogin()
     }
-    else if (!this.isFetching) {
+    else if (!this.props.isFetching) {
       this.userRegister()
     }
   }
@@ -79,7 +85,8 @@ const mapDispatchToProps = {
   checkActualUserData,
   setIsLogin,
   getMainData,
-  getLocation
+  getLocation,
+  dropFetchFlag
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(StartLogoScreen)

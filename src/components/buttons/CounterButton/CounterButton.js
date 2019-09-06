@@ -37,7 +37,9 @@ export class CounterButton extends React.Component {
     return (
       <View style={Styles.contentButton}>
         <MinusButton {...this.props} onPress={this.onMinus} />
-        <Text style={Styles.valueContainer}>{this.state.count}</Text>
+        <Text style={[
+          Styles.valueContainer,
+          { color: this.props.color }]}>{this.state.count}</Text>
         <PlusButton {...this.props} onPress={this.onPlus} />
       </View>
     )

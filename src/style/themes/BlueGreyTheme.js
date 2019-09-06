@@ -25,6 +25,9 @@ export const BlueGreyTheme = StyleSheet.create({
     accentColor: {
         backgroundColor: '#9E9E9E'
     },
+    accentOther: {
+        backgroundColor: '#9E9E9E'
+    },
     primaryTextColor: {
         color: '#212121'
     },

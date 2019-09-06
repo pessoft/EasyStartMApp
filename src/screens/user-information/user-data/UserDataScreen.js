@@ -30,7 +30,7 @@ class UserDataScreen extends React.Component {
   }
 
   componentDidMount() {
-    timingAnimation(this.state.showScaleAnimation, 1, 400, true)
+    timingAnimation(this.state.showScaleAnimation, 1, 300, true)
   }
 
   onPhoneChange = phone => {
@@ -62,6 +62,7 @@ class UserDataScreen extends React.Component {
           <TextInput
             placeholder='Ваше имя'
             value={this.props.userName}
+            placeholderTextColor={this.props.style.theme.secondaryTextColor.color}
             style={[
               Styles.inputText,
               Styles.inputSize,
@@ -75,8 +76,9 @@ class UserDataScreen extends React.Component {
           />
           <TextInputMask
             refInput={(input) => { this.secondTextInput = input; }}
-            keyboardType='phone-pad'
-            placeholder='+7(999)999-99-99'
+            keyboardType={'phone-pad'}
+            placeholder={'+7(999)999-99-99'}
+            placeholderTextColor={this.props.style.theme.secondaryTextColor.color}
             type={'custom'}
             options={{ mask: '+9(999)999-99-99' }}
             value={this.props.phoneNumber}

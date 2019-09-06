@@ -25,6 +25,9 @@ export const DeepOrangeTheme = StyleSheet.create({
     accentColor: {
         backgroundColor: '#FF5722'
     },
+    accentOther: {
+        backgroundColor: '#FF5722'
+    },
     primaryTextColor: {
         color: '#212121'
     },

@@ -36,7 +36,7 @@ export default StyleSheet.create({
         alignItems: 'stretch',
         flexWrap: 'wrap',
         lineHeight: 24,
-        paddingHorizontal: 5
+        paddingHorizontal: 10,
     },
     reviewsButtonWithIco: {
         flexDirection: 'row',

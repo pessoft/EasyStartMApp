@@ -3,7 +3,7 @@ import {
   Easing
 } from 'react-native'
 
-export const timingAnimation = (value, toValue, duration = 160, useNativeDriver=false) => {
+export const timingAnimation = (value, toValue, duration = 300, useNativeDriver = false) => {
   Animated.timing(value, {
     toValue: toValue,
     duration: duration,

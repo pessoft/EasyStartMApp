@@ -25,6 +25,9 @@ export const CaynTheme = StyleSheet.create({
     accentColor: {
         backgroundColor: '#00BCD4'
     },
+    accentOther: {
+        backgroundColor: '#00BCD4'
+    },
     primaryTextColor: {
         color: '#212121'
     },

@@ -25,6 +25,9 @@ export const RedTheme = StyleSheet.create({
     accentColor: {
         backgroundColor: '#FF5252'
     },
+    accentOther: {
+        backgroundColor: '#FF5252'
+    },
     primaryTextColor: {
         color: '#212121'
     },

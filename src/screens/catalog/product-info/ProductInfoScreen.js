@@ -58,6 +58,7 @@ class ProductInfoScreen extends React.Component {
     render() {
         return (
             <Animated.ScrollView style={[
+                { opacity: this.state.showScaleAnimation },
                 { transform: [{ scale: this.state.showScaleAnimation }] }]}>
                 <Image
                     source={this.getImageSource()}

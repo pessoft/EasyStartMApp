@@ -30,5 +30,8 @@ export const GlobalFontSize = StyleSheet.create({
     },
     h10: {
         fontSize: 12
+    },
+    h11: {
+        fontSize: 11
     }
 })

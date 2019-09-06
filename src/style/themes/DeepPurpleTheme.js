@@ -25,6 +25,9 @@ export const DeepPurpleTheme = StyleSheet.create({
     accentColor: {
         backgroundColor: '#7C4DFF'
     },
+    accentOther: {
+        backgroundColor: '#7C4DFF'
+    },
     primaryTextColor: {
         color: '#212121'
     },
