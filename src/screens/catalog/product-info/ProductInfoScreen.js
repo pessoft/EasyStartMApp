@@ -4,7 +4,8 @@ import {
     View,
     Text,
     Dimensions,
-    Animated
+    Animated,
+    processColor
 } from 'react-native'
 import Image from 'react-native-scalable-image'
 import { SimpleTextButton } from '../../../components/buttons/SimpleTextButton/SimpleTextButton'
@@ -28,6 +29,14 @@ class ProductInfoScreen extends React.Component {
         this.state = {
             showScaleAnimation: new Animated.Value(0)
         }
+    }
+
+    getColor = color => {
+        if(Platform.OS === 'ios') {
+            return processColor(color)
+        }
+
+        return color
     }
 
     componentDidMount() {
@@ -91,7 +100,7 @@ class ProductInfoScreen extends React.Component {
                                     width={20}
                                     height={20}
                                     style={{ marginLeft: 5 }}
-                                    color={this.props.style.theme.accentColor.backgroundColor}
+                                    color={this.getColor(this.props.style.theme.accentColor.backgroundColor)}
                                 />
                             </View>
                         </View>

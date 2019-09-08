@@ -3,7 +3,8 @@ import {
   Animated,
   FlatList,
   Text,
-  View
+  View,
+  processColor
 } from 'react-native'
 import { connect } from 'react-redux'
 import { timingAnimation } from '../../../animation/timingAnimation'
@@ -28,6 +29,14 @@ class StocksScreen extends React.Component {
       showScaleAnimation: new Animated.Value(0)
     }
   }
+
+  getColor = color => {
+    if(Platform.OS === 'ios') {
+        return processColor(color)
+    }
+
+    return color
+}
 
   componentDidMount = () => {
     timingAnimation(this.state.showScaleAnimation, 1, 300, true)
@@ -67,7 +76,7 @@ class StocksScreen extends React.Component {
         <SmileWink
           width={90}
           height={90}
-          color={this.props.style.theme.secondaryTextColor.color}
+          color={this.getColor(this.props.style.theme.secondaryTextColor.color)}
         />
         <View style={Styles.textInfo}>
           <Text style={[this.props.style.fontSize.h7, this.props.style.theme.secondaryTextColor]}>Скоро появятся</Text>

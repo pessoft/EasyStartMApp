@@ -4,6 +4,7 @@ import {
     Text,
     Image,
     Animated,
+    processColor
 } from 'react-native'
 import Styles from './style'
 import UserPhotoDefaultIco from '../../images/font-awesome-svg/user-circle.svg'
@@ -19,6 +20,14 @@ export class ReviewItem extends React.Component {
         }
     }
 
+    getColor = color => {
+        if(Platform.OS === 'ios') {
+            return processColor(color)
+        }
+
+        return color
+    }
+
     componentDidMount() {
         if (this.props.animation &&
             this.props.animation.useAnimation)
@@ -31,7 +40,7 @@ export class ReviewItem extends React.Component {
         if (this.props.sourceUserPhoto)
             return <Image style={Styles.userPhoto} source={this.props.sourceUserPhoto} />
         else
-            return <UserPhotoDefaultIco style={Styles.userPhoto} color={'#bbbcbc'} />
+            return <UserPhotoDefaultIco style={Styles.userPhoto} color={this.getColor('#bbbcbc')} />
     }
 
     render() {
@@ -54,7 +63,7 @@ export class ReviewItem extends React.Component {
                         <ClockIco
                             width={10}
                             height={10}
-                            color={this.props.style.theme.secondaryTextColor.color}
+                            color={processColor(this.props.style.theme.secondaryTextColor.color)}
                         />
                         <Text style={[
                             Styles.reviewDate,

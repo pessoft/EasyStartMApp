@@ -7,7 +7,8 @@ import {
     ActivityIndicator,
     TouchableWithoutFeedback,
     Keyboard,
-    Animated
+    Animated,
+    processColor
 } from 'react-native'
 import { ReviewItem } from '../../../components/review-item/ReviewItem'
 import Styles from './style'
@@ -30,6 +31,14 @@ class ProductReviewScreen extends React.Component {
             showScaleAnimation: new Animated.Value(0),
             showScaleAnimationEmpty: new Animated.Value(0),
         }
+    }
+
+    getColor = color => {
+        if(Platform.OS === 'ios') {
+            return processColor(color)
+        }
+
+        return color
     }
 
     renderItem = ({ item }) => {
@@ -160,7 +169,7 @@ class ProductReviewScreen extends React.Component {
                         <CommentSmile
                             width={90}
                             height={90}
-                            color={this.props.style.theme.secondaryTextColor.color}
+                            color={this.getColor(this.props.style.theme.secondaryTextColor.color)}
                         />
                         <Text style={[this.props.style.fontSize.h7, this.props.style.theme.secondaryTextColor]}>Будь первым!</Text>
                         <Text style={[this.props.style.fontSize.h7, this.props.style.theme.secondaryTextColor]}>Оставь свой отзыв!</Text>

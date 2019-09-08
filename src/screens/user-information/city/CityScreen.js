@@ -7,7 +7,8 @@ import {
   Button,
   ActivityIndicator,
   Animated,
-  Dimensions
+  Dimensions,
+  processColor
 } from 'react-native'
 import { setCityId, setBranchId, addOrUpdateUser, setIsLogin } from '../../../store/user/actions'
 import { getMainData } from '../../../store/main/actions'
@@ -32,6 +33,14 @@ class CityScreen extends React.Component {
       showScaleAnimation: new Animated.Value(0)
     }
   }
+
+  getColor = color => {
+    if(Platform.OS === 'ios') {
+        return processColor(color)
+    }
+
+    return color
+}
 
   componentDidMount() {
     timingAnimation(this.state.showScaleAnimation, 1, 300, true)
@@ -84,7 +93,7 @@ class CityScreen extends React.Component {
             <CityIco
               width={130}
               height={130}
-              color={this.props.style.theme.secondaryTextColor.color} />
+              color={this.getColor(this.props.style.theme.secondaryTextColor.color)} />
           </View>
           <ScrollView>
             <FlatList
