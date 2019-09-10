@@ -5,7 +5,7 @@ import {
     Animated
 } from 'react-native'
 import { CategoryItem } from '../../components/category/CategoryItem';
-import { setSelectedCatagory, setSelectedProduct } from '../../store/catalog/actions'
+import { setSelectedCategory, setSelectedProduct } from '../../store/catalog/actions'
 import { PRODUCTS } from '../../navigation/pointsNavigate';
 import { timingAnimation } from '../../animation/timingAnimation'
 
@@ -17,7 +17,7 @@ class CategoriesScreen extends React.Component {
     constructor(props) {
         super(props)
         this.props.setSelectedProduct({})
-        this.props.setSelectedCatagory({})
+        this.props.setSelectedCategory({})
 
         this.state = {
             showScaleAnimation: new Animated.Value(0)
@@ -36,8 +36,8 @@ class CategoriesScreen extends React.Component {
     }
 
     onSelectedCategory = categoryId => {
-        this.props.setSelectedCatagory({})
-        this.props.setSelectedCatagory(this.getCategoryById(categoryId))
+        this.props.setSelectedCategory({})
+        this.props.setSelectedCategory(this.getCategoryById(categoryId))
     }
 
     getCategoryById = id => {
@@ -83,9 +83,9 @@ class CategoriesScreen extends React.Component {
                     { opacity: this.state.showScaleAnimation },
                     { transform: [{ scale: this.state.showScaleAnimation }] }]}>
                 <FlatList
-                    windowSize={3}
+                    windowSize={4}
                     removeClippedSubviews={true}
-                    initialNumToRender={3}
+                    initialNumToRender={4}
                     data={this.categoriesTransform()}
                     renderItem={this.renderItem}
                 />
@@ -104,7 +104,7 @@ const mapStateToProps = state => {
 }
 
 const mapActionToProps = {
-    setSelectedCatagory,
+    setSelectedCategory,
     setSelectedProduct
 }
 

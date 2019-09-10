@@ -9,7 +9,7 @@ export class ShoppingButton extends React.Component {
     super(props)
 
     this.state = {
-      count: 0
+      count: props.startCount || 0
     }
   }
 
@@ -18,10 +18,13 @@ export class ShoppingButton extends React.Component {
   }
 
   onChangeCount = count => {
-    this.setState({ count: count })
-
-    if (this.props.onPress)
-      this.props.onPress(this.state.count)
+    this.setState({
+      count: count
+    },
+      () => {
+        if (this.props.onPress)
+          this.props.onPress(this.state.count)
+      })
   }
 
   renderButton = () => {

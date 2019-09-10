@@ -12,7 +12,7 @@ export default StyleSheet.create({
     productInfoContainer: {
         flexDirection: 'row',
         alignItems: 'center',
-        height: 100,
+        height: 90,
         paddingHorizontal: 5,
         marginHorizontal: 5,
         paddingBottom: 10,
@@ -24,13 +24,13 @@ export default StyleSheet.create({
         flex: 1.5,
         alignItems: 'flex-start',
         justifyContent: 'space-between',
-        height: 90,
+        height: 80,
     },
     rightBlock: {
         flex: 1,
         alignItems: 'flex-end',
         justifyContent: 'flex-start',
-        height: 90
+        height: 80
     },
     description: {
         alignItems: 'stretch',

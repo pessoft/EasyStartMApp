@@ -1,5 +1,6 @@
 import React from 'react'
 import {
+    ScrollView,
     TouchableHighlight,
     Image,
     Text,
@@ -9,10 +10,12 @@ import {
 import Styles from './style'
 import { ShoppingButton } from '../buttons/ShoppingButton/ShoppingButton';
 import { timingAnimation } from '../../animation/timingAnimation'
+import { TrashButton } from '../buttons/Square/TrashButton'
 
-export class ProductItem extends React.Component {
+export class BasketProductItem extends React.Component {
     constructor(props) {
         super(props)
+
         this.state = {
             showScaleAnimation: new Animated.Value(0)
         }
@@ -23,7 +26,7 @@ export class ProductItem extends React.Component {
             this.props.animation.useAnimation)
             timingAnimation(this.state.showScaleAnimation, 1, this.props.animation.duration, true)
         else
-            this.setState({ showScaleAnimation: 1 })
+            this.setState({ showScaleAnimation: new Animated.Value(1) })
     }
 
     onPress = () => {
@@ -32,13 +35,27 @@ export class ProductItem extends React.Component {
     }
 
     onToggleProduct = countProduct => {
-        const basketProduct = {
-            id: this.props.id,
-            count: countProduct
-        }
-
-        if (this.props.onToggleProduct) {
+        if (countProduct == 0) {
+            this.onPressTrash()
+        } else if (this.props.onToggleProduct) {
+            const basketProduct = {
+                id: this.props.id,
+                count: countProduct
+            }
             this.props.onToggleProduct(basketProduct)
+        }
+    }
+
+    onPressTrash = () => {
+        if (this.props.onToggleProduct) {
+            const basketProduct = {
+                id: this.props.id,
+                count: 0
+            }
+            const duration = this.props.animation && this.props.animation.useAnimation ? this.props.animation.duration : 150
+            const callbackFinishAnimation = () => this.props.onToggleProduct(basketProduct)
+
+            timingAnimation(this.state.showScaleAnimation, 0, duration, true, callbackFinishAnimation)
         }
     }
 
@@ -50,6 +67,7 @@ export class ProductItem extends React.Component {
                 onPress={this.onPress}>
                 <Animated.View style={[
                     Styles.directionRow,
+                    { opacity: this.state.showScaleAnimation },
                     { transform: [{ scale: this.state.showScaleAnimation }] }]}>
                     <View style={Styles.imageContainer}>
                         <Image
@@ -70,17 +88,18 @@ export class ProductItem extends React.Component {
                         <Text style={[
                             Styles.mt_5,
                             this.props.style.theme.secondaryTextColor,
-                            this.props.style.fontSize.h11]}>
-                            {this.props.product.additionInfo}
+                            this.props.style.fontSize.h10]}>
+                            {`${this.props.product.price} ${this.props.product.currencyPrefix}`}
                         </Text>
 
                         <View style={Styles.blockShopAction}>
-                            <Text style={[
-                                Styles.textWrap,
-                                this.props.style.fontSize.h9,
-                                this.props.style.theme.primaryTextColor]}>
-                                {`${this.props.product.price} ${this.props.product.currencyPrefix}`}
-                            </Text>
+                            <TrashButton
+                                size={20}
+                                underlayColor={this.props.style.theme.themeBody.backgroundColor}
+                                color={this.props.style.theme.textPrimaryColor.color}
+                                borderColor={this.props.style.theme.dividerColor.borderColor}
+                                backgroundColor={this.props.style.theme.secondaryTextColor.color}
+                                onPress={this.onPressTrash} />
                             <View style={Styles.blockShopButtons}>
                                 <ShoppingButton
                                     startCount={this.props.product.startCount}
@@ -94,7 +113,7 @@ export class ProductItem extends React.Component {
                         </View>
                     </View>
                 </Animated.View>
-            </TouchableHighlight >
+            </TouchableHighlight>
         )
     }
 }

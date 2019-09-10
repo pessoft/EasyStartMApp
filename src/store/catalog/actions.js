@@ -1,7 +1,7 @@
-export const SET_SELECTED_CATEGORY = 'SET_SELECTED_CATEGORY' 
-export const SET_SELECTED_PRODUCT = 'SET_SELECTED_PRODUCT' 
+export const SET_SELECTED_CATEGORY = 'SET_SELECTED_CATEGORY'
+export const SET_SELECTED_PRODUCT = 'SET_SELECTED_PRODUCT'
 
-export const setSelectedCatagory = selectedCategory => {
+export const setSelectedCategory = selectedCategory => {
     return {
         type: SET_SELECTED_CATEGORY,
         payload: selectedCategory

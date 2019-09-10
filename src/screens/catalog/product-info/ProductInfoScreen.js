@@ -10,10 +10,11 @@ import {
 import Image from 'react-native-scalable-image'
 import { SimpleTextButton } from '../../../components/buttons/SimpleTextButton/SimpleTextButton'
 import { Rating } from 'react-native-ratings';
-import { PRODUCT_REVIEW } from '../../../navigation/pointsNavigate'
+import { PRODUCT_REVIEW, PRODUCT_REVIEW_FROM_BASKET } from '../../../navigation/pointsNavigate'
 import Styles from './style'
 import CommentLinesIco from '../../../images/font-awesome-svg/comment-lines.svg'
 import { timingAnimation } from '../../../animation/timingAnimation'
+import { setSelectedProduct } from '../../../store/catalog/actions'
 
 class ProductInfoScreen extends React.Component {
     static navigationOptions = ({ navigation }) => {
@@ -24,15 +25,17 @@ class ProductInfoScreen extends React.Component {
 
     constructor(props) {
         super(props)
-        this.props.navigation.setParams({ productName: this.Product.Name })
+        this.props.navigation.setParams({ productName: props.selectedProduct.Name })
 
         this.state = {
-            showScaleAnimation: new Animated.Value(0)
+            showScaleAnimation: new Animated.Value(0),
+            selectedProduct: props.selectedProduct,
+            fromBasket: props.fromBasket
         }
     }
 
     getColor = color => {
-        if(Platform.OS === 'ios') {
+        if (Platform.OS === 'ios') {
             return processColor(color)
         }
 
@@ -43,25 +46,26 @@ class ProductInfoScreen extends React.Component {
         timingAnimation(this.state.showScaleAnimation, 1, 300, true)
     }
 
-    get Product() {
-        return this.props.selectedProduct
-    }
-
     getRatingText() {
-        const ratingValue = parseFloat(this.Product.Rating.toFixed(1))
-        return `Оценка: ${ratingValue} (голосов: ${this.Product.VotesCount})`
+        const ratingValue = parseFloat(this.state.selectedProduct.Rating.toFixed(1))
+        return `Оценка: ${ratingValue} (голосов: ${this.state.selectedProduct.VotesCount})`
     }
 
     getPriceProduct() {
-        return `${this.Product.Price} ${this.props.currencyPrefix}`
+        return `${this.state.selectedProduct.Price} ${this.props.currencyPrefix}`
     }
 
     getImageSource() {
-        return { uri: `${this.props.serverDomain}${this.Product.Image}` }
+        return { uri: `${this.props.serverDomain}${this.state.selectedProduct.Image}` }
     }
 
     onPressReviews = () => {
-        this.props.navigation.navigate(PRODUCT_REVIEW)
+        if (this.state.selectedProduct != this.props.selectedProduct) {
+            this.props.setSelectedProduct(this.state.selectedProduct)
+        }
+
+        const nextScreen = this.state.fromBasket ? PRODUCT_REVIEW_FROM_BASKET : PRODUCT_REVIEW
+        this.props.navigation.navigate(nextScreen)
     }
 
     render() {
@@ -83,7 +87,7 @@ class ProductInfoScreen extends React.Component {
                                 tintColor={this.props.style.theme.themeBody.backgroundColor}
                                 imageSize={26}
                                 fractions={1}
-                                startingValue={this.Product.Rating}
+                                startingValue={this.state.selectedProduct.Rating}
                             />
                             <Text style={[
                                 this.props.style.fontSize.h9,
@@ -113,7 +117,7 @@ class ProductInfoScreen extends React.Component {
                             <Text style={[
                                 this.props.style.fontSize.h8,
                                 this.props.style.theme.secondaryTextColor]}>
-                                {this.Product.AdditionInfo}
+                                {this.state.selectedProduct.AdditionInfo}
                             </Text>
                         </View>
                     </View>
@@ -121,7 +125,7 @@ class ProductInfoScreen extends React.Component {
                         Styles.description,
                         this.props.style.fontSize.h8,
                         this.props.style.theme.secondaryTextColor]}>
-                        {this.Product.Description}
+                        {this.state.selectedProduct.Description}
                     </Text>
                 </View>
             </Animated.ScrollView>
@@ -134,8 +138,9 @@ const mapStateToProps = state => {
         serverDomain: state.appSetting.serverDomain,
         currencyPrefix: state.appSetting.currencyPrefix,
         selectedProduct: state.catalog.selectedProduct,
+        fromBasket: state.navigationHelper.fromBasket,
         style: state.style
     }
 }
 
-export default connect(mapStateToProps)(ProductInfoScreen)
+export default connect(mapStateToProps, { setSelectedProduct })(ProductInfoScreen)

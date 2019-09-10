@@ -7,6 +7,8 @@ import { catalogReducer } from './catalog/reducer';
 import { productReviewReducer } from './product-reviews/reducer';
 import { styleReducer } from './style/reducer'
 import { stockReducer } from '../store/stock/reducer'
+import { checkoutReducer } from '../store/checkout/reducer'
+import { navigationHelperReducer } from '../store/navigation/reducer'
 
 export default combineReducers({
   appSetting: appSettingReducer,
@@ -16,5 +18,7 @@ export default combineReducers({
   catalog: catalogReducer,
   productReviews: productReviewReducer,
   style: styleReducer,
-  stock: stockReducer
+  stock: stockReducer,
+  checkout: checkoutReducer,
+  navigationHelper: navigationHelperReducer
 })

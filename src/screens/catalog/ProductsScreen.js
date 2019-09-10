@@ -8,15 +8,13 @@ import { ProductItem } from '../../components/product/ProductItem';
 import { setSelectedProduct } from '../../store/catalog/actions'
 import { PRODUCT_INFO } from '../../navigation/pointsNavigate'
 import { timingAnimation } from '../../animation/timingAnimation'
+import { toggleProductInBasket } from '../../store/checkout/actions'
+import { markFromBasket } from '../../store/navigation/actions'
 
 class ProductsScreen extends React.Component {
     static navigationOptions = ({ navigation }) => {
         return {
             headerTitle: navigation.getParam('categoryName', 'Блюда'),
-            headerTitleStyle: {
-                textAlign: "center",
-                flex: 1
-            }
         }
     }
 
@@ -26,19 +24,28 @@ class ProductsScreen extends React.Component {
         this.props.setSelectedProduct({})
 
         this.state = {
-            showScaleAnimation: new Animated.Value(0)
+            showScaleAnimation: new Animated.Value(0),
+            count: 0
         }
     }
 
     componentDidMount = () => {
         timingAnimation(this.state.showScaleAnimation, 1, 300, true)
+        this.focusListener = this.props.navigation.addListener('didFocus', () => {
+            this.props.setSelectedProduct({})
+        });
     }
 
     componentDidUpdate = () => {
         if (Object.keys(this.props.selectedProduct).length > 0
-            && this.props.selectedProduct.Id > 0) {
+            && this.props.selectedProduct.Id > 0
+            && this.props.navigation.isFocused()) {
             this.props.navigation.navigate(PRODUCT_INFO)
         }
+    }
+
+    componentWillUnmount() {
+        this.focusListener.remove();
     }
 
     getProductById = (products, targetId) => {
@@ -50,6 +57,7 @@ class ProductsScreen extends React.Component {
         const products = this.props.products[categoryId]
         const product = this.getProductById(products, productId)
 
+        this.props.markFromBasket(false)
         this.props.setSelectedProduct({})
         this.props.setSelectedProduct(product)
     }
@@ -63,27 +71,46 @@ class ProductsScreen extends React.Component {
         const products = this.props.products[this.props.selectedCategory.Id]
 
         for (let item of products) {
+            let countProduct = 0
+            if (this.props.basketProducts[item.Id]) {
+                countProduct = this.props.basketProducts[item.Id].count
+            }
+
             productsForRender[item.OrderNumber - 1] = {
-                key: `${item.Id}`,
+                key: `${item.Id}-${countProduct}`,
+                id: item.Id,
                 product: {
                     caption: item.Name,
                     imageSource: this.getImageSource(item.Image),
                     additionInfo: item.AdditionInfo,
                     price: item.Price,
-                    currencyPrefix: this.props.currencyPrefix
+                    currencyPrefix: this.props.currencyPrefix,
+                    startCount: countProduct
                 }
             }
         }
+
         return productsForRender
+    }
+
+    toggleProductInBasket = basketProduct => {
+        const basketProductModify = {}
+        basketProductModify[basketProduct.id] = {
+            categoryId: this.props.selectedCategory.Id,
+            count: basketProduct.count
+        }
+
+        this.props.toggleProductInBasket(basketProductModify)
     }
 
     renderItem = ({ item }) => {
         return <ProductItem
             style={this.props.style}
             animation={item.animation}
-            id={item.key}
+            id={item.id}
             product={item.product}
             onPress={this.onSelectedProduct}
+            onToggleProduct={this.toggleProductInBasket}
         />
     }
 
@@ -99,8 +126,8 @@ class ProductsScreen extends React.Component {
                     removeClippedSubviews={true}
                     initialNumToRender={4}
                     maxToRenderPerBatch={1}
-                    data={this.productsTransform()}
                     renderItem={this.renderItem}
+                    data={this.productsTransform()}
                 />
             </Animated.ScrollView>
         )
@@ -114,8 +141,15 @@ const mapStateToProps = state => {
         products: state.main.products,
         selectedCategory: state.catalog.selectedCategory,
         selectedProduct: state.catalog.selectedProduct,
+        basketProducts: state.checkout.basketProducts,
         style: state.style
     }
 }
 
-export default connect(mapStateToProps, { setSelectedProduct })(ProductsScreen)
+const mapActionToProps = {
+    setSelectedProduct,
+    toggleProductInBasket,
+    markFromBasket
+}
+
+export default connect(mapStateToProps, mapActionToProps)(ProductsScreen)
