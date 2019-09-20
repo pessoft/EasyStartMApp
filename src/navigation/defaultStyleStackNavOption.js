@@ -16,6 +16,10 @@ export const defaultStyleNavigationStackOptions = {
       borderBottomWidth: 0,
     },
     headerTintColor: style.theme.textPrimaryColor.color,
+    headerBackTitle: 'Назад',
+    headerBackTitleStyle: {
+      fontSize: style.fontSize.h9.fontSize
+    }
   },
   cardStyle: {
     backgroundColor: style.theme.themeBody.backgroundColor,
