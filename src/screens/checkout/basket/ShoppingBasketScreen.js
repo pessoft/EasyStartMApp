@@ -29,6 +29,7 @@ class ShoppingBasketScreen extends React.Component {
     this.state = {
       showScaleAnimation: new Animated.Value(0),
       showScaleAnimationEmptyBasket: new Animated.Value(0),
+      refreshItems: false
     }
 
     this.props.setSelectedProduct({})
@@ -42,6 +43,7 @@ class ShoppingBasketScreen extends React.Component {
 
     this.focusListener = this.props.navigation.addListener('didFocus', () => {
       this.props.setSelectedProduct({})
+      this.setState({refreshItems: !this.state.refreshItems})
     });
   }
 
@@ -102,7 +104,7 @@ class ShoppingBasketScreen extends React.Component {
       }
 
       productsForRender.push({
-        key: `${item.Id}-${countProduct}`,
+        key: `${item.Id}-${this.state.refreshItems}`,
         id: item.Id,
         product: {
           caption: item.Name,

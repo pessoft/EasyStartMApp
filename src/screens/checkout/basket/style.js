@@ -13,7 +13,7 @@ export default StyleSheet.create({
     marginTop: 10,
   },
   buttonSize: {
-    width: 210
+    width: 230,
   },
   centerScreen: {
     flex: 1,

@@ -25,7 +25,7 @@ class ProductsScreen extends React.Component {
 
         this.state = {
             showScaleAnimation: new Animated.Value(0),
-            count: 0
+            refreshItems: false
         }
     }
 
@@ -33,6 +33,7 @@ class ProductsScreen extends React.Component {
         timingAnimation(this.state.showScaleAnimation, 1, 300, true)
         this.focusListener = this.props.navigation.addListener('didFocus', () => {
             this.props.setSelectedProduct({})
+            this.setState({refreshItems: !this.state.refreshItems})
         });
     }
 
@@ -77,7 +78,7 @@ class ProductsScreen extends React.Component {
             }
 
             productsForRender[item.OrderNumber - 1] = {
-                key: `${item.Id}-${countProduct}`,
+                key: `${item.Id}-${this.state.refreshItems}`,
                 id: item.Id,
                 product: {
                     caption: item.Name,
