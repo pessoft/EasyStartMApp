@@ -6,7 +6,8 @@ import {
   Button,
   View,
   Text,
-  Animated
+  Animated,
+  Platform
 } from 'react-native'
 import { BasketProductItem } from '../../../components/basket-product/BasketProductItem';
 import { setSelectedProduct } from '../../../store/catalog/actions'
@@ -203,12 +204,10 @@ class ShoppingBasketScreen extends React.Component {
             flex: 1
           },
           { transform: [{ scale: this.state.showScaleAnimation }] }]}>
-        <ScrollView
-          Style={Styles.basketProducts}
-        >
+        <ScrollView Style={Styles.basketProducts}>
           <FlatList
             windowSize={4}
-            removeClippedSubviews={true}
+            removeClippedSubviews={Platform.OS !== 'ios'}
             initialNumToRender={4}
             maxToRenderPerBatch={1}
             data={this.productsTransform()}
