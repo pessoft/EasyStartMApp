@@ -87,6 +87,7 @@ export class ProductItem extends React.Component {
                                     size={20}
                                     underlayColor={this.props.style.theme.lightPrimaryColor.backgroundColor}
                                     color={this.props.style.theme.textPrimaryColor.color}
+                                    tintColor={this.props.style.theme.primaryTextColor.color}
                                     borderColor={this.props.style.theme.dividerColor.borderColor}
                                     backgroundColor={this.props.style.theme.accentColor.backgroundColor}
                                     onPress={this.onToggleProduct} />

@@ -19,11 +19,13 @@ import IcoReviews from '../images/font-awesome-svg/comment-lines.svg'
 import IcoUserCog from '../images/font-awesome-svg/user-cog.svg'
 import { processColor } from 'react-native'
 
+import BasketIcoWithBadge from '../components/badges/basket-badge/BasketIcoWithBadge'
+
 const state = store.getState()
 const style = state.style
 
 const getColor = color => {
-    if(Platform.OS === 'ios') {
+    if (Platform.OS === 'ios') {
         return processColor(color)
     }
 
@@ -55,7 +57,13 @@ export const mainBottomTab = createBottomTabNavigator(
             navigationOptions: {
                 tabBarLabel: 'Корзина',
                 tabBarIcon: ({ focused, horizontal, tintColor }) => {
-                    return <IcoShoppingBasket width={20} height={20} color={getColor(tintColor)} />
+                    // return <IcoShoppingBasket width={20} height={20} color={getColor(tintColor)} />
+                    return <BasketIcoWithBadge
+                        style={style}
+                        width={20}
+                        height={20}
+                        color={getColor(tintColor)}
+                        prefix={'шт'} />
                 }
             }
         },
@@ -92,7 +100,7 @@ export const mainBottomTab = createBottomTabNavigator(
             style: {
                 backgroundColor: style.theme.navigationBottom.backgroundColor,
                 borderTopColor: style.theme.dividerColor.borderColor,
-                borderTopWidth: 0.2,
+                borderTopWidth: 0.4,
                 paddingTop: 5,
                 height: 54,
                 alignItems: 'center',

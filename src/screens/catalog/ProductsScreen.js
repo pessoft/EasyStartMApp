@@ -8,7 +8,7 @@ import { ProductItem } from '../../components/product/ProductItem';
 import { setSelectedProduct } from '../../store/catalog/actions'
 import { PRODUCT_INFO } from '../../navigation/pointsNavigate'
 import { timingAnimation } from '../../animation/timingAnimation'
-import { toggleProductInBasket } from '../../store/checkout/actions'
+import { toggleProductInBasket, changeTotalCountProductInBasket } from '../../store/checkout/actions'
 import { markFromBasket } from '../../store/navigation/actions'
 
 class ProductsScreen extends React.Component {
@@ -33,7 +33,7 @@ class ProductsScreen extends React.Component {
         timingAnimation(this.state.showScaleAnimation, 1, 300, true)
         this.focusListener = this.props.navigation.addListener('didFocus', () => {
             this.props.setSelectedProduct({})
-            this.setState({refreshItems: !this.state.refreshItems})
+            this.setState({ refreshItems: !this.state.refreshItems })
         });
     }
 
@@ -43,6 +43,8 @@ class ProductsScreen extends React.Component {
             && this.props.navigation.isFocused()) {
             this.props.navigation.navigate(PRODUCT_INFO)
         }
+
+        this.changeTotalCountProductInBasket()
     }
 
     componentWillUnmount() {
@@ -94,6 +96,21 @@ class ProductsScreen extends React.Component {
         return productsForRender
     }
 
+    changeTotalCountProductInBasket = () => {
+        let count = 0
+
+        if (this.props.basketProducts && Object.keys(this.props.basketProducts).length != 0) {
+            for (let productId in this.props.basketProducts) {
+                const itemBasket = this.props.basketProducts[productId]
+                const productCount = itemBasket.count;
+
+                count += productCount;
+            }
+        }
+
+        this.props.changeTotalCountProductInBasket(count)
+    }
+
     toggleProductInBasket = basketProduct => {
         const basketProductModify = {}
         basketProductModify[basketProduct.id] = {
@@ -143,6 +160,7 @@ const mapStateToProps = state => {
         selectedCategory: state.catalog.selectedCategory,
         selectedProduct: state.catalog.selectedProduct,
         basketProducts: state.checkout.basketProducts,
+        totalCountProducts: state.checkout.totalCountProducts,
         style: state.style
     }
 }
@@ -150,7 +168,8 @@ const mapStateToProps = state => {
 const mapActionToProps = {
     setSelectedProduct,
     toggleProductInBasket,
-    markFromBasket
+    markFromBasket,
+    changeTotalCountProductInBasket
 }
 
 export default connect(mapStateToProps, mapActionToProps)(ProductsScreen)

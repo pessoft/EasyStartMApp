@@ -13,7 +13,7 @@ import { BasketProductItem } from '../../../components/basket-product/BasketProd
 import { setSelectedProduct } from '../../../store/catalog/actions'
 import { PRODUCT_INFO_FROM_BASKET, CHECKOUT_ORDER } from '../../../navigation/pointsNavigate'
 import { timingAnimation } from '../../../animation/timingAnimation'
-import { toggleProductInBasket } from '../../../store/checkout/actions'
+import { toggleProductInBasket, changeTotalCountProductInBasket } from '../../../store/checkout/actions'
 import ShoppingBasketIco from '../../../images/font-awesome-svg/shopping-basket.svg'
 import Styles from './style'
 import { getSVGColor } from '../../../helpers/color-helper';
@@ -44,7 +44,7 @@ class ShoppingBasketScreen extends React.Component {
 
     this.focusListener = this.props.navigation.addListener('didFocus', () => {
       this.props.setSelectedProduct({})
-      this.setState({refreshItems: !this.state.refreshItems})
+      this.setState({ refreshItems: !this.state.refreshItems })
     });
   }
 
@@ -63,6 +63,7 @@ class ShoppingBasketScreen extends React.Component {
       timingAnimation(this.state.showScaleAnimation, 1, 300, true)
     }
 
+    this.changeTotalCountProductInBasket()
   }
 
   onSelectedProduct = productId => {
@@ -148,6 +149,21 @@ class ShoppingBasketScreen extends React.Component {
     this.props.navigation.navigate(CHECKOUT_ORDER)
   }
 
+  changeTotalCountProductInBasket = () => {
+    let count = 0
+
+    if (this.props.basketProducts && Object.keys(this.props.basketProducts).length != 0) {
+      for (let productId in this.props.basketProducts) {
+        const itemBasket = this.props.basketProducts[productId]
+        const productCount = itemBasket.count;
+
+        count += productCount;
+      }
+    }
+
+    this.props.changeTotalCountProductInBasket(count)
+  }
+
   toggleProductInBasket = basketProduct => {
     const basketProductModify = {}
     basketProductModify[basketProduct.id] = {
@@ -221,7 +237,7 @@ class ShoppingBasketScreen extends React.Component {
           ]}>
           <Text
             style={[
-              this.props.style.theme.textPrimaryColor,
+              this.props.style.theme.primaryTextColor,
               this.props.style.fontSize.h8,
               { marginBottom: 15 }
             ]}>
@@ -254,6 +270,7 @@ const mapStateToProps = state => {
     products: state.main.products,
     selectedProduct: state.catalog.selectedProduct,
     basketProducts: state.checkout.basketProducts,
+    totalCountProducts: state.checkout.totalCountProducts,
     style: state.style
   }
 }
@@ -261,7 +278,8 @@ const mapStateToProps = state => {
 const mapActionToProps = {
   setSelectedProduct,
   toggleProductInBasket,
-  markFromBasket
+  markFromBasket,
+  changeTotalCountProductInBasket
 }
 
 export default connect(mapStateToProps, mapActionToProps)(ShoppingBasketScreen)
