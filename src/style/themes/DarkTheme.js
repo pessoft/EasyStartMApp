@@ -32,7 +32,7 @@ export const DarkTheme = StyleSheet.create({
     color: '#cccccc'
   },
   secondaryTextColor: {
-    color: '#4a4a4a'
+    color: '#9e9e9e'
   },
   dividerColor: {
     borderColor: '#202020'

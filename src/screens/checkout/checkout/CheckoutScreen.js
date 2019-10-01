@@ -11,6 +11,7 @@ import {
 } from 'react-native'
 import Styles from './style'
 import { timingAnimation } from '../../../animation/timingAnimation'
+import { Contacts } from '../../../components/checkout/contacts/Contacts'
 
 class CheckoutScreen extends React.Component {
   static navigationOptions = {
@@ -22,11 +23,24 @@ class CheckoutScreen extends React.Component {
 
     this.state = {
       showScaleAnimation: new Animated.Value(0),
+      userData: {
+        userName: props.userData.userName,
+        phoneNumber: props.userData.phoneNumber
+      }
     }
   }
 
   componentDidMount = () => {
     timingAnimation(this.state.showScaleAnimation, 1, 300, true)
+  }
+
+  setContactsData = contacts => {
+    this.setState({
+      userData: {
+        userName: contacts.userName,
+        phoneNumber: contacts.phoneNumber
+      }
+    })
   }
 
   render() {
@@ -41,10 +55,23 @@ class CheckoutScreen extends React.Component {
           }
         ]}>
         <ScrollView>
+          <Contacts
+            changeContacts={this.setContactsData}
+            style={this.props.style}
+            userName={this.props.userData.userName}
+            phoneNumber={this.props.userData.phoneNumber}
+          />
         </ScrollView>
       </Animated.View>
     )
   }
 }
 
-export default connect()(CheckoutScreen)
+const mapStateToProps = state => {
+  return {
+    style: state.style,
+    userData: state.user
+  }
+}
+
+export default connect(mapStateToProps)(CheckoutScreen)
