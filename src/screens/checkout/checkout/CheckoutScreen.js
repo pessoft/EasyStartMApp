@@ -12,6 +12,8 @@ import {
 import Styles from './style'
 import { timingAnimation } from '../../../animation/timingAnimation'
 import { Contacts } from '../../../components/checkout/contacts/Contacts'
+import { DeliveryType } from '../../../components/checkout/delivery-type/DeliveryType'
+import { TypeDelivery } from '../../../helpers/type-delivery'
 
 class CheckoutScreen extends React.Component {
   static navigationOptions = {
@@ -26,7 +28,8 @@ class CheckoutScreen extends React.Component {
       userData: {
         userName: props.userData.userName,
         phoneNumber: props.userData.phoneNumber
-      }
+      },
+      deliveryType: TypeDelivery.Delivery
     }
   }
 
@@ -42,6 +45,8 @@ class CheckoutScreen extends React.Component {
       }
     })
   }
+
+  changeDeliveryType = deliveryType => this.setState({ deliveryType })
 
   render() {
     return (
@@ -60,6 +65,11 @@ class CheckoutScreen extends React.Component {
             style={this.props.style}
             userName={this.props.userData.userName}
             phoneNumber={this.props.userData.phoneNumber}
+          />
+          <DeliveryType
+            style={this.props.style}
+            initValue={this.state.deliveryType}
+            changeDeliveryType={this.changeDeliveryType}
           />
         </ScrollView>
       </Animated.View>
