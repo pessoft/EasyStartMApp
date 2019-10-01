@@ -217,9 +217,10 @@ class ShoppingBasketScreen extends React.Component {
           {
             marginTop: 5,
             opacity: this.state.showScaleAnimation,
-            flex: 1
-          },
-          { transform: [{ scale: this.state.showScaleAnimation }] }]}>
+            flex: 1,
+            transform: [{ scale: this.state.showScaleAnimation }]
+          }
+        ]}>
         <ScrollView Style={Styles.basketProducts}>
           <FlatList
             windowSize={4}
