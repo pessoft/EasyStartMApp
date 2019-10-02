@@ -4,12 +4,12 @@ import RadioForm, {
   RadioButton,
   RadioButtonInput,
   RadioButtonLabel
-} from 'react-native-simple-radio-button';
+} from '../RadioButton/RadioButton'
 
 /**
  * initValue
  * radioProps = [
- *  {label, value}
+ *  {label: 'label', value: 0}
  * ],
  * changeRadio = function(value)
  */
