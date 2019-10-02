@@ -20,17 +20,10 @@ import IcoUserCog from '../images/font-awesome-svg/user-cog.svg'
 import { processColor } from 'react-native'
 
 import BasketIcoWithBadge from '../components/badges/basket-badge/BasketIcoWithBadge'
+import { getSVGColor } from '../helpers/color-helper';
 
 const state = store.getState()
 const style = state.style
-
-const getColor = color => {
-    if (Platform.OS === 'ios') {
-        return processColor(color)
-    }
-
-    return color
-}
 
 export const mainBottomTab = createBottomTabNavigator(
     {
@@ -39,7 +32,7 @@ export const mainBottomTab = createBottomTabNavigator(
             navigationOptions: {
                 tabBarLabel: 'Меню',
                 tabBarIcon: ({ focused, horizontal, tintColor }) => {
-                    return <IcoMenu width={20} height={20} color={getColor(tintColor)} />
+                    return <IcoMenu width={20} height={20} color={getSVGColor(tintColor)} />
                 }
             }
         },
@@ -48,7 +41,7 @@ export const mainBottomTab = createBottomTabNavigator(
             navigationOptions: {
                 tabBarLabel: 'Акции',
                 tabBarIcon: ({ focused, horizontal, tintColor }) => {
-                    return <IcoStock width={20} height={20} color={getColor(tintColor)} />
+                    return <IcoStock width={20} height={20} color={getSVGColor(tintColor)} />
                 }
             }
         },
@@ -57,12 +50,12 @@ export const mainBottomTab = createBottomTabNavigator(
             navigationOptions: {
                 tabBarLabel: 'Корзина',
                 tabBarIcon: ({ focused, horizontal, tintColor }) => {
-                    // return <IcoShoppingBasket width={20} height={20} color={getColor(tintColor)} />
+                    // return <IcoShoppingBasket width={20} height={20} color={getSVGColor(tintColor)} />
                     return <BasketIcoWithBadge
                         style={style}
                         width={20}
                         height={20}
-                        color={getColor(tintColor)}
+                        color={getSVGColor(tintColor)}
                         animation={true}
                         prefix={'шт'} />
                 }
@@ -73,7 +66,7 @@ export const mainBottomTab = createBottomTabNavigator(
             navigationOptions: {
                 tabBarLabel: 'Инфо',
                 tabBarIcon: ({ focused, horizontal, tintColor }) => {
-                    return <IcoInfo width={20} height={20} color={getColor(tintColor)} />
+                    return <IcoInfo width={20} height={20} color={getSVGColor(tintColor)} />
                 }
             }
         },
@@ -82,7 +75,7 @@ export const mainBottomTab = createBottomTabNavigator(
         //     navigationOptions: {
         //         tabBarLabel: 'Отзывы',
         //         tabBarIcon: ({ focused, horizontal, tintColor }) => {
-        //             return <IcoReviews width={20} height={20} color={getColor(tintColor)} />
+        //             return <IcoReviews width={20} height={20} color={getSVGColor(tintColor)} />
         //         }
         //     }
         // },
@@ -91,7 +84,7 @@ export const mainBottomTab = createBottomTabNavigator(
             navigationOptions: {
                 tabBarLabel: 'Профиль',
                 tabBarIcon: ({ focused, horizontal, tintColor }) => {
-                    return <IcoUserCog width={20} height={20} color={getColor(tintColor)} />
+                    return <IcoUserCog width={20} height={20} color={getSVGColor(tintColor)} />
                 }
             }
         }

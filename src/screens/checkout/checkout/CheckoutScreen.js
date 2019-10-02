@@ -13,7 +13,9 @@ import Styles from './style'
 import { timingAnimation } from '../../../animation/timingAnimation'
 import { Contacts } from '../../../components/checkout/contacts/Contacts'
 import { DeliveryType } from '../../../components/checkout/delivery-type/DeliveryType'
+import { PaymentType } from '../../../components/checkout/payment-type/PaymentType'
 import { TypeDelivery } from '../../../helpers/type-delivery'
+import { TypePayment } from '../../../helpers/type-payment'
 
 class CheckoutScreen extends React.Component {
   static navigationOptions = {
@@ -29,7 +31,8 @@ class CheckoutScreen extends React.Component {
         userName: props.userData.userName,
         phoneNumber: props.userData.phoneNumber
       },
-      deliveryType: TypeDelivery.Delivery
+      deliveryType: TypeDelivery.Delivery,
+      paymentType: TypePayment.Cash
     }
   }
 
@@ -47,6 +50,7 @@ class CheckoutScreen extends React.Component {
   }
 
   changeDeliveryType = deliveryType => this.setState({ deliveryType })
+  changePaymentType = paymentType => this.setState({ paymentType })
 
   render() {
     return (
@@ -70,6 +74,11 @@ class CheckoutScreen extends React.Component {
             style={this.props.style}
             initValue={this.state.deliveryType}
             changeDeliveryType={this.changeDeliveryType}
+          />
+          <PaymentType
+            style={this.props.style}
+            initValue={this.state.paymentType}
+            changeDeliveryType={this.changePaymentType}
           />
         </ScrollView>
       </Animated.View>

@@ -23,7 +23,7 @@ export class DeliveryType extends React.Component {
   render() {
     return (
       <View style={[
-        Styles.contacts,
+        Styles.container,
         this.props.style.theme.defaultPrimaryColor,
         this.props.style.theme.dividerColor
       ]}>
