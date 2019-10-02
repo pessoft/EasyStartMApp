@@ -63,6 +63,7 @@ export const mainBottomTab = createBottomTabNavigator(
                         width={20}
                         height={20}
                         color={getColor(tintColor)}
+                        animation={true}
                         prefix={'шт'} />
                 }
             }
