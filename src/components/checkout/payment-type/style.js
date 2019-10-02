@@ -20,6 +20,6 @@ export default StyleSheet.create({
   },
   content: {
     flex: 1,
-    paddingLeft: 42
+    paddingHorizontal: 10
   },
 })

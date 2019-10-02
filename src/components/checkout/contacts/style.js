@@ -20,6 +20,7 @@ export default StyleSheet.create({
   content: {
     flex: 1,
     alignSelf: 'center',
+    paddingHorizontal: 10
   },
   inputText: {
     textAlign: 'center',
