@@ -1,5 +1,5 @@
 import React from 'react'
-import { KeyboardAvoidingView, TextInput, View } from 'react-native'
+import { KeyboardAvoidingView, TextInput, View, InputAccessoryView, Platform } from 'react-native'
 import { SendButton } from '../../components/buttons/Square/SendButton'
 import Style from './style'
 
@@ -23,10 +23,19 @@ export class MessageInput extends React.Component {
     this.setState({ text: '' })
   }
 
-  render() {
+  renderIOS = () => {
+    return (
+      <InputAccessoryView>
+        {this.renderAndroid()}
+      </InputAccessoryView>
+    )
+  }
+
+  renderAndroid = () => {
     return (
       <KeyboardAvoidingView
         behavior={'height'}
+        enabled
         style={[
           Style.keywordAvoidReviewInput,
           this.props.style.theme.dividerColor,
@@ -63,5 +72,8 @@ export class MessageInput extends React.Component {
         </View>
       </KeyboardAvoidingView>
     )
+  }
+  render() {
+    return Platform.OS == 'ios' ? this.renderIOS() : this.renderAndroid()
   }
 }
