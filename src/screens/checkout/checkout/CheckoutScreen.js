@@ -1,14 +1,10 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import {
-  FlatList,
   ScrollView,
-  Button,
-  View,
-  Text,
   Animated,
-  Platform
 } from 'react-native'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import Style from './style'
 import { timingAnimation } from '../../../animation/timingAnimation'
 import { Contacts } from '../../../components/checkout/contacts/Contacts'
@@ -67,30 +63,38 @@ class CheckoutScreen extends React.Component {
             transform: [{ scale: this.state.showScaleAnimation }]
           }
         ]}>
-        <ScrollView>
-          <Contacts
-            changeContacts={this.setContactsData}
-            style={this.props.style}
-            userName={this.props.userData.userName}
-            phoneNumber={this.props.userData.phoneNumber}
-          />
-          <PaymentType
-            style={this.props.style}
-            initValue={this.state.paymentType}
-            changeDeliveryType={this.changePaymentType}
-          />
-          <DeliveryType
-            style={this.props.style}
-            initValue={this.state.deliveryType}
-            changeDeliveryType={this.changeDeliveryType}
-          />
-          <DeliveryAddressAnimation
-            cityId={this.state.deliveryAddress.cityId}
-            style={this.props.style}
-            changeDeliveryAddress={this.setDeliveryAddress}
-            isShow={this.state.deliveryType == TypeDelivery.Delivery}
-          />
-        </ScrollView>
+        <KeyboardAwareScrollView
+          style={{ flex: 1 }}
+          behavior='padding'
+          enabled>
+          <ScrollView
+            contentContainerStyle={{ flex: 1 }}
+            keyboardShouldPersistTaps="always">
+            <Contacts
+              changeContacts={this.setContactsData}
+              style={this.props.style}
+              userName={this.props.userData.userName}
+              phoneNumber={this.props.userData.phoneNumber}
+            />
+            <PaymentType
+              style={this.props.style}
+              initValue={this.state.paymentType}
+              changeDeliveryType={this.changePaymentType}
+            />
+            <DeliveryType
+              style={this.props.style}
+              initValue={this.state.deliveryType}
+              changeDeliveryType={this.changeDeliveryType}
+            />
+
+            <DeliveryAddressAnimation
+              cityId={this.state.deliveryAddress.cityId}
+              style={this.props.style}
+              changeDeliveryAddress={this.setDeliveryAddress}
+              isShow={this.state.deliveryType == TypeDelivery.Delivery}
+            />
+          </ScrollView>
+        </KeyboardAwareScrollView>
       </Animated.View>
     )
   }

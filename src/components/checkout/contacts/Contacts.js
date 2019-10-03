@@ -3,7 +3,6 @@ import {
   View,
   Text,
   TextInput,
-  KeyboardAvoidingView
 } from 'react-native'
 import { TextInputMask } from 'react-native-masked-text'
 import Style from './style'
@@ -44,39 +43,37 @@ export class Contacts extends React.Component {
             Контактные данные
           </Text>
         </View>
-        <KeyboardAvoidingView style={Style.content} behavior='height'>
-          <TextInput
-            placeholder='Ваше имя'
-            value={this.state.userName}
-            placeholderTextColor={this.props.style.theme.secondaryTextColor.color}
-            style={[
-              Style.inputText,
-              Style.inputSize,
-              this.props.style.fontSize.h8,
-              this.props.style.theme.textPrimaryColor,
-              this.props.style.theme.dividerColor]}
-            onChangeText={this.onUserNameChange}
-            returnKeyType={'next'}
-            onSubmitEditing={() => { this.secondTextInput.focus() }}
-            blurOnSubmit={false}
-          />
-          <TextInputMask
-            refInput={(input) => { this.secondTextInput = input; }}
-            keyboardType={'phone-pad'}
-            placeholder={'+7(999)999-99-99'}
-            placeholderTextColor={this.props.style.theme.secondaryTextColor.color}
-            type={'custom'}
-            options={{ mask: '+9(999)999-99-99' }}
-            value={this.state.phoneNumber}
-            style={[
-              Style.inputText,
-              Style.inputSize,
-              this.props.style.fontSize.h8,
-              this.props.style.theme.textPrimaryColor,
-              this.props.style.theme.dividerColor]}
-            onChangeText={this.onPhoneChange}
-          />
-        </KeyboardAvoidingView>
+        <TextInput
+          placeholder='Ваше имя'
+          value={this.state.userName}
+          placeholderTextColor={this.props.style.theme.secondaryTextColor.color}
+          style={[
+            Style.inputText,
+            Style.inputSize,
+            this.props.style.fontSize.h8,
+            this.props.style.theme.textPrimaryColor,
+            this.props.style.theme.dividerColor]}
+          onChangeText={this.onUserNameChange}
+          returnKeyType={'next'}
+          onSubmitEditing={() => { this.secondTextInput.focus() }}
+          blurOnSubmit={false}
+        />
+        <TextInputMask
+          refInput={(input) => { this.secondTextInput = input; }}
+          keyboardType={'phone-pad'}
+          placeholder={'+7(999)999-99-99'}
+          placeholderTextColor={this.props.style.theme.secondaryTextColor.color}
+          type={'custom'}
+          options={{ mask: '+9(999)999-99-99' }}
+          value={this.state.phoneNumber}
+          style={[
+            Style.inputText,
+            Style.inputSize,
+            this.props.style.fontSize.h8,
+            this.props.style.theme.textPrimaryColor,
+            this.props.style.theme.dividerColor]}
+          onChangeText={this.onPhoneChange}
+        />
       </View>
     )
   }

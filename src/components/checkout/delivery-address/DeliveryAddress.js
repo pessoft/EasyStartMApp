@@ -3,7 +3,6 @@ import {
   View,
   Text,
   TextInput,
-  KeyboardAvoidingView,
   Picker
 } from 'react-native'
 import Style from './style'
@@ -45,6 +44,7 @@ export class DeliveryAddress extends React.Component {
         this.props.style.theme.defaultPrimaryColor,
         this.props.style.theme.dividerColor
       ]}>
+        
         <View style={Style.header}>
           <Text style={[
             this.props.style.fontSize.h6,
@@ -53,7 +53,7 @@ export class DeliveryAddress extends React.Component {
             Адрес доставки
           </Text>
         </View>
-        <KeyboardAvoidingView style={Style.content} behavior='height'>
+        <View style={Style.content}>
           <TextInput
             placeholder='Улица'
             value={this.state.street}
@@ -163,7 +163,7 @@ export class DeliveryAddress extends React.Component {
             </View>
           </View>
 
-        </KeyboardAvoidingView>
+        </View>
       </View>
     )
   }
