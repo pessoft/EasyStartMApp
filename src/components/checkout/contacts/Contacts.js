@@ -53,7 +53,7 @@ export class Contacts extends React.Component {
               Style.inputText,
               Style.inputSize,
               this.props.style.fontSize.h8,
-              this.props.style.theme.primaryTextColor,
+              this.props.style.theme.textPrimaryColor,
               this.props.style.theme.dividerColor]}
             onChangeText={this.onUserNameChange}
             returnKeyType={'next'}
@@ -72,7 +72,7 @@ export class Contacts extends React.Component {
               Style.inputText,
               Style.inputSize,
               this.props.style.fontSize.h8,
-              this.props.style.theme.primaryTextColor,
+              this.props.style.theme.textPrimaryColor,
               this.props.style.theme.dividerColor]}
             onChangeText={this.onPhoneChange}
           />

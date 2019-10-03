@@ -47,11 +47,11 @@ export class RadioGroup extends React.Component {
                   isSelected={this.state.value == obj.value}
                   onPress={this.onChange}
                   borderWidth={1}
-                  buttonInnerColor={this.props.style.theme.accentColor.backgroundColor}
+                  buttonInnerColor={this.props.style.theme.defaultPrimaryColor.backgroundColor}
                   buttonOuterColor={this.props.style.theme.accentColor.backgroundColor}
-                  buttonSize={15}
+                  buttonSize={12}
                   buttonOuterSize={20}
-                  buttonStyle={{}}
+                  buttonStyle={[this.props.style.theme.themeBody]}
                 />
                 <RadioButtonLabel
                   obj={obj}

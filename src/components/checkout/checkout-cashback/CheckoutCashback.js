@@ -120,7 +120,7 @@ export class CheckoutCashback extends React.Component {
               Style.inputText,
               Style.inputSize,
               this.props.style.fontSize.h8,
-              this.props.style.theme.primaryTextColor,
+              this.props.style.theme.textPrimaryColor,
               this.props.style.theme.dividerColor]}
             onChangeText={this.onChangeCashBack}
           />
@@ -153,7 +153,7 @@ export class CheckoutCashback extends React.Component {
             }}
             thumbColor={[
               (this.state.needCashBack ?
-                this.props.style.theme.textPrimaryColor.color :
+                this.props.style.theme.darkPrimaryColor.backgroundColor :
                 this.props.style.theme.secondaryTextColor.color)]}
             ios_backgroundColor={this.props.style.theme.themeBody.backgroundColor}
             style={[this.props.style.theme.dividerColor]}
