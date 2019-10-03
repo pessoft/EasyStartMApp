@@ -11,7 +11,7 @@ import { timingAnimation } from '../../../animation/timingAnimation'
 import { setSelectedStock } from '../../../store/stock/actions'
 import Image from 'react-native-scalable-image'
 import SmileWink from '../../../images/font-awesome-svg/smile-wink.svg'
-import Styles from './style'
+import Style from './style'
 import { StockCard } from '../../../components/stock/StockCard'
 import { STOCK_INFO } from '../../../navigation/pointsNavigate'
 
@@ -70,7 +70,7 @@ class StocksScreen extends React.Component {
   renderEmptyStock = () => {
     return (
       <Animated.View style={[
-        Styles.centerScreen,
+        Style.centerScreen,
         { opacity: this.state.showScaleAnimation },
         { transform: [{ scale: this.state.showScaleAnimation }] }]} >
         <SmileWink
@@ -78,7 +78,7 @@ class StocksScreen extends React.Component {
           height={90}
           color={this.getColor(this.props.style.theme.secondaryTextColor.color)}
         />
-        <View style={Styles.textInfo}>
+        <View style={Style.textInfo}>
           <Text style={[this.props.style.fontSize.h7, this.props.style.theme.secondaryTextColor]}>Скоро появятся</Text>
           <Text style={[this.props.style.fontSize.h7, this.props.style.theme.secondaryTextColor]}>новые акции!</Text>
         </View>

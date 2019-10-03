@@ -7,7 +7,7 @@ import {
     View,
     Animated,
 } from 'react-native'
-import Styles from './style'
+import Style from './style'
 import { ShoppingButton } from '../buttons/ShoppingButton/ShoppingButton';
 import { timingAnimation } from '../../animation/timingAnimation'
 import { TrashButton } from '../buttons/Square/TrashButton'
@@ -63,36 +63,36 @@ export class BasketProductItem extends React.Component {
         return (
             <TouchableHighlight
                 underlayColor={this.props.style.theme.lightPrimaryColor.backgroundColor}
-                style={Styles.bodyItem}
+                style={Style.bodyItem}
                 onPress={this.onPress}>
                 <Animated.View style={[
-                    Styles.directionRow,
+                    Style.directionRow,
                     { opacity: this.state.showScaleAnimation },
                     { transform: [{ scale: this.state.showScaleAnimation }] }]}>
-                    <View style={Styles.imageContainer}>
+                    <View style={Style.imageContainer}>
                         <Image
                             source={this.props.product.imageSource}
-                            style={Styles.productImage}
+                            style={Style.productImage}
                         />
                     </View>
                     <View style={[
-                        Styles.productHeader,
+                        Style.productHeader,
                         this.props.style.theme.dividerColor]}>
                         <Text style={[
-                            Styles.textWrap,
+                            Style.textWrap,
                             this.props.style.fontSize.h8,
                             this.props.style.theme.primaryTextColor]}>
                             {this.props.product.caption}
                         </Text>
 
                         <Text style={[
-                            Styles.mt_5,
+                            Style.mt_5,
                             this.props.style.theme.secondaryTextColor,
                             this.props.style.fontSize.h10]}>
                             {`${this.props.product.price} ${this.props.product.currencyPrefix}`}
                         </Text>
 
-                        <View style={Styles.blockShopAction}>
+                        <View style={Style.blockShopAction}>
                             <TrashButton
                                 size={20}
                                 underlayColor={this.props.style.theme.lightPrimaryColor.backgroundColor}
@@ -100,7 +100,7 @@ export class BasketProductItem extends React.Component {
                                 borderColor={this.props.style.theme.dividerColor.borderColor}
                                 backgroundColor={this.props.style.theme.secondaryTextColor.color}
                                 onPress={this.onPressTrash} />
-                            <View style={Styles.blockShopButtons}>
+                            <View style={Style.blockShopButtons}>
                                 <ShoppingButton
                                     startCount={this.props.product.startCount}
                                     size={20}

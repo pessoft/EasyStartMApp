@@ -6,7 +6,7 @@ import {
     View,
     Animated
 } from 'react-native'
-import Styles from './style'
+import Style from './style'
 import { timingAnimation } from '../../animation/timingAnimation'
 
 export class CategoryItem extends React.PureComponent {
@@ -36,24 +36,24 @@ export class CategoryItem extends React.PureComponent {
             <TouchableHighlight
                 underlayColor={this.props.style.theme.lightPrimaryColor.backgroundColor}
                 style={[
-                    Styles.bodyItem,
+                    Style.bodyItem,
                     this.props.style.theme.dividerColor]}
                 onPress={this.onPress}>
                 <Animated.View
                     style={[
-                        Styles.directionRow,
+                        Style.directionRow,
                         { transform: [{ scale: this.state.showScaleAnimation }] }]}
                 >
                     <Image
                         source={this.props.imageSource}
-                        style={[Styles.catalogImage]}
+                        style={[Style.catalogImage]}
                     />
                     <View style={[
-                        Styles.captionContainer,
+                        Style.captionContainer,
                         this.props.style.theme.dividerColor,]}>
                         <Text style={[
                             this.props.style.fontSize.h6,
-                            Styles.captionCatalog,
+                            Style.captionCatalog,
                             this.props.style.theme.primaryTextColor]}>
                             {this.props.caption}
                         </Text>

@@ -4,7 +4,7 @@ import {
   Text,
   Animated,
 } from 'react-native'
-import Styles from './style'
+import Style from './style'
 import { stringLiteralTypeAnnotation } from '@babel/types';
 import { timingAnimation } from '../../animation/timingAnimation'
 
@@ -35,10 +35,10 @@ export class SimpleListItem extends React.Component {
       <TouchableWithoutFeedback
         underlayColor={this.props.style.theme.lightPrimaryColor.backgroundColor}
         onPress={this.onPress}
-        style={Styles.bodyItem}>
+        style={Style.bodyItem}>
         <Animated.Text style={[
-          Styles.text,
-          Styles.textWrap,
+          Style.text,
+          Style.textWrap,
           this.props.style.theme.dividerColor,
           { fontSize: this.state.fontSizeCity },
           // this.props.selected ? this.props.style.fontSize.h6 : this.props.style.fontSize.h9,

@@ -6,7 +6,7 @@ import {
   KeyboardAvoidingView
 } from 'react-native'
 import { TextInputMask } from 'react-native-masked-text'
-import Styles from './style'
+import Style from './style'
 
 export class Contacts extends React.Component {
   constructor(props) {
@@ -32,11 +32,11 @@ export class Contacts extends React.Component {
   render() {
     return (
       <View style={[
-        Styles.contacts,
+        Style.contacts,
         this.props.style.theme.defaultPrimaryColor,
         this.props.style.theme.dividerColor
       ]}>
-        <View style={Styles.header}>
+        <View style={Style.header}>
           <Text style={[
             this.props.style.fontSize.h6,
             this.props.style.theme.textPrimaryColor,
@@ -44,14 +44,14 @@ export class Contacts extends React.Component {
             Контактные данные
           </Text>
         </View>
-        <KeyboardAvoidingView style={Styles.content} behavior='height'>
+        <KeyboardAvoidingView style={Style.content} behavior='height'>
           <TextInput
             placeholder='Ваше имя'
             value={this.state.userName}
             placeholderTextColor={this.props.style.theme.secondaryTextColor.color}
             style={[
-              Styles.inputText,
-              Styles.inputSize,
+              Style.inputText,
+              Style.inputSize,
               this.props.style.fontSize.h8,
               this.props.style.theme.primaryTextColor,
               this.props.style.theme.dividerColor]}
@@ -69,8 +69,8 @@ export class Contacts extends React.Component {
             options={{ mask: '+9(999)999-99-99' }}
             value={this.state.phoneNumber}
             style={[
-              Styles.inputText,
-              Styles.inputSize,
+              Style.inputText,
+              Style.inputSize,
               this.props.style.fontSize.h8,
               this.props.style.theme.primaryTextColor,
               this.props.style.theme.dividerColor]}

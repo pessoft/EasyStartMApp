@@ -1,7 +1,7 @@
 import React from 'react'
 import { KeyboardAvoidingView, TextInput, View } from 'react-native'
 import { SendButton } from '../../components/buttons/Square/SendButton'
-import Styles from './style'
+import Style from './style'
 
 export class MessageInput extends React.Component {
   constructor(props) {
@@ -28,12 +28,12 @@ export class MessageInput extends React.Component {
       <KeyboardAvoidingView
         behavior={'height'}
         style={[
-          Styles.keywordAvoidReviewInput,
+          Style.keywordAvoidReviewInput,
           this.props.style.theme.dividerColor,
           this.props.style.theme.navigationBottom
         ]}>
         <View style={[
-          Styles.inputReview,
+          Style.inputReview,
           this.props.style.theme.navigationBottom
         ]}>
           <TextInput
@@ -42,7 +42,7 @@ export class MessageInput extends React.Component {
             placeholderTextColor={this.props.style.theme.secondaryTextColor.color}
             style={[
               this.props.textSize,
-              Styles.inputText,
+              Style.inputText,
               this.props.style.theme.dividerColor,
               this.props.style.theme.navigationBottom,
               this.props.style.theme.primaryTextColor]}

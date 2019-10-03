@@ -11,7 +11,7 @@ import Image from 'react-native-scalable-image'
 import { SimpleTextButton } from '../../../components/buttons/SimpleTextButton/SimpleTextButton'
 import { Rating } from 'react-native-ratings';
 import { PRODUCT_REVIEW, PRODUCT_REVIEW_FROM_BASKET } from '../../../navigation/pointsNavigate'
-import Styles from './style'
+import Style from './style'
 import CommentLinesIco from '../../../images/font-awesome-svg/comment-lines.svg'
 import { timingAnimation } from '../../../animation/timingAnimation'
 import { setSelectedProduct } from '../../../store/catalog/actions'
@@ -77,11 +77,11 @@ class ProductInfoScreen extends React.Component {
                     source={this.getImageSource()}
                     width={Dimensions.get('window').width}
                     resizeMode='contain' />
-                <View style={Styles.contentBody}>
+                <View style={Style.contentBody}>
                     <View style={[
-                        Styles.productInfoContainer,
+                        Style.productInfoContainer,
                         this.props.style.theme.dividerColor]}>
-                        <View style={Styles.leftBlock}>
+                        <View style={Style.leftBlock}>
                             <Rating
                                 type={'heart'}
                                 tintColor={this.props.style.theme.themeBody.backgroundColor}
@@ -93,7 +93,7 @@ class ProductInfoScreen extends React.Component {
                                 this.props.style.fontSize.h9,
                                 this.props.style.theme.secondaryTextColor]}>{this.getRatingText()}
                             </Text>
-                            <View style={Styles.reviewsButtonWithIco}>
+                            <View style={Style.reviewsButtonWithIco}>
                                 <SimpleTextButton
                                     text={'Отзывы'}
                                     onPress={this.onPressReviews}
@@ -108,7 +108,7 @@ class ProductInfoScreen extends React.Component {
                                 />
                             </View>
                         </View>
-                        <View style={Styles.rightBlock}>
+                        <View style={Style.rightBlock}>
                             <Text style={[
                                 this.props.style.fontSize.h4,
                                 this.props.style.theme.primaryTextColor]}>
@@ -122,7 +122,7 @@ class ProductInfoScreen extends React.Component {
                         </View>
                     </View>
                     <Text style={[
-                        Styles.description,
+                        Style.description,
                         this.props.style.fontSize.h8,
                         this.props.style.theme.secondaryTextColor]}>
                         {this.state.selectedProduct.Description}

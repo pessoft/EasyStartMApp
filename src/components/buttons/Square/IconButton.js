@@ -1,6 +1,6 @@
 import React from 'react'
 import { TouchableHighlight } from 'react-native'
-import Styles from './style'
+import Style from './style'
 import { processColor, Platform } from 'react-native'
 
 export class IconButton extends React.Component {
@@ -11,7 +11,7 @@ export class IconButton extends React.Component {
     }
 
     getColor = color => {
-        if(Platform.OS === 'ios') {
+        if (Platform.OS === 'ios') {
             return processColor(color)
         }
 
@@ -41,7 +41,7 @@ export class IconButton extends React.Component {
             <TouchableHighlight
                 underlayColor={this.props.underlayColor}
                 style={[
-                    Styles.iconSquareButton,
+                    Style.iconSquareButton,
                     this.isNonBorder(),
                     {
                         borderColor: this.props.borderColor || this.defaultColor,

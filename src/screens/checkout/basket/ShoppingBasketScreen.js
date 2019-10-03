@@ -15,7 +15,7 @@ import { PRODUCT_INFO_FROM_BASKET, CHECKOUT_ORDER } from '../../../navigation/po
 import { timingAnimation } from '../../../animation/timingAnimation'
 import { toggleProductInBasket, changeTotalCountProductInBasket } from '../../../store/checkout/actions'
 import ShoppingBasketIco from '../../../images/font-awesome-svg/shopping-basket.svg'
-import Styles from './style'
+import Style from './style'
 import { getSVGColor } from '../../../helpers/color-helper';
 import { markFromBasket } from '../../../store/navigation/actions'
 
@@ -192,7 +192,7 @@ class ShoppingBasketScreen extends React.Component {
   renderEmptyBasket = () => {
     return (
       <Animated.View style={[
-        Styles.centerScreen,
+        Style.centerScreen,
         { opacity: this.state.showScaleAnimationEmptyBasket },
         { transform: [{ scale: this.state.showScaleAnimationEmptyBasket }] }]} >
 
@@ -221,7 +221,7 @@ class ShoppingBasketScreen extends React.Component {
             transform: [{ scale: this.state.showScaleAnimation }]
           }
         ]}>
-        <ScrollView Style={Styles.basketProducts}>
+        <ScrollView Style={Style.basketProducts}>
           <FlatList
             windowSize={4}
             removeClippedSubviews={Platform.OS !== 'ios'}
@@ -233,7 +233,7 @@ class ShoppingBasketScreen extends React.Component {
         </ScrollView>
         <View
           style={[
-            Styles.footer,
+            Style.footer,
             this.props.style.theme.dividerColor
           ]}>
           <Text
@@ -244,7 +244,7 @@ class ShoppingBasketScreen extends React.Component {
             ]}>
             Сумма заказа {`${this.getOrderCost()} ${this.props.currencyPrefix}`}
           </Text>
-          <View style={Styles.buttonSize}>
+          <View style={Style.buttonSize}>
             <Button
               title='Перейти к оформлению'
               onPress={this.checkoutOrder}

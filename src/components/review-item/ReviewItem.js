@@ -6,7 +6,7 @@ import {
     Animated,
     processColor
 } from 'react-native'
-import Styles from './style'
+import Style from './style'
 import UserPhotoDefaultIco from '../../images/font-awesome-svg/user-circle.svg'
 import ClockIco from '../../images/font-awesome-svg/clock.svg'
 import { timingAnimation } from '../../animation/timingAnimation'
@@ -21,7 +21,7 @@ export class ReviewItem extends React.Component {
     }
 
     getColor = color => {
-        if(Platform.OS === 'ios') {
+        if (Platform.OS === 'ios') {
             return processColor(color)
         }
 
@@ -38,35 +38,35 @@ export class ReviewItem extends React.Component {
 
     renderUserPhoto = () => {
         if (this.props.sourceUserPhoto)
-            return <Image style={Styles.userPhoto} source={this.props.sourceUserPhoto} />
+            return <Image style={Style.userPhoto} source={this.props.sourceUserPhoto} />
         else
-            return <UserPhotoDefaultIco style={Styles.userPhoto} color={this.getColor('#bbbcbc')} />
+            return <UserPhotoDefaultIco style={Style.userPhoto} color={this.getColor('#bbbcbc')} />
     }
 
     render() {
         return (
             <Animated.View style={[
-                Styles.reviewItem,
+                Style.reviewItem,
                 this.props.style.theme.dividerColor,
                 { transform: [{ scale: this.state.showScaleAnimation }] }
             ]}>
                 {this.renderUserPhoto()}
-                <View style={Styles.reviewContainer}>
+                <View style={Style.reviewContainer}>
                     <Text style={[
-                        Styles.header,
+                        Style.header,
                         this.props.style.fontSize.h8,
                         { color: this.props.style.theme.accentColor.backgroundColor }]}
                     >
                         {this.props.header}
                     </Text>
-                    <View style={Styles.reviewDateContainer}>
+                    <View style={Style.reviewDateContainer}>
                         <ClockIco
                             width={10}
                             height={10}
                             color={processColor(this.props.style.theme.secondaryTextColor.color)}
                         />
                         <Text style={[
-                            Styles.reviewDate,
+                            Style.reviewDate,
                             this.props.style.theme.secondaryTextColor,
                             this.props.style.fontSize.h10]}
                         >

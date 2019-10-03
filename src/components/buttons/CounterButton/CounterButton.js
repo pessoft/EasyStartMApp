@@ -2,7 +2,7 @@ import React from 'react'
 import { View, Text } from 'react-native'
 import { MinusButton } from '../Square/MinusButton'
 import { PlusButton } from '../Square/PlusButton'
-import Styles from './style'
+import Style from './style'
 
 export class CounterButton extends React.Component {
   constructor(props) {
@@ -35,10 +35,10 @@ export class CounterButton extends React.Component {
 
   render() {
     return (
-      <View style={Styles.contentButton}>
+      <View style={Style.contentButton}>
         <MinusButton {...this.props} onPress={this.onMinus} />
         <Text style={[
-          Styles.valueContainer,
+          Style.valueContainer,
           { color: this.props.tintColor }]}>{this.state.count}</Text>
         <PlusButton {...this.props} onPress={this.onPlus} />
       </View>

@@ -9,7 +9,7 @@ import {
   Animated,
   Platform
 } from 'react-native'
-import Styles from './style'
+import Style from './style'
 import { timingAnimation } from '../../../animation/timingAnimation'
 import { Contacts } from '../../../components/checkout/contacts/Contacts'
 import { DeliveryType } from '../../../components/checkout/delivery-type/DeliveryType'

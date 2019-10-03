@@ -11,7 +11,7 @@ import {
 import { TextInputMask } from 'react-native-masked-text'
 import { SET_CITY } from '../../../navigation/pointsNavigate'
 import { setPhoneNumber, setUserName } from '../../../store/user/actions'
-import Styles from './style'
+import Style from './style'
 import { timingAnimation } from '../../../animation/timingAnimation'
 
 const { width } = Dimensions.get('window')
@@ -57,15 +57,15 @@ class UserDataScreen extends React.Component {
 
   render() {
     return (
-      <KeyboardAvoidingView style={Styles.screen} behavior='height'>
+      <KeyboardAvoidingView style={Style.screen} behavior='height'>
         <Animated.View style={{ transform: [{ scale: this.state.showScaleAnimation }] }}>
           <TextInput
             placeholder='Ваше имя'
             value={this.props.userName}
             placeholderTextColor={this.props.style.theme.secondaryTextColor.color}
             style={[
-              Styles.inputText,
-              Styles.inputSize,
+              Style.inputText,
+              Style.inputSize,
               this.props.style.fontSize.h7,
               this.props.style.theme.primaryTextColor,
               this.props.style.theme.dividerColor]}
@@ -83,16 +83,16 @@ class UserDataScreen extends React.Component {
             options={{ mask: '+9(999)999-99-99' }}
             value={this.props.phoneNumber}
             style={[
-              Styles.inputText,
-              Styles.inputSize,
+              Style.inputText,
+              Style.inputSize,
               this.props.style.fontSize.h7,
               this.props.style.theme.primaryTextColor,
               this.props.style.theme.dividerColor]}
             onChangeText={this.onPhoneChange}
           />
           <View style={[
-            Styles.inputSize,
-            Styles.buttonNext]}>
+            Style.inputSize,
+            Style.buttonNext]}>
             <Button
               title='Далее'
               onPress={this.onNextPage}

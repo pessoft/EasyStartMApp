@@ -1,6 +1,6 @@
 import React from 'react'
 import { View, Text } from 'react-native'
-import Styles from './style'
+import Style from './style'
 import { DeliveryRadioGroup } from './DeliveryRadioGroup'
 
 export class DeliveryType extends React.Component {
@@ -23,11 +23,11 @@ export class DeliveryType extends React.Component {
   render() {
     return (
       <View style={[
-        Styles.container,
+        Style.container,
         this.props.style.theme.defaultPrimaryColor,
         this.props.style.theme.dividerColor
       ]}>
-        <View style={Styles.header}>
+        <View style={Style.header}>
           <Text style={[
             this.props.style.fontSize.h6,
             this.props.style.theme.textPrimaryColor,
@@ -35,7 +35,7 @@ export class DeliveryType extends React.Component {
             Способ получения
           </Text>
         </View>
-        <View style={Styles.content}>
+        <View style={Style.content}>
           <DeliveryRadioGroup
             style={this.props.style}
             initValue={this.state.deliveryType}

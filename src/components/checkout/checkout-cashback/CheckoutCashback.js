@@ -1,7 +1,7 @@
 import React from 'react'
 import { Animated, Text, Switch, View, TextInput, KeyboardAvoidingView } from 'react-native'
 import { timingAnimation } from '../../../animation/timingAnimation'
-import Styles from './style'
+import Style from './style'
 
 export class CheckoutCashback extends React.Component {
 
@@ -104,7 +104,7 @@ export class CheckoutCashback extends React.Component {
     return (
       <Animated.View
         style={[
-          Styles.cashBackInputContainer,
+          Style.cashBackInputContainer,
           {
             opacity: this.state.showScaleAnimation,
             transform: [{ scale: this.state.showScaleAnimation }]
@@ -117,8 +117,8 @@ export class CheckoutCashback extends React.Component {
             value={this.state.cashBack == 0 ? '' : this.state.cashBack.toString()}
             placeholderTextColor={this.props.style.theme.secondaryTextColor.color}
             style={[
-              Styles.inputText,
-              Styles.inputSize,
+              Style.inputText,
+              Style.inputSize,
               this.props.style.fontSize.h8,
               this.props.style.theme.primaryTextColor,
               this.props.style.theme.dividerColor]}
@@ -133,7 +133,7 @@ export class CheckoutCashback extends React.Component {
     return (
       <View>
         <View style={[
-          Styles.switch,
+          Style.switch,
           this.props.style.theme.dividerColor
         ]}>
           <Text

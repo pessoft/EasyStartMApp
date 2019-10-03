@@ -1,6 +1,6 @@
 import React from 'react'
 import { View, Text, Animated } from 'react-native'
-import Styles from './style'
+import Style from './style'
 import IcoShoppingBasket from '../../../images/font-awesome-svg/shopping-basket.svg'
 import { connect } from 'react-redux'
 import { timingAnimation } from '../../../animation/timingAnimation'
@@ -43,7 +43,7 @@ class BasketIcoWithBadge extends React.Component {
       <View>
         <IcoShoppingBasket width={this.props.width} height={this.props.height} color={getSVGColor(this.props.color)} />
         <Animated.View style={[
-          Styles.badge,
+          Style.badge,
           this.props.style.theme.accentColor,
           {
             opacity: this.state.showScaleAnimation,

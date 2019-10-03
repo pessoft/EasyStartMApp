@@ -11,7 +11,7 @@ import {
     processColor
 } from 'react-native'
 import { ReviewItem } from '../../../components/review-item/ReviewItem'
-import Styles from './style'
+import Style from './style'
 import { getProductReviews, clearReviews, setProductReviews } from '../../../store/product-reviews/actions'
 import CommentSmile from '../../../images/font-awesome-svg/comment-smile.svg'
 import { MessageInput } from '../../../components/message-input/MessageInput'
@@ -122,7 +122,7 @@ class ProductReviewScreen extends React.Component {
 
     renderLoader = () => {
         return (
-            <View style={Styles.centerScreen}>
+            <View style={Style.centerScreen}>
                 <ActivityIndicator size="large" color={this.props.style.theme.defaultPrimaryColor.backgroundColor} />
             </View>
         )
@@ -144,7 +144,7 @@ class ProductReviewScreen extends React.Component {
         return (
             <React.Fragment>
                 <Animated.ScrollView style={[
-                    Styles.reviews,
+                    Style.reviews,
                     {opacity: this.state.showScaleAnimation},
                     { transform: [{ scale: this.state.showScaleAnimation }] }
                 ]}>
@@ -161,9 +161,9 @@ class ProductReviewScreen extends React.Component {
     renderEmptyReviews = () => {
         return (
             <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()} >
-                <View style={Styles.containerEmptyReviews}>
+                <View style={Style.containerEmptyReviews}>
                     <Animated.View style={[
-                        Styles.centerScreen,
+                        Style.centerScreen,
                         {opacity: this.state.showScaleAnimationEmpty},
                         { transform: [{ scale: this.state.showScaleAnimationEmpty }] }]} >
                         <CommentSmile

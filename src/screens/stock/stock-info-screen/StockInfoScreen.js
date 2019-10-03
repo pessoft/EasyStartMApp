@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { timingAnimation } from '../../../animation/timingAnimation'
 import { StockCard } from '../../../components/stock/StockCard'
 import Image from 'react-native-scalable-image'
-import Styles from './style'
+import Style from './style'
 
 class StocksInfoScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -41,7 +41,7 @@ class StocksInfoScreen extends React.Component {
         <Text style={[
           this.props.style.theme.defaultPrimaryColor,
           this.props.style.theme.textPrimaryColor,
-          Styles.stockDescription]}
+          Style.stockDescription]}
         >
           {this.props.selectedStock.Description}
         </Text>

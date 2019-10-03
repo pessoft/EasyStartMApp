@@ -6,7 +6,7 @@ import {
   Dimensions,
 } from 'react-native'
 import Image from 'react-native-scalable-image'
-import Styles from './style'
+import Style from './style'
 
 export class StockCard extends React.Component {
 
@@ -20,7 +20,7 @@ export class StockCard extends React.Component {
     return (
       <TouchableWithoutFeedback onPress={this.onPress}>
         <View style={[
-          Styles.card,
+          Style.card,
           this.props.style.theme.defaultPrimaryColor]}>
           <Image
             width={Dimensions.get('screen').width}
@@ -29,7 +29,7 @@ export class StockCard extends React.Component {
           <Text style={[
             this.props.style.fontSize.h9,
             this.props.style.theme.textPrimaryColor,
-            Styles.cardName]}
+            Style.cardName]}
           >
             {this.props.stockName}
           </Text>

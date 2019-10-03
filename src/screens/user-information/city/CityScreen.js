@@ -12,7 +12,7 @@ import {
 } from 'react-native'
 import { setCityId, setBranchId, addOrUpdateUser, setIsLogin } from '../../../store/user/actions'
 import { getMainData } from '../../../store/main/actions'
-import Styles from './style'
+import Style from './style'
 import { MAIN } from '../../../navigation/pointsNavigate'
 import { SimpleListItem } from '../../../components/simple-list-item/SimpleListItem'
 import CityIco from '../../../images/font-awesome-svg/city.svg'
@@ -86,10 +86,10 @@ class CityScreen extends React.Component {
   renderScreen = () => {
     return (
       <Animated.View style={[
-        Styles.bodyContainer,
+        Style.bodyContainer,
         { transform: [{ scale: this.state.showScaleAnimation }] }]}>
-        <View style={Styles.contentContainer}>
-          <View style={Styles.cityIco}>
+        <View style={Style.contentContainer}>
+          <View style={Style.cityIco}>
             <CityIco
               width={130}
               height={130}
@@ -108,7 +108,7 @@ class CityScreen extends React.Component {
             />
           </ScrollView>
         </View>
-        <View style={[Styles.inputSize, Styles.footerContainer, Styles.pv_20]}>
+        <View style={[Style.inputSize, Style.footerContainer, Style.pv_20]}>
           <Button
             title='Далее'
             onPress={this.onFinishSetUserData}
@@ -121,7 +121,7 @@ class CityScreen extends React.Component {
 
   renderLoader() {
     return (
-      <View style={Styles.centerScreen}>
+      <View style={Style.centerScreen}>
         <ActivityIndicator size="large" color={this.props.style.theme.defaultPrimaryColor.backgroundColor} />
       </View>
     )

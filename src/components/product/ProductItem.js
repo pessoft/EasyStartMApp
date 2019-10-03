@@ -6,7 +6,7 @@ import {
     View,
     Animated,
 } from 'react-native'
-import Styles from './style'
+import Style from './style'
 import { ShoppingButton } from '../buttons/ShoppingButton/ShoppingButton';
 import { timingAnimation } from '../../animation/timingAnimation'
 
@@ -46,42 +46,42 @@ export class ProductItem extends React.Component {
         return (
             <TouchableHighlight
                 underlayColor={this.props.style.theme.lightPrimaryColor.backgroundColor}
-                style={Styles.bodyItem}
+                style={Style.bodyItem}
                 onPress={this.onPress}>
                 <Animated.View style={[
-                    Styles.directionRow,
+                    Style.directionRow,
                     { transform: [{ scale: this.state.showScaleAnimation }] }]}>
-                    <View style={Styles.imageContainer}>
+                    <View style={Style.imageContainer}>
                         <Image
                             source={this.props.product.imageSource}
-                            style={Styles.productImage}
+                            style={Style.productImage}
                         />
                     </View>
                     <View style={[
-                        Styles.productHeader,
+                        Style.productHeader,
                         this.props.style.theme.dividerColor]}>
                         <Text style={[
-                            Styles.textWrap,
+                            Style.textWrap,
                             this.props.style.fontSize.h8,
                             this.props.style.theme.primaryTextColor]}>
                             {this.props.product.caption}
                         </Text>
 
                         <Text style={[
-                            Styles.mt_5,
+                            Style.mt_5,
                             this.props.style.theme.secondaryTextColor,
                             this.props.style.fontSize.h11]}>
                             {this.props.product.additionInfo}
                         </Text>
 
-                        <View style={Styles.blockShopAction}>
+                        <View style={Style.blockShopAction}>
                             <Text style={[
-                                Styles.textWrap,
+                                Style.textWrap,
                                 this.props.style.fontSize.h9,
                                 this.props.style.theme.primaryTextColor]}>
                                 {`${this.props.product.price} ${this.props.product.currencyPrefix}`}
                             </Text>
-                            <View style={Styles.blockShopButtons}>
+                            <View style={Style.blockShopButtons}>
                                 <ShoppingButton
                                     startCount={this.props.product.startCount}
                                     size={20}
