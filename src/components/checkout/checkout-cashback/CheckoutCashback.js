@@ -14,9 +14,6 @@ export class CheckoutCashback extends React.Component {
       cashBack: 0,
       isHideInputCashBack: !this.props.needCashBackInit
     }
-
-    if (this.state.needCashBack)
-      this.state.showScaleAnimation.addListener(({ value }) => this._value = value);
   }
 
   toggleHideInputCashBack = callback => {

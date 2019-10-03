@@ -16,6 +16,7 @@ import { DeliveryType } from '../../../components/checkout/delivery-type/Deliver
 import { PaymentType } from '../../../components/checkout/payment-type/PaymentType'
 import { TypeDelivery } from '../../../helpers/type-delivery'
 import { TypePayment } from '../../../helpers/type-payment'
+import { DeliveryAddressAnimation } from '../../../components/checkout/delivery-address/DeliveryAddressAnimation'
 
 class CheckoutScreen extends React.Component {
   static navigationOptions = {
@@ -32,7 +33,17 @@ class CheckoutScreen extends React.Component {
         phoneNumber: props.userData.phoneNumber
       },
       deliveryType: TypeDelivery.Delivery,
-      paymentType: TypePayment.Cash
+      paymentType: TypePayment.Cash,
+      deliveryAddress: {
+        cityId: this.props.userData.cityId,
+        deliveryArea: '',
+        street: '',
+        houseNumber: '',
+        entrance: '',
+        apartmentNumber: '',
+        level: '',
+        intercomCode: ''
+      }
     }
   }
 
@@ -40,17 +51,10 @@ class CheckoutScreen extends React.Component {
     timingAnimation(this.state.showScaleAnimation, 1, 300, true)
   }
 
-  setContactsData = contacts => {
-    this.setState({
-      userData: {
-        userName: contacts.userName,
-        phoneNumber: contacts.phoneNumber
-      }
-    })
-  }
-
+  setContactsData = userData => this.setState({ userData })
   changeDeliveryType = deliveryType => this.setState({ deliveryType })
   changePaymentType = paymentType => this.setState({ paymentType })
+  setDeliveryAddress = deliveryAddress => this.setState({ deliveryAddress })
 
   render() {
     return (
@@ -70,15 +74,21 @@ class CheckoutScreen extends React.Component {
             userName={this.props.userData.userName}
             phoneNumber={this.props.userData.phoneNumber}
           />
+          <PaymentType
+            style={this.props.style}
+            initValue={this.state.paymentType}
+            changeDeliveryType={this.changePaymentType}
+          />
           <DeliveryType
             style={this.props.style}
             initValue={this.state.deliveryType}
             changeDeliveryType={this.changeDeliveryType}
           />
-          <PaymentType
+          <DeliveryAddressAnimation
+            cityId={this.state.deliveryAddress.cityId}
             style={this.props.style}
-            initValue={this.state.paymentType}
-            changeDeliveryType={this.changePaymentType}
+            changeDeliveryAddress={this.setDeliveryAddress}
+            isShow={this.state.deliveryType == TypeDelivery.Delivery}
           />
         </ScrollView>
       </Animated.View>
