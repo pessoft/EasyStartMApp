@@ -4,7 +4,7 @@ import RadioForm, {
   RadioButton,
   RadioButtonInput,
   RadioButtonLabel
-} from '../RadioButton/RadioButton'
+} from '../radio-button/RadioButton'
 
 /**
  * initValue

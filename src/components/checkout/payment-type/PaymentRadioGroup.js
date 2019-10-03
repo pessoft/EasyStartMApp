@@ -1,5 +1,5 @@
 import React from 'react'
-import { RadioGroup } from '../../RadioGroup/RadioGroup'
+import { RadioGroup } from '../../radio-group/RadioGroup'
 import { TouchableHighlight } from 'react-native-gesture-handler'
 import { TypePayment } from '../../../helpers/type-payment'
 
