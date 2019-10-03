@@ -2,7 +2,8 @@ import React from 'react'
 import {
   View,
   Text,
-  TextInput
+  TextInput,
+  KeyboardAvoidingView
 } from 'react-native'
 import { TextInputMask } from 'react-native-masked-text'
 import Styles from './style'
@@ -43,7 +44,7 @@ export class Contacts extends React.Component {
             Контактные данные
           </Text>
         </View>
-        <View style={Styles.content}>
+        <KeyboardAvoidingView style={Styles.content} behavior='height'>
           <TextInput
             placeholder='Ваше имя'
             value={this.state.userName}
@@ -75,7 +76,7 @@ export class Contacts extends React.Component {
               this.props.style.theme.dividerColor]}
             onChangeText={this.onPhoneChange}
           />
-        </View>
+        </KeyboardAvoidingView>
       </View>
     )
   }

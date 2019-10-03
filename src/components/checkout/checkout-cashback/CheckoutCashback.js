@@ -1,5 +1,5 @@
 import React from 'react'
-import { Animated, Text, Switch, View, TextInput, Platform } from 'react-native'
+import { Animated, Text, Switch, View, TextInput, KeyboardAvoidingView } from 'react-native'
 import { timingAnimation } from '../../../animation/timingAnimation'
 import Styles from './style'
 
@@ -110,19 +110,21 @@ export class CheckoutCashback extends React.Component {
             transform: [{ scale: this.state.showScaleAnimation }]
           }
         ]}>
-        <TextInput
-          placeholder='Нужна сдача с ...'
-          keyboardType={'decimal-pad'}
-          value={this.state.cashBack == 0 ? '' : this.state.cashBack.toString()}
-          placeholderTextColor={this.props.style.theme.secondaryTextColor.color}
-          style={[
-            Styles.inputText,
-            Styles.inputSize,
-            this.props.style.fontSize.h8,
-            this.props.style.theme.primaryTextColor,
-            this.props.style.theme.dividerColor]}
-          onChangeText={this.onChangeCashBack}
-        />
+        <KeyboardAvoidingView behavior='height'>
+          <TextInput
+            placeholder='Нужна сдача с ...'
+            keyboardType={'decimal-pad'}
+            value={this.state.cashBack == 0 ? '' : this.state.cashBack.toString()}
+            placeholderTextColor={this.props.style.theme.secondaryTextColor.color}
+            style={[
+              Styles.inputText,
+              Styles.inputSize,
+              this.props.style.fontSize.h8,
+              this.props.style.theme.primaryTextColor,
+              this.props.style.theme.dividerColor]}
+            onChangeText={this.onChangeCashBack}
+          />
+        </KeyboardAvoidingView>
       </Animated.View>
     )
   }
