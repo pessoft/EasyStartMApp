@@ -10,7 +10,7 @@ import Style from './style'
 import { ShoppingButton } from '../buttons/ShoppingButton/ShoppingButton';
 import { timingAnimation } from '../../animation/timingAnimation'
 
-export class ProductItem extends React.Component {
+export class ProductItem extends React.PureComponent {
     constructor(props) {
         super(props)
         this.state = {

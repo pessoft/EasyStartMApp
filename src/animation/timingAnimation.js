@@ -7,7 +7,7 @@ export const timingAnimation = (value, toValue, duration = 300, useNativeDriver 
   Animated.timing(value, {
     toValue: toValue,
     duration: duration,
-    easing: Easing.linear,
+    easing: Easing.easing,
     useNativeDriver: useNativeDriver
   }).start(callback)
 }

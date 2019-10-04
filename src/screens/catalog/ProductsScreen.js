@@ -80,7 +80,7 @@ class ProductsScreen extends React.Component {
             }
 
             productsForRender[item.OrderNumber - 1] = {
-                key: `${item.Id}-${this.state.refreshItems}`,
+                key: `${item.Id}-${countProduct}`,
                 id: item.Id,
                 product: {
                     caption: item.Name,
