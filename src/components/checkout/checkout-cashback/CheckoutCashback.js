@@ -1,5 +1,5 @@
 import React from 'react'
-import { Animated, Text, Switch, View, TextInput, KeyboardAvoidingView } from 'react-native'
+import { Animated, Text, Switch, View, TextInput, KeyboardAvoidingView, Platform } from 'react-native'
 import { timingAnimation } from '../../../animation/timingAnimation'
 import Style from './style'
 
@@ -145,21 +145,24 @@ export class CheckoutCashback extends React.Component {
             onValueChange={this.onToggleSwitch}
             value={this.state.needCashBack}
             trackColor={{
-              true: this.props.style.theme.themeBody.backgroundColor,
+              true: this.props.style.theme.applySecondaryColor.color,
               false: this.props.style.theme.themeBody.backgroundColor
             }}
             thumbColor={[
               (this.state.needCashBack ?
-                this.props.style.theme.darkPrimaryColor.backgroundColor :
+                Platform.OS == 'android' ?
+                  this.props.style.theme.applyPrimaryColor.color :
+                  this.props.style.theme.textPrimaryColor.color :
                 this.props.style.theme.secondaryTextColor.color)]}
-            ios_backgroundColor={this.props.style.theme.themeBody.backgroundColor}
+            ios_backgroundColor={this.state.needCashBack ?
+              this.props.style.theme.applyPrimaryColor.color :
+              this.props.style.theme.themeBody.backgroundColor}
             style={[this.props.style.theme.dividerColor]}
           />
         </View>
         {
           !this.state.isHideInputCashBack && this.renderTextInputCashBack()
         }
-
       </View>
     )
   }

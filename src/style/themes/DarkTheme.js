@@ -36,5 +36,11 @@ export const DarkTheme = StyleSheet.create({
   },
   dividerColor: {
     borderColor: '#272727'
+  },
+  applyPrimaryColor: {
+    color: '#00c853'
+  },
+  applySecondaryColor: {
+    color: '#b9f6ca'
   }
 })
