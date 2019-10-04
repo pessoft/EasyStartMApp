@@ -38,9 +38,9 @@ export const OrangeTheme = StyleSheet.create({
         borderColor: '#BDBDBD'
     },
     applyPrimaryColor: {
-      color: '#00c853'
+        color: '#00c853'
     },
     applySecondaryColor: {
-      color: '#b9f6ca'
+        color: '#9fd7af'
     }
 })
