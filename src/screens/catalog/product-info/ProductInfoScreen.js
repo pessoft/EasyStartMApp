@@ -14,6 +14,7 @@ import Style from './style'
 import CommentLinesIco from '../../../images/font-awesome-svg/comment-lines.svg'
 import { timingAnimation } from '../../../animation/timingAnimation'
 import { setSelectedProduct } from '../../../store/catalog/actions'
+import { getSVGColor } from '../../../helpers/color-helper'
 
 class ProductInfoScreen extends React.Component {
     static navigationOptions = ({ navigation }) => {

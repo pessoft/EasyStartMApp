@@ -40,7 +40,7 @@ export class RadioGroup extends React.Component {
               <RadioButton
                 labelHorizontal={true}
                 key={i}
-                style={{ marginBottom: 15 }}>
+                style={this.props.radioProps.length - 1 == i ? {} : { marginBottom: 15 }}>
                 <RadioButtonInput
                   obj={obj}
                   index={i}

@@ -3,7 +3,6 @@ import { StyleSheet } from 'react-native'
 export default StyleSheet.create({
   inputText: {
     textAlign: 'center',
-    marginBottom: 15,
     borderWidth: 1,
     borderRadius: 3,
     padding: 3,
@@ -15,13 +14,13 @@ export default StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 12,
     borderTopWidth: 0.5,
     paddingTop: 10,
-    marginVertical: 1
+    marginTop: 10
   },
   cashBackInputContainer: {
-    flex:1,
-    alignSelf:'center'
+    flex: 1,
+    alignSelf: 'center',
+    marginTop: 12,
   }
 })
