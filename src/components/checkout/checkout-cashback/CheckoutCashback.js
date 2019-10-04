@@ -145,7 +145,9 @@ export class CheckoutCashback extends React.Component {
             onValueChange={this.onToggleSwitch}
             value={this.state.needCashBack}
             trackColor={{
-              true: this.props.style.theme.applySecondaryColor.color,
+              true: Platform.OS == 'ios' ?
+              this.props.style.theme.applyPrimaryColor.color :
+              this.props.style.theme.applySecondaryColor.color,
               false: this.props.style.theme.themeBody.backgroundColor
             }}
             thumbColor={[
