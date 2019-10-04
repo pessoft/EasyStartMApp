@@ -139,7 +139,7 @@ export class DeliveryAddress extends React.Component {
           </View>
           <View style={Style.wrapperRow}>
             <TextInput
-              placeholder='Код доманфона'
+              placeholder='Код домофона'
               ref={(input) => { this.intercomCodeTextInput = input; }}
               value={this.state.intercomCode}
               placeholderTextColor={this.props.style.theme.secondaryTextColor.color}
