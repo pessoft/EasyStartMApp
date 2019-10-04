@@ -1,5 +1,5 @@
 import React from 'react'
-import { KeyboardAvoidingView, TextInput, View, InputAccessoryView, Platform } from 'react-native'
+import { KeyboardAvoidingView, TextInput, View, InputAccessoryView, Platform, Keyboard } from 'react-native'
 import { SendButton } from '../../components/buttons/Square/SendButton'
 import Style from './style'
 
@@ -12,8 +12,16 @@ export class MessageInput extends React.Component {
     }
   }
 
-  onChangeText = text => {
-    this.setState({ text: text })
+  componentDidMount = () => this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => this.keyboardDidHide())
+  componentWillUnmount = () => this.keyboardDidHideListener.remove();
+
+  onChangeText = text => this.setState({ text: text })
+
+  isValidMsg = () => this.state.text.trim().replace(/\r/g, '').replace(/\n/g, '').length > 0
+
+  keyboardDidHide() {
+    if (!this.isValidMsg())
+      this.setState({ text: '' })
   }
 
   onPress = () => {
@@ -59,12 +67,13 @@ export class MessageInput extends React.Component {
             value={this.state.text}
           />
           <SendButton
+            disabled={!this.isValidMsg()}
             underlayColor={this.props.style.theme.navigationBottom.backgroundColor}
             onPress={this.onPress}
             size={this.props.buttonSize}
             nonBorder={true}
             color={
-              this.state.text.trim().replace(/\r/g, '').replace(/\n/g, '').length > 0 ?
+              this.isValidMsg() ?
                 this.props.style.theme.accentOther.backgroundColor :
                 this.props.style.theme.secondaryTextColor.color
             }
@@ -73,7 +82,6 @@ export class MessageInput extends React.Component {
       </KeyboardAvoidingView>
     )
   }
-  render() {
-    return Platform.OS == 'ios' ? this.renderIOS() : this.renderAndroid()
-  }
+
+  render = () => Platform.OS == 'ios' ? this.renderIOS() : this.renderAndroid()
 }

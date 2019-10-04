@@ -36,6 +36,11 @@ export class IconButton extends React.Component {
         return {}
     }
 
+    onPress = () => {
+        if (!this.props.disabled && this.props.onPress)
+            this.props.onPress()
+    }
+
     render() {
         return (
             <TouchableHighlight
@@ -47,7 +52,7 @@ export class IconButton extends React.Component {
                         borderColor: this.props.borderColor || this.defaultColor,
                         backgroundColor: this.props.backgroundColor
                     }]}
-                onPress={this.props.onPress} >
+                onPress={this.onPress} >
                 {this.renderIcon()}
             </TouchableHighlight>
         )
