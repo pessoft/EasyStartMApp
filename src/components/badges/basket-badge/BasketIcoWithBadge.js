@@ -4,6 +4,7 @@ import Style from './style'
 import IcoShoppingBasket from '../../../images/font-awesome-svg/shopping-basket.svg'
 import { connect } from 'react-redux'
 import { timingAnimation } from '../../../animation/timingAnimation'
+import { springAnimation } from '../../../animation/springAnimation'
 import { getSVGColor } from '../../../helpers/color-helper'
 
 class BasketIcoWithBadge extends React.Component {
@@ -24,9 +25,9 @@ class BasketIcoWithBadge extends React.Component {
 
   toggleAnimationBadge = () => {
     if (this.props.totalCountProducts == 0)
-      timingAnimation(this.state.showScaleAnimation, 0, 200, true)
+      timingAnimation(this.state.showScaleAnimation, 0, 200)
     else
-      timingAnimation(this.state.showScaleAnimation, 1, 200, true)
+      springAnimation(this.state.showScaleAnimation, 1, 200, 2.5)
   }
 
   toggleBadge = () => {
