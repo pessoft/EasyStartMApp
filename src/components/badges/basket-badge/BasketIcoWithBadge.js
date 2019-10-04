@@ -26,7 +26,7 @@ class BasketIcoWithBadge extends React.Component {
     if (this.props.totalCountProducts == 0)
       timingAnimation(this.state.showScaleAnimation, 0, 200)
     else
-      springAnimation(this.state.showScaleAnimation, 1, 200, 2.5)
+      springAnimation(this.state.showScaleAnimation, 1, 300, 2.5)
   }
 
   toggleBadge = () => {
