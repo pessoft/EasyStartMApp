@@ -44,7 +44,7 @@ export class DeliveryAddress extends React.Component {
         this.props.style.theme.defaultPrimaryColor,
         this.props.style.theme.dividerColor
       ]}>
-        
+
         <View style={Style.header}>
           <Text style={[
             this.props.style.fontSize.h6,
@@ -157,8 +157,8 @@ export class DeliveryAddress extends React.Component {
                 Style.icoDeliveryAddress
               ]}>
               <IcoDeliveryAddress
-                width={35}
-                height={35}
+                width={32}
+                height={32}
                 color={getSVGColor(this.props.style.theme.secondaryTextColor.color)} />
             </View>
           </View>
