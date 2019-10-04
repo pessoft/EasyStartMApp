@@ -238,7 +238,7 @@ class ShoppingBasketScreen extends React.Component {
           ]}>
           <Text
             style={[
-              this.props.style.theme.primaryTextColor,
+              this.props.style.theme.textPrimaryColor,
               this.props.style.fontSize.h8,
               { marginBottom: 15 }
             ]}>
@@ -248,7 +248,9 @@ class ShoppingBasketScreen extends React.Component {
             <Button
               title='Перейти к оформлению'
               onPress={this.checkoutOrder}
-              color={this.props.style.theme.defaultPrimaryColor.backgroundColor}
+              color={Platform.OS == 'ios' ? 
+              this.props.style.theme.accentOther.backgroundColor:
+              this.props.style.theme.accentColor.backgroundColor}
             />
           </View>
         </View>

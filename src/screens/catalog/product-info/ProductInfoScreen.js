@@ -90,7 +90,7 @@ class ProductInfoScreen extends React.Component {
                                     text={'Отзывы'}
                                     onPress={this.onPressReviews}
                                     sizeText={this.props.style.fontSize.h6.fontSize}
-                                    color={this.props.style.theme.accentColor.backgroundColor}
+                                    color={this.props.style.theme.accentOther.backgroundColor}
                                 />
                                 <CommentLinesIco
                                     width={20}

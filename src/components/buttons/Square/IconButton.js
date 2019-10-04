@@ -14,9 +14,10 @@ export class IconButton extends React.Component {
         const Icon = this.props.icon
 
         return <Icon
+            key={new Date().getTime().toString()}
             width={this.props.size}
             height={this.props.size}
-            color={getSVGColor(this.props.color) || getSVGColor(this.defaultColor)} />
+            color={getSVGColor(this.props.color)} />
     }
 
     isNonBorder = () => {

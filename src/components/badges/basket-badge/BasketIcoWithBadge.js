@@ -5,7 +5,6 @@ import IcoShoppingBasket from '../../../images/font-awesome-svg/shopping-basket.
 import { connect } from 'react-redux'
 import { timingAnimation } from '../../../animation/timingAnimation'
 import { springAnimation } from '../../../animation/springAnimation'
-import { getSVGColor } from '../../../helpers/color-helper'
 
 class BasketIcoWithBadge extends React.Component {
   constructor(props) {
@@ -42,7 +41,7 @@ class BasketIcoWithBadge extends React.Component {
   render() {
     return (
       <View>
-        <IcoShoppingBasket width={this.props.width} height={this.props.height} color={getSVGColor(this.props.color)} />
+        <IcoShoppingBasket width={this.props.width} height={this.props.height} color={this.props.color} />
         <Animated.View style={[
           Style.badge,
           this.props.style.theme.accentColor,

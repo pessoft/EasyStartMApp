@@ -32,7 +32,10 @@ export class ReviewItem extends React.Component {
         if (this.props.sourceUserPhoto)
             return <Image style={Style.userPhoto} source={this.props.sourceUserPhoto} />
         else
-            return <UserPhotoDefaultIco style={Style.userPhoto} color={getSVGColor('#bbbcbc')} />
+            return <UserPhotoDefaultIco
+            width={35} height={35}
+                style={Style.userPhoto}
+                color={getSVGColor(this.props.style.theme.secondaryTextColor.color)} />
     }
 
     render() {

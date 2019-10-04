@@ -14,8 +14,6 @@ export default StyleSheet.create({
     marginLeft: 10
   },
   userPhoto: {
-    width: 35,
-    height: 35,
     borderRadius: 20,
     alignSelf: 'flex-start',
     marginTop: 2
