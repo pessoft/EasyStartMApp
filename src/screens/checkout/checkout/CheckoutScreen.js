@@ -13,6 +13,7 @@ import { PaymentType } from '../../../components/checkout/payment-type/PaymentTy
 import { TypeDelivery } from '../../../helpers/type-delivery'
 import { TypePayment } from '../../../helpers/type-payment'
 import { DeliveryAddressAnimation } from '../../../components/checkout/delivery-address/DeliveryAddressAnimation'
+import { OrderComment } from '../../../components/checkout/order-comment/OrderComment'
 
 class CheckoutScreen extends React.Component {
   static navigationOptions = {
@@ -39,7 +40,8 @@ class CheckoutScreen extends React.Component {
         apartmentNumber: '',
         level: '',
         intercomCode: ''
-      }
+      },
+      commentText: ''
     }
   }
 
@@ -51,6 +53,7 @@ class CheckoutScreen extends React.Component {
   changeDeliveryType = deliveryType => this.setState({ deliveryType })
   changePaymentType = paymentType => this.setState({ paymentType })
   setDeliveryAddress = deliveryAddress => this.setState({ deliveryAddress })
+  setCommentText = commentText => this.setState({ commentText })
 
   render() {
     return (
@@ -86,12 +89,15 @@ class CheckoutScreen extends React.Component {
               initValue={this.state.deliveryType}
               changeDeliveryType={this.changeDeliveryType}
             />
-
             <DeliveryAddressAnimation
               cityId={this.state.deliveryAddress.cityId}
               style={this.props.style}
               changeDeliveryAddress={this.setDeliveryAddress}
               isShow={this.state.deliveryType == TypeDelivery.Delivery}
+            />
+            <OrderComment
+              style={this.props.style}
+              changeCommentText={this.setCommentText}
             />
           </ScrollView>
         </KeyboardAwareScrollView>
