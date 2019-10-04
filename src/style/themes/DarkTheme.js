@@ -8,7 +8,7 @@ export const DarkTheme = StyleSheet.create({
     backgroundColor: '#1f1f1f'
   },
   themeBody: {
-    backgroundColor: '#202020'
+    backgroundColor: '#141414'
   },
   darkPrimaryColor: {
     backgroundColor: '#131313'
