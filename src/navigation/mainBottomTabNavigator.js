@@ -17,7 +17,6 @@ import IcoShoppingBasket from '../images/font-awesome-svg/shopping-basket.svg'
 import IcoInfo from '../images/font-awesome-svg/info.svg'
 import IcoReviews from '../images/font-awesome-svg/comment-lines.svg'
 import IcoUserCog from '../images/font-awesome-svg/user-cog.svg'
-import { processColor } from 'react-native'
 
 import BasketIcoWithBadge from '../components/badges/basket-badge/BasketIcoWithBadge'
 import { getSVGColor } from '../helpers/color-helper';

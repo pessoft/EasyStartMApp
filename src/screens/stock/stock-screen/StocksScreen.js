@@ -3,8 +3,7 @@ import {
   Animated,
   FlatList,
   Text,
-  View,
-  processColor
+  View
 } from 'react-native'
 import { connect } from 'react-redux'
 import { timingAnimation } from '../../../animation/timingAnimation'
@@ -14,6 +13,7 @@ import SmileWink from '../../../images/font-awesome-svg/smile-wink.svg'
 import Style from './style'
 import { StockCard } from '../../../components/stock/StockCard'
 import { STOCK_INFO } from '../../../navigation/pointsNavigate'
+import { getSVGColor } from '../../../helpers/color-helper'
 
 class StocksScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -29,14 +29,6 @@ class StocksScreen extends React.Component {
       showScaleAnimation: new Animated.Value(0)
     }
   }
-
-  getColor = color => {
-    if(Platform.OS === 'ios') {
-        return processColor(color)
-    }
-
-    return color
-}
 
   componentDidMount = () => {
     timingAnimation(this.state.showScaleAnimation, 1, 300, true)
@@ -76,7 +68,7 @@ class StocksScreen extends React.Component {
         <SmileWink
           width={90}
           height={90}
-          color={this.getColor(this.props.style.theme.secondaryTextColor.color)}
+          color={getSVGColor(this.props.style.theme.secondaryTextColor.color)}
         />
         <View style={Style.textInfo}>
           <Text style={[this.props.style.fontSize.h7, this.props.style.theme.secondaryTextColor]}>Скоро появятся</Text>

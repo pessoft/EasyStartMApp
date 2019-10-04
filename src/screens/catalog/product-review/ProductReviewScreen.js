@@ -7,8 +7,7 @@ import {
     ActivityIndicator,
     TouchableWithoutFeedback,
     Keyboard,
-    Animated,
-    processColor
+    Animated
 } from 'react-native'
 import { ReviewItem } from '../../../components/review-item/ReviewItem'
 import Style from './style'
@@ -16,6 +15,7 @@ import { getProductReviews, clearReviews, setProductReviews } from '../../../sto
 import CommentSmile from '../../../images/font-awesome-svg/comment-smile.svg'
 import { MessageInput } from '../../../components/message-input/MessageInput'
 import { timingAnimation } from '../../../animation/timingAnimation'
+import { getSVGColor } from '../../../helpers/color-helper'
 
 class ProductReviewScreen extends React.Component {
     static navigationOptions = {
@@ -31,14 +31,6 @@ class ProductReviewScreen extends React.Component {
             showScaleAnimation: new Animated.Value(0),
             showScaleAnimationEmpty: new Animated.Value(0),
         }
-    }
-
-    getColor = color => {
-        if(Platform.OS === 'ios') {
-            return processColor(color)
-        }
-
-        return color
     }
 
     renderItem = ({ item }) => {
@@ -69,10 +61,10 @@ class ProductReviewScreen extends React.Component {
     }
 
     componentDidUpdate() {
-        if (this.props.reviews.length == 0 && !this.props.isFetching){
+        if (this.props.reviews.length == 0 && !this.props.isFetching) {
             timingAnimation(this.state.showScaleAnimationEmpty, 1, 300, true)
         }
-        else if(this.props.reviews.length > 0){
+        else if (this.props.reviews.length > 0) {
             timingAnimation(this.state.showScaleAnimation, 1, 300, true)
         }
     }
@@ -145,7 +137,7 @@ class ProductReviewScreen extends React.Component {
             <React.Fragment>
                 <Animated.ScrollView style={[
                     Style.reviews,
-                    {opacity: this.state.showScaleAnimation},
+                    { opacity: this.state.showScaleAnimation },
                     { transform: [{ scale: this.state.showScaleAnimation }] }
                 ]}>
                     <FlatList
@@ -164,12 +156,12 @@ class ProductReviewScreen extends React.Component {
                 <View style={Style.containerEmptyReviews}>
                     <Animated.View style={[
                         Style.centerScreen,
-                        {opacity: this.state.showScaleAnimationEmpty},
+                        { opacity: this.state.showScaleAnimationEmpty },
                         { transform: [{ scale: this.state.showScaleAnimationEmpty }] }]} >
                         <CommentSmile
                             width={90}
                             height={90}
-                            color={this.getColor(this.props.style.theme.secondaryTextColor.color)}
+                            color={getSVGColor(this.props.style.theme.secondaryTextColor.color)}
                         />
                         <Text style={[this.props.style.fontSize.h7, this.props.style.theme.secondaryTextColor]}>Будь первым!</Text>
                         <Text style={[this.props.style.fontSize.h7, this.props.style.theme.secondaryTextColor]}>Оставь свой отзыв!</Text>

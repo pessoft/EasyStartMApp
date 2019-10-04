@@ -1,7 +1,7 @@
 import React from 'react'
 import { TouchableHighlight } from 'react-native'
 import Style from './style'
-import { processColor, Platform } from 'react-native'
+import { getSVGColor } from '../../../helpers/color-helper'
 
 export class IconButton extends React.Component {
     constructor(props) {
@@ -10,21 +10,13 @@ export class IconButton extends React.Component {
         this.defaultColor = '#000'
     }
 
-    getColor = color => {
-        if (Platform.OS === 'ios') {
-            return processColor(color)
-        }
-
-        return color
-    }
-
     renderIcon() {
         const Icon = this.props.icon
 
         return <Icon
             width={this.props.size}
             height={this.props.size}
-            color={this.getColor(this.props.color) || this.getColor(this.defaultColor)} />
+            color={getSVGColor(this.props.color) || getSVGColor(this.defaultColor)} />
     }
 
     isNonBorder = () => {

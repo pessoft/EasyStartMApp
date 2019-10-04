@@ -7,8 +7,7 @@ import {
   Button,
   ActivityIndicator,
   Animated,
-  Dimensions,
-  processColor
+  Dimensions
 } from 'react-native'
 import { setCityId, setBranchId, addOrUpdateUser, setIsLogin } from '../../../store/user/actions'
 import { getMainData } from '../../../store/main/actions'
@@ -17,6 +16,7 @@ import { MAIN } from '../../../navigation/pointsNavigate'
 import { SimpleListItem } from '../../../components/simple-list-item/SimpleListItem'
 import CityIco from '../../../images/font-awesome-svg/city.svg'
 import { timingAnimation } from '../../../animation/timingAnimation'
+import { getSVGColor } from '../../../helpers/color-helper'
 
 const { width } = Dimensions.get('window')
 
@@ -33,14 +33,6 @@ class CityScreen extends React.Component {
       showScaleAnimation: new Animated.Value(0)
     }
   }
-
-  getColor = color => {
-    if(Platform.OS === 'ios') {
-        return processColor(color)
-    }
-
-    return color
-}
 
   componentDidMount() {
     timingAnimation(this.state.showScaleAnimation, 1, 300, true)
@@ -93,7 +85,7 @@ class CityScreen extends React.Component {
             <CityIco
               width={130}
               height={130}
-              color={this.getColor(this.props.style.theme.secondaryTextColor.color)} />
+              color={getSVGColor(this.props.style.theme.secondaryTextColor.color)} />
           </View>
           <ScrollView>
             <FlatList
