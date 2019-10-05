@@ -9,17 +9,20 @@ import { springAnimation } from '../../../animation/springAnimation'
 class BasketIcoWithBadge extends React.Component {
   constructor(props) {
     super(props)
-
+    
+    const value = this.props.totalCountProducts == 0 ? 0 : 1
     this.state = {
-      showScaleAnimation: this.props.animation ? new Animated.Value(0) : 0,
+      showScaleAnimation: this.props.animation ? new Animated.Value(value) : value,
     }
   }
 
-  componentDidUpdate = () => {
-    if (this.props.animation)
-      this.toggleAnimationBadge()
-    else
-      this.toggleBadge()
+  componentDidUpdate = (prevProps) => {
+    if (prevProps.totalCountProducts != this.props.totalCountProducts) {
+      if (this.props.animation)
+        this.toggleAnimationBadge()
+      else
+        this.toggleBadge()
+    }
   }
 
   toggleAnimationBadge = () => {
@@ -42,14 +45,16 @@ class BasketIcoWithBadge extends React.Component {
     return (
       <View>
         <IcoShoppingBasket width={this.props.width} height={this.props.height} color={this.props.color} />
-        <Animated.View style={[
-          Style.badge,
-          this.props.style.theme.accentColor,
-          {
-            opacity: this.state.showScaleAnimation,
-            transform: [{ scale: this.state.showScaleAnimation }]
-          }
-        ]}>
+        <Animated.View
+          key={new Date().getTime().toString()}
+          style={[
+            Style.badge,
+            this.props.style.theme.accentColor,
+            {
+              opacity: this.state.showScaleAnimation,
+              transform: [{ scale: this.state.showScaleAnimation }]
+            }
+          ]}>
           <Text style={[
             this.props.style.theme.textPrimaryColor,
             this.props.style.fontSize.h12
