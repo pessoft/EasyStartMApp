@@ -77,7 +77,7 @@ class ProductInfoScreen extends React.Component {
                             <Rating
                                 type={'heart'}
                                 tintColor={this.props.style.theme.themeBody.backgroundColor}
-                                imageSize={26}
+                                imageSize={28}
                                 fractions={1}
                                 startingValue={this.state.selectedProduct.Rating}
                             />
