@@ -6,7 +6,8 @@ import {
   Button,
   View,
   Animated,
-  Dimensions
+  Dimensions,
+  Platform
 } from 'react-native'
 import { TextInputMask } from 'react-native-masked-text'
 import { SET_CITY } from '../../../navigation/pointsNavigate'
@@ -97,7 +98,9 @@ class UserDataScreen extends React.Component {
               title='Далее'
               onPress={this.onNextPage}
               disabled={!this.isValidData()}
-              color={this.props.style.theme.defaultPrimaryColor.backgroundColor}
+              color={Platform.OS == 'ios' ?
+                this.props.style.theme.textPrimaryColor.color :
+                this.props.style.theme.defaultPrimaryColor.backgroundColor}
             />
           </View>
         </Animated.View>

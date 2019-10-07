@@ -30,12 +30,12 @@ export class DeliveryAddress extends React.Component {
       this.props.changeDeliveryAddress({ ...this.state })
   }
 
-  onChangeStreet = street => this.setState({ street })
-  onChangeHouseNumber = houseNumber => this.setState({ houseNumber })
-  onChangeEntrance = entrance => this.setState({ entrance })
-  onChangeApartmentNumber = apartmentNumber => this.setState({ apartmentNumber })
-  onChangeLevel = level => this.setState({ level })
-  onChangeIntercomCode = intercomCode => this.setState({ intercomCode })
+  onChangeStreet = street => this.setState({ street }, () => this.onChangeDeliveryAddress())
+  onChangeHouseNumber = houseNumber => this.setState({ houseNumber }, () => this.onChangeDeliveryAddress())
+  onChangeEntrance = entrance => this.setState({ entrance }, () => this.onChangeDeliveryAddress())
+  onChangeApartmentNumber = apartmentNumber => this.setState({ apartmentNumber }, () => this.onChangeDeliveryAddress())
+  onChangeLevel = level => this.setState({ level }, () => this.onChangeDeliveryAddress())
+  onChangeIntercomCode = intercomCode => this.setState({ intercomCode }, () => this.onChangeDeliveryAddress())
 
   render() {
     return (

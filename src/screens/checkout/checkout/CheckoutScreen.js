@@ -127,11 +127,11 @@ class CheckoutScreen extends React.Component {
   }
 
   isValidDeliveryAddress = () => {
-    if (this.deliveryAddress.street
-      && this.deliveryAddress.houseNumber
-      && this.deliveryAddress.entrance
-      && this.deliveryAddress.apartmentNumber
-      && this.deliveryAddress.level) {
+    if (this.state.deliveryAddress.street
+      && this.state.deliveryAddress.houseNumber
+      && this.state.deliveryAddress.entrance
+      && this.state.deliveryAddress.apartmentNumber
+      && this.state.deliveryAddress.level) {
       return true
     }
 
@@ -151,7 +151,7 @@ class CheckoutScreen extends React.Component {
       return false
     }
 
-    if (this.deliveryType == TypeDelivery.Delivery
+    if (this.state.deliveryType == TypeDelivery.Delivery
       && !this.isValidDeliveryAddress()) {
       return false
     }
@@ -211,7 +211,7 @@ class CheckoutScreen extends React.Component {
               stock={this.getStock()}
               toPay={this.getToPayPrice()}
               onCompleteCheckout={this.completeCheckout}
-              disabled={this.isValidData()}
+              disabled={!this.isValidData()}
             />
           </ScrollView>
         </KeyboardAwareScrollView>

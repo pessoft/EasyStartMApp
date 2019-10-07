@@ -7,7 +7,8 @@ import {
   Button,
   ActivityIndicator,
   Animated,
-  Dimensions
+  Dimensions,
+  Platform
 } from 'react-native'
 import { setCityId, setBranchId, addOrUpdateUser, setIsLogin } from '../../../store/user/actions'
 import { getMainData } from '../../../store/main/actions'
@@ -105,7 +106,9 @@ class CityScreen extends React.Component {
             title='Далее'
             onPress={this.onFinishSetUserData}
             disabled={this.props.cityId == -1}
-            color={this.props.style.theme.defaultPrimaryColor.backgroundColor} />
+            color={Platform.OS == 'ios' ?
+            this.props.style.theme.textPrimaryColor.color: 
+            this.props.style.theme.defaultPrimaryColor.backgroundColor} />
         </View>
       </Animated.View>
     )

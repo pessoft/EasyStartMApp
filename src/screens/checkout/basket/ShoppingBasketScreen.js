@@ -250,7 +250,7 @@ class ShoppingBasketScreen extends React.Component {
               onPress={this.checkoutOrder}
               color={Platform.OS == 'ios' ? 
               this.props.style.theme.accentOther.backgroundColor:
-              this.props.style.theme.accentColor.backgroundColor}
+              this.props.style.theme.defaultPrimaryColor.backgroundColor}
             />
           </View>
         </View>

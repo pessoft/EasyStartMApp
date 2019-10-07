@@ -3,8 +3,8 @@ import { StyleSheet } from 'react-native'
 export default StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 7,
-    paddingBottom: 14,
+    paddingTop: 14,
+    paddingBottom: 6,
     paddingHorizontal: 12,
     marginVertical: 6,
     borderTopWidth: 0.4,
@@ -21,21 +21,15 @@ export default StyleSheet.create({
   content: {
     flex: 1,
     alignSelf: 'center',
-    paddingHorizontal: 10
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 10,
   },
-  inputText: {
-    textAlign: 'left',
-    textAlignVertical: 'top',
-    minHeight: 60,
-    marginTop: 10,
-    borderWidth: 1,
-    borderRadius: 3,
-    padding: 6,
+  textPadding: {
+    paddingBottom: 4
   },
-  inputSize: {
-    width: 280,
-  },
-  buttonSize: {
+  buttonComplete: {
     width: 230,
+    marginTop: 3
   }
 })
