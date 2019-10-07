@@ -7,6 +7,9 @@ export const DarkTheme = StyleSheet.create({
   navigationBottom: {
     backgroundColor: '#1f1f1f'
   },
+  backdoor: {
+    backgroundColor: '#3a3a3a'
+  },
   themeBody: {
     backgroundColor: '#141414'
   },

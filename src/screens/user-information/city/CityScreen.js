@@ -107,7 +107,7 @@ class CityScreen extends React.Component {
             onPress={this.onFinishSetUserData}
             disabled={this.props.cityId == -1}
             color={Platform.OS == 'ios' ?
-            this.props.style.theme.textPrimaryColor.color: 
+            this.props.style.theme.primaryTextColor.color: 
             this.props.style.theme.defaultPrimaryColor.backgroundColor} />
         </View>
       </Animated.View>

@@ -60,7 +60,7 @@ export class RadioGroup extends React.Component {
                   onPress={this.onChange}
                   labelStyle={{
                     fontSize: this.props.style.fontSize.h8.fontSize,
-                    color: this.props.style.theme.textPrimaryColor.color
+                    color: this.props.style.theme.primaryTextColor.color
                   }}
                   labelWrapStyle={{}}
                 />

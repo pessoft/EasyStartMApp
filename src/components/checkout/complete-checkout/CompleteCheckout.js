@@ -14,7 +14,7 @@ export class CompleteCheckout extends React.Component {
     return (
       <View style={[
         Style.container,
-        this.props.style.theme.defaultPrimaryColor,
+        this.props.style.theme.backdoor,
         this.props.style.theme.dividerColor
       ]}>
         <View style={Style.content}>
@@ -50,7 +50,7 @@ export class CompleteCheckout extends React.Component {
               Style.textPadding,
               this.props.style.theme.primaryTextColor,
               this.props.style.fontSize.h8]}>
-            К оплате:{`${this.props.toPay} ${this.props.currencyPrefix}`}
+            К оплате: {`${this.props.toPay} ${this.props.currencyPrefix}`}
           </Text>
           <View style={Style.buttonComplete}>
             <Button

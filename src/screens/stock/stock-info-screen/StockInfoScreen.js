@@ -39,8 +39,8 @@ class StocksInfoScreen extends React.Component {
           width={Dimensions.get('window').width}
           resizeMode='contain' />
         <Text style={[
-          this.props.style.theme.defaultPrimaryColor,
-          this.props.style.theme.textPrimaryColor,
+          this.props.style.theme.backdoor,
+          this.props.style.theme.primaryTextColor,
           Style.stockDescription]}
         >
           {this.props.selectedStock.Description}

@@ -238,7 +238,7 @@ class ShoppingBasketScreen extends React.Component {
           ]}>
           <Text
             style={[
-              this.props.style.theme.textPrimaryColor,
+              this.props.style.theme.primaryTextColor,
               this.props.style.fontSize.h8,
               { marginBottom: 15 }
             ]}>

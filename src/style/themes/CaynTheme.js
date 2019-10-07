@@ -5,7 +5,10 @@ export const CaynTheme = StyleSheet.create({
         backgroundColor: '#0097A7'
     },
     navigationBottom: {
-        backgroundColor: '#fafafa'
+        backgroundColor: '#f8f8f8'
+    },
+    backdoor: {
+        backgroundColor: '#f3f3f3'
     },
     themeBody: {
         backgroundColor: '#fafafa'

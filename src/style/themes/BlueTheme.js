@@ -5,7 +5,10 @@ export const BlueTheme = StyleSheet.create({
         backgroundColor: '#1976D2'
     },
     navigationBottom: {
-        backgroundColor: '#fafafa'
+        backgroundColor: '#f8f8f8'
+    },
+    backdoor: {
+        backgroundColor: '#f3f3f3'
     },
     themeBody: {
         backgroundColor: '#fafafa'
@@ -29,7 +32,7 @@ export const BlueTheme = StyleSheet.create({
         backgroundColor: '#448AFF'
     },
     primaryTextColor: {
-        color: '#212121'
+        color: '#484848'
     },
     secondaryTextColor: {
         color: '#757575'

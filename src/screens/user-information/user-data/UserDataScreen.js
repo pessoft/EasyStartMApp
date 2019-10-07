@@ -99,7 +99,7 @@ class UserDataScreen extends React.Component {
               onPress={this.onNextPage}
               disabled={!this.isValidData()}
               color={Platform.OS == 'ios' ?
-                this.props.style.theme.textPrimaryColor.color :
+                this.props.style.theme.primaryTextColor.color :
                 this.props.style.theme.defaultPrimaryColor.backgroundColor}
             />
           </View>

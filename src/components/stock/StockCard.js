@@ -21,14 +21,14 @@ export class StockCard extends React.Component {
       <TouchableWithoutFeedback onPress={this.onPress}>
         <View style={[
           Style.card,
-          this.props.style.theme.defaultPrimaryColor]}>
+          this.props.style.theme.backdoor]}>
           <Image
             width={Dimensions.get('screen').width}
             source={this.props.imageSource}
             resizeMode='contain' />
           <Text style={[
             this.props.style.fontSize.h9,
-            this.props.style.theme.textPrimaryColor,
+            this.props.style.theme.primaryTextColor,
             Style.cardName]}
           >
             {this.props.stockName}

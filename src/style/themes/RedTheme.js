@@ -5,7 +5,10 @@ export const RedTheme = StyleSheet.create({
         backgroundColor: '#D32F2F'
     },
     navigationBottom: {
-        backgroundColor: '#fafafa'
+        backgroundColor: '#f8f8f8'
+    },
+    backdoor: {
+        backgroundColor: '#f3f3f3'
     },
     themeBody: {
         backgroundColor: '#fafafa'
