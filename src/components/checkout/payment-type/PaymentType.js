@@ -21,10 +21,15 @@ export class PaymentType extends React.Component {
       paymentType: paymentType,
       needCashBack: false,
       cashBack: 0
-    },
-      () => {
-        if (this.props.changePaymentType)
-          this.props.changePaymentType(this.state.paymentType)
+    }, () => this.changePaymentData())
+  }
+
+  changePaymentData = () => {
+    if (this.props.changePaymentData)
+      this.props.changePaymentData({
+        paymentType: this.state.paymentType,
+        needCashBack: this.state.needCashBack,
+        cashBack: this.state.cashBack
       })
   }
 
@@ -32,7 +37,7 @@ export class PaymentType extends React.Component {
     this.setState({
       needCashBack: data.needCashBack,
       cashBack: data.cashBack
-    })
+    }, () => this.changePaymentData())
   }
 
   render() {

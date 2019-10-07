@@ -49,7 +49,7 @@ export class RadioGroup extends React.Component {
                   borderWidth={1}
                   buttonInnerColor={this.props.style.theme.defaultPrimaryColor.backgroundColor}
                   buttonOuterColor={this.props.style.theme.accentColor.backgroundColor}
-                  buttonSize={12}
+                  buttonSize={14}
                   buttonOuterSize={20}
                   buttonStyle={[this.props.style.theme.themeBody]}
                 />

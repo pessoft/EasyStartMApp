@@ -11,9 +11,11 @@ import { Contacts } from '../../../components/checkout/contacts/Contacts'
 import { DeliveryType } from '../../../components/checkout/delivery-type/DeliveryType'
 import { PaymentType } from '../../../components/checkout/payment-type/PaymentType'
 import { TypeDelivery } from '../../../helpers/type-delivery'
+import { TypeStock } from '../../../helpers/stock-type'
 import { TypePayment } from '../../../helpers/type-payment'
 import { DeliveryAddressAnimation } from '../../../components/checkout/delivery-address/DeliveryAddressAnimation'
 import { OrderComment } from '../../../components/checkout/order-comment/OrderComment'
+import { CompleteCheckout } from '../../../components/checkout/complete-checkout/CompleteCheckout'
 
 class CheckoutScreen extends React.Component {
   static navigationOptions = {
@@ -30,7 +32,11 @@ class CheckoutScreen extends React.Component {
         phoneNumber: props.userData.phoneNumber
       },
       deliveryType: TypeDelivery.Delivery,
-      paymentType: TypePayment.Cash,
+      paymentData: {
+        paymentType: TypePayment.Cash,
+        needCashBack: false,
+        cashBack: 0
+      },
       deliveryAddress: {
         cityId: this.props.userData.cityId,
         deliveryArea: '',
@@ -51,9 +57,107 @@ class CheckoutScreen extends React.Component {
 
   setContactsData = userData => this.setState({ userData })
   changeDeliveryType = deliveryType => this.setState({ deliveryType })
-  changePaymentType = paymentType => this.setState({ paymentType })
+  changePaymentData = paymentData => this.setState({ paymentData })
   setDeliveryAddress = deliveryAddress => this.setState({ deliveryAddress })
   setCommentText = commentText => this.setState({ commentText })
+
+  getOrderPrice = () => {
+    let price = 0
+
+    for (let productId in this.props.basketProducts) {
+      const products = this.props.products[this.props.basketProducts[productId].categoryId]
+      const item = this.getProductById(productId, products)
+
+      price += (item.Price * this.props.basketProducts[productId].count)
+    }
+
+    return price
+  }
+
+
+  getProductById = (productId, products) => {
+    return products.filter(p => p.Id == productId)[0]
+  }
+
+  getDeliveryPrice = () => {
+    if (this.state.deliveryType == TypeDelivery.TakeYourSelf)
+      return 0
+    else
+      return this.props.deliverySettings.PriceDelivery
+  }
+
+  getStock = () => {
+    if (this.state.deliveryType == TypeDelivery.TakeYourSelf) {
+      const stock = this.getStockByType(TypeStock.OrderTakeYourself)
+
+      return stock.Discount
+    }
+
+    //добавить проверку на то что это точно первый заказ
+    if (this.state.deliveryType == TypeDelivery.Delivery) {
+      const stock = this.getStockByType(TypeStock.FirstOrder)
+
+      return stock.Discount
+    }
+
+    return 0
+  }
+
+  getStockByType = stockType => {
+    let stockFind = this.props.stocks.filter(p => p.StockType == stockType)
+
+    if (stockFind.length > 0)
+      return stockFind[0]
+    else
+      return {
+        Discount: 0
+      }
+  }
+
+  getToPayPrice = () => {
+    const orderPrice = parseFloat(this.getOrderPrice())
+    const deliveryPrice = parseFloat(this.getDeliveryPrice())
+    const discount = parseFloat(this.getStock())
+
+    return orderPrice - (orderPrice * discount / 100) + deliveryPrice
+  }
+
+  completeCheckout = () => {
+
+  }
+
+  isValidDeliveryAddress = () => {
+    if (this.deliveryAddress.street
+      && this.deliveryAddress.houseNumber
+      && this.deliveryAddress.entrance
+      && this.deliveryAddress.apartmentNumber
+      && this.deliveryAddress.level) {
+      return true
+    }
+
+    return false
+  }
+
+  isValidData = () => {
+
+    if (!this.state.userData.userName ||
+      !this.state.userData.phoneNumber) {
+      return false
+    }
+
+    if (this.state.paymentData.paymentType == TypePayment.Cash
+      && this.state.paymentData.needCashBack
+      && this.state.paymentData.cashBack < this.getToPayPrice()) {
+      return false
+    }
+
+    if (this.deliveryType == TypeDelivery.Delivery
+      && !this.isValidDeliveryAddress()) {
+      return false
+    }
+
+    return true
+  }
 
   render() {
     return (
@@ -81,8 +185,8 @@ class CheckoutScreen extends React.Component {
             />
             <PaymentType
               style={this.props.style}
-              initValue={this.state.paymentType}
-              changeDeliveryType={this.changePaymentType}
+              initValue={this.state.paymentData.paymentType}
+              changePaymentData={this.changePaymentType}
             />
             <DeliveryType
               style={this.props.style}
@@ -99,6 +203,16 @@ class CheckoutScreen extends React.Component {
               style={this.props.style}
               changeCommentText={this.setCommentText}
             />
+            <CompleteCheckout
+              style={this.props.style}
+              orderPrice={this.getOrderPrice()}
+              currencyPrefix={this.props.currencyPrefix}
+              deliveryPrice={this.getDeliveryPrice()}
+              stock={this.getStock()}
+              toPay={this.getToPayPrice()}
+              onCompleteCheckout={this.completeCheckout}
+              disabled={this.isValidData()}
+            />
           </ScrollView>
         </KeyboardAwareScrollView>
       </Animated.View>
@@ -109,7 +223,12 @@ class CheckoutScreen extends React.Component {
 const mapStateToProps = state => {
   return {
     style: state.style,
-    userData: state.user
+    userData: state.user,
+    currencyPrefix: state.appSetting.currencyPrefix,
+    basketProducts: state.checkout.basketProducts,
+    products: state.main.products,
+    deliverySettings: state.main.deliverySettings,
+    stocks: state.main.stocks
   }
 }
 
