@@ -7,16 +7,16 @@ export default StyleSheet.create({
     alignItems: 'center'
   },
   loader: {
-    width: 120,
-    height: 120
+    width: 150,
+    height: 150
   },
   success: {
-    width: 120,
-    height: 120
+    width: 150,
+    height: 150
   },
   error: {
-    width: 120,
-    height: 120
+    width: 150,
+    height: 150
   },
   info: {
     flex: 1,
@@ -26,6 +26,6 @@ export default StyleSheet.create({
     borderColor: 'blue'
   },
   marginText: {
-    marginBottom: 5
+    marginTop: 5
   }
 })

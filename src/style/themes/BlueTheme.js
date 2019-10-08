@@ -32,7 +32,7 @@ export const BlueTheme = StyleSheet.create({
         backgroundColor: '#448AFF'
     },
     primaryTextColor: {
-        color: '#484848'
+        color: '#3b3b3b'
     },
     secondaryTextColor: {
         color: '#757575'

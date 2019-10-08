@@ -32,7 +32,7 @@ export const PurpleTheme = StyleSheet.create({
         backgroundColor: '#E040FB'
     },
     primaryTextColor: {
-        color: '#212121'
+        color: '#3b3b3b'
     },
     secondaryTextColor: {
         color: '#757575'

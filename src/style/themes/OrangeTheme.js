@@ -32,7 +32,7 @@ export const OrangeTheme = StyleSheet.create({
         backgroundColor: '#FF9800'
     },
     primaryTextColor: {
-        color: '#212121'
+        color: '#3b3b3b'
     },
     secondaryTextColor: {
         color: '#757575'
