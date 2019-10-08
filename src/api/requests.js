@@ -4,7 +4,8 @@ import {
   getMainDataQuery,
   getProductReviewsQuery,
   setProductReviewsQuery,
-  addOrUpdateUserQuery
+  addOrUpdateUserQuery,
+  sendNewOrderQuery
 } from './request-strings'
 import { fetchAPI } from './helper-api'
 
@@ -17,3 +18,5 @@ export const getMainDataFetch = async (branchId) => fetchAPI(getMainDataQuery, b
 
 export const getProductReviewsFetch = async (productId) => fetchAPI(getProductReviewsQuery, productId)
 export const setProductReviewsFetch = async (review) => fetchAPI(setProductReviewsQuery, review)
+
+export const sendNewOrderFetch = async (newOrder) => fetchAPI(sendNewOrderQuery, newOrder)

@@ -17,6 +17,7 @@ import { DeliveryAddressAnimation } from '../../../components/checkout/delivery-
 import { OrderComment } from '../../../components/checkout/order-comment/OrderComment'
 import { CompleteCheckout } from '../../../components/checkout/complete-checkout/CompleteCheckout'
 import { CHECKOUT_COMPLETE } from '../../../navigation/pointsNavigate'
+import { addNewOrderData } from '../../../store/checkout/actions'
 
 class CheckoutScreen extends React.Component {
   static navigationOptions = {
@@ -123,7 +124,36 @@ class CheckoutScreen extends React.Component {
     return orderPrice - (orderPrice * discount / 100) + deliveryPrice
   }
 
+  getOrderData = () => {
+    return {
+      branchId: this.props.userData.branchId,
+cityId:this.props.userData.cityId,
+clientId:this.props.userData.cityId,
+name: this.state.userData.userName,
+phoneNumber:this.state.userData.phoneNumber,
+deliveryType:this.state.deliveryType,
+street:this.state.deliveryAddress.street,
+homeNumber:this.state.deliveryAddress.houseNumber,
+entranceNumber:this.state.deliveryAddress.entrance,
+apartamentNumber:this.state.deliveryAddress.apartmentNumber,
+lvel:this.state.deliveryAddress.level,
+intercomCode:this.state.deliveryAddress.intercomCode,
+buyType:this.state.paymentData.paymentType,
+comment: this.state.commentText
+public string ProductCountJSON:
+public double Discount:
+public double DeliveryPrice:
+public double CashBack: this.state.paymentData.cashBack,
+public double AmountPay:
+public double AmountPayDiscountDelivery:
+public bool NeedCashBack:this.state.paymentData.needCashBack
+    }
+  }
+
   completeCheckout = () => {
+    const newOrderData = this.getOrderData()
+
+    this.props.addNewOrderData(newOrderData)
     this.props.navigation.navigate(CHECKOUT_COMPLETE)
   }
 
@@ -233,4 +263,4 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps)(CheckoutScreen)
+export default connect(mapStateToProps, { addNewOrderData })(CheckoutScreen)
