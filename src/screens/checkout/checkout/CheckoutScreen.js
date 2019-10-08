@@ -16,6 +16,7 @@ import { TypePayment } from '../../../helpers/type-payment'
 import { DeliveryAddressAnimation } from '../../../components/checkout/delivery-address/DeliveryAddressAnimation'
 import { OrderComment } from '../../../components/checkout/order-comment/OrderComment'
 import { CompleteCheckout } from '../../../components/checkout/complete-checkout/CompleteCheckout'
+import { CHECKOUT_COMPLETE } from '../../../navigation/pointsNavigate'
 
 class CheckoutScreen extends React.Component {
   static navigationOptions = {
@@ -123,7 +124,7 @@ class CheckoutScreen extends React.Component {
   }
 
   completeCheckout = () => {
-
+    this.props.navigation.navigate(CHECKOUT_COMPLETE)
   }
 
   isValidDeliveryAddress = () => {

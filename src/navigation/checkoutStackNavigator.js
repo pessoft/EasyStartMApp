@@ -4,13 +4,15 @@ import ShoppingBasketScreen from '../screens/checkout/basket/ShoppingBasketScree
 import CheckoutScreen from '../screens/checkout/checkout/CheckoutScreen'
 import { defaultStyleNavigationStackOptions } from './defaultStyleStackNavOption'
 import { ProductInfoScreen, ProductReviewScreen } from '../screens/catalog'
+import CheckoutCompleteScreen from '../screens/checkout/checkout-complete/CheckoutCompleteScreen'
 
 const checkoutStackNavigator = createStackNavigator(
     {
         ShoppingBasketScreen: ShoppingBasketScreen,
         ProductInfoFomBasket: ProductInfoScreen,
         ProductReviewFromBasket: ProductReviewScreen,
-        CheckoutScreen: CheckoutScreen
+        CheckoutScreen: CheckoutScreen,
+        CheckoutComplete: CheckoutCompleteScreen
     },
     {
         ...defaultStyleNavigationStackOptions,

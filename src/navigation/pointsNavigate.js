@@ -27,6 +27,7 @@ export const SHOPPING_BASKET = 'ShoppingBasketScreen'
 export const CHECKOUT_ORDER = 'CheckoutScreen'
 export const PRODUCT_INFO_FROM_BASKET = 'ProductInfoFomBasket'
 export const PRODUCT_REVIEW_FROM_BASKET = 'ProductReviewFromBasket'
+export const CHECKOUT_COMPLETE = 'CheckoutComplete'
 
 export const PROFILE = 'Profile'
 export const ORDER_HISTORY_PROFILE = 'OrdersHistoryProfile'
