@@ -186,7 +186,7 @@ class CheckoutScreen extends React.Component {
             <PaymentType
               style={this.props.style}
               initValue={this.state.paymentData.paymentType}
-              changePaymentData={this.changePaymentType}
+              changePaymentData={this.changePaymentData}
             />
             <DeliveryType
               style={this.props.style}
