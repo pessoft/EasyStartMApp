@@ -10,6 +10,8 @@ import { PhoneNumberInfo } from '../../components/information/phone-number/Phone
 import { WorkTimeInfo } from '../../components/information/work-time/WorkTimeInfo'
 import { getWorkTime } from '../../helpers/work-time'
 import { DeliveryPriceInfo } from '../../components/information/delivery-price/DeliveryPriceInfo'
+import { DeliveryTypeInfo } from '../../components/information/delivery-type/DeliveryTypeInfo'
+import { PaymentTypeInfo } from '../../components/information/payment-type/PaymentTypeInfo'
 
 class CheckoutScreen extends React.Component {
   static navigationOptions = {
@@ -67,6 +69,15 @@ class CheckoutScreen extends React.Component {
             startFreeDeliveryPrice={this.props.deliverySettings.PriceDelivery}
             areaDelievries={this.getAreaDelivery()}
           />
+          <DeliveryTypeInfo
+          style={this.props.style}
+          takeYourSelf={true}
+          delivery={true}
+          />
+          <PaymentTypeInfo
+          style={this.props.style}
+          card={this.props.deliverySettings.PayCard}
+          cash={this.props.deliverySettings.PayCash}/>
         </ScrollView>
       </Animated.View>
     )
