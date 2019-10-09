@@ -14,7 +14,11 @@ export default StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     marginTop: 20,
-    marginBottom: 100
+    marginBottom: 200,
+  },
+  loader: {
+    width: 250,
+    height: 250
   },
   contentContainer: {
     flex: 5,

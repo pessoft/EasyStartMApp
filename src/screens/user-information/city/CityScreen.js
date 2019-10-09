@@ -18,6 +18,7 @@ import { SimpleListItem } from '../../../components/simple-list-item/SimpleListI
 import CityIco from '../../../images/font-awesome-svg/city.svg'
 import { timingAnimation } from '../../../animation/timingAnimation'
 import { getSVGColor } from '../../../helpers/color-helper'
+import LottieView from 'lottie-react-native';
 
 const { width } = Dimensions.get('window')
 
@@ -83,10 +84,17 @@ class CityScreen extends React.Component {
         { transform: [{ scale: this.state.showScaleAnimation }] }]}>
         <View style={Style.contentContainer}>
           <View style={Style.cityIco}>
-            <CityIco
+            <LottieView
+              style={Style.loader}
+              source={require('../../../animation/src/city.json')}
+              autoPlay
+              resizeMode='cover'
+              autoSize={true}
+              speed={1} />
+            {/* <CityIco
               width={130}
               height={130}
-              color={getSVGColor(this.props.style.theme.secondaryTextColor.color)} />
+              color={getSVGColor(this.props.style.theme.secondaryTextColor.color)} /> */}
           </View>
           <ScrollView>
             <FlatList
@@ -107,8 +115,8 @@ class CityScreen extends React.Component {
             onPress={this.onFinishSetUserData}
             disabled={this.props.cityId == -1}
             color={Platform.OS == 'ios' ?
-            this.props.style.theme.primaryTextColor.color: 
-            this.props.style.theme.defaultPrimaryColor.backgroundColor} />
+              this.props.style.theme.primaryTextColor.color :
+              this.props.style.theme.defaultPrimaryColor.backgroundColor} />
         </View>
       </Animated.View>
     )
