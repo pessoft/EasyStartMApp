@@ -1,12 +1,61 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import {
+  ScrollView,
+  Animated,
+} from 'react-native'
+import { timingAnimation } from '../../animation/timingAnimation'
+import { AddressInfo } from '../../components/information/address/AddressInfo'
+import { PhoneNumberInfo } from '../../components/information/phone-number/PhoneNumberInfo'
+import { WorkTimeInfo } from '../../components/information/work-time/WorkTimeInfo'
+import { getWorkTime } from '../../helpers/work-time'
 
-class InformationScreen extends React.Component {
+class CheckoutScreen extends React.Component {
+  static navigationOptions = {
+    headerTitle: 'Информация',
+  }
+
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      showScaleAnimation: new Animated.Value(0),
+    }
+  }
+
+  componentDidMount = () => {
+    timingAnimation(this.state.showScaleAnimation, 1, 300, true)
+  }
+
   render() {
     return (
-      <React.Fragment></React.Fragment>
+      <Animated.View>
+        <ScrollView>
+          <AddressInfo
+            style={this.props.style}
+            city={this.props.organizationSettings.City}
+            street={this.props.organizationSettings.Street}
+            homeNumber={this.props.organizationSettings.HomeNumber} />
+          <PhoneNumberInfo
+            style={this.props.style}
+            phoneNumberMain={this.props.organizationSettings.PhoneNumber}
+            phoneNumberSecond={this.props.organizationSettings.PhoneNumberAdditional} />
+          <WorkTimeInfo
+            style={this.props.style}
+            data={getWorkTime(this.props.deliverySettings.TimeDelivery)}
+          />
+        </ScrollView>
+      </Animated.View>
     )
   }
 }
 
-export default connect()(InformationScreen)
+const mapStateToProps = state => {
+  return {
+    style: state.style,
+    organizationSettings: state.main.organizationSettings,
+    deliverySettings: state.main.deliverySettings,
+  }
+}
+
+export default connect(mapStateToProps)(CheckoutScreen)
