@@ -24,7 +24,7 @@ export class AddressInfo extends React.Component {
             <Text
               style={[
                 this.props.style.theme.primaryTextColor,
-                this.props.style.fontSize.h5,
+                this.props.style.fontSize.h6,
               ]}>
               Адрес
           </Text>
@@ -32,7 +32,7 @@ export class AddressInfo extends React.Component {
           <View style={Style.content}>
             <Text style={[
               this.props.style.theme.secondaryTextColor,
-              this.props.style.fontSize.h8,
+              this.props.style.fontSize.h9,
               Style.paddingBottomText
             ]}>
               {`г.${this.props.city}, ул.${this.props.street}, д.${this.props.homeNumber}`}

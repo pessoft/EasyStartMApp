@@ -9,6 +9,7 @@ import { AddressInfo } from '../../components/information/address/AddressInfo'
 import { PhoneNumberInfo } from '../../components/information/phone-number/PhoneNumberInfo'
 import { WorkTimeInfo } from '../../components/information/work-time/WorkTimeInfo'
 import { getWorkTime } from '../../helpers/work-time'
+import { DeliveryPriceInfo } from '../../components/information/delivery-price/DeliveryPriceInfo'
 
 class CheckoutScreen extends React.Component {
   static navigationOptions = {
@@ -25,6 +26,22 @@ class CheckoutScreen extends React.Component {
 
   componentDidMount = () => {
     timingAnimation(this.state.showScaleAnimation, 1, 300, true)
+  }
+
+  getAreaDelivery = () => {
+    let areaDeliveries = []
+
+    for (let index in this.props.deliverySettings.AreaDeliveries) {
+      const area = this.props.deliverySettings.AreaDeliveries[index]
+
+      if (areaDeliveries[area.MinPrice])
+        areaDeliveries[area.MinPrice].push(area.NameArea)
+      else
+        areaDeliveries[area.MinPrice] = [area.NameArea]
+    }
+    
+    areaDeliveries = areaDeliveries.map((areas, price) => `${areas.join(", ")}: ${price} ${this.props.currencyPrefix}`)
+    return areaDeliveries
   }
 
   render() {
@@ -44,6 +61,12 @@ class CheckoutScreen extends React.Component {
             style={this.props.style}
             data={getWorkTime(this.props.deliverySettings.TimeDelivery)}
           />
+          <DeliveryPriceInfo
+            style={this.props.style}
+            currencyPrefix={this.props.currencyPrefix}
+            startFreeDeliveryPrice={this.props.deliverySettings.PriceDelivery}
+            areaDelievries={this.getAreaDelivery()}
+          />
         </ScrollView>
       </Animated.View>
     )
@@ -55,6 +78,7 @@ const mapStateToProps = state => {
     style: state.style,
     organizationSettings: state.main.organizationSettings,
     deliverySettings: state.main.deliverySettings,
+    currencyPrefix: state.appSetting.currencyPrefix
   }
 }
 

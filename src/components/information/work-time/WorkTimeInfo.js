@@ -24,7 +24,7 @@ export class WorkTimeInfo extends React.Component {
             <Text
               style={[
                 this.props.style.theme.primaryTextColor,
-                this.props.style.fontSize.h5
+                this.props.style.fontSize.h6
               ]}>
               Режим доставки
           </Text>
@@ -37,7 +37,7 @@ export class WorkTimeInfo extends React.Component {
                     key={index}
                     style={[
                       this.props.style.theme.secondaryTextColor,
-                      this.props.style.fontSize.h8,
+                      this.props.style.fontSize.h9,
                       Style.paddingBottomText
                     ]}>
                     {value}

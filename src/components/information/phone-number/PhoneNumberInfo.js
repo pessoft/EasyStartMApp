@@ -24,15 +24,14 @@ export class PhoneNumberInfo extends React.Component {
             <Text
               style={[
                 this.props.style.theme.primaryTextColor,
-                this.props.style.fontSize.h5
-              ]}>
+                this.props.style.fontSize.h6              ]}>
               Наш телефон
           </Text>
           </View>
           <View style={Style.content}>
             <Text style={[
               this.props.style.theme.secondaryTextColor,
-              this.props.style.fontSize.h8,
+              this.props.style.fontSize.h9,
               Style.paddingBottomText
             ]}>
               {this.props.phoneNumberMain}
@@ -41,7 +40,7 @@ export class PhoneNumberInfo extends React.Component {
               this.props.phoneNumberSecond &&
               <Text style={[
                 this.props.style.theme.secondaryTextColor,
-                this.props.style.fontSize.h8,
+                this.props.style.fontSize.h9,
                 Style.paddingBottomText
               ]}>
                 {this.props.phoneNumberSecond}
