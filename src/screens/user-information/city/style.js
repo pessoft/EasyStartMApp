@@ -17,8 +17,8 @@ export default StyleSheet.create({
     marginBottom: 200,
   },
   loader: {
-    width: 250,
-    height: 250
+    width: 200,
+    height: 200
   },
   contentContainer: {
     flex: 5,

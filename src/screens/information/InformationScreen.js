@@ -12,6 +12,8 @@ import { getWorkTime } from '../../helpers/work-time'
 import { DeliveryPriceInfo } from '../../components/information/delivery-price/DeliveryPriceInfo'
 import { DeliveryTypeInfo } from '../../components/information/delivery-type/DeliveryTypeInfo'
 import { PaymentTypeInfo } from '../../components/information/payment-type/PaymentTypeInfo'
+import { SocialInfo } from '../../components/information/social/SocialInfo'
+import { socilaType, getSocialData } from '../../helpers/social'
 
 class CheckoutScreen extends React.Component {
   static navigationOptions = {
@@ -41,14 +43,20 @@ class CheckoutScreen extends React.Component {
       else
         areaDeliveries[area.MinPrice] = [area.NameArea]
     }
-    
+
     areaDeliveries = areaDeliveries.map((areas, price) => `${areas.join(", ")}: ${price} ${this.props.currencyPrefix}`)
     return areaDeliveries
   }
 
   render() {
     return (
-      <Animated.View>
+      <Animated.View
+      style={[
+        {
+          opacity: this.state.showScaleAnimation,
+          transform: [{scale: this.state.showScaleAnimation}]
+        }
+      ]}>
         <ScrollView>
           <AddressInfo
             style={this.props.style}
@@ -70,14 +78,46 @@ class CheckoutScreen extends React.Component {
             areaDelievries={this.getAreaDelivery()}
           />
           <DeliveryTypeInfo
-          style={this.props.style}
-          takeYourSelf={true}
-          delivery={true}
+            style={this.props.style}
+            takeYourSelf={true}
+            delivery={true}
           />
           <PaymentTypeInfo
-          style={this.props.style}
-          card={this.props.deliverySettings.PayCard}
-          cash={this.props.deliverySettings.PayCash}/>
+            style={this.props.style}
+            card={this.props.deliverySettings.PayCard}
+            cash={this.props.deliverySettings.PayCash} />
+          {
+            this.props.organizationSettings.Email &&
+            <SocialInfo
+              style={this.props.style}
+              social={getSocialData(socilaType.email)}
+              href={this.props.organizationSettings.Email}
+            />
+          }
+                    {
+            this.props.organizationSettings.Vkontakte &&
+            <SocialInfo
+              style={this.props.style}
+              social={getSocialData(socilaType.vkontakte)}
+              href={this.props.organizationSettings.Vkontakte}
+            />
+          }
+           {
+            this.props.organizationSettings.Instagram &&
+            <SocialInfo
+              style={this.props.style}
+              social={getSocialData(socilaType.instagram)}
+              href={this.props.organizationSettings.Instagram}
+            />
+          }
+            {
+            this.props.organizationSettings.Facebook &&
+            <SocialInfo
+              style={this.props.style}
+              social={getSocialData(socilaType.facebook)}
+              href={this.props.organizationSettings.Facebook}
+            />
+          }
         </ScrollView>
       </Animated.View>
     )
