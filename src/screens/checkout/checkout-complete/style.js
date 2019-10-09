@@ -25,7 +25,16 @@ export default StyleSheet.create({
     borderWidth: 1,
     borderColor: 'blue'
   },
-  marginText: {
-    marginTop: 5
-  }
+  infoText: {
+    marginTop: 5,
+    textAlign: 'center',
+    width: 300
+  },
+  buttonOk: {
+    width: 280,
+    alignItems: 'stretch',
+    alignSelf: 'center',
+    justifyContent: 'center',
+    paddingVertical: 15
+  },
 })

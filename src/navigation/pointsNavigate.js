@@ -1,6 +1,7 @@
 export const START_APP = 'StartApp'
 export const USER_INFO = 'UserSetInfo'
 export const MAIN = 'MainBottomTab'
+export const CHECKOUT_COMPLETE = 'CheckoutComplete'
 
 export const SET_USER_DATA = 'UserDataSet'
 export const SET_CITY = 'CitySet'
@@ -27,7 +28,6 @@ export const SHOPPING_BASKET = 'ShoppingBasketScreen'
 export const CHECKOUT_ORDER = 'CheckoutScreen'
 export const PRODUCT_INFO_FROM_BASKET = 'ProductInfoFomBasket'
 export const PRODUCT_REVIEW_FROM_BASKET = 'ProductReviewFromBasket'
-export const CHECKOUT_COMPLETE = 'CheckoutComplete'
 
 export const PROFILE = 'Profile'
 export const ORDER_HISTORY_PROFILE = 'OrdersHistoryProfile'

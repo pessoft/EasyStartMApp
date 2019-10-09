@@ -20,7 +20,7 @@ export class OrderComment extends React.Component {
 
   onChangeCommentText = () => {
     if (this.props.changeCommentText)
-      this.props.changeCommentText(this.state)
+      this.props.changeCommentText(this.state.commentText)
   }
 
   render() {

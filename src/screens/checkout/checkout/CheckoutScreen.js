@@ -76,7 +76,6 @@ class CheckoutScreen extends React.Component {
     return price
   }
 
-
   getProductById = (productId, products) => {
     return products.filter(p => p.Id == productId)[0]
   }
@@ -88,7 +87,7 @@ class CheckoutScreen extends React.Component {
       return this.props.deliverySettings.PriceDelivery
   }
 
-  getStock = () => {
+  getDiscount = () => {
     if (this.state.deliveryType == TypeDelivery.TakeYourSelf) {
       const stock = this.getStockByType(TypeStock.OrderTakeYourself)
 
@@ -119,41 +118,52 @@ class CheckoutScreen extends React.Component {
   getToPayPrice = () => {
     const orderPrice = parseFloat(this.getOrderPrice())
     const deliveryPrice = parseFloat(this.getDeliveryPrice())
-    const discount = parseFloat(this.getStock())
+    const discount = parseFloat(this.getDiscount())
 
     return orderPrice - (orderPrice * discount / 100) + deliveryPrice
+  }
+
+  getProductCountJson = () => {
+    const productCount = {}
+
+    for (let productId in this.props.basketProducts) {
+      if (this.props.basketProducts[productId].count > 0)
+        productCount[productId] = this.props.basketProducts[productId].count
+    }
+
+    return JSON.stringify(productCount)
   }
 
   getOrderData = () => {
     return {
       branchId: this.props.userData.branchId,
-cityId:this.props.userData.cityId,
-clientId:this.props.userData.cityId,
-name: this.state.userData.userName,
-phoneNumber:this.state.userData.phoneNumber,
-deliveryType:this.state.deliveryType,
-street:this.state.deliveryAddress.street,
-homeNumber:this.state.deliveryAddress.houseNumber,
-entranceNumber:this.state.deliveryAddress.entrance,
-apartamentNumber:this.state.deliveryAddress.apartmentNumber,
-lvel:this.state.deliveryAddress.level,
-intercomCode:this.state.deliveryAddress.intercomCode,
-buyType:this.state.paymentData.paymentType,
-comment: this.state.commentText
-public string ProductCountJSON:
-public double Discount:
-public double DeliveryPrice:
-public double CashBack: this.state.paymentData.cashBack,
-public double AmountPay:
-public double AmountPayDiscountDelivery:
-public bool NeedCashBack:this.state.paymentData.needCashBack
+      cityId: this.props.userData.cityId,
+      clientId: this.props.userData.clientId,
+      name: this.state.userData.userName,
+      phoneNumber: this.state.userData.phoneNumber,
+      deliveryType: this.state.deliveryType,
+      street: this.state.deliveryAddress.street,
+      homeNumber: this.state.deliveryAddress.houseNumber,
+      entranceNumber: this.state.deliveryAddress.entrance,
+      apartamentNumber: this.state.deliveryAddress.apartmentNumber,
+      level: this.state.deliveryAddress.level,
+      intercomCode: this.state.deliveryAddress.intercomCode,
+      buyType: this.state.paymentData.paymentType,
+      comment: this.state.commentText,
+      cashBack: this.state.paymentData.cashBack,
+      needCashBack: this.state.paymentData.needCashBack,
+      discount: this.getDiscount(),
+      deliveryPrice: this.getDeliveryPrice(),
+      amountPay: this.getOrderPrice(),
+      amountPayDiscountDelivery: this.getToPayPrice(),
+      productCountJSON: this.getProductCountJson()
     }
   }
 
   completeCheckout = () => {
     const newOrderData = this.getOrderData()
-
     this.props.addNewOrderData(newOrderData)
+
     this.props.navigation.navigate(CHECKOUT_COMPLETE)
   }
 
@@ -239,7 +249,7 @@ public bool NeedCashBack:this.state.paymentData.needCashBack
               orderPrice={this.getOrderPrice()}
               currencyPrefix={this.props.currencyPrefix}
               deliveryPrice={this.getDeliveryPrice()}
-              stock={this.getStock()}
+              stock={this.getDiscount()}
               toPay={this.getToPayPrice()}
               onCompleteCheckout={this.completeCheckout}
               disabled={!this.isValidData()}

@@ -1,16 +1,14 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Animated, View, Text, Dimensions } from 'react-native'
+import { Animated, View, Text, Dimensions, Button } from 'react-native'
 import LottieView from 'lottie-react-native';
 import Style from './style'
 import { timingAnimation } from '../../../animation/timingAnimation'
 import { sendNewOrder } from '../../../store/checkout/actions'
+import { MAIN } from '../../../navigation/pointsNavigate'
+import { toggleProductInBasket, changeTotalCountProductInBasket } from '../../../store/checkout/actions'
 
 class CheckoutCompleteScreen extends React.Component {
-  static navigationOptions = {
-    headerTitle: 'Формирование заявки',
-  }
-
   constructor(props) {
     super(props)
 
@@ -27,11 +25,18 @@ class CheckoutCompleteScreen extends React.Component {
   }
 
   componentDidUpdate = () => {
-    if(!this.props.isFetching && !this.props.isError) {
+    if (!this.props.isFetching && !this.props.isError) {
       timingAnimation(this.state.showScaleAnimationSuccess, 1, 200, true)
     } else if (!this.props.isFetching && this.props.isError) {
       timingAnimation(this.state.showScaleAnimationError, 1, 200, true)
     }
+  }
+
+  onFinishCheckout = () => {
+    this.props.toggleProductInBasket({})
+    this.props.changeTotalCountProductInBasket(0)
+
+    this.props.navigation.navigate(MAIN)
   }
 
   renderLoader = () => {
@@ -54,7 +59,7 @@ class CheckoutCompleteScreen extends React.Component {
           style={[
             this.props.style.theme.primaryTextColor,
             this.props.style.fontSize.h8,
-            Style.marginText,
+            Style.infoText,
           ]}>
           Пожалуйста подождите
         </Text>
@@ -62,7 +67,7 @@ class CheckoutCompleteScreen extends React.Component {
           style={[
             this.props.style.theme.primaryTextColor,
             this.props.style.fontSize.h8,
-            Style.marginText
+            Style.infoText
           ]}>
           Идет формирование заявки...
         </Text>
@@ -79,7 +84,7 @@ class CheckoutCompleteScreen extends React.Component {
             opacity: this.state.showScaleAnimationSuccess,
             transform: [{ scale: this.state.showScaleAnimationSuccess }]
           }]}>
-          <LottieView
+        <LottieView
           style={Style.success}
           source={require('../../../animation/src/success.json')}
           autoPlay
@@ -87,20 +92,20 @@ class CheckoutCompleteScreen extends React.Component {
           resizeMode='cover'
           autoSize={true}
           speed={1} />
-   
+
         <Text
           style={[
             this.props.style.theme.primaryTextColor,
             this.props.style.fontSize.h8,
-            Style.marginText,
+            Style.infoText,
           ]}>
-          Заказ # {this.props.orderNumber}
+          Заказ #{this.props.orderNumber}
         </Text>
         <Text
           style={[
             this.props.style.theme.primaryTextColor,
             this.props.style.fontSize.h8,
-            Style.marginText
+            Style.infoText
           ]}>
           Успешно оформлен
         </Text>
@@ -117,7 +122,7 @@ class CheckoutCompleteScreen extends React.Component {
             opacity: this.state.showScaleAnimationError,
             transform: [{ scale: this.state.showScaleAnimationError }]
           }]}>
-                <LottieView
+        <LottieView
           style={Style.error}
           source={require('../../../animation/src/error.json')}
           autoPlay
@@ -129,7 +134,7 @@ class CheckoutCompleteScreen extends React.Component {
           style={[
             this.props.style.theme.primaryTextColor,
             this.props.style.fontSize.h8,
-            Style.marginText,
+            Style.infoText,
           ]}>
           Заказ не оформлен
         </Text>
@@ -137,12 +142,26 @@ class CheckoutCompleteScreen extends React.Component {
           style={[
             this.props.style.theme.primaryTextColor,
             this.props.style.fontSize.h8,
-            Style.marginText,
-            {flexWrap: 'wrap'}
+            Style.infoText,
+            { flexWrap: 'wrap' }
           ]}>
           При оформлении заказа что-то пошло не так
         </Text>
       </Animated.View>
+    )
+  }
+
+  renderButtonOk = () => {
+    return (
+      <View style={[Style.buttonOk]}>
+        <Button
+          title='Готово'
+          onPress={this.onFinishCheckout}
+          disabled={this.props.cityId == -1}
+          color={Platform.OS == 'ios' ?
+            this.props.style.theme.primaryTextColor.color :
+            this.props.style.theme.defaultPrimaryColor.backgroundColor} />
+      </View>
     )
   }
 
@@ -155,6 +174,7 @@ class CheckoutCompleteScreen extends React.Component {
         {this.props.isFetching && this.renderLoader()}
         {!this.props.isFetching && !this.props.isError && this.renderSuccess()}
         {!this.props.isFetching && this.props.isError && this.renderError()}
+        {!this.props.isFetching && this.renderButtonOk()}
       </View>
     )
   }
@@ -170,4 +190,10 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps, { sendNewOrder })(CheckoutCompleteScreen)
+const mapActionToProps = {
+  sendNewOrder,
+  toggleProductInBasket,
+  changeTotalCountProductInBasket
+}
+
+export default connect(mapStateToProps, mapActionToProps)(CheckoutCompleteScreen)

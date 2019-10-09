@@ -165,7 +165,7 @@ class ShoppingBasketScreen extends React.Component {
   }
 
   toggleProductInBasket = basketProduct => {
-    const basketProductModify = {}
+    const basketProductModify = { ...this.props.basketProducts }
     basketProductModify[basketProduct.id] = {
       categoryId: this.props.basketProducts[basketProduct.id].categoryId,
       count: basketProduct.count
@@ -248,9 +248,9 @@ class ShoppingBasketScreen extends React.Component {
             <Button
               title='Перейти к оформлению'
               onPress={this.checkoutOrder}
-              color={Platform.OS == 'ios' ? 
-              this.props.style.theme.accentOther.backgroundColor:
-              this.props.style.theme.defaultPrimaryColor.backgroundColor}
+              color={Platform.OS == 'ios' ?
+                this.props.style.theme.accentOther.backgroundColor :
+                this.props.style.theme.defaultPrimaryColor.backgroundColor}
             />
           </View>
         </View>

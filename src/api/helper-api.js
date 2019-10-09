@@ -6,13 +6,12 @@ export const fetchAPI = async (query, body) => {
   if (response.ok) {
     try {
       let json = await response.json()
-
       if (json.Success)
         return json.Data
       else
         throw new Error()
     } catch {
-      return null
+      throw new Error()
     }
   }
 

@@ -1,9 +1,9 @@
 import {
   TOGGLE_PRODUCT_IN_BASKET_SHOP,
   CHANGE_TOTAL_COUNT_PRODUCT_IN_BASKET_SHOP,
-  FETCH_CHECKOUT_COMPLITE_SUCCESS,
-  FETCH_CHECKOUT_COMPLITE_REQUEST,
-  FETCH_CHECKOUT_COMPLITE_FAILURE,
+  FETCH_CHECKOUT_COMPLETE_SUCCESS,
+  FETCH_CHECKOUT_COMPLETE_REQUEST,
+  FETCH_CHECKOUT_COMPLETE_FAILURE,
   ADD_NEW_ORDER_DATA
 } from './actions'
 
@@ -12,7 +12,7 @@ const defaultState = {
   totalCountProducts: 0,
   isFetching: false,
   isError: false,
-  lastOrderNuber: 0,
+  lastOrderNumber: 0,
   lastOrder: {}
 }
 
@@ -26,26 +26,26 @@ export const checkoutReducer = (state = defaultState, action) => {
     case TOGGLE_PRODUCT_IN_BASKET_SHOP:
       return {
         ...state,
-        basketProducts: { ...state.basketProducts, ...action.payload }
+        basketProducts: action.payload
       }
     case CHANGE_TOTAL_COUNT_PRODUCT_IN_BASKET_SHOP:
       return {
         ...state,
         totalCountProducts: action.payload
       }
-    case FETCH_CHECKOUT_COMPLITE_REQUEST:
+    case FETCH_CHECKOUT_COMPLETE_REQUEST:
       return {
         ...state,
         isFetching: true,
         isError: false
       }
-    case FETCH_CHECKOUT_COMPLITE_SUCCESS:
+    case FETCH_CHECKOUT_COMPLETE_SUCCESS:
       return {
         ...state,
         isFetching: false,
-        lastOrderNuber: action.payload
+        lastOrderNumber: action.payload
       }
-    case FETCH_CHECKOUT_COMPLITE_FAILURE:
+    case FETCH_CHECKOUT_COMPLETE_FAILURE:
       return {
         ...state,
         isFetching: false,

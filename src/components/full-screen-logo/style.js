@@ -11,7 +11,7 @@ export default StyleSheet.create({
     resizeMode: 'contain'
   },
   logoContainer: {
-    flex: 5,
+    flex: 6,
     justifyContent: 'center',
     alignItems: 'center'
   },
@@ -21,7 +21,7 @@ export default StyleSheet.create({
     alignItems: 'center',
   },
   loader: {
-    width: 65,
-    height: 65
+    width: 45,
+    height: 45
   }
 })
