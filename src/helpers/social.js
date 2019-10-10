@@ -3,7 +3,7 @@ import FacebookIcon from '../images/font-awesome-svg/facebook-f.svg'
 import InstagramIcon from '../images/font-awesome-svg/instagram.svg'
 import VkIcon from '../images/font-awesome-svg/vk.svg'
 
-export const socilaType = {
+export const socialType = {
     email: 0,
     vkontakte: 1,
     facebook: 2,
@@ -27,6 +27,7 @@ const socialIco = {
 export const getSocialData = socialType => {
 
     return {
+        type: socialType,
         name: socialName[socialType],
         icon: socialIco[socialType]
     }
