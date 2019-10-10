@@ -6,7 +6,7 @@ export default StyleSheet.create({
     justifyContent: 'center',
   },
   text: {
-    borderBottomWidth: 1,
+    // borderBottomWidth: 1,
     minHeight: 50,
     paddingHorizontal: 15,
     textAlign: 'center',

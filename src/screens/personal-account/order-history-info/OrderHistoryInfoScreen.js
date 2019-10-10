@@ -37,10 +37,13 @@ class OrderHistoryInfoScreen extends React.Component {
 
   componentDidMount = () => timingAnimation(this.state.showScaleAnimation, 1, 300, true)
   componentDidUpdate = () => {
-    this.changeTotalCountProductInBasket()
+
 
     if (this.state.toBasket) {
-      this.props.navigation.navigate(SHOPPING_BASKET)
+      this.setState({ toBasket: false }, () => {
+        this.changeTotalCountProductInBasket()
+        this.props.navigation.navigate(SHOPPING_BASKET)
+      })
     }
   }
 
@@ -114,7 +117,7 @@ class OrderHistoryInfoScreen extends React.Component {
       }
     }
     this.props.toggleProductInBasket(basketProductModify)
-    this.setState({toBasket: true})
+    this.setState({ toBasket: true })
   }
 
   changeTotalCountProductInBasket = () => {
@@ -132,7 +135,7 @@ class OrderHistoryInfoScreen extends React.Component {
     this.props.changeTotalCountProductInBasket(count)
   }
 
-    render() {
+  render() {
     return (
       <Animated.View
         style={[
