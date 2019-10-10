@@ -34,7 +34,7 @@ export class CategoryItem extends React.PureComponent {
     render() {
         return (
             <TouchableHighlight
-                underlayColor={this.props.style.theme.lightPrimaryColor.backgroundColor}
+                underlayColor={this.props.style.theme.backdoor.backgroundColor}
                 style={[
                     Style.bodyItem,
                     this.props.style.theme.dividerColor]}
@@ -59,7 +59,7 @@ export class CategoryItem extends React.PureComponent {
                         </Text>
                     </View>
                 </Animated.View>
-            </TouchableHighlight >
+            </TouchableHighlight>
         )
     }
 }

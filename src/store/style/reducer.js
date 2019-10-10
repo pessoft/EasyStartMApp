@@ -1,9 +1,9 @@
 import { CHANGE_COLOR_THEME } from './actions'
-import { DarkTheme } from '../../style/themes/DarkTheme'
+import { GreenTheme } from '../../style/themes/GreenTheme'
 import { GlobalFontSize } from '../../style/GlobalFontSize'
 
 const defaultState = {
-    theme: DarkTheme,
+    theme: GreenTheme,
     fontSize: GlobalFontSize
 }
 

@@ -11,7 +11,7 @@ import { SimpleTextButton } from '../../../components/buttons/SimpleTextButton/S
 import { Rating } from 'react-native-ratings';
 import { PRODUCT_REVIEW, PRODUCT_REVIEW_FROM_BASKET } from '../../../navigation/pointsNavigate'
 import Style from './style'
-import CommentLinesIco from '../../../images/font-awesome-svg/comment-lines.svg'
+import CommentLinesIcon from '../../../images/font-awesome-svg/comment-lines.svg'
 import { timingAnimation } from '../../../animation/timingAnimation'
 import { setSelectedProduct } from '../../../store/catalog/actions'
 import { getSVGColor } from '../../../helpers/color-helper'
@@ -85,14 +85,14 @@ class ProductInfoScreen extends React.Component {
                                 this.props.style.fontSize.h9,
                                 this.props.style.theme.secondaryTextColor]}>{this.getRatingText()}
                             </Text>
-                            <View style={Style.reviewsButtonWithIco}>
+                            <View style={Style.reviewsButtonWithIcon}>
                                 <SimpleTextButton
                                     text={'Отзывы'}
                                     onPress={this.onPressReviews}
                                     sizeText={this.props.style.fontSize.h6.fontSize}
                                     color={this.props.style.theme.accentOther.backgroundColor}
                                 />
-                                <CommentLinesIco
+                                <CommentLinesIcon
                                     width={20}
                                     height={20}
                                     style={{ marginLeft: 5 }}

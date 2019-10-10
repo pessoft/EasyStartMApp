@@ -33,7 +33,7 @@ export class SimpleListItem extends React.Component {
   render() {
     return (
       <TouchableWithoutFeedback
-        underlayColor={this.props.style.theme.lightPrimaryColor.backgroundColor}
+        underlayColor={this.props.style.theme.backdoor.backgroundColor}
         onPress={this.onPress}
         style={Style.bodyItem}>
         <Animated.Text style={[
@@ -45,7 +45,7 @@ export class SimpleListItem extends React.Component {
           this.props.selected ? this.props.style.theme.primaryTextColor : this.props.style.theme.secondaryTextColor]}>
           {this.props.text}
         </Animated.Text>
-      </TouchableWithoutFeedback  >
+      </TouchableWithoutFeedback>
     )
   }
 }

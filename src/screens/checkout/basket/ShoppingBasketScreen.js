@@ -14,7 +14,7 @@ import { setSelectedProduct } from '../../../store/catalog/actions'
 import { PRODUCT_INFO_FROM_BASKET, CHECKOUT_ORDER } from '../../../navigation/pointsNavigate'
 import { timingAnimation } from '../../../animation/timingAnimation'
 import { toggleProductInBasket, changeTotalCountProductInBasket } from '../../../store/checkout/actions'
-import ShoppingBasketIco from '../../../images/font-awesome-svg/shopping-basket.svg'
+import ShoppingBasketIcon from '../../../images/font-awesome-svg/shopping-basket.svg'
 import Style from './style'
 import { getSVGColor } from '../../../helpers/color-helper';
 import { markFromBasket } from '../../../store/navigation/actions'
@@ -196,7 +196,7 @@ class ShoppingBasketScreen extends React.Component {
         { opacity: this.state.showScaleAnimationEmptyBasket },
         { transform: [{ scale: this.state.showScaleAnimationEmptyBasket }] }]} >
 
-        <ShoppingBasketIco
+        <ShoppingBasketIcon
           width={90}
           height={90}
           color={getSVGColor(this.props.style.theme.secondaryTextColor.color)}

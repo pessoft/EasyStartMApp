@@ -62,7 +62,7 @@ export class BasketProductItem extends React.Component {
     render() {
         return (
             <TouchableHighlight
-                underlayColor={this.props.style.theme.lightPrimaryColor.backgroundColor}
+                underlayColor={this.props.style.theme.backdoor.backgroundColor}
                 style={Style.bodyItem}
                 onPress={this.onPress}>
                 <Animated.View style={[
@@ -95,7 +95,7 @@ export class BasketProductItem extends React.Component {
                         <View style={Style.blockShopAction}>
                             <TrashButton
                                 size={20}
-                                underlayColor={this.props.style.theme.lightPrimaryColor.backgroundColor}
+                                underlayColor={this.props.style.theme.secondaryTextColor.color}
                                 color={this.props.style.theme.textPrimaryColor.color}
                                 borderColor={this.props.style.theme.dividerColor.borderColor}
                                 backgroundColor={this.props.style.theme.secondaryTextColor.color}

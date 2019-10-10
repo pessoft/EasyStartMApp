@@ -17,6 +17,7 @@ class StartLogoScreen extends React.Component {
     if (this.props.categories.length > 0) {
       this.props.navigation.navigate(MAIN)
     } else {
+      this.props.getLocation()
       this.props.getMainData(this.props.branchId)
     }
   }

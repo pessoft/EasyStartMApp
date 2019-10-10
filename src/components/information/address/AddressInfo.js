@@ -2,7 +2,7 @@ import React from 'react'
 import { View, Text } from 'react-native'
 import { getSVGColor } from '../../../helpers/color-helper'
 import Style from './style'
-import MapMarkerIco from '../../../images/font-awesome-svg/map-marker-alt.svg'
+import MapMarkerIcon from '../../../images/font-awesome-svg/map-marker-alt.svg'
 
 export class AddressInfo extends React.Component {
 
@@ -13,7 +13,7 @@ export class AddressInfo extends React.Component {
         this.props.style.theme.backdoor,
         this.props.style.theme.dividerColor]}>
         <View style={Style.image}>
-          <MapMarkerIco
+          <MapMarkerIcon
             width={45}
             height={45}
             color={getSVGColor(this.props.style.theme.accentOther.backgroundColor)}

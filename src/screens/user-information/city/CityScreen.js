@@ -15,7 +15,7 @@ import { getMainData } from '../../../store/main/actions'
 import Style from './style'
 import { MAIN } from '../../../navigation/pointsNavigate'
 import { SimpleListItem } from '../../../components/simple-list-item/SimpleListItem'
-import CityIco from '../../../images/font-awesome-svg/city.svg'
+import CityIcon from '../../../images/font-awesome-svg/city.svg'
 import { timingAnimation } from '../../../animation/timingAnimation'
 import { getSVGColor } from '../../../helpers/color-helper'
 import LottieView from 'lottie-react-native';
@@ -32,7 +32,8 @@ class CityScreen extends React.Component {
 
     this.state = {
       onFinishedButton: false,
-      showScaleAnimation: new Animated.Value(0)
+      showScaleAnimation: new Animated.Value(0),
+      nextPage: false
     }
   }
 
@@ -71,8 +72,8 @@ class CityScreen extends React.Component {
       this.state.onFinishedButton) {
       this.props.setIsLogin(true)
       this.props.getMainData(this.props.branchId)
-      this.setState({ onFinishedButton: false })
-    } else if (this.props.categories.length > 0) {
+      this.setState({ onFinishedButton: false, nextPage: true })
+    } else if (this.props.categories.length > 0 && this.state.nextPage) {
       this.nextPage()
     }
   }
@@ -83,7 +84,7 @@ class CityScreen extends React.Component {
         Style.bodyContainer,
         { transform: [{ scale: this.state.showScaleAnimation }] }]}>
         <View style={Style.contentContainer}>
-          <View style={Style.cityIco}>
+          <View style={Style.cityIcon}>
             <LottieView
               style={Style.loader}
               source={require('../../../animation/src/city.json')}
@@ -91,7 +92,7 @@ class CityScreen extends React.Component {
               resizeMode='cover'
               autoSize={true}
               speed={1} />
-            {/* <CityIco
+            {/* <CityIcon
               width={130}
               height={130}
               color={getSVGColor(this.props.style.theme.secondaryTextColor.color)} /> */}

@@ -45,7 +45,7 @@ export class ProductItem extends React.PureComponent {
     render() {
         return (
             <TouchableHighlight
-                underlayColor={this.props.style.theme.lightPrimaryColor.backgroundColor}
+                underlayColor={this.props.style.theme.backdoor.backgroundColor}
                 style={Style.bodyItem}
                 onPress={this.onPress}>
                 <Animated.View style={[
@@ -95,7 +95,7 @@ export class ProductItem extends React.PureComponent {
                         </View>
                     </View>
                 </Animated.View>
-            </TouchableHighlight >
+            </TouchableHighlight>
         )
     }
 }

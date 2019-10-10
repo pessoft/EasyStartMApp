@@ -5,10 +5,10 @@ import Style from './style'
 
 export class SocialInfo extends React.Component {
 
-  renderIco = () => {
-    const Ico = this.props.social.ico
+  renderIcon = () => {
+    const Icon = this.props.social.icon
     return (
-      <Ico
+      <Icon
         width={45}
         height={45}
         color={getSVGColor(this.props.style.theme.accentOther.backgroundColor)}
@@ -23,7 +23,7 @@ export class SocialInfo extends React.Component {
         this.props.style.theme.backdoor,
         this.props.style.theme.dividerColor]}>
         <View style={Style.image}>
-          {this.renderIco()}
+          {this.renderIcon()}
         </View>
         <View style={Style.info}>
           <View style={Style.header}>
@@ -32,7 +32,7 @@ export class SocialInfo extends React.Component {
                 this.props.style.theme.primaryTextColor,
                 this.props.style.fontSize.h6]}>
               {this.props.social.name}
-          </Text>
+            </Text>
           </View>
           <View style={Style.content}>
             <Text style={[
@@ -41,7 +41,7 @@ export class SocialInfo extends React.Component {
               Style.paddingBottomText
             ]}>
               {this.props.href}
-              </Text>
+            </Text>
           </View>
         </View>
       </View>

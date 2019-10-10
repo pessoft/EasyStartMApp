@@ -1,7 +1,7 @@
-import EmailIco from '../images/font-awesome-svg/at.svg'
-import FacebookIco from '../images/font-awesome-svg/facebook-f.svg'
-import InstagramIco from '../images/font-awesome-svg/instagram.svg'
-import VkIco from '../images/font-awesome-svg/vk.svg'
+import EmailIcon from '../images/font-awesome-svg/at.svg'
+import FacebookIcon from '../images/font-awesome-svg/facebook-f.svg'
+import InstagramIcon from '../images/font-awesome-svg/instagram.svg'
+import VkIcon from '../images/font-awesome-svg/vk.svg'
 
 export const socilaType = {
     email: 0,
@@ -18,17 +18,17 @@ const socialName = {
 }
 
 const socialIco = {
-    0: EmailIco,
-    1: VkIco,
-    2: FacebookIco,
-    3: InstagramIco
+    0: EmailIcon,
+    1: VkIcon,
+    2: FacebookIcon,
+    3: InstagramIcon
 }
 
 export const getSocialData = socialType => {
 
     return {
         name: socialName[socialType],
-        ico: socialIco[socialType]
+        icon: socialIco[socialType]
     }
 
 }

@@ -2,7 +2,7 @@ import React from 'react'
 import { View, Text } from 'react-native'
 import { getSVGColor } from '../../../helpers/color-helper'
 import Style from './style'
-import DeliveryTypeIco from '../../../images/font-awesome-svg/truck-loading.svg'
+import DeliveryTypeIcon from '../../../images/font-awesome-svg/truck-loading.svg'
 
 export class DeliveryTypeInfo extends React.Component {
 
@@ -13,7 +13,7 @@ export class DeliveryTypeInfo extends React.Component {
         this.props.style.theme.backdoor,
         this.props.style.theme.dividerColor]}>
         <View style={Style.image}>
-          <DeliveryTypeIco
+          <DeliveryTypeIcon
             width={45}
             height={45}
             color={getSVGColor(this.props.style.theme.accentOther.backgroundColor)}

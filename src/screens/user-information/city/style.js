@@ -10,7 +10,7 @@ export default StyleSheet.create({
   bodyContainer: {
     flex: 1,
   },
-  cityIco: {
+  cityIcon: {
     flex: 1,
     alignItems: 'center',
     marginTop: 20,

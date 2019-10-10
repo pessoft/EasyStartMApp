@@ -2,7 +2,7 @@ import React from 'react'
 import { View, Text } from 'react-native'
 import { getSVGColor } from '../../../helpers/color-helper'
 import Style from './style'
-import ClockIco from '../../../images/font-awesome-svg/clock.svg'
+import ClockIcon from '../../../images/font-awesome-svg/clock.svg'
 
 export class WorkTimeInfo extends React.Component {
 
@@ -13,7 +13,7 @@ export class WorkTimeInfo extends React.Component {
         this.props.style.theme.backdoor,
         this.props.style.theme.dividerColor]}>
         <View style={Style.image}>
-          <ClockIco
+          <ClockIcon
             width={45}
             height={45}
             color={getSVGColor(this.props.style.theme.accentOther.backgroundColor)}

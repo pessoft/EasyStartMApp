@@ -6,8 +6,8 @@ import {
     Animated
 } from 'react-native'
 import Style from './style'
-import UserPhotoDefaultIco from '../../images/font-awesome-svg/user-circle.svg'
-import ClockIco from '../../images/font-awesome-svg/clock.svg'
+import UserPhotoDefaultIcon from '../../images/font-awesome-svg/user-circle.svg'
+import ClockIcon from '../../images/font-awesome-svg/clock.svg'
 import { timingAnimation } from '../../animation/timingAnimation'
 import { getSVGColor } from '../../helpers/color-helper'
 
@@ -32,7 +32,7 @@ export class ReviewItem extends React.Component {
         if (this.props.sourceUserPhoto)
             return <Image style={Style.userPhoto} source={this.props.sourceUserPhoto} />
         else
-            return <UserPhotoDefaultIco
+            return <UserPhotoDefaultIcon
             width={35} height={35}
                 style={Style.userPhoto}
                 color={getSVGColor(this.props.style.theme.secondaryTextColor.color)} />
@@ -55,7 +55,7 @@ export class ReviewItem extends React.Component {
                         {this.props.header}
                     </Text>
                     <View style={Style.reviewDateContainer}>
-                        <ClockIco
+                        <ClockIcon
                             width={10}
                             height={10}
                             color={getSVGColor(this.props.style.theme.secondaryTextColor.color)}
