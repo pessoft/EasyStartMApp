@@ -69,7 +69,7 @@ class OrdersHistoryScreen extends React.Component {
           }
         ]}>
         <FlatList
-          data={this.props.history}
+          data={this.props.history.reverse()}
           keyExtractor={item => item.Id.toString()}
           renderItem={({ item }) => <MenuItemWithoutImage
             style={this.props.style}
