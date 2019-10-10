@@ -7,7 +7,7 @@ export default StyleSheet.create({
   },
   text: {
     borderBottomWidth: 1,
-    minHeight: 70,
+    minHeight: 65,
     paddingHorizontal: 15,
     textAlign: 'center',
     textAlignVertical: 'center'

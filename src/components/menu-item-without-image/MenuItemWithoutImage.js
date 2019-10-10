@@ -6,11 +6,13 @@ import AngleRightIcon from '../../images/font-awesome-svg/angle-right.svg'
 
 export class MenuItemWithoutImage extends React.Component {
 
+onPress = () => this.props.onPress && this.props.onPress(this.props.id) 
+
   render() {
     return (
       <TouchableHighlight
         underlayColor={this.props.style.theme.backdoor.backgroundColor}
-        onPress={this.props.onPress}
+        onPress={this.onPress}
       >
         <View style={Style.container}>
           <View

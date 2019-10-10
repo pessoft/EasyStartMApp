@@ -3,9 +3,10 @@ import { connect } from 'react-redux'
 import LottieView from 'lottie-react-native';
 import { Animated, FlatList, Text, ActivityIndicator } from 'react-native'
 import Style from './style'
-import { getHistoryOrder } from '../../../store/history-order/actions'
+import { getHistoryOrder, setSelectOrder } from '../../../store/history-order/actions'
 import { timingAnimation } from '../../../animation/timingAnimation'
 import { MenuItemWithoutImage } from '../../../components/menu-item-without-image/MenuItemWithoutImage';
+import { ORDER_HISTORY_INFO_PROFILE } from '../../../navigation/pointsNavigate'
 
 class OrdersHistoryScreen extends React.Component {
   static navigationOptions = {
@@ -58,6 +59,21 @@ class OrdersHistoryScreen extends React.Component {
     return `${date.getHours()}.${date.getMinutes()} ${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()} `
   }
 
+  getHistoryOrderById = id => {
+    let findResult = this.props.history.filter(p => p.Id == id)
+
+    return findResult && findResult.length > 0 ? findResult[0] : null
+  }
+
+  onSelectOrderId = orderId => {
+    const order = this.getHistoryOrderById(orderId)
+    
+    if (order) {
+      this.props.setSelectOrder(order)
+      this.props.navigation.navigate(ORDER_HISTORY_INFO_PROFILE)
+    }
+  }
+
   renderHistory = () => {
     return (
       <Animated.ScrollView
@@ -73,8 +89,10 @@ class OrdersHistoryScreen extends React.Component {
           keyExtractor={item => item.Id.toString()}
           renderItem={({ item }) => <MenuItemWithoutImage
             style={this.props.style}
+            id={item.Id}
             headerText={this.getHeaderText(item.Id)}
             text={this.getText(item.Date, item.AmountPay)}
+            onPress={this.onSelectOrderId}
           />}
         />
       </Animated.ScrollView>
@@ -132,4 +150,9 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps, { getHistoryOrder })(OrdersHistoryScreen)
+const mapDispatchToProps = {
+  setSelectOrder,
+  getHistoryOrder
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(OrdersHistoryScreen)
