@@ -16,7 +16,7 @@ import IcoStock from '../images/font-awesome-svg/badge-percent.svg'
 import IcoShoppingBasket from '../images/font-awesome-svg/shopping-basket.svg'
 import IcoInfo from '../images/font-awesome-svg/info.svg'
 import IcoReviews from '../images/font-awesome-svg/comment-lines.svg'
-import IcoUserCog from '../images/font-awesome-svg/user-cog.svg'
+import IcoUserCog from '../images/font-awesome-svg/home-lg.svg'
 
 import BasketIcoWithBadge from '../components/badges/basket-badge/BasketIcoWithBadge'
 import { getSVGColor } from '../helpers/color-helper';
@@ -81,7 +81,7 @@ export const mainBottomTab = createBottomTabNavigator(
         ProfileTab: {
             screen: profileStackNavigator,
             navigationOptions: {
-                tabBarLabel: 'Профиль',
+                tabBarLabel: 'Л.Кабинет',
                 tabBarIcon: ({ focused, horizontal, tintColor }) => {
                     return <IcoUserCog width={20} height={20} color={getSVGColor(tintColor)} />
                 }
