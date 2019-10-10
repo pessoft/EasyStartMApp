@@ -38,7 +38,7 @@ class ShoppingBasketScreen extends React.Component {
 
   componentDidMount = () => {
     if (this.isEmptyBasket())
-      timingAnimation(this.state.showScaleAnimationEmptyBasket, 1, 300, true)
+    timingAnimation(this.state.showScaleAnimationEmptyBasket, 1, 300, true)
     else
       timingAnimation(this.state.showScaleAnimation, 1, 300, true)
 

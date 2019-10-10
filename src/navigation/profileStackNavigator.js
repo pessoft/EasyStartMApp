@@ -1,13 +1,13 @@
 import { createStackNavigator } from 'react-navigation'
 import { PROFILE } from './pointsNavigate'
-import { orderHistoryStackNavigator } from './profile-stack-navigation/orderHistoryStackNavigator'
 import { defaultStyleNavigationStackOptions } from './defaultStyleStackNavOption'
 import PersonalAccountScreen from '../screens/personal-account/personal-account/PersonalAccountScreen'
+import OrdersHistoryScreen from '../screens/personal-account/order-history/ordersHistoryScreen'
 
 const profileStackNavigator = createStackNavigator(
     {
         Profile: PersonalAccountScreen,
-        OrdersHistoryProfile: orderHistoryStackNavigator
+        OrdersHistoryProfile: OrdersHistoryScreen
     },
     {
         ...defaultStyleNavigationStackOptions,

@@ -31,5 +31,3 @@ export const PRODUCT_REVIEW_FROM_BASKET = 'ProductReviewFromBasket'
 
 export const PROFILE = 'Profile'
 export const ORDER_HISTORY_PROFILE = 'OrdersHistoryProfile'
-
-export const ORDERS_HISTORY = 'OrdersHistory'

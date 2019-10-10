@@ -8,7 +8,7 @@ import HistoryIcon from '../../../images/font-awesome-svg/history.svg'
 import PartnersIcon from '../../../images/font-awesome-svg/users-medical.svg'
 import BonusIcon from '../../../images/font-awesome-svg/gift.svg'
 import UserInfoIcon from '../../../images/font-awesome-svg/address-card.svg'
-import { USER_INFO } from '../../../navigation/pointsNavigate'
+import { USER_INFO, ORDER_HISTORY_PROFILE } from '../../../navigation/pointsNavigate'
 
 class PersonalAccountScreen extends React.Component {
   static navigationOptions = {
@@ -41,6 +41,7 @@ class PersonalAccountScreen extends React.Component {
           style={this.props.style}
           icon={HistoryIcon}
           text={'История заказов'}
+          onPress={() => this.props.navigation.navigate(ORDER_HISTORY_PROFILE)}
         />
         <MenuItem
           style={this.props.style}

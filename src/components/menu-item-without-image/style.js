@@ -13,11 +13,15 @@ export default StyleSheet.create({
     alignItems: 'center'
   },
   content: {
-    flex: 5,
+    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     borderBottomWidth: 0.7,
-    paddingVertical: 20,
+    paddingVertical: 12,
+    paddingLeft: 20
+  },
+  text: {
+    marginTop: 3,
   },
   textContainer: {
     flex: 8
