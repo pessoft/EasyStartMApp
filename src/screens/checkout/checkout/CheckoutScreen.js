@@ -41,7 +41,7 @@ class CheckoutScreen extends React.Component {
       },
       deliveryAddress: {
         cityId: this.props.userData.cityId,
-        deliveryArea: '',
+        areaDeliveryId: -1,
         street: '',
         houseNumber: '',
         entrance: '',
@@ -80,8 +80,25 @@ class CheckoutScreen extends React.Component {
     return products.filter(p => p.Id == productId)[0]
   }
 
+  getCurrentAreaDelivery = () => {
+    const findResults = this.props.deliverySettings.AreaDeliveries.filter(p => p.UniqId == this.state.deliveryAddress.areaDeliveryId)
+
+    if (findResults && findResults.length > 0)
+      return findResults[0]
+    else
+      return null
+  }
+
+  isFreeDelivery = () => {
+    if (this.state.deliveryAddress.areaDeliveryId == -1)
+      return false
+    else
+      return this.getOrderPrice() >= this.getCurrentAreaDelivery().MinPrice
+  }
+
   getDeliveryPrice = () => {
-    if (this.state.deliveryType == TypeDelivery.TakeYourSelf)
+    if (this.state.deliveryType == TypeDelivery.TakeYourSelf
+      || this.isFreeDelivery())
       return 0
     else
       return this.props.deliverySettings.PriceDelivery
@@ -172,7 +189,8 @@ class CheckoutScreen extends React.Component {
       && this.state.deliveryAddress.houseNumber
       && this.state.deliveryAddress.entrance
       && this.state.deliveryAddress.apartmentNumber
-      && this.state.deliveryAddress.level) {
+      && this.state.deliveryAddress.level
+      && this.state.deliveryAddress.areaDeliveryId != -1) {
       return true
     }
 
@@ -239,6 +257,7 @@ class CheckoutScreen extends React.Component {
               style={this.props.style}
               changeDeliveryAddress={this.setDeliveryAddress}
               isShow={this.state.deliveryType == TypeDelivery.Delivery}
+              areaDeliveries={this.props.deliverySettings.AreaDeliveries}
             />
             <OrderComment
               style={this.props.style}

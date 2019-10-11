@@ -51,6 +51,7 @@ export class DeliveryAddressAnimation extends React.Component {
             cityId={this.props.cityId}
             style={this.props.style}
             changeDeliveryAddress={this.props.changeDeliveryAddress}
+            areaDeliveries={this.props.areaDeliveries}
           />
         </Animated.View>
       )

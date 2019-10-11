@@ -15,7 +15,7 @@ export class DeliveryAddress extends React.Component {
 
     this.state = {
       cityId: props.cityId,
-      deliveryArea: '',
+      areaDeliveryId: -1,
       street: '',
       houseNumber: '',
       entrance: '',
@@ -36,6 +36,7 @@ export class DeliveryAddress extends React.Component {
   onChangeApartmentNumber = apartmentNumber => this.setState({ apartmentNumber }, () => this.onChangeDeliveryAddress())
   onChangeLevel = level => this.setState({ level }, () => this.onChangeDeliveryAddress())
   onChangeIntercomCode = intercomCode => this.setState({ intercomCode }, () => this.onChangeDeliveryAddress())
+  onChangeDeliveryArea = areaDeliveryId => this.setState({ areaDeliveryId }, () => this.onChangeDeliveryAddress())
 
   render() {
     return (
@@ -54,6 +55,25 @@ export class DeliveryAddress extends React.Component {
           </Text>
         </View>
         <View style={Style.content}>
+
+          <Picker
+            selectedValue={this.state.areaDeliveryId}
+            style={[
+              this.props.style.theme.secondaryTextColor,
+              this.props.style.fontSize.h8,
+              
+            ]}
+            itemStyle={[
+              {height: 100},
+              this.props.style.theme.secondaryTextColor,
+              this.props.style.fontSize.h8]}
+            onValueChange={(this.onChangeDeliveryArea)
+            }>
+            <Picker.Item label="Район доставки" value="-1" />
+            {this.props.areaDeliveries &&
+            this.props.areaDeliveries.map(p => <Picker.Item key={p.UniqId.toString()} label={p.NameArea} value={p.UniqId} />)}
+            
+          </Picker>
           <TextInput
             placeholder='Улица'
             value={this.state.street}
