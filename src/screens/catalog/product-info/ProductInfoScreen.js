@@ -96,7 +96,7 @@ class ProductInfoScreen extends React.Component {
                                     width={20}
                                     height={20}
                                     style={{ marginLeft: 5 }}
-                                    color={getSVGColor(this.props.style.theme.accentColor.backgroundColor)}
+                                    color={getSVGColor(this.props.style.theme.accentOther.backgroundColor)}
                                 />
                             </View>
                         </View>
