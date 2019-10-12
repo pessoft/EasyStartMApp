@@ -11,8 +11,8 @@ export class MenuItem extends React.Component {
 
     return <Icon
       key={new Date().getTime().toString()}
-      width={28}
-      height={28}
+      width={25}
+      height={25}
       color={getSVGColor(this.props.style.theme.accentOther.backgroundColor)} />
   }
 

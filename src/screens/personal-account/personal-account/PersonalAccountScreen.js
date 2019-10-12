@@ -8,7 +8,9 @@ import HistoryIcon from '../../../images/font-awesome-svg/history.svg'
 import PartnersIcon from '../../../images/font-awesome-svg/users-medical.svg'
 import BonusIcon from '../../../images/font-awesome-svg/gift.svg'
 import UserInfoIcon from '../../../images/font-awesome-svg/address-card.svg'
-import { USER_INFO, ORDER_HISTORY_PROFILE } from '../../../navigation/pointsNavigate'
+import PalleteIcon from '../../../images/font-awesome-svg/palette.svg'
+
+import { USER_INFO, ORDER_HISTORY_PROFILE, COLOR_THEME_PROFILE } from '../../../navigation/pointsNavigate'
 
 class PersonalAccountScreen extends React.Component {
   static navigationOptions = {
@@ -58,6 +60,12 @@ class PersonalAccountScreen extends React.Component {
           icon={UserInfoIcon}
           text={'Изменить мои данные'}
           onPress={() => this.props.navigation.navigate(USER_INFO)}
+        />
+        <MenuItem
+          style={this.props.style}
+          icon={PalleteIcon}
+          text={'Внешний вид'}
+          onPress={() => this.props.navigation.navigate(COLOR_THEME_PROFILE)}
         />
       </Animated.ScrollView>
     )
