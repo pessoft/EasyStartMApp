@@ -5,7 +5,7 @@ import { mainBottomTab } from './mainBottomTabNavigator';
 import { START_APP } from './pointsNavigate';
 import CheckoutCompleteScreen from '../screens/checkout/checkout-complete/CheckoutCompleteScreen'
 import React from 'react'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 
 export class AppContainer extends React.Component {
 
@@ -21,10 +21,9 @@ export class AppContainer extends React.Component {
         initialRouteName: START_APP
       })
 
-      const Container = createAppContainer(appNavigation)
+    const Container = createAppContainer(appNavigation)
 
-      return <Container/>
-
+    return <Container />
   }
 }
 
@@ -33,4 +32,5 @@ const mapStateToProps = state => {
     style: state.style
   }
 }
+
 export default connect(mapStateToProps)(AppContainer)
