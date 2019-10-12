@@ -7,19 +7,6 @@ import CheckoutCompleteScreen from '../screens/checkout/checkout-complete/Checko
 import React from 'react'
 import {connect} from 'react-redux'
 
-// const appNavigation = createSwitchNavigator(
-//   {
-//     StartApp: StartLogoScreen,
-//     UserSetInfo: userInfoStackNavigator,
-//     MainBottomTab: mainBottomTab,
-//     CheckoutComplete: CheckoutCompleteScreen
-//   },
-//   {
-//     initialRouteName: START_APP
-//   })
-
-// export default createAppContainer(appNavigation)
-
 export class AppContainer extends React.Component {
 
   render() {
