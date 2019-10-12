@@ -6,27 +6,31 @@ import { defaultStyleNavigationStackOptions } from './defaultStyleStackNavOption
 import { ProductInfoScreen, ProductReviewScreen } from '../screens/catalog'
 
 
-const checkoutStackNavigator = style => createStackNavigator(
-    {
-        ShoppingBasketScreen: ShoppingBasketScreen,
-        ProductInfoFomBasket: ProductInfoScreen,
-        ProductReviewFromBasket: ProductReviewScreen,
-        CheckoutScreen: CheckoutScreen
-    },
-    {
-        ...defaultStyleNavigationStackOptions(style),
-        initialRouteName: SHOPPING_BASKET
-    })
+const checkoutStackNavigator = style => {
+    let navigator = createStackNavigator(
+        {
+            ShoppingBasketScreen: ShoppingBasketScreen,
+            ProductInfoFomBasket: ProductInfoScreen,
+            ProductReviewFromBasket: ProductReviewScreen,
+            CheckoutScreen: CheckoutScreen
+        },
+        {
+            ...defaultStyleNavigationStackOptions(style),
+            initialRouteName: SHOPPING_BASKET
+        })
 
-checkoutStackNavigator.navigationOptions = ({ navigation }) => {
-    let tabBarVisible = true
-    if (navigation.state.index == 2) {
-        tabBarVisible = false
+    navigator.navigationOptions = ({ navigation }) => {
+        let tabBarVisible = true
+        if (navigation.state.index == 2) {
+            tabBarVisible = false
+        }
+
+        return {
+            tabBarVisible,
+        }
     }
 
-    return {
-        tabBarVisible,
-    }
+    return navigator
 }
 
 export { checkoutStackNavigator }
