@@ -1,9 +1,9 @@
 import { store } from '../store/store'
 
-const state = store.getState()
-const style = state.style
+// const state = store.getState()
+// const style = state.style
 
-export const defaultStyleNavigationStackOptions = {
+export const defaultStyleNavigationStackOptions = style => ( {
   defaultNavigationOptions: {
     headerTitleStyle: {
       textAlign: "center",
@@ -26,4 +26,4 @@ export const defaultStyleNavigationStackOptions = {
   cardStyle: {
     backgroundColor: style.theme.themeBody.backgroundColor,
   },
-}
+})

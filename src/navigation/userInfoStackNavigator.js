@@ -4,12 +4,12 @@ import CityScreen from '../screens/user-information/city/CityScreen'
 import { SET_USER_DATA } from './pointsNavigate'
 import { defaultStyleNavigationStackOptions } from './defaultStyleStackNavOption'
 
-export const userInfoStackNavigator = createStackNavigator(
+export const userInfoStackNavigator = style => createStackNavigator(
   {
     UserDataSet: UserDataScreen,
     CitySet: CityScreen
   },
   {
-    ...defaultStyleNavigationStackOptions,
+    ...defaultStyleNavigationStackOptions(style),
     initialRouteName: SET_USER_DATA
   })

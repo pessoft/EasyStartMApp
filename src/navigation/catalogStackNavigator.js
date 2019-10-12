@@ -3,7 +3,7 @@ import { CATEGORIES } from './pointsNavigate'
 import { CategoriesScreen, ProductsScreen, ProductInfoScreen, ProductReviewScreen } from '../screens/catalog'
 import { defaultStyleNavigationStackOptions } from './defaultStyleStackNavOption'
 
-const catalogStackNavigator = createStackNavigator(
+const catalogStackNavigator = style => createStackNavigator(
     {
         Categories: CategoriesScreen,
         Products: ProductsScreen,
@@ -11,7 +11,7 @@ const catalogStackNavigator = createStackNavigator(
         ProductReview: ProductReviewScreen
     },
     {
-        ...defaultStyleNavigationStackOptions,
+        ...defaultStyleNavigationStackOptions(style),
         initialRouteName: CATEGORIES
     })
 

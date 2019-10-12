@@ -21,13 +21,13 @@ import IcoUserCog from '../images/font-awesome-svg/home-lg.svg'
 import BasketIcoWithBadge from '../components/badges/basket-badge/BasketIcoWithBadge'
 import { getSVGColor } from '../helpers/color-helper';
 
-const state = store.getState()
-const style = state.style
+// const state = store.getState()
+// const style = state.style
 
-export const mainBottomTab = createBottomTabNavigator(
+export const mainBottomTab = style => createBottomTabNavigator(
     {
         CatalogTab: {
-            screen: catalogStackNavigator,
+            screen: catalogStackNavigator(style),
             navigationOptions: {
                 tabBarLabel: 'Меню',
                 tabBarIcon: ({ focused, horizontal, tintColor }) => {
@@ -36,7 +36,7 @@ export const mainBottomTab = createBottomTabNavigator(
             }
         },
         StockTab: {
-            screen: stockStackNavigator,
+            screen: stockStackNavigator(style),
             navigationOptions: {
                 tabBarLabel: 'Акции',
                 tabBarIcon: ({ focused, horizontal, tintColor }) => {
@@ -45,7 +45,7 @@ export const mainBottomTab = createBottomTabNavigator(
             }
         },
         CheckoutTab: {
-            screen: checkoutStackNavigator,
+            screen: checkoutStackNavigator(style),
             navigationOptions: {
                 tabBarLabel: 'Корзина',
                 tabBarIcon: ({ focused, horizontal, tintColor }) => {
@@ -61,7 +61,7 @@ export const mainBottomTab = createBottomTabNavigator(
             }
         },
         InfoTab: {
-            screen: infoStackNavigator,
+            screen: infoStackNavigator(style),
             navigationOptions: {
                 tabBarLabel: 'Инфо',
                 tabBarIcon: ({ focused, horizontal, tintColor }) => {
@@ -69,17 +69,8 @@ export const mainBottomTab = createBottomTabNavigator(
                 }
             }
         },
-        // OrganizationReviewsTab: {
-        //     screen: organizationReviewsStackNavigator,
-        //     navigationOptions: {
-        //         tabBarLabel: 'Отзывы',
-        //         tabBarIcon: ({ focused, horizontal, tintColor }) => {
-        //             return <IcoReviews width={20} height={20} color={getSVGColor(tintColor)} />
-        //         }
-        //     }
-        // },
         ProfileTab: {
-            screen: profileStackNavigator,
+            screen: profileStackNavigator(style),
             navigationOptions: {
                 tabBarLabel: 'Л.Кабинет',
                 tabBarIcon: ({ focused, horizontal, tintColor }) => {

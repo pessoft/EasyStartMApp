@@ -6,7 +6,7 @@ import { defaultStyleNavigationStackOptions } from './defaultStyleStackNavOption
 import { ProductInfoScreen, ProductReviewScreen } from '../screens/catalog'
 
 
-const checkoutStackNavigator = createStackNavigator(
+const checkoutStackNavigator = style => createStackNavigator(
     {
         ShoppingBasketScreen: ShoppingBasketScreen,
         ProductInfoFomBasket: ProductInfoScreen,
@@ -14,7 +14,7 @@ const checkoutStackNavigator = createStackNavigator(
         CheckoutScreen: CheckoutScreen
     },
     {
-        ...defaultStyleNavigationStackOptions,
+        ...defaultStyleNavigationStackOptions(style),
         initialRouteName: SHOPPING_BASKET
     })
 

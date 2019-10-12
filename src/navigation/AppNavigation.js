@@ -4,15 +4,46 @@ import { userInfoStackNavigator } from './userInfoStackNavigator';
 import { mainBottomTab } from './mainBottomTabNavigator';
 import { START_APP } from './pointsNavigate';
 import CheckoutCompleteScreen from '../screens/checkout/checkout-complete/CheckoutCompleteScreen'
-const appNavigation = createSwitchNavigator(
-  {
-    StartApp: StartLogoScreen,
-    UserSetInfo: userInfoStackNavigator,
-    MainBottomTab: mainBottomTab,
-    CheckoutComplete: CheckoutCompleteScreen
-  },
-  {
-    initialRouteName: START_APP
-  })
+import React from 'react'
+import {connect} from 'react-redux'
 
-export default createAppContainer(appNavigation)
+// const appNavigation = createSwitchNavigator(
+//   {
+//     StartApp: StartLogoScreen,
+//     UserSetInfo: userInfoStackNavigator,
+//     MainBottomTab: mainBottomTab,
+//     CheckoutComplete: CheckoutCompleteScreen
+//   },
+//   {
+//     initialRouteName: START_APP
+//   })
+
+// export default createAppContainer(appNavigation)
+
+export class AppContainer extends React.Component {
+
+  render() {
+    const appNavigation = createSwitchNavigator(
+      {
+        StartApp: StartLogoScreen,
+        UserSetInfo: userInfoStackNavigator(this.props.style),
+        MainBottomTab: mainBottomTab(this.props.style),
+        CheckoutComplete: CheckoutCompleteScreen
+      },
+      {
+        initialRouteName: START_APP
+      })
+
+      const Container = createAppContainer(appNavigation)
+
+      return <Container/>
+
+  }
+}
+
+const mapStateToProps = state => {
+  return {
+    style: state.style
+  }
+}
+export default connect(mapStateToProps)(AppContainer)

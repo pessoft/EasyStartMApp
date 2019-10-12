@@ -3,12 +3,12 @@ import { INFO_ORGANIZATION } from './pointsNavigate'
 import InformationScreen from '../screens/information/InformationScreen'
 import { defaultStyleNavigationStackOptions } from './defaultStyleStackNavOption'
 
-const infoStackNavigator = createStackNavigator(
+const infoStackNavigator = style => createStackNavigator(
     {
         InfoOrganization: InformationScreen,
     },
     {
-        ...defaultStyleNavigationStackOptions,
+        ...defaultStyleNavigationStackOptions(style),
         initialRouteName: INFO_ORGANIZATION
     })
 

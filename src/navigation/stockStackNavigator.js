@@ -4,13 +4,13 @@ import StocksScreen from '../screens/stock/stock-screen/StocksScreen'
 import StockInfoScreen from '../screens/stock/stock-info-screen/StockInfoScreen'
 import { defaultStyleNavigationStackOptions } from './defaultStyleStackNavOption'
 
-const stockStackNavigator = createStackNavigator(
+const stockStackNavigator = style => createStackNavigator(
     {
         Stocks: StocksScreen,
         StockInfo: StockInfoScreen,
     },
     {
-        ...defaultStyleNavigationStackOptions,
+        ...defaultStyleNavigationStackOptions(style),
         initialRouteName: STOCKS
     })
 

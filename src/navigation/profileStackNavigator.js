@@ -5,14 +5,14 @@ import PersonalAccountScreen from '../screens/personal-account/personal-account/
 import OrdersHistoryScreen from '../screens/personal-account/order-history/ordersHistoryScreen'
 import OrdersHistoryInfoScreen from '../screens/personal-account/order-history-info/OrderHistoryInfoScreen'
 
-const profileStackNavigator = createStackNavigator(
+const profileStackNavigator = style => createStackNavigator(
     {
         Profile: PersonalAccountScreen,
         OrdersHistoryProfile: OrdersHistoryScreen,
         OrdersHistoryInfoProfile: OrdersHistoryInfoScreen
     },
     {
-        ...defaultStyleNavigationStackOptions,
+        ...defaultStyleNavigationStackOptions(style),
         initialRouteName: PROFILE
     })
 
