@@ -45,5 +45,10 @@ export const RedTheme = StyleSheet.create({
     },
     applySecondaryColor: {
         color: '#9fd7af'
-    }
+    },
+    hitColor: { color: '#c1b346' },
+    pepperHotColor: { color: 'red' },
+    newColor: { color: '#1976D2' },
+    stockColor: { color: '#FF5722' },
+    vegetarionColor: { color: 'green' },
 })

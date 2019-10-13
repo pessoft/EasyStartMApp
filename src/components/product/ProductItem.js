@@ -9,6 +9,7 @@ import {
 import Style from './style'
 import { ShoppingButton } from '../buttons/ShoppingButton/ShoppingButton';
 import { timingAnimation } from '../../animation/timingAnimation'
+import { getProductTypes } from '../../helpers/product';
 
 export class ProductItem extends React.PureComponent {
     constructor(props) {
@@ -66,14 +67,30 @@ export class ProductItem extends React.PureComponent {
                             this.props.style.theme.primaryTextColor]}>
                             {this.props.product.caption}
                         </Text>
-
-                        <Text style={[
-                            Style.mt_5,
-                            this.props.style.theme.secondaryTextColor,
-                            this.props.style.fontSize.h11]}>
-                            {this.props.product.additionInfo}
-                        </Text>
-
+                        <View style={Style.rowWrap}>
+                            <Text style={[
+                                Style.mt_5,
+                                this.props.style.theme.secondaryTextColor,
+                                this.props.style.fontSize.h11]}>
+                                {this.props.product.additionInfo}
+                            </Text>
+                            <View style={Style.productTypeContainer}>
+                                {
+                                    getProductTypes(this.props.product.productType, this.props.style.theme).map(p => {
+                                        const Icon = p.icon
+                                        const key = new Date().getTime().toString() + p.type
+                                        return (
+                                            <View key={key} style={Style.productType}>
+                                                <Icon
+                                                    color={p.color}
+                                                    width={22}
+                                                    height={22} />
+                                            </View>
+                                        )
+                                    })
+                                }
+                            </View>
+                        </View>
                         <View style={Style.blockShopAction}>
                             <Text style={[
                                 Style.textWrap,

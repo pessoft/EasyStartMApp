@@ -88,7 +88,8 @@ class ProductsScreen extends React.Component {
                     additionInfo: item.AdditionInfo,
                     price: item.Price,
                     currencyPrefix: this.props.currencyPrefix,
-                    startCount: countProduct
+                    startCount: countProduct,
+                    productType: item.ProductType,
                 }
             }
         }

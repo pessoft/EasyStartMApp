@@ -4,7 +4,7 @@ export default StyleSheet.create({
   bodyItem: {
     alignSelf: 'stretch',
     justifyContent: 'center',
-    minHeight: 112
+    minHeight: 105
   },
   directionRow: {
     flexDirection: 'row',
@@ -16,6 +16,18 @@ export default StyleSheet.create({
   textWrap: {
     flexWrap: 'wrap'
   },
+  rowWrap: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    marginBottom: 10,
+  },
+  productTypeContainer: {
+    flexDirection: 'row',
+    marginLeft: 5
+  },
+  productType: {
+    marginLeft: 5
+  },
   productImage: {
     width: 80,
     height: 80,
@@ -26,7 +38,7 @@ export default StyleSheet.create({
   imageContainer: {
     alignSelf: 'stretch',
     justifyContent: 'center',
-    minHeight: 112
+    minHeight: 105
   },
   productHeader: {
     flex: 1,
