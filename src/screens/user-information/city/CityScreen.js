@@ -8,16 +8,15 @@ import {
   ActivityIndicator,
   Animated,
   Dimensions,
-  Platform
+  Platform,
+  Picker
 } from 'react-native'
 import { setCityId, setBranchId, addOrUpdateUser, setIsLogin } from '../../../store/user/actions'
 import { getMainData } from '../../../store/main/actions'
 import Style from './style'
 import { MAIN } from '../../../navigation/pointsNavigate'
 import { SimpleListItem } from '../../../components/simple-list-item/SimpleListItem'
-import CityIcon from '../../../images/font-awesome-svg/city.svg'
 import { timingAnimation } from '../../../animation/timingAnimation'
-import { getSVGColor } from '../../../helpers/color-helper'
 import LottieView from 'lottie-react-native';
 
 const { width } = Dimensions.get('window')
@@ -78,6 +77,46 @@ class CityScreen extends React.Component {
     }
   }
 
+  renderCitiesIOS = () => {
+    return (
+      <Picker
+        selectedValue={this.props.cityId}
+        style={[
+          this.props.style.theme.secondaryTextColor,
+          this.props.style.fontSize.h6,
+        ]}
+        itemStyle={[
+          this.props.style.theme.secondaryTextColor,
+          this.props.style.fontSize.h6,
+        ]}
+        onValueChange={(this.setCityId)
+        }>
+        {
+          this.citiesToArray().map(p => <Picker.Item key={p.key.toString()} label={p.city} value={p.key} />)
+        }
+      </Picker>
+    )
+  }
+
+  renderCitiesAndroid = () => {
+    return (
+      <ScrollView>
+        <FlatList
+          data={this.citiesToArray()}
+          renderItem={({ item }) => <SimpleListItem
+            style={this.props.style}
+            nonBorder={item.nonBorder}
+            id={item.key}
+            text={item.city}
+            selected={this.props.cityId == item.key}
+            onPress={this.setCityId} />}
+        />
+      </ScrollView>
+    )
+  }
+
+  renderCities = () => Platform.OS == 'ios' ? this.renderCitiesIOS() : this.renderCitiesAndroid()
+
   renderScreen = () => {
     return (
       <Animated.View style={[
@@ -92,23 +131,8 @@ class CityScreen extends React.Component {
               resizeMode='cover'
               autoSize={true}
               speed={1} />
-            {/* <CityIcon
-              width={130}
-              height={130}
-              color={getSVGColor(this.props.style.theme.secondaryTextColor.color)} /> */}
           </View>
-          <ScrollView>
-            <FlatList
-              data={this.citiesToArray()}
-              renderItem={({ item }) => <SimpleListItem
-                style={this.props.style}
-                nonBorder={item.nonBorder}
-                id={item.key}
-                text={item.city}
-                selected={this.props.cityId == item.key}
-                onPress={this.setCityId} />}
-            />
-          </ScrollView>
+          {this.renderCities()}
         </View>
         <View style={[Style.inputSize, Style.footerContainer, Style.pv_20]}>
           <Button
