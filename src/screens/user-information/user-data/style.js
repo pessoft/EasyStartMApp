@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native'
+import { StyleSheet, Platform } from 'react-native'
 
 export default StyleSheet.create({
   screen: {
@@ -11,7 +11,7 @@ export default StyleSheet.create({
     marginBottom: 15,
     borderWidth: 1,
     borderRadius: 3,
-    padding: 3
+    padding: Platform.OS == 'ios'? 5: 3
   },
   inputSize: {
     width: 280,
