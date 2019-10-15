@@ -43,3 +43,35 @@ export const getWorkTime = timeDelivery => {
 
   return daysStr;
 }
+
+export const isWorkTime = operationMode => {
+  const currentDate = new Date()
+  const currentDay = currentDate.getDay() == 0 ? 7 : currentDate.getDay()
+  const currentHours = currentDate.getHours()
+  const currentMinutes = currentDate.getMinutes()
+
+  const currentWorkPeriod = operationMode[currentDay]
+
+  if (currentWorkPeriod && currentWorkPeriod.length == 2) {
+    const splitStartPeriod = currentWorkPeriod[0].split('.').map(p => parseInt(p))
+    const splitEndPeriod = currentWorkPeriod[1].split('.').map(p => parseInt(p))
+    splitEndPeriod[0] = splitEndPeriod[0] == 0 ? 24 : splitEndPeriod[0]
+
+    if (splitStartPeriod[0] > splitEndPeriod[0]) {
+      if (currentHours < splitEndPeriod[0])
+        return true
+      else if (currentHours >= splitStartPeriod[0]) {
+        if (currentHours > splitStartPeriod[0]
+          || currentMinutes >= splitStartPeriod[1])
+          return true
+      }
+    } else if (currentHours >= splitStartPeriod[0]
+      && currentHours < splitEndPeriod[0]) {
+      if (currentHours > splitStartPeriod[0]
+        || currentMinutes >= splitStartPeriod[1])
+        return true
+    }
+  }
+
+  return false
+}

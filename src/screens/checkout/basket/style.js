@@ -20,4 +20,15 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center'
   },
+  workTimeInfonAnimationContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderTopWidth: 0.5,
+    borderBottomWidth: 0.5,
+  },
+  workTimeInfonAnimationSize: {
+    width: 250,
+    height: 250,
+  }
 })

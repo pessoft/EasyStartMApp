@@ -18,6 +18,9 @@ import ShoppingBasketIcon from '../../../images/font-awesome-svg/shopping-basket
 import Style from './style'
 import { getSVGColor } from '../../../helpers/color-helper';
 import { markFromBasket } from '../../../store/navigation/actions'
+import { isWorkTime, getWorkTime } from '../../../helpers/work-time';
+import { WorkTimeInfo } from '../../../components/information/work-time/WorkTimeInfo'
+import LottieView from 'lottie-react-native';
 
 class ShoppingBasketScreen extends React.Component {
   static navigationOptions = {
@@ -30,6 +33,7 @@ class ShoppingBasketScreen extends React.Component {
     this.state = {
       showScaleAnimation: new Animated.Value(0),
       showScaleAnimationEmptyBasket: new Animated.Value(0),
+      showScaleAnimationWorkTimeInfo: new Animated.Value(0),
       refreshItems: false
     }
 
@@ -38,7 +42,7 @@ class ShoppingBasketScreen extends React.Component {
 
   componentDidMount = () => {
     if (this.isEmptyBasket())
-    timingAnimation(this.state.showScaleAnimationEmptyBasket, 1, 300, true)
+      timingAnimation(this.state.showScaleAnimationEmptyBasket, 1, 300, true)
     else
       timingAnimation(this.state.showScaleAnimation, 1, 300, true)
 
@@ -60,7 +64,10 @@ class ShoppingBasketScreen extends React.Component {
     } else if (this.state.showScaleAnimationEmptyBasket && this.isEmptyBasket()) {
       timingAnimation(this.state.showScaleAnimationEmptyBasket, 1, 300, true)
     } else if (this.state.showScaleAnimation && !this.isEmptyBasket()) {
-      timingAnimation(this.state.showScaleAnimation, 1, 300, true)
+      if (isWorkTime(this.props.deliverySettings.TimeDelivery))
+        timingAnimation(this.state.showScaleAnimation, 1, 300, true)
+      else
+        timingAnimation(this.state.showScaleAnimationWorkTimeInfo, 1, 300, true)
     }
 
     this.changeTotalCountProductInBasket()
@@ -258,11 +265,45 @@ class ShoppingBasketScreen extends React.Component {
     )
   }
 
+  renderWorkTimeInfo = () => {
+    return (
+      <Animated.View
+        style={[
+          {
+            marginTop: 5,
+            opacity: this.state.showScaleAnimationWorkTimeInfo,
+            flex: 1,
+            transform: [{ scale: this.state.showScaleAnimationWorkTimeInfo }]
+          }
+        ]}>
+        <View style={[
+          Style.workTimeInfonAnimationContainer,
+          this.props.style.theme.backdoor,
+          this.props.style.theme.dividerColor
+        ]}>
+          <LottieView
+            style={Style.workTimeInfonAnimationSize}
+            source={require('../../../animation/src/close.json')}
+            autoPlay
+            resizeMode='cover'
+            autoSize={true}
+            speed={0.8} />
+        </View>
+        <WorkTimeInfo
+          style={this.props.style}
+          data={getWorkTime(this.props.deliverySettings.TimeDelivery)}
+        />
+      </Animated.View>
+    )
+  }
+
   render() {
     if (this.isEmptyBasket())
       return this.renderEmptyBasket()
-    else
+    else if (isWorkTime(this.props.deliverySettings.TimeDelivery))
       return this.renderBasketContents()
+    else
+      return this.renderWorkTimeInfo()
   }
 }
 
@@ -274,7 +315,8 @@ const mapStateToProps = state => {
     selectedProduct: state.catalog.selectedProduct,
     basketProducts: state.checkout.basketProducts,
     totalCountProducts: state.checkout.totalCountProducts,
-    style: state.style
+    style: state.style,
+    deliverySettings: state.main.deliverySettings,
   }
 }
 
