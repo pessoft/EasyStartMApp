@@ -8,7 +8,7 @@ export const PurpleTheme = StyleSheet.create({
         backgroundColor: '#f8f8f8'
     },
     backdoor: {
-        backgroundColor: '#f3f3f3'
+        backgroundColor: '#edeef0'
     },
     themeBody: {
         backgroundColor: '#fafafa'

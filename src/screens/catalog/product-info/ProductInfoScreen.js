@@ -4,17 +4,18 @@ import {
     View,
     Text,
     Dimensions,
-    Animated
+    Animated,
 } from 'react-native'
 import Image from 'react-native-scalable-image'
 import { SimpleTextButton } from '../../../components/buttons/SimpleTextButton/SimpleTextButton'
-import { Rating } from 'react-native-ratings';
+import { AirbnbRating } from 'react-native-ratings';
 import { PRODUCT_REVIEW, PRODUCT_REVIEW_FROM_BASKET } from '../../../navigation/pointsNavigate'
 import Style from './style'
 import CommentLinesIcon from '../../../images/font-awesome-svg/comment-lines.svg'
 import { timingAnimation } from '../../../animation/timingAnimation'
 import { setSelectedProduct } from '../../../store/catalog/actions'
 import { getSVGColor } from '../../../helpers/color-helper'
+import { updateRating } from '../../../store/main/actions'
 
 class ProductInfoScreen extends React.Component {
     static navigationOptions = ({ navigation }) => {
@@ -36,6 +37,15 @@ class ProductInfoScreen extends React.Component {
 
     componentDidMount() {
         timingAnimation(this.state.showScaleAnimation, 1, 300, true)
+    }
+
+    componentDidUpdate() {
+        const category = this.props.main.products[this.state.selectedProduct.CategoryId]
+        const product = category.filter(p => p.Id == this.state.selectedProduct.Id)[0]
+
+        if (product.Rating != this.state.selectedProduct.Rating) {
+            this.setState({ selectedProduct: product })
+        }
     }
 
     getRatingText() {
@@ -60,6 +70,14 @@ class ProductInfoScreen extends React.Component {
         this.props.navigation.navigate(nextScreen)
     }
 
+    onFinishRating = score => {
+        this.props.updateRating({
+            clientId: this.props.clientId,
+            productId: this.props.selectedProduct.Id,
+            score: score
+        })
+    }
+
     render() {
         return (
             <Animated.ScrollView style={[
@@ -74,12 +92,13 @@ class ProductInfoScreen extends React.Component {
                         Style.productInfoContainer,
                         this.props.style.theme.dividerColor]}>
                         <View style={Style.leftBlock}>
-                            <Rating
-                                type={'heart'}
-                                tintColor={this.props.style.theme.themeBody.backgroundColor}
-                                imageSize={28}
+                            <AirbnbRating
+                                ratingBackgroundColor={this.props.style.theme.themeBody.backgroundColor}
+                                size={28}
                                 fractions={1}
-                                startingValue={this.state.selectedProduct.Rating}
+                                showRating={false}
+                                defaultRating={this.state.selectedProduct.Rating}
+                                onFinishRating={this.onFinishRating}
                             />
                             <Text style={[
                                 this.props.style.fontSize.h9,
@@ -130,9 +149,16 @@ const mapStateToProps = state => {
         serverDomain: state.appSetting.serverDomain,
         currencyPrefix: state.appSetting.currencyPrefix,
         selectedProduct: state.catalog.selectedProduct,
+        main: state.main,
         fromBasket: state.navigationHelper.fromBasket,
-        style: state.style
+        style: state.style,
+        clientId: state.user.clientId
     }
 }
 
-export default connect(mapStateToProps, { setSelectedProduct })(ProductInfoScreen)
+const mapDispatchToProps = {
+    setSelectedProduct,
+    updateRating
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProductInfoScreen)

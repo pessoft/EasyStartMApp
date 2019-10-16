@@ -6,7 +6,8 @@ import {
   setProductReviewsQuery,
   addOrUpdateUserQuery,
   sendNewOrderQuery,
-  getHistoryOrderQuery
+  getHistoryOrderQuery,
+  updateProductRatingQuery
 } from './request-strings'
 import { fetchAPI } from './helper-api'
 
@@ -23,4 +24,6 @@ export const setProductReviewsFetch = async (review) => fetchAPI(setProductRevie
 export const sendNewOrderFetch = async (newOrder) => fetchAPI(sendNewOrderQuery, newOrder)
 
 export const getHistoryOrderFetch = async (clientId) => await fetchAPI(getHistoryOrderQuery, clientId)
+
+export const updateProductRatingFetch = async (rating) => await fetchAPI(updateProductRatingQuery, rating)
 

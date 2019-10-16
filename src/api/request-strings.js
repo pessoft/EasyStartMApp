@@ -13,5 +13,5 @@ export const sendNewOrderQuery = `${SERVER_DOMAIN}/api/AdminApp/sendorder`
 
 export const getHistoryOrderQuery = `${SERVER_DOMAIN}/api/AdminApp/gethistoryorder`
 
-
+export const updateProductRatingQuery = `${SERVER_DOMAIN}/api/AdminApp/updateproductrating`
 
