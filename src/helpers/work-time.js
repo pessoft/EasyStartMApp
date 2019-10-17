@@ -53,8 +53,8 @@ export const isWorkTime = operationMode => {
   const currentWorkPeriod = operationMode[currentDay]
 
   if (currentWorkPeriod && currentWorkPeriod.length == 2) {
-    const splitStartPeriod = currentWorkPeriod[0].split('.').map(p => parseInt(p))
-    const splitEndPeriod = currentWorkPeriod[1].split('.').map(p => parseInt(p))
+    const splitStartPeriod = currentWorkPeriod[0].split(':').map(p => parseInt(p))
+    const splitEndPeriod = currentWorkPeriod[1].split(':').map(p => parseInt(p))
     splitEndPeriod[0] = splitEndPeriod[0] == 0 ? 24 : splitEndPeriod[0]
 
     if (splitStartPeriod[0] > splitEndPeriod[0]) {
