@@ -10,6 +10,7 @@ import Style from './style'
 import { ShoppingButton } from '../buttons/ShoppingButton/ShoppingButton';
 import { timingAnimation } from '../../animation/timingAnimation'
 import { getProductTypes } from '../../helpers/product';
+import { TypeProduct } from '../../helpers/type-product';
 
 export class ProductItem extends React.PureComponent {
     constructor(props) {
@@ -41,6 +42,15 @@ export class ProductItem extends React.PureComponent {
         if (this.props.onToggleProduct) {
             this.props.onToggleProduct(basketProduct)
         }
+    }
+
+    getSizeProductType = type => {
+        if (type == TypeProduct.Hit
+            || type == TypeProduct.New) {
+            return { width: 25, height: 25 }
+        }
+
+        return { width: 18, height: 18 }
     }
 
     render() {
@@ -79,12 +89,13 @@ export class ProductItem extends React.PureComponent {
                                     getProductTypes(this.props.product.productType, this.props.style.theme).map(p => {
                                         const Icon = p.icon
                                         const key = new Date().getTime().toString() + p.type
+                                        const { width, height } = this.getSizeProductType(p.type)
                                         return (
                                             <View key={key} style={Style.productType}>
                                                 <Icon
                                                     color={p.color}
-                                                    width={22}
-                                                    height={22} />
+                                                    width={width}
+                                                    height={height} />
                                             </View>
                                         )
                                     })

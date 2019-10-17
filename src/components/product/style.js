@@ -23,6 +23,7 @@ export default StyleSheet.create({
   },
   productTypeContainer: {
     flexDirection: 'row',
+    alignItems: 'center',
     marginLeft: 5
   },
   productType: {
