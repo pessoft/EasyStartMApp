@@ -62,6 +62,7 @@ export class Contacts extends React.Component {
             blurOnSubmit={false}
           />
           <TextInputMask
+            editable={false}
             refInput={(input) => { this.secondTextInput = input; }}
             keyboardType={'phone-pad'}
             placeholder={'+7(999)999-99-99'}
