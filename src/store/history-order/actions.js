@@ -13,11 +13,11 @@ export const setSelectOrder = order => {
   }
 }
 
-export const getHistoryOrder = (clientId) => async (dispatch) => {
+export const getHistoryOrder = dataForHistory => async (dispatch) => {
   dispatch(requestPosts())
 
   try {
-    const history = await getHistoryOrderFetch(clientId)
+    const history = await getHistoryOrderFetch(dataForHistory)
     dispatch(successPosts(history))
   } catch {
     dispatch(failurePosts())

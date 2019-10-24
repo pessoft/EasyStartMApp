@@ -23,7 +23,7 @@ export const setProductReviewsFetch = async (review) => fetchAPI(setProductRevie
 
 export const sendNewOrderFetch = async (newOrder) => fetchAPI(sendNewOrderQuery, newOrder)
 
-export const getHistoryOrderFetch = async (clientId) => await fetchAPI(getHistoryOrderQuery, clientId)
+export const getHistoryOrderFetch = async (dataForHistory) => await fetchAPI(getHistoryOrderQuery, dataForHistory)
 
 export const updateProductRatingFetch = async (rating) => await fetchAPI(updateProductRatingQuery, rating)
 

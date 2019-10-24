@@ -24,7 +24,10 @@ class OrdersHistoryScreen extends React.Component {
   }
 
   componentDidMount = () => {
-    this.props.getHistoryOrder(this.props.clientId)
+    this.props.getHistoryOrder({
+      clientId: this.props.clientId,
+      branchId: this.props.branchId
+    })
   }
 
   componentDidUpdate = () => {
@@ -67,7 +70,7 @@ class OrdersHistoryScreen extends React.Component {
 
   onSelectOrderId = orderId => {
     const order = this.getHistoryOrderById(orderId)
-    
+
     if (order) {
       this.props.setSelectOrder(order)
       this.props.navigation.navigate(ORDER_HISTORY_INFO_PROFILE)
@@ -146,6 +149,7 @@ const mapStateToProps = state => {
     isFetching: state.historyOrder.isFetching,
     history: state.historyOrder.history,
     clientId: state.user.clientId,
+    branchId: state.user.branchId,
     currencyPrefix: state.appSetting.currencyPrefix
   }
 }
