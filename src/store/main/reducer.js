@@ -3,6 +3,9 @@ import {
   FETCH_MAIN_DATA_REQUEST,
   FETCH_MAIN_DATA_FAILURE,
   FETCH_UPDATE_PRODUCT_RATING_SUCCESS,
+  FETCH_COUPON_SUCCESS,
+  FETCH_COUPON_REQUEST,
+  FETCH_COUPON_FAILURE
 } from './actions'
 
 const defaultState = {
@@ -15,25 +18,29 @@ const defaultState = {
   stocks: [],
   promotionCashBackSetting: {},
   promotionPartnersSetting: {},
-  promotionSectionSettings: []
+  promotionSectionSettings: [],
+  coupon: {}
 }
 
 export const mainReducer = (state = defaultState, action) => {
 
   switch (action.type) {
     case FETCH_MAIN_DATA_REQUEST:
+    case FETCH_COUPON_REQUEST:
       return {
         ...state,
         isFetching: true,
         isFetchError: false
       }
     case FETCH_MAIN_DATA_SUCCESS:
+    case FETCH_COUPON_SUCCESS:
       return {
         ...state,
         ...action.payload,
         isFetching: false
       }
     case FETCH_MAIN_DATA_FAILURE:
+    case FETCH_COUPON_FAILURE:
       return {
         ...state,
         isFetching: false,

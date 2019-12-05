@@ -8,6 +8,10 @@ export const FETCH_UPDATE_PRODUCT_RATING_SUCCESS = 'FETCH_UPDATE_PRODUCT_RATING_
 export const FETCH_UPDATE_PRODUCT_RATING_REQUEST = 'FETCH_UPDATE_PRODUCT_RATING_REQUEST'
 export const FETCH_UPDATE_PRODUCT_RATING_FAILURE = 'FETCH_UPDATE_PRODUCT_RATING_FAILURE'
 
+export const FETCH_COUPON_SUCCESS = 'FETCH_COUPON_SUCCESS'
+export const FETCH_COUPON_REQUEST = 'FETCH_COUPON_REQUEST'
+export const FETCH_COUPON_FAILURE = 'FETCH_COUPON_FAILURE'
+
 export const getMainData = params => async (dispatch) => {
     dispatch(requestMainDataPosts())
 
@@ -66,6 +70,26 @@ const successMainDataPosts = mainData => {
 const failureMainDataPosts = () => {
     return {
         type: FETCH_MAIN_DATA_FAILURE,
+        payload: true
+    }
+}
+
+const requestCouponPosts = () => {
+    return {
+        type: FETCH_COUPON_REQUEST
+    }
+}
+
+const successCouponPosts = coupon => {
+    return {
+        type: FETCH_COUPON_SUCCESS,
+        payload: coupon
+    }
+}
+
+const failureCouponPosts = () => {
+    return {
+        type: FETCH_COUPON_FAILURE,
         payload: true
     }
 }
