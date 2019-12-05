@@ -8,10 +8,13 @@ import { CategoryItem } from '../../components/category/CategoryItem';
 import { setSelectedCategory, setSelectedProduct } from '../../store/catalog/actions'
 import { PRODUCTS } from '../../navigation/pointsNavigate';
 import { timingAnimation } from '../../animation/timingAnimation'
+import {Text} from 'react-native'
+import VirtualMoneyButton from '../../components/buttons/VirtualMoneyButton/VirtualMoneyButton'
 
 class CategoriesScreen extends React.Component {
     static navigationOptions = {
         headerTitle: 'Категории',
+        headerRight: () => <VirtualMoneyButton />
     }
 
     constructor(props) {

@@ -1,4 +1,4 @@
-import { createStackNavigator } from 'react-navigation'
+import { createStackNavigator } from 'react-navigation-stack'
 import { INFO_ORGANIZATION } from './pointsNavigate'
 import InformationScreen from '../screens/information/InformationScreen'
 import { defaultStyleNavigationStackOptions } from './defaultStyleStackNavOption'

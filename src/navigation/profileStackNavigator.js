@@ -1,4 +1,4 @@
-import { createStackNavigator } from 'react-navigation'
+import { createStackNavigator } from 'react-navigation-stack'
 import { PROFILE } from './pointsNavigate'
 import { defaultStyleNavigationStackOptions } from './defaultStyleStackNavOption'
 import PersonalAccountScreen from '../screens/personal-account/personal-account/PersonalAccountScreen'

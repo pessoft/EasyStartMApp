@@ -3,7 +3,7 @@ import { store } from '../store/store'
 
 import { CATALOG_TAB } from './pointsNavigate';
 
-import { createBottomTabNavigator } from 'react-navigation'
+import { createBottomTabNavigator } from 'react-navigation-tabs'
 import { catalogStackNavigator } from './catalogStackNavigator'
 import { stockStackNavigator } from './stockStackNavigator'
 import { checkoutStackNavigator } from './checkoutStackNavigator'

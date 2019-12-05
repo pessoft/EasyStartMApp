@@ -9,7 +9,8 @@ export class SimpleTextButton extends React.Component {
                 <Text style={{
                     fontSize: this.props.sizeText || 14,
                     color: this.props.color || 'blue',
-                    textAlign: 'center'
+                    textAlign: 'center',
+                    margin: this.props.margin || 0
                 }}>
                     {this.props.text}
                 </Text>

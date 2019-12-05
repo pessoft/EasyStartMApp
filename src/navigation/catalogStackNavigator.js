@@ -1,4 +1,4 @@
-import { createStackNavigator } from 'react-navigation'
+import { createStackNavigator } from 'react-navigation-stack'
 import { CATEGORIES } from './pointsNavigate'
 import { CategoriesScreen, ProductsScreen, ProductInfoScreen, ProductReviewScreen } from '../screens/catalog'
 import { defaultStyleNavigationStackOptions } from './defaultStyleStackNavOption'

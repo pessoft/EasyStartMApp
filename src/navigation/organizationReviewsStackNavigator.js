@@ -1,4 +1,4 @@
-import { createStackNavigator } from 'react-navigation'
+import { createStackNavigator } from 'react-navigation-stack'
 import { ORGANIZATION_REVIEWS } from './pointsNavigate'
 import OrganizationReviewsScreen from '../screens/organization-reviews/OrganizationReviewsScreen'
 import { defaultStyleNavigationStackOptions } from './defaultStyleStackNavOption'

@@ -10,11 +10,13 @@ import { PRODUCT_INFO } from '../../navigation/pointsNavigate'
 import { timingAnimation } from '../../animation/timingAnimation'
 import { toggleProductInBasket, changeTotalCountProductInBasket } from '../../store/checkout/actions'
 import { markFromBasket } from '../../store/navigation/actions'
+import VirtualMoneyButton from '../../components/buttons/VirtualMoneyButton/VirtualMoneyButton'
 
 class ProductsScreen extends React.Component {
     static navigationOptions = ({ navigation }) => {
         return {
             headerTitle: navigation.getParam('categoryName', 'Блюда'),
+            headerRight: () => <VirtualMoneyButton />
         }
     }
 

@@ -1,4 +1,4 @@
-import { createStackNavigator } from 'react-navigation'
+import { createStackNavigator } from 'react-navigation-stack'
 import UserDataScreen from '../screens/user-information/user-data/UserDataScreen'
 import CityScreen from '../screens/user-information/city/CityScreen'
 import { SET_USER_DATA } from './pointsNavigate'

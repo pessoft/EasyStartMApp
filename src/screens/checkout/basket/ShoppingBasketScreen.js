@@ -21,10 +21,12 @@ import { markFromBasket } from '../../../store/navigation/actions'
 import { isWorkTime, getWorkTime } from '../../../helpers/work-time';
 import { WorkTimeInfo } from '../../../components/information/work-time/WorkTimeInfo'
 import LottieView from 'lottie-react-native';
+import VirtualMoneyButton from '../../../components/buttons/VirtualMoneyButton/VirtualMoneyButton'
 
 class ShoppingBasketScreen extends React.Component {
   static navigationOptions = {
     headerTitle: 'Корзина',
+    headerRight: () => <VirtualMoneyButton />
   }
 
   constructor(props) {

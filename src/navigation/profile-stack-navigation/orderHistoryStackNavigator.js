@@ -1,4 +1,4 @@
-import { createStackNavigator } from 'react-navigation'
+import { createStackNavigator } from 'react-navigation-stack'
 import { ORDERS_HISTORY } from '../pointsNavigate'
 import { defaultStyleNavigationStackOptions } from '../defaultStyleStackNavOption'
 import OrdersHistoryScreen from '../../screens/personal-account/order-history/ordersHistoryScreen'
