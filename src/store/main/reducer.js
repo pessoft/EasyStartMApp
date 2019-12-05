@@ -13,6 +13,9 @@ const defaultState = {
   deliverySettings: {},
   organizationSettings: {},
   stocks: [],
+  promotionCashBackSetting: {},
+  promotionPartnersSetting: {},
+  promotionSectionSettings: []
 }
 
 export const mainReducer = (state = defaultState, action) => {
