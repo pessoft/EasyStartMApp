@@ -8,11 +8,11 @@ export const FETCH_UPDATE_PRODUCT_RATING_SUCCESS = 'FETCH_UPDATE_PRODUCT_RATING_
 export const FETCH_UPDATE_PRODUCT_RATING_REQUEST = 'FETCH_UPDATE_PRODUCT_RATING_REQUEST'
 export const FETCH_UPDATE_PRODUCT_RATING_FAILURE = 'FETCH_UPDATE_PRODUCT_RATING_FAILURE'
 
-export const getMainData = branchId => async (dispatch) => {
+export const getMainData = params => async (dispatch) => {
     dispatch(requestMainDataPosts())
 
     try {
-        const mainData = await getMainDataFetch(branchId)
+        const mainData = await getMainDataFetch(params)
         dispatch(successMainDataPosts(mainData))
     } catch {
         dispatch(failureMainDataPosts())

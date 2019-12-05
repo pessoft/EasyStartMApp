@@ -13,12 +13,21 @@ class StartLogoScreen extends React.Component {
     this.props.dropFetchFlag()
   }
 
+  getParamsForMainData = () => {
+    return {
+      branchId: this.props.branchId,
+      clientId: this.props.clientId
+    }
+  }
+
   userLogin = () => {
     if (this.props.categories.length > 0) {
       this.props.navigation.navigate(MAIN)
     } else {
       this.props.getLocation()
-      this.props.getMainData(this.props.branchId)
+
+      const params = this.getParamsForMainData()
+      this.props.getMainData(params)
     }
   }
 

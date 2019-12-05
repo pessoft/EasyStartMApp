@@ -66,11 +66,21 @@ class CityScreen extends React.Component {
     this.props.navigation.navigate(MAIN)
   }
 
+  getParamsForMainData = () => {
+    return {
+      branchId: this.props.branchId,
+      clientId: this.props.clientId
+    }
+  }
+
   componentDidUpdate() {
     if (this.props.clientId > 0 &&
       this.state.onFinishedButton) {
       this.props.setIsLogin(true)
-      this.props.getMainData(this.props.branchId)
+
+      const params = this.getParamsForMainData()
+      this.props.getMainData(params)
+
       this.setState({ onFinishedButton: false, nextPage: true })
     } else if (this.props.categories.length > 0 && this.state.nextPage) {
       this.nextPage()
