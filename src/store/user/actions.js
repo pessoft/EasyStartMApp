@@ -62,8 +62,8 @@ export const setBranchId = (branchId) => {
 export const checkActualUserData = (userData) => async dispatch => {
   dispatch(requestPostsCheckData())
   try {
-    const isActual = await checkActualUserDataFetch(userData)
-    dispatch(successPostsCheckData(isActual))
+    const resultChecking = await checkActualUserDataFetch(userData)
+    dispatch(successPostsCheckData(resultChecking))
   } catch (err) {
     dispatch(failurePostsCheckData(err))
   }

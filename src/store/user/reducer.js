@@ -21,6 +21,10 @@ const defaultState = {
   cityId: -1,
   branchId: -1,
   clientId: -1,
+  referralCode: '',
+  parentReferralClientId: -1,
+  virtualMoney: 0,
+  referralDiscount: 0,
   placedOrders: false
 }
 
@@ -66,11 +70,6 @@ export const userReducer = (state = defaultState, action) => {
         isFetchError: false
       }
     case FETCH_CHECK_ACTUAL_USER_INFO_SUCCESS:
-      return {
-        ...state,
-        isLogin: action.payload,
-        isFetching: false,
-      }
     case FETCH_ADD_OR_UPDATE_USER_INFO_SUCCESS:
       return {
         ...state,
