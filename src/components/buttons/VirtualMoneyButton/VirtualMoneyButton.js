@@ -9,7 +9,7 @@ class VirtualMoneyButton extends React.Component {
     render() {
         return <SimpleTextButton
             // onPress={this.goToCashbackScreen}
-            sizeText={12}
+            sizeText={this.props.style.fontSize.h10.fontSize}
             margin={5}
             color={this.props.style.theme.textPrimaryColor.color}
             text={`${this.props.virtualMoney} ${this.props.currencyPrefix}`} />
