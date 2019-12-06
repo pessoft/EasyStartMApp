@@ -1,9 +1,6 @@
 import { store } from '../store/store'
 
-// const state = store.getState()
-// const style = state.style
-
-export const defaultStyleNavigationStackOptions = style => ( {
+export const defaultStyleNavigationStackOptions = style => ({
   defaultNavigationOptions: {
     headerTitleStyle: {
       textAlign: "center",
