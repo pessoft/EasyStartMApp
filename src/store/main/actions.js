@@ -49,7 +49,7 @@ const successUpdateRatingPosts = rating => {
 
 const failureUpdateRatingPosts = () => {
     return {
-        type: FETCH_UPDATE_PRODUCT_RATING_SUCCESS,
+        type: FETCH_UPDATE_PRODUCT_RATING_FAILURE,
         payload: true
     }
 }
