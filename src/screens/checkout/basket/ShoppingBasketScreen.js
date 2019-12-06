@@ -24,13 +24,28 @@ import LottieView from 'lottie-react-native';
 import VirtualMoneyButton from '../../../components/buttons/VirtualMoneyButton/VirtualMoneyButton'
 
 class ShoppingBasketScreen extends React.Component {
-  static navigationOptions = {
-    headerTitle: 'Корзина',
-    headerRight: () => <VirtualMoneyButton />
+  static navigationOptions = ({ navigation }) => {
+    const isShowVirtualMoney = navigation.getParam('isShowVirtualMoney', false)
+
+    if (isShowVirtualMoney)
+      return {
+        headerTitle: 'Корзина',
+        headerTitleStyle: {
+          textAlign: "left",
+          flex: 1,
+        },
+        headerRight: () => <VirtualMoneyButton />
+      }
+
+    return {
+      headerTitle: 'Корзина'
+    }
   }
 
   constructor(props) {
     super(props)
+
+    this.props.navigation.setParams({ isShowVirtualMoney: this.props.promotionCashbackSetting.IsUseCashback })
 
     this.state = {
       showScaleAnimation: new Animated.Value(0),
@@ -319,6 +334,7 @@ const mapStateToProps = state => {
     totalCountProducts: state.checkout.totalCountProducts,
     style: state.style,
     deliverySettings: state.main.deliverySettings,
+    promotionCashbackSetting: state.main.promotionCashbackSetting,
   }
 }
 

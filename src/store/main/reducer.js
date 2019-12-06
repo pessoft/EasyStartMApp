@@ -16,7 +16,7 @@ const defaultState = {
   deliverySettings: {},
   organizationSettings: {},
   stocks: [],
-  promotionCashBackSetting: {},
+  promotionCashbackSetting: {},
   promotionPartnersSetting: {},
   promotionSectionSettings: [],
   coupon: {}

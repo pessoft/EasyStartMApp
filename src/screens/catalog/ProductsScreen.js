@@ -14,15 +14,30 @@ import VirtualMoneyButton from '../../components/buttons/VirtualMoneyButton/Virt
 
 class ProductsScreen extends React.Component {
     static navigationOptions = ({ navigation }) => {
+        const isShowVirtualMoney = navigation.getParam('isShowVirtualMoney', false)
+        const headerTitle = navigation.getParam('categoryName', 'Блюда')
+
+        if (isShowVirtualMoney)
+            return {
+                headerTitle,
+                headerTitleStyle: {
+                    textAlign: "left",
+                    flex: 1,
+                },
+                headerRight: () => <VirtualMoneyButton />
+            }
+
         return {
-            headerTitle: navigation.getParam('categoryName', 'Блюда'),
-            headerRight: () => <VirtualMoneyButton />
+            headerTitle
         }
     }
 
     constructor(props) {
         super(props)
-        this.props.navigation.setParams({ categoryName: this.props.selectedCategory.Name })
+        this.props.navigation.setParams({
+            categoryName: this.props.selectedCategory.Name,
+            isShowVirtualMoney: this.props.promotionCashbackSetting.IsUseCashback
+        })
         this.props.setSelectedProduct({})
 
         this.state = {
@@ -164,7 +179,8 @@ const mapStateToProps = state => {
         selectedProduct: state.catalog.selectedProduct,
         basketProducts: state.checkout.basketProducts,
         totalCountProducts: state.checkout.totalCountProducts,
-        style: state.style
+        style: state.style,
+        promotionCashbackSetting: state.main.promotionCashbackSetting,
     }
 }
 

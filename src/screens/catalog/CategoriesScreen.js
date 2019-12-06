@@ -8,17 +8,33 @@ import { CategoryItem } from '../../components/category/CategoryItem';
 import { setSelectedCategory, setSelectedProduct } from '../../store/catalog/actions'
 import { PRODUCTS } from '../../navigation/pointsNavigate';
 import { timingAnimation } from '../../animation/timingAnimation'
-import {Text} from 'react-native'
+import { Text } from 'react-native'
 import VirtualMoneyButton from '../../components/buttons/VirtualMoneyButton/VirtualMoneyButton'
 
 class CategoriesScreen extends React.Component {
-    static navigationOptions = {
-        headerTitle: 'Категории',
-        headerRight: () => <VirtualMoneyButton />
+    static navigationOptions = ({ navigation }) => {
+        const isShowVirtualMoney = navigation.getParam('isShowVirtualMoney', false)
+
+        if (isShowVirtualMoney)
+            return {
+                headerTitle: 'Категории',
+                headerTitleStyle: {
+                    textAlign: "left",
+                    flex: 1,
+                },
+                headerRight: () => <VirtualMoneyButton />
+            }
+
+        return {
+            headerTitle: 'Категории'
+        }
     }
 
     constructor(props) {
         super(props)
+
+        this.props.navigation.setParams({ isShowVirtualMoney: this.props.promotionCashbackSetting.IsUseCashback })
+
         this.props.setSelectedProduct({})
         this.props.setSelectedCategory({})
 
@@ -99,6 +115,7 @@ class CategoriesScreen extends React.Component {
 
 const mapStateToProps = state => {
     return {
+        promotionCashbackSetting: state.main.promotionCashbackSetting,
         serverDomain: state.appSetting.serverDomain,
         categories: state.main.categories,
         selectedCategory: state.catalog.selectedCategory,
