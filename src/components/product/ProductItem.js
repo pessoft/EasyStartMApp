@@ -47,10 +47,10 @@ export class ProductItem extends React.PureComponent {
     getSizeProductType = type => {
         if (type == TypeProduct.Hit
             || type == TypeProduct.New) {
-            return { width: 25, height: 25 }
+            return { width: 22, height: 22 }
         }
 
-        return { width: 18, height: 18 }
+        return { width: 15, height: 15 }
     }
 
     render() {
@@ -81,7 +81,7 @@ export class ProductItem extends React.PureComponent {
                             <Text style={[
                                 Style.mt_5,
                                 this.props.style.theme.secondaryTextColor,
-                                this.props.style.fontSize.h11]}>
+                                this.props.style.fontSize.h10]}>
                                 {this.props.product.additionInfo}
                             </Text>
                             <View style={Style.productTypeContainer}>
@@ -105,7 +105,7 @@ export class ProductItem extends React.PureComponent {
                         <View style={Style.blockShopAction}>
                             <Text style={[
                                 Style.textWrap,
-                                this.props.style.fontSize.h9,
+                                this.props.style.fontSize.h8,
                                 this.props.style.theme.primaryTextColor]}>
                                 {`${this.props.product.price} ${this.props.product.currencyPrefix}`}
                             </Text>
