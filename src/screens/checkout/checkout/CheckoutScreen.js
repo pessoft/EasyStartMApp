@@ -17,6 +17,7 @@ import { OrderComment } from '../../../components/checkout/order-comment/OrderCo
 import { CompleteCheckout } from '../../../components/checkout/complete-checkout/CompleteCheckout'
 import { CHECKOUT_COMPLETE } from '../../../navigation/pointsNavigate'
 import { addNewOrderData } from '../../../store/checkout/actions'
+import { PromotionLogic } from '../../../logic/promotion/promotion-logic'
 
 class CheckoutScreen extends React.Component {
   static navigationOptions = {
@@ -39,7 +40,7 @@ class CheckoutScreen extends React.Component {
         cashBack: 0
       },
       deliveryAddress: {
-        cityId: this.props.userData.cityId,
+        cityId: props.userData.cityId,
         areaDeliveryId: -1,
         street: '',
         houseNumber: '',
@@ -48,7 +49,12 @@ class CheckoutScreen extends React.Component {
         level: '',
         intercomCode: ''
       },
-      commentText: ''
+      commentText: '',
+      promotion: new PromotionLogic(
+        props.stocks,
+        null,
+        props.userData.referralDiscount,
+        props.promotionSettings)
     }
   }
 
@@ -148,7 +154,10 @@ class CheckoutScreen extends React.Component {
       deliveryPrice: this.getDeliveryPrice(),
       amountPay: this.getOrderPrice(),
       amountPayDiscountDelivery: this.getToPayPrice(),
-      productCountJSON: this.getProductCountJson()
+      productCountJSON: this.getProductCountJson(),
+      
+      referralDiscount: this.promotion.referralDiscount(),
+
     }
   }
 
@@ -263,6 +272,7 @@ const mapStateToProps = state => {
     basketProducts: state.checkout.basketProducts,
     products: state.main.products,
     deliverySettings: state.main.deliverySettings,
+    promotionSettings: state.main.promotionSectionSettings,
     stocks: state.main.stocks
   }
 }
