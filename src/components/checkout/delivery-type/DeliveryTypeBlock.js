@@ -3,7 +3,7 @@ import { View, Text } from 'react-native'
 import Style from './style'
 import { DeliveryRadioGroup } from './DeliveryRadioGroup'
 
-export class DeliveryType extends React.Component {
+export class DeliveryTypeBlock extends React.Component {
   constructor(props) {
     super(props)
 

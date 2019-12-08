@@ -8,10 +8,9 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import Style from './style'
 import { timingAnimation } from '../../../animation/timingAnimation'
 import { Contacts } from '../../../components/checkout/contacts/Contacts'
-import { DeliveryType } from '../../../components/checkout/delivery-type/DeliveryType'
+import { DeliveryTypeBlock } from '../../../components/checkout/delivery-type/DeliveryTypeBlock'
 import { PaymentType } from '../../../components/checkout/payment-type/PaymentType'
-import { TypeDelivery } from '../../../helpers/type-delivery'
-import { TypeStock } from '../../../helpers/stock-type'
+import { DeliveryType } from '../../../logic/promotion/delivery-type'
 import { TypePayment } from '../../../helpers/type-payment'
 import { DeliveryAddressAnimation } from '../../../components/checkout/delivery-address/DeliveryAddressAnimation'
 import { OrderComment } from '../../../components/checkout/order-comment/OrderComment'
@@ -33,7 +32,7 @@ class CheckoutScreen extends React.Component {
         userName: props.userData.userName,
         phoneNumber: props.userData.phoneNumber
       },
-      deliveryType: TypeDelivery.Delivery,
+      deliveryType: DeliveryType.Delivery,
       paymentData: {
         paymentType: TypePayment.Cash,
         needCashBack: false,
@@ -97,7 +96,7 @@ class CheckoutScreen extends React.Component {
   }
 
   getDeliveryPrice = () => {
-    if (this.state.deliveryType == TypeDelivery.TakeYourSelf
+    if (this.state.deliveryType == DeliveryType.TakeYourSelf
       || this.isFreeDelivery())
       return 0
     else
@@ -105,31 +104,7 @@ class CheckoutScreen extends React.Component {
   }
 
   getDiscount = () => {
-    if (this.state.deliveryType == TypeDelivery.TakeYourSelf) {
-      const stock = this.getStockByType(TypeStock.OrderTakeYourself)
-
-      return stock.Discount
-    }
-
-    //добавить проверку на то что это точно первый заказ
-    if (this.state.deliveryType == TypeDelivery.Delivery) {
-      const stock = this.getStockByType(TypeStock.FirstOrder)
-
-      return stock.Discount
-    }
-
     return 0
-  }
-
-  getStockByType = stockType => {
-    let stockFind = this.props.stocks.filter(p => p.StockType == stockType)
-
-    if (stockFind.length > 0)
-      return stockFind[0]
-    else
-      return {
-        Discount: 0
-      }
   }
 
   getToPayPrice = () => {
@@ -210,7 +185,7 @@ class CheckoutScreen extends React.Component {
       return false
     }
 
-    if (this.state.deliveryType == TypeDelivery.Delivery
+    if (this.state.deliveryType == DeliveryType.Delivery
       && !this.isValidDeliveryAddress()) {
       return false
     }
@@ -247,7 +222,7 @@ class CheckoutScreen extends React.Component {
               initValue={this.state.paymentData.paymentType}
               changePaymentData={this.changePaymentData}
             />
-            <DeliveryType
+            <DeliveryTypeBlock
               style={this.props.style}
               initValue={this.state.deliveryType}
               changeDeliveryType={this.changeDeliveryType}
@@ -256,7 +231,7 @@ class CheckoutScreen extends React.Component {
               cityId={this.state.deliveryAddress.cityId}
               style={this.props.style}
               changeDeliveryAddress={this.setDeliveryAddress}
-              isShow={this.state.deliveryType == TypeDelivery.Delivery}
+              isShow={this.state.deliveryType == DeliveryType.Delivery}
               areaDeliveries={this.props.deliverySettings.AreaDeliveries}
             />
             <OrderComment
