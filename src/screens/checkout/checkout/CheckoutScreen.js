@@ -51,10 +51,19 @@ class CheckoutScreen extends React.Component {
       },
       commentText: '',
       promotion: new PromotionLogic(
-        props.stocks,
+        this.getStockOption(),
         null,
         props.userData.referralDiscount,
         props.promotionSettings)
+    }
+  }
+
+  getStockOption = () => {
+    return {
+      stocks: this.props.stocks,
+      deliveryType: this.state.deliveryType,
+      orderSum: this.getOrderPrice(),
+      basketProducts: this.props.basketProducts
     }
   }
 
@@ -155,9 +164,12 @@ class CheckoutScreen extends React.Component {
       amountPay: this.getOrderPrice(),
       amountPayDiscountDelivery: this.getToPayPrice(),
       productCountJSON: this.getProductCountJson(),
-      
-      referralDiscount: this.promotion.referralDiscount(),
 
+      productBonusCountJSON: '',
+      amountPayCashBack: 0,
+      stockIds: this.state.promotion.getApplyStockIds(),
+      couponId: this.state.promotion.getApplyCouponId(),
+      referralDiscount: this.promotion.getReferralDiscount(),
     }
   }
 

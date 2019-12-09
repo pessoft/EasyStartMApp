@@ -4,6 +4,13 @@ export class CouponLogic {
     }
 
     getDiscount() {
-        
+
+    }
+
+    getCouponId() {
+        if (this.coupon)
+            return this.coupon.Id
+
+        return 0
     }
 }
