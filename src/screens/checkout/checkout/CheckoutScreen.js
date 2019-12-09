@@ -50,12 +50,18 @@ class CheckoutScreen extends React.Component {
         intercomCode: ''
       },
       commentText: '',
-      promotion: new PromotionLogic(
-        this.getStockOption(),
-        null,
-        props.userData.referralDiscount,
-        props.promotionSettings)
+      promotion: this.getPromotionLogic(),
+      amountPayCashBack: 0,
+      productsBonus: []
     }
+  }
+
+  getPromotionLogic = () => {
+    return new PromotionLogic(
+      this.getStockOption(),
+      null,
+      props.userData.referralDiscount,
+      props.promotionSettings)
   }
 
   getStockOption = () => {
@@ -141,6 +147,16 @@ class CheckoutScreen extends React.Component {
     return JSON.stringify(productCount)
   }
 
+  getProductBonusCountJson = () => {
+    const productCount = {}
+
+    for (let productId of this.state.productsBonus) {
+      productCount[productId] = 1
+    }
+
+    return JSON.stringify(productCount)
+  }
+
   getOrderData = () => {
     return {
       branchId: this.props.userData.branchId,
@@ -165,8 +181,8 @@ class CheckoutScreen extends React.Component {
       amountPayDiscountDelivery: this.getToPayPrice(),
       productCountJSON: this.getProductCountJson(),
 
-      productBonusCountJSON: '',
-      amountPayCashBack: 0,
+      productBonusCountJSON: this.getProductBonusCountJson(),
+      amountPayCashBack: this.state.amountPayCashBack,
       stockIds: this.state.promotion.getApplyStockIds(),
       couponId: this.state.promotion.getApplyCouponId(),
       referralDiscount: this.promotion.getReferralDiscount(),

@@ -7,6 +7,10 @@ export class CouponLogic {
 
     }
 
+    getProducts() {
+        
+    }
+
     getCouponId() {
         if (this.coupon)
             return this.coupon.Id

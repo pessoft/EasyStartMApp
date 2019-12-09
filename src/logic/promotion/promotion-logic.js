@@ -103,4 +103,44 @@ export class PromotionLogic {
 
         return 0
     }
+
+    getBonusProducts() {
+        const bonusProductsItem = {}
+
+        bonusProductsItem[PromotionSection.Stock] = this.stockLogic.getProducts()
+        bonusProductsItem[PromotionSection.Coupon] = this.couponLogic.getProducts()
+
+        const sections = []
+        for (var key in bonusProductsItem) {
+            if (bonusProductsItem[key].length > 0)
+                sections.push(key)
+        }
+
+        if (sections.length == 0)
+            return 0;
+
+        const applySection = sections.length > 1 ? this.filterSectionBySetting(discountItem) : sections[0]
+        BitOperation.Add(this.applySectionForProduct, applySection)
+
+        const products = []
+        for (const key in PromotionSection) {
+            const section = PromotionSection[key]
+
+            if (section == PromotionSection.Unknown)
+                continue
+
+            if (BitOperation.isHas(applySection, section)) {
+                for (const id of bonusProductsItem[section]) {
+                    if (products.indexOf(id) == -1)
+                        products.push(id)
+                }
+            }
+        }
+
+        return products
+    }
+
+    getAllowedCountSelectBonusProduct() {
+        return this.stockLogic.getAllowedCountSelectBonusProduct()
+    }
 }
