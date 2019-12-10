@@ -9,6 +9,13 @@ import { TextInputMask } from 'react-native-masked-text'
 import Style from './style'
 
 export class CompleteCheckout extends React.Component {
+  getDiscountText = () => {
+    const percent = this.props.discountPercent > 0 ? `${this.props.discountPercent}%` : ''
+    const ruble = this.props.discountRuble > 0 ? `${this.props.discountRuble} руб.` : ''
+    let text = percent && ruble ? `${percent} и ${ruble}` : percent || ruble
+
+    return text
+  }
 
   render() {
     return (
@@ -36,14 +43,14 @@ export class CompleteCheckout extends React.Component {
             </Text>
           }
           {
-            this.props.stock > 0 &&
+            (this.props.discountPercent > 0 || this.props.discountRuble > 0) &&
             <Text
               style={[
                 Style.textPadding,
                 this.props.style.theme.primaryTextColor,
                 this.props.style.fontSize.h8]}>
-              Скидка: {this.props.stock}%
-          </Text>
+              Скидка: {this.getDiscountText()}
+            </Text>
           }
           <Text
             style={[
@@ -57,9 +64,9 @@ export class CompleteCheckout extends React.Component {
               title='Оформить заказ'
               onPress={this.props.onCompleteCheckout}
               disabled={this.props.disabled}
-              color={Platform.OS == 'ios' ? 
-              this.props.style.theme.accentOther.backgroundColor:
-              this.props.style.theme.darkPrimaryColor.backgroundColor} />
+              color={Platform.OS == 'ios' ?
+                this.props.style.theme.accentOther.backgroundColor :
+                this.props.style.theme.darkPrimaryColor.backgroundColor} />
           </View>
         </View>
       </View>

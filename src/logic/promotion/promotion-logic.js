@@ -3,6 +3,7 @@ import { CouponLogic } from './coupon-logic'
 import { ReferralLogic } from './referral-logic'
 import { PromotionSection } from './promotion-section'
 import { BitOperation } from '../../helpers/bit-operation'
+import { getMaxOfArray } from '../../helpers/utils
 
 export class PromotionLogic {
     /***
@@ -17,11 +18,11 @@ export class PromotionLogic {
         this.applySectionForProduct = PromotionSection.Unknown
     }
 
-    getDiscount() {
+    getDiscount(discountType) {
         const discountItem = {}
 
-        discountItem[PromotionSection.Stock] = this.stockLogic.getDiscount()
-        discountItem[PromotionSection.Coupon] = this.couponLogic.getDiscount()
+        discountItem[PromotionSection.Stock] = this.stockLogic.getDiscount(discountType)
+        discountItem[PromotionSection.Coupon] = this.couponLogic.getDiscount(discountType)
         discountItem[PromotionSection.Partners] = this.referralLogic.getDiscount()
 
         const sections = []
@@ -141,6 +142,11 @@ export class PromotionLogic {
     }
 
     getAllowedCountSelectBonusProduct() {
-        return this.stockLogic.getAllowedCountSelectBonusProduct()
+        const counts = [
+            this.stockLogic.getAllowedCountSelectBonusProduct(),
+            this.couponLogic.getAllowedCountSelectBonusProduct()
+        ]
+
+        return getMaxOfArray(counts)
     }
 }

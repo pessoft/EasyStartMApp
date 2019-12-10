@@ -18,6 +18,7 @@ import { CompleteCheckout } from '../../../components/checkout/complete-checkout
 import { CHECKOUT_COMPLETE } from '../../../navigation/pointsNavigate'
 import { addNewOrderData } from '../../../store/checkout/actions'
 import { PromotionLogic } from '../../../logic/promotion/promotion-logic'
+import { DiscountType } from '../../../logic/promotion/discount-type'
 
 class CheckoutScreen extends React.Component {
   static navigationOptions = {
@@ -124,16 +125,17 @@ class CheckoutScreen extends React.Component {
       return this.props.deliverySettings.PriceDelivery
   }
 
-  getDiscount = () => {
-    return 0
+  getDiscount = (discountType) => {
+    return this.state.promotion.getDiscount(discountType)
   }
 
   getToPayPrice = () => {
     const orderPrice = parseFloat(this.getOrderPrice())
     const deliveryPrice = parseFloat(this.getDeliveryPrice())
-    const discount = parseFloat(this.getDiscount())
+    const discountPercent = parseFloat(this.getDiscount(DiscountType.Percent)),
+    const discountRuble = parseFloat(this.getDiscount(DiscountType.Ruble)),
 
-    return orderPrice - (orderPrice * discount / 100) + deliveryPrice
+    return orderPrice - ((orderPrice * discountPercent / 100) + discountRuble) + deliveryPrice
   }
 
   getProductCountJson = () => {
@@ -175,7 +177,8 @@ class CheckoutScreen extends React.Component {
       comment: this.state.commentText,
       cashBack: this.state.paymentData.cashBack,
       needCashBack: this.state.paymentData.needCashBack,
-      discount: this.getDiscount(),
+      discountPercent: this.getDiscount(DiscountType.Percent),
+      discountRuble: this.getDiscount(DiscountType.Ruble),
       deliveryPrice: this.getDeliveryPrice(),
       amountPay: this.getOrderPrice(),
       amountPayDiscountDelivery: this.getToPayPrice(),
@@ -280,7 +283,8 @@ class CheckoutScreen extends React.Component {
               orderPrice={this.getOrderPrice()}
               currencyPrefix={this.props.currencyPrefix}
               deliveryPrice={this.getDeliveryPrice()}
-              stock={this.getDiscount()}
+              discountPercent={this.getDiscount(DiscountType.Percent)}
+              discountRuble={this.getDiscount(DiscountType.Ruble)}
               toPay={this.getToPayPrice()}
               onCompleteCheckout={this.completeCheckout}
               disabled={!this.isValidData()}
