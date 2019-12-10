@@ -51,24 +51,24 @@ class CheckoutScreen extends React.Component {
         intercomCode: ''
       },
       commentText: '',
-      promotion: this.getPromotionLogic(),
+      promotion: this.getPromotionLogic(true),
       amountPayCashBack: 0,
       productsBonus: []
     }
   }
 
-  getPromotionLogic = () => {
+  getPromotionLogic = (isDefault = false) => {
     return new PromotionLogic(
-      this.getStockOption(),
+      this.getStockOption(isDefault),
       null,
-      props.userData.referralDiscount,
-      props.promotionSettings)
+      this.props.userData.referralDiscount,
+      this.props.promotionSettings)
   }
 
-  getStockOption = () => {
+  getStockOption = (isDefault) => {
     return {
       stocks: this.props.stocks,
-      deliveryType: this.state.deliveryType,
+      deliveryType: isDefault ? DeliveryType.Delivery : this.state.deliveryType,
       orderSum: this.getOrderPrice(),
       basketProducts: this.props.basketProducts
     }
@@ -132,8 +132,8 @@ class CheckoutScreen extends React.Component {
   getToPayPrice = () => {
     const orderPrice = parseFloat(this.getOrderPrice())
     const deliveryPrice = parseFloat(this.getDeliveryPrice())
-    const discountPercent = parseFloat(this.getDiscount(DiscountType.Percent)),
-    const discountRuble = parseFloat(this.getDiscount(DiscountType.Ruble)),
+    const discountPercent = parseFloat(this.getDiscount(DiscountType.Percent))
+    const discountRuble = parseFloat(this.getDiscount(DiscountType.Ruble))
 
     return orderPrice - ((orderPrice * discountPercent / 100) + discountRuble) + deliveryPrice
   }

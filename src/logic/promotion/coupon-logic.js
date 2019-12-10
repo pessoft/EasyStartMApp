@@ -1,6 +1,6 @@
 import { DiscountType } from './discount-type'
 import { RewardType } from './reward-type'
-import { getMaxOfArray } from '../../helpers/utils
+import { getMaxOfArray } from '../../helpers/utils'
 
 export class CouponLogic {
     constructor(coupon) {

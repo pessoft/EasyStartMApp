@@ -232,7 +232,7 @@ export class StockLogic {
     getAllowedCountSelectBonusProduct() {
         const counts = [
             getMaxOfArray(this.getStocksTriggerDeliveryType().map(p => p.CountBonusProducts)),
-            getMaxOfArray(this.getStocksTriggerOrderSum().map(p => p.CountBonusProducts))
+            getMaxOfArray(this.getStocksTriggerOrderSum().map(p => p.CountBonusProducts)),
             getMaxOfArray(this.getStocksTriggerProducts()().map(p => p.CountBonusProducts))
         ]
 

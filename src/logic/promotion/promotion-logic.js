@@ -3,7 +3,7 @@ import { CouponLogic } from './coupon-logic'
 import { ReferralLogic } from './referral-logic'
 import { PromotionSection } from './promotion-section'
 import { BitOperation } from '../../helpers/bit-operation'
-import { getMaxOfArray } from '../../helpers/utils
+import { getMaxOfArray } from '../../helpers/utils'
 
 export class PromotionLogic {
     /***
