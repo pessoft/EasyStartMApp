@@ -42,7 +42,7 @@ export class StockLogic {
     getDiscountTriggerDeliveryType(discountType) {
         const stocks = this.stocks.filter(p => p.ConditionType == TriggerType.DeliveryOrder
             && p.RewardType == RewardType.Discount
-            && p.DiscountType == RewardType.discountType
+            && p.DiscountType == discountType
             && p.ConditionDeliveryType == this.deliveryType)
         const discountItem = this.transformDiscount(stocks)
 
@@ -52,7 +52,7 @@ export class StockLogic {
     getDiscountTriggerOrderSum(discountType) {
         const stocks = this.stocks.filter(p => p.ConditionType == TriggerType.SummOrder
             && p.RewardType == RewardType.Discount
-            && p.DiscountType == RewardType.discountType
+            && p.DiscountType == discountType
             && p.ConditionOrderSum <= this.orderSum)
         const discountItem = this.transformDiscount(stocks)
 
@@ -78,7 +78,7 @@ export class StockLogic {
 
         const stocks = this.stocks.filter(p => p.ConditionType == TriggerType.ProductsOrder
             && p.RewardType == RewardType.Discount
-            && p.DiscountType == RewardType.discountType
+            && p.DiscountType == discountType
             && containsProducts(p.ConditionCountProducts))
         const discountItem = this.transformDiscount(stocks)
 

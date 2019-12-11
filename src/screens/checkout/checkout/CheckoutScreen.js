@@ -60,9 +60,13 @@ class CheckoutScreen extends React.Component {
   getPromotionLogic = (isDefault = false) => {
     return new PromotionLogic(
       this.getStockOption(isDefault),
-      null,
+      this.getCoupon(),
       this.props.userData.referralDiscount,
       this.props.promotionSettings)
+  }
+
+  getCoupon = () => {
+    return null
   }
 
   getStockOption = (isDefault) => {
@@ -79,7 +83,7 @@ class CheckoutScreen extends React.Component {
   }
 
   setContactsData = userData => this.setState({ userData })
-  changeDeliveryType = deliveryType => this.setState({ deliveryType })
+  changeDeliveryType = deliveryType => this.setState({ deliveryType }, () => this.setState({ promotion: this.getPromotionLogic() }))
   changePaymentData = paymentData => this.setState({ paymentData })
   setDeliveryAddress = deliveryAddress => this.setState({ deliveryAddress })
   setCommentText = commentText => this.setState({ commentText })
