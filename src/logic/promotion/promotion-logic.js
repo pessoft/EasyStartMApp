@@ -33,7 +33,7 @@ export class PromotionLogic {
 
         if (sections.length == 0)
             return 0;
-        
+
         const applySection = sections.length > 1 ? this.filterSectionBySetting(discountItem) : sections[0]
         BitOperation.Add(this.applySectionForDiscount, applySection)
 
@@ -148,5 +148,13 @@ export class PromotionLogic {
         ]
 
         return getMaxOfArray(counts)
+    }
+
+    equalsPromotionData(promotionData) {
+        if (this.stockLogic.deliveryType != promotionData.deliveryType
+            || this.stockLogic.orderSum != promotionData.orderSum)
+            return false
+
+        return true
     }
 }

@@ -82,8 +82,22 @@ class CheckoutScreen extends React.Component {
     timingAnimation(this.state.showScaleAnimation, 1, 300, true)
   }
 
+  componentDidUpdate = (prevProps, prevSate) => {
+    const promotionData = this.getPromotionDataForEquals()
+    if (!this.state.promotion.equalsPromotionData(promotionData)) {
+      this.setState({ promotion: this.getPromotionLogic() })
+    }
+  }
+
+  getPromotionDataForEquals = () => {
+    return {
+      deliveryType: this.state.deliveryType,
+      orderSum: this.getOrderPrice()
+    }
+  }
+
   setContactsData = userData => this.setState({ userData })
-  changeDeliveryType = deliveryType => this.setState({ deliveryType }, () => this.setState({ promotion: this.getPromotionLogic() }))
+  changeDeliveryType = deliveryType => this.setState({ deliveryType })
   changePaymentData = paymentData => this.setState({ paymentData })
   setDeliveryAddress = deliveryAddress => this.setState({ deliveryAddress })
   setCommentText = commentText => this.setState({ commentText })

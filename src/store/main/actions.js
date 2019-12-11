@@ -61,9 +61,19 @@ const requestMainDataPosts = () => {
 }
 
 const successMainDataPosts = mainData => {
+    processingMainData(mainData)
+
     return {
         type: FETCH_MAIN_DATA_SUCCESS,
         payload: mainData
+    }
+}
+
+const processingMainData = mainData => {
+    if (mainData && mainData.stocks && mainData.stocks.length > 0) {
+        for (const stock of mainData.stocks) {
+            stock.ConditionCountProducts = JSON.parse(stock.ConditionCountProductsJSON)
+        }
     }
 }
 

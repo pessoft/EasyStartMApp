@@ -60,14 +60,15 @@ export class StockLogic {
     }
 
     getDiscountTriggerProducts(discountType) {
+        const productIdsFromBasket = Object.keys(this.basketProducts)
+
         const containsProducts = productsFromStock => {
             const productIdsFromStock = Object.keys(productsFromStock)
-            const productIdsFromBasket = Object.keys(this.basketProducts)
             let result = productIdsFromStock.length > 0
 
             for (const id of productIdsFromStock) {
                 if (productIdsFromBasket.indexOf(id) == -1
-                    || productIdsFromStock[id] != productIdsFromBasket[id].count) {
+                    || productsFromStock[id] > this.basketProducts[id].count) {
                     result = false;
                     break;
                 }
@@ -81,6 +82,7 @@ export class StockLogic {
             && p.DiscountType == discountType
             && containsProducts(p.ConditionCountProducts))
         const discountItem = this.transformDiscount(stocks)
+
 
         return discountItem
     }
