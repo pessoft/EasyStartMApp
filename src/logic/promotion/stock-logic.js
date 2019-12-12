@@ -111,7 +111,7 @@ export class StockLogic {
             if (item.ids.length == 0)
                 continue
 
-            result = [...result, item.products]
+            result = [...result, ...item.products]
         }
 
         return result
@@ -124,8 +124,8 @@ export class StockLogic {
 
         return [
             productsTriggerDeliveryType,
-            productsTriggerOrderSum.products,
-            productsTriggerProducts.products]
+            productsTriggerOrderSum,
+            productsTriggerProducts]
     }
 
     getStocksTriggerDeliveryType() {
@@ -138,9 +138,9 @@ export class StockLogic {
 
     getProductsTriggerDeliveryType() {
         const stocks = this.getStocksTriggerDeliveryType()
-        const discountItem = this.transformStockProducts(stocks)
+        const productItem = this.transformStockProducts(stocks)
 
-        return discountItem
+        return productItem
     }
 
     getStocksTriggerOrderSum() {
@@ -153,9 +153,9 @@ export class StockLogic {
 
     getProductsTriggerOrderSum() {
         const stocks = this.getStocksTriggerOrderSum()
-        const discountItem = this.transformStockProducts(stocks)
+        const productItem = this.transformStockProducts(stocks)
 
-        return discountItem
+        return productItem
     }
 
     getStocksTriggerProducts() {
@@ -184,9 +184,9 @@ export class StockLogic {
 
     getProductsTriggerProducts() {
         const stocks = this.getStocksTriggerProducts()
-        const discountItem = this.transformStockProducts(stocks)
+        const productItem = this.transformStockProducts(stocks)
 
-        return discountItem
+        return productItem
     }
 
     transformStockProducts(stocks) {
@@ -197,14 +197,13 @@ export class StockLogic {
 
         if (stocks.length > 0) {
             for (const stock of stocks) {
-                const productIds = Object.keys(stock.ConditionCountProducts)
 
                 productItem.ids.push(stock.Id)
-                productItem.products += [...productItem.products, productIds]
+                productItem.products = [...productItem.products, ...stock.AllowedBonusProducts]
             }
         }
 
-        return discountItem
+        return productItem
     }
 
     getStockIdsDiscountForCurrentOrder() {
@@ -235,7 +234,7 @@ export class StockLogic {
         const counts = [
             getMaxOfArray(this.getStocksTriggerDeliveryType().map(p => p.CountBonusProducts)),
             getMaxOfArray(this.getStocksTriggerOrderSum().map(p => p.CountBonusProducts)),
-            getMaxOfArray(this.getStocksTriggerProducts()().map(p => p.CountBonusProducts))
+            getMaxOfArray(this.getStocksTriggerProducts().map(p => p.CountBonusProducts))
         ]
 
         return getMaxOfArray(counts)

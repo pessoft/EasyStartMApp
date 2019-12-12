@@ -26,16 +26,12 @@ class StocksInfoScreen extends React.Component {
     timingAnimation(this.state.showScaleAnimation, 1, 300, true)
   }
 
-  getImageSource() {
-    return { uri: `${this.props.serverDomain}${this.props.selectedStock.Image}` }
-  }
-
   render() {
     return (
       <Animated.ScrollView
         style={[{ transform: [{ scale: this.state.showScaleAnimation }] }]}>
         <Image
-          source={this.getImageSource()}
+          source={this.props.selectedStock.Image}
           width={Dimensions.get('window').width}
           resizeMode='contain' />
         <Text style={[

@@ -82,10 +82,6 @@ class ProductsScreen extends React.Component {
         this.props.setSelectedProduct(product)
     }
 
-    getImageSource = imagePath => {
-        return { uri: `${this.props.serverDomain}${imagePath}` }
-    }
-
     productsTransform = () => {
         const productsForRender = []
         const products = this.props.products[this.props.selectedCategory.Id]
@@ -101,13 +97,13 @@ class ProductsScreen extends React.Component {
                 id: item.Id,
                 product: {
                     caption: item.Name,
-                    imageSource: this.getImageSource(item.Image),
+                    imageSource: item.Image,
                     additionInfo: item.AdditionInfo,
                     price: item.Price,
                     currencyPrefix: this.props.currencyPrefix,
                     startCount: countProduct,
                     productType: item.ProductType,
-                }
+                },
             }
         }
 

@@ -68,17 +68,13 @@ class CategoriesScreen extends React.Component {
         return {}
     }
 
-    getImageSource = imagePath => {
-        return { uri: `${this.props.serverDomain}${imagePath}` }
-    }
-
     categoriesTransform = () => {
         const categories = []
         for (let category of this.props.categories) {
             categories[category.OrderNumber - 1] = {
                 key: `${category.Id}`,
                 caption: category.Name,
-                imageSource: this.getImageSource(category.Image)
+                imageSource: category.Image
             }
         }
 

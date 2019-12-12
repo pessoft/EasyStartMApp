@@ -100,10 +100,6 @@ class ShoppingBasketScreen extends React.Component {
     this.props.setSelectedProduct(product)
   }
 
-  getImageSource = imagePath => {
-    return { uri: `${this.props.serverDomain}${imagePath}` }
-  }
-
   getProductById = (productId, products) => {
     return products.filter(p => p.Id == productId)[0]
   }
@@ -134,7 +130,7 @@ class ShoppingBasketScreen extends React.Component {
         id: item.Id,
         product: {
           caption: item.Name,
-          imageSource: this.getImageSource(item.Image),
+          imageSource: item.Image,
           additionInfo: item.AdditionInfo,
           price: item.Price,
           currencyPrefix: this.props.currencyPrefix,

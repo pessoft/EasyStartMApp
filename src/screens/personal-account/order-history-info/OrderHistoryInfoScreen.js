@@ -47,10 +47,6 @@ class OrderHistoryInfoScreen extends React.Component {
     }
   }
 
-  getImageSource = imagePath => {
-    return { uri: `${this.props.serverDomain}${imagePath}` }
-  }
-
   getProductById = productId => {
     for (let categoryId in this.props.products) {
       const findProducts = this.props.products[categoryId].filter(p => p.Id == productId)
@@ -88,7 +84,7 @@ class OrderHistoryInfoScreen extends React.Component {
         id: item.Id,
         product: {
           caption: item.Name,
-          imageSource: this.getImageSource(item.Image),
+          imageSource: item.Image,
           additionInfo: item.AdditionInfo,
           price: item.Price,
           currencyPrefix: this.props.currencyPrefix,

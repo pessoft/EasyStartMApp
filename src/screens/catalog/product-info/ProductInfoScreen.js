@@ -57,10 +57,6 @@ class ProductInfoScreen extends React.Component {
         return `${this.state.selectedProduct.Price} ${this.props.currencyPrefix}`
     }
 
-    getImageSource() {
-        return { uri: `${this.props.serverDomain}${this.state.selectedProduct.Image}` }
-    }
-
     onPressReviews = () => {
         if (this.state.selectedProduct != this.props.selectedProduct) {
             this.props.setSelectedProduct(this.state.selectedProduct)
@@ -84,7 +80,7 @@ class ProductInfoScreen extends React.Component {
                 { opacity: this.state.showScaleAnimation },
                 { transform: [{ scale: this.state.showScaleAnimation }] }]}>
                 <Image
-                    source={this.getImageSource()}
+                    source={this.state.selectedProduct.Image}
                     width={Dimensions.get('window').width}
                     resizeMode='contain' />
                 <View style={Style.contentBody}>

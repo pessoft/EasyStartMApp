@@ -112,6 +112,8 @@ export class ProductItem extends React.PureComponent {
                             <View style={Style.blockShopButtons}>
                                 <ShoppingButton
                                     startCount={this.props.product.startCount}
+                                    limit={this.props.limit}
+                                    maxCount={this.props.maxCount}
                                     size={20}
                                     underlayColor={this.props.style.theme.lightPrimaryColor.backgroundColor}
                                     color={this.props.style.theme.textPrimaryColor.color}

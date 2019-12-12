@@ -19,6 +19,7 @@ import { CHECKOUT_COMPLETE } from '../../../navigation/pointsNavigate'
 import { addNewOrderData } from '../../../store/checkout/actions'
 import { PromotionLogic } from '../../../logic/promotion/promotion-logic'
 import { DiscountType } from '../../../logic/promotion/discount-type'
+import { BonusProducts } from '../../../components/checkout/bonus-products/BonusProducts'
 
 class CheckoutScreen extends React.Component {
   static navigationOptions = {
@@ -53,7 +54,7 @@ class CheckoutScreen extends React.Component {
       commentText: '',
       promotion: this.getPromotionLogic(true),
       amountPayCashBack: 0,
-      productsBonus: []
+      selectedProductsBonus: []
     }
   }
 
@@ -85,7 +86,9 @@ class CheckoutScreen extends React.Component {
   componentDidUpdate = (prevProps, prevSate) => {
     const promotionData = this.getPromotionDataForEquals()
     if (!this.state.promotion.equalsPromotionData(promotionData)) {
-      this.setState({ promotion: this.getPromotionLogic() })
+      const promotion = this.getPromotionLogic()
+      let selectedProductsBonus = promotion.getBonusProducts().length == 0 ? [] : this.state.selectedProductsBonus
+      this.setState({ promotion, selectedProductsBonus })
     }
   }
 
@@ -170,7 +173,7 @@ class CheckoutScreen extends React.Component {
   getProductBonusCountJson = () => {
     const productCount = {}
 
-    for (let productId of this.state.productsBonus) {
+    for (let productId of this.state.selectedProductsBonus) {
       productCount[productId] = 1
     }
 
@@ -251,6 +254,8 @@ class CheckoutScreen extends React.Component {
     return true
   }
 
+  changeBonusProducts = products => this.setState({ selectedProductsBonus: products })
+
   render() {
     return (
       <Animated.View
@@ -269,6 +274,18 @@ class CheckoutScreen extends React.Component {
           <ScrollView
             contentContainerStyle={{ flex: 1 }}
             keyboardShouldPersistTaps="always">
+            {
+              this.state.promotion.getBonusProducts().length > 0
+              && <BonusProducts
+                style={this.props.style}
+                products={this.props.products}
+                currencyPrefix={this.props.currencyPrefix}
+                bonusProductIds={this.state.promotion.getBonusProducts()}
+                selectedProductsBonus={this.state.selectedProductsBonus}
+                allowedCountSelect={this.state.promotion.getAllowedCountSelectBonusProduct()}
+                onChangeBonusProducts={this.changeBonusProducts}
+              />
+            }
             <Contacts
               changeContacts={this.setContactsData}
               style={this.props.style}

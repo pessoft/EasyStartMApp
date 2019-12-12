@@ -1,4 +1,5 @@
 import { getMainDataFetch, updateProductRatingFetch } from '../../api/requests'
+import { SERVER_DOMAIN } from '../../api/server-domain'
 
 export const FETCH_MAIN_DATA_SUCCESS = 'FETCH_MAIN_DATA_SUCCESS'
 export const FETCH_MAIN_DATA_REQUEST = 'FETCH_MAIN_DATA_REQUEST'
@@ -70,11 +71,32 @@ const successMainDataPosts = mainData => {
 }
 
 const processingMainData = mainData => {
+
     if (mainData && mainData.stocks && mainData.stocks.length > 0) {
         for (const stock of mainData.stocks) {
             stock.ConditionCountProducts = JSON.parse(stock.ConditionCountProductsJSON)
+            stock.Image = getImageSource(stock.Image)
         }
     }
+
+    if (mainData && mainData.categories && mainData.categories.length > 0) {
+        for (const category of mainData.categories) {
+            category.Image = getImageSource(category.Image)
+        }
+    }
+
+    if (mainData && mainData.products && Object.keys(mainData.products).length > 0) {
+        for (const categoryId in mainData.products) {
+            for (const product of mainData.products[categoryId]) {
+                product.Image = getImageSource(product.Image)
+            }
+        }
+    }
+}
+
+
+const getImageSource = imagePath => {
+    return { uri: `${SERVER_DOMAIN}${imagePath}` }
 }
 
 const failureMainDataPosts = () => {

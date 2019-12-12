@@ -26,6 +26,9 @@ export class CounterButton extends React.Component {
   }
 
   onPlus = () => {
+    if (this.props.limit == 0 || this.state.count == this.props.maxCount)
+      return
+
     this.setState(
       {
         count: this.state.count + 1

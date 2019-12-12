@@ -55,10 +55,6 @@ class StocksScreen extends React.Component {
     return stock || {}
   }
 
-  getImageSource(imagePath) {
-    return { uri: `${this.props.serverDomain}${imagePath}` }
-  }
-
   renderEmptyStock = () => {
     return (
       <Animated.View style={[
@@ -96,7 +92,7 @@ class StocksScreen extends React.Component {
               <StockCard
                 id={item.Id}
                 stockName={item.Name}
-                imageSource={this.getImageSource(item.Image)}
+                imageSource={item.Image}
                 onPress={this.onSelectedStock}
                 style={this.props.style} />
             )

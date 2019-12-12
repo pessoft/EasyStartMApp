@@ -18,6 +18,9 @@ export class ShoppingButton extends React.Component {
   }
 
   onChangeCount = count => {
+    if ((this.props.limit == 0 || this.state.count == this.props.maxCount) && count >= this.state.count)
+      return
+
     this.setState({
       count: count
     },
@@ -31,7 +34,13 @@ export class ShoppingButton extends React.Component {
     if (this.state.count == 0)
       return <BasketButton {...this.props} onPress={this.onPressBasket} />
     else
-      return <CounterButton {...this.props} onPress={this.onChangeCount} startCount={this.state.count} />
+      return <CounterButton
+        {...this.props}
+        onPress={this.onChangeCount}
+        startCount={this.state.count}
+        limit={this.props.limit}
+        maxCount={this.props.maxCount}
+      />
   }
 
   render() {
