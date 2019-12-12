@@ -54,7 +54,8 @@ class CheckoutScreen extends React.Component {
       commentText: '',
       promotion: this.getPromotionLogic(true),
       amountPayCashBack: 0,
-      selectedProductsBonus: []
+      selectedProductsBonus: [],
+      limitSelectProductBonus: this.getPromotionLogic(true).getAllowedCountSelectBonusProduct()
     }
   }
 
@@ -88,7 +89,9 @@ class CheckoutScreen extends React.Component {
     if (!this.state.promotion.equalsPromotionData(promotionData)) {
       const promotion = this.getPromotionLogic()
       let selectedProductsBonus = promotion.getBonusProducts().length == 0 ? [] : this.state.selectedProductsBonus
-      this.setState({ promotion, selectedProductsBonus })
+      let limitSelectProductBonus = promotion.getAllowedCountSelectBonusProduct()
+
+      this.setState({ promotion, selectedProductsBonus, limitSelectProductBonus })
     }
   }
 
@@ -282,7 +285,7 @@ class CheckoutScreen extends React.Component {
                 currencyPrefix={this.props.currencyPrefix}
                 bonusProductIds={this.state.promotion.getBonusProducts()}
                 selectedProductsBonus={this.state.selectedProductsBonus}
-                allowedCountSelect={this.state.promotion.getAllowedCountSelectBonusProduct()}
+                allowedCountSelect={this.state.limitSelectProductBonus}
                 onChangeBonusProducts={this.changeBonusProducts}
               />
             }

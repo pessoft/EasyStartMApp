@@ -166,7 +166,7 @@ export class StockLogic {
 
             for (const id of productIdsFromStock) {
                 if (productIdsFromBasket.indexOf(id) == -1
-                    || productIdsFromStock[id] != productIdsFromBasket[id].count) {
+                    || productsFromStock[id] != this.basketProducts[id].count) {
                     result = false;
                     break;
                 }

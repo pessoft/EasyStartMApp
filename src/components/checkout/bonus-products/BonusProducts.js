@@ -17,6 +17,15 @@ export class BonusProducts extends React.Component {
     }
   }
 
+  componentDidUpdate = (prevProps, prevState) => {
+    if (prevProps.allowedCountSelect != this.props.allowedCountSelect) {
+      let limit = this.props.allowedCountSelect
+      limit -= this.props.selectedProductsBonus.length
+
+      this.setState({ limit })
+    }
+  }
+
   getHeaderText = () => {
     const countProduct = this.props.allowedCountSelect
     const presentWorlds = ['подарок', 'подарка', 'подарков']
