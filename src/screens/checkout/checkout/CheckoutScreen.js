@@ -15,13 +15,15 @@ import { TypePayment } from '../../../helpers/type-payment'
 import { DeliveryAddressAnimation } from '../../../components/checkout/delivery-address/DeliveryAddressAnimation'
 import { OrderComment } from '../../../components/checkout/order-comment/OrderComment'
 import { CompleteCheckout } from '../../../components/checkout/complete-checkout/CompleteCheckout'
-import { CHECKOUT_COMPLETE } from '../../../navigation/pointsNavigate'
+import { CHECKOUT_COMPLETE, SHOPPING_BASKET } from '../../../navigation/pointsNavigate'
 import { addNewOrderData } from '../../../store/checkout/actions'
 import { PromotionLogic } from '../../../logic/promotion/promotion-logic'
 import { DiscountType } from '../../../logic/promotion/discount-type'
 import { BonusProducts } from '../../../components/checkout/bonus-products/BonusProducts'
 import { Coupon } from '../../../components/checkout/coupon/Coupon'
 import { getCoupon } from '../../../store/main/actions'
+import { NavigationEvents } from 'react-navigation';
+import { cleanCoupon } from '../../../store/main/actions'
 
 class CheckoutScreen extends React.Component {
   static navigationOptions = {
@@ -98,6 +100,21 @@ class CheckoutScreen extends React.Component {
 
       this.setState({ promotion, selectedProductsBonus, limitSelectProductBonus })
     }
+  }
+
+  isEmptyBasket = () => {
+    let isEmpty = true
+
+    if (Object.keys(this.props.basketProducts).length > 0) {
+      let countProducts = 0
+      for (let key in this.props.basketProducts) {
+        countProducts += this.props.basketProducts[key].count
+      }
+
+      isEmpty = countProducts == 0
+    }
+
+    return isEmpty
   }
 
   getPromotionDataForEquals = () => {
@@ -273,6 +290,13 @@ class CheckoutScreen extends React.Component {
     this.props.getCoupon(params)
   }
 
+  exitCurrentPage = () => {
+    if (this.isEmptyBasket() && this.props.navigation.isFocused()) {
+      this.props.cleanCoupon()
+      this.props.navigation.navigate(SHOPPING_BASKET)
+    }
+  }
+
   render() {
     return (
       <Animated.View
@@ -284,6 +308,7 @@ class CheckoutScreen extends React.Component {
             transform: [{ scale: this.state.showScaleAnimation }]
           }
         ]}>
+        <NavigationEvents onWillFocus={this.exitCurrentPage} />
         <KeyboardAwareScrollView
           style={{ flex: 1 }}
           behavior='padding'
@@ -370,4 +395,10 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps, { addNewOrderData, getCoupon })(CheckoutScreen)
+const mapDispathToProps = {
+  addNewOrderData,
+  getCoupon,
+  cleanCoupon
+}
+
+export default connect(mapStateToProps, mapDispathToProps)(CheckoutScreen)

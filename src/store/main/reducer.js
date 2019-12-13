@@ -5,7 +5,8 @@ import {
   FETCH_UPDATE_PRODUCT_RATING_SUCCESS,
   FETCH_COUPON_SUCCESS,
   FETCH_COUPON_REQUEST,
-  FETCH_COUPON_FAILURE
+  FETCH_COUPON_FAILURE,
+  CLEAN_COUPON
 } from './actions'
 
 const defaultState = {
@@ -71,6 +72,13 @@ export const mainReducer = (state = defaultState, action) => {
       product.VotesCount = action.payload.VotesCount
 
       return newState
+    case CLEAN_COUPON:
+      return {
+        ...state,
+        coupon: {},
+        isFetchingCoupon: false,
+        isFetchErrorCoupon: false
+      }
   }
 
   return state
