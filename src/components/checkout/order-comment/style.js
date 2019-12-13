@@ -16,7 +16,7 @@ export default StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'stretch',
-    marginBottom: 2
+    marginBottom: 6
   },
   content: {
     flex: 1,

@@ -19,32 +19,49 @@ const defaultState = {
   promotionCashbackSetting: {},
   promotionPartnersSetting: {},
   promotionSectionSettings: [],
-  coupon: {}
+  coupon: {},
+  isFetchingCoupon: false,
+  isFetchErrorCoupon: false,
 }
 
 export const mainReducer = (state = defaultState, action) => {
 
   switch (action.type) {
     case FETCH_MAIN_DATA_REQUEST:
-    case FETCH_COUPON_REQUEST:
       return {
         ...state,
         isFetching: true,
         isFetchError: false
       }
     case FETCH_MAIN_DATA_SUCCESS:
-    case FETCH_COUPON_SUCCESS:
       return {
         ...state,
         ...action.payload,
         isFetching: false
       }
     case FETCH_MAIN_DATA_FAILURE:
-    case FETCH_COUPON_FAILURE:
       return {
         ...state,
         isFetching: false,
         isFetchError: true
+      }
+    case FETCH_COUPON_REQUEST:
+      return {
+        ...state,
+        isFetchingCoupon: true,
+        isFetchErrorCoupon: false
+      }
+    case FETCH_COUPON_SUCCESS:
+      return {
+        ...state,
+        coupon: action.payload,
+        isFetchingCoupon: false
+      }
+    case FETCH_COUPON_FAILURE:
+      return {
+        ...state,
+        isFetchingCoupon: false,
+        isFetchErrorCoupon: true
       }
     case FETCH_UPDATE_PRODUCT_RATING_SUCCESS:
       const newState = { ...state }

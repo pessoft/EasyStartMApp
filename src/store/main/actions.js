@@ -1,4 +1,4 @@
-import { getMainDataFetch, updateProductRatingFetch } from '../../api/requests'
+import { getMainDataFetch, updateProductRatingFetch, getCouponFetch } from '../../api/requests'
 import { SERVER_DOMAIN } from '../../api/server-domain'
 
 export const FETCH_MAIN_DATA_SUCCESS = 'FETCH_MAIN_DATA_SUCCESS'
@@ -32,6 +32,17 @@ export const updateRating = rating => async (dispatch) => {
         dispatch(successUpdateRatingPosts(newRating))
     } catch {
         dispatch(failureUpdateRatingPosts())
+    }
+}
+
+export const getCoupon = params => async (dispatch) => {
+    dispatch(requestCouponPosts())
+
+    try {
+        const coupon = await getCouponFetch(params)
+        dispatch(successCouponPosts(coupon))
+    } catch {
+        dispatch(failureCouponPosts())
     }
 }
 

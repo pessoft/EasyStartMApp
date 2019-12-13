@@ -16,7 +16,7 @@ export default StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'stretch',
-    marginBottom: 2
+    marginBottom: 6
   },
   content: {
     flex: 1,
@@ -28,7 +28,7 @@ export default StyleSheet.create({
     marginTop: 10,
     borderWidth: 1,
     borderRadius: 3,
-    padding: Platform.OS == 'ios'? 5: 3
+    padding: Platform.OS == 'ios' ? 5 : 3
   },
   inputBigSize: {
     width: 280,

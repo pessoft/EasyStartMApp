@@ -34,7 +34,7 @@ export class PromotionLogic {
         if (sections.length == 0)
             return 0;
 
-        const applySection = sections.length > 1 ? this.filterSectionBySetting(discountItem) : sections[0]
+        const applySection = sections.length > 1 ? this.filterSectionBySetting(sections) : sections[0]
         BitOperation.Add(this.applySectionForDiscount, applySection)
 
         let discount = 0
@@ -55,15 +55,17 @@ export class PromotionLogic {
     filterSectionBySetting(sections) {
         let applySection = PromotionSection.Unknown
 
-        for (const setting of this.promotionSettings) {
-            if (sections.indexOf(setting.PromotionSection) == -1)
-                continue
+        if (sections) {
+            for (const setting of this.promotionSettings) {
+                if (sections.indexOf(setting.PromotionSection) == -1)
+                    continue
 
-            if (applySection == PromotionSection.Unknown) {
-                BitOperation.Add(applySection, setting.PromotionSection)
-                BitOperation.Add(applySection, setting.Intersections)
-            } else if (BitOperation.isHas(applySection, setting.PromotionSection)) {
-                BitOperation.Add(applySection, setting.Intersections)
+                if (applySection == PromotionSection.Unknown) {
+                    BitOperation.Add(applySection, setting.PromotionSection)
+                    BitOperation.Add(applySection, setting.Intersections)
+                } else if (BitOperation.isHas(applySection, setting.PromotionSection)) {
+                    BitOperation.Add(applySection, setting.Intersections)
+                }
             }
         }
 
@@ -120,7 +122,7 @@ export class PromotionLogic {
         if (sections.length == 0)
             return [];
 
-        const applySection = sections.length > 1 ? this.filterSectionBySetting(discountItem) : sections[0]
+        const applySection = sections.length > 1 ? this.filterSectionBySetting(sections) : sections[0]
         BitOperation.Add(this.applySectionForProduct, applySection)
 
         const products = []

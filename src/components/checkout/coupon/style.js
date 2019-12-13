@@ -1,14 +1,14 @@
-import { StyleSheet } from 'react-native'
+import { StyleSheet, Platform } from 'react-native'
 
 export default StyleSheet.create({
-  container: {
+  contacts: {
     flex: 1,
+    marginVertical: 6,
     paddingTop: 7,
     paddingBottom: 14,
     paddingHorizontal: 12,
-    marginVertical: 6,
-    borderTopWidth: 0.4,
-    borderBottomWidth: 0.4,
+    borderTopWidth: 0.5,
+    borderBottomWidth: 0.5,
     justifyContent: 'center',
     alignItems: 'stretch',
   },
@@ -16,22 +16,22 @@ export default StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'stretch',
-    marginBottom: 6
+    marginBottom: 10
   },
   content: {
     flex: 1,
-    paddingHorizontal: 10
+    alignSelf: 'center',
+    flexDirection: 'row',
+    paddingHorizontal: 20,
   },
   inputText: {
-    textAlign: 'left',
-    textAlignVertical: 'top',
-    minHeight: 60,
-    marginTop: 10,
+    textAlign: 'center',
     borderWidth: 1,
     borderRadius: 3,
-    padding: 6,
+    padding: Platform.OS == 'ios' ? 5 : 3,
+    marginHorizontal: 5
   },
   inputSize: {
-    width: 280,
+    width: 220,
   },
 })

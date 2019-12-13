@@ -20,6 +20,8 @@ import { addNewOrderData } from '../../../store/checkout/actions'
 import { PromotionLogic } from '../../../logic/promotion/promotion-logic'
 import { DiscountType } from '../../../logic/promotion/discount-type'
 import { BonusProducts } from '../../../components/checkout/bonus-products/BonusProducts'
+import { Coupon } from '../../../components/checkout/coupon/Coupon'
+import { getCoupon } from '../../../store/main/actions'
 
 class CheckoutScreen extends React.Component {
   static navigationOptions = {
@@ -68,7 +70,10 @@ class CheckoutScreen extends React.Component {
   }
 
   getCoupon = () => {
-    return null
+    return this.props.coupon &&
+      Object.keys(this.props.coupon).length > 0 ?
+      this.props.coupon :
+      null
   }
 
   getStockOption = (isDefault) => {
@@ -259,6 +264,15 @@ class CheckoutScreen extends React.Component {
 
   changeBonusProducts = products => this.setState({ selectedProductsBonus: products })
 
+  activateCoupon = (promotionCode) => {
+    const params = {
+      branchId: this.props.userData.branchId,
+      promocode: promotionCode
+    }
+
+    this.props.getCoupon(params)
+  }
+
   render() {
     return (
       <Animated.View
@@ -277,6 +291,12 @@ class CheckoutScreen extends React.Component {
           <ScrollView
             contentContainerStyle={{ flex: 1 }}
             keyboardShouldPersistTaps="always">
+            <Coupon
+              style={this.props.style}
+              isProcessingActivation={this.props.isFetchingCoupon}
+              isActivated={this.props.coupon && Object.keys(this.props.coupon).length > 0}
+              oncActivateCoupon={this.activateCoupon}
+            />
             {
               this.state.promotion.getBonusProducts().length > 0
               && <BonusProducts
@@ -343,8 +363,11 @@ const mapStateToProps = state => {
     products: state.main.products,
     deliverySettings: state.main.deliverySettings,
     promotionSettings: state.main.promotionSectionSettings,
-    stocks: state.main.stocks
+    stocks: state.main.stocks,
+    coupon: state.main.coupon,
+    isFetchingCoupon: state.main.isFetchingCoupon,
+    isFetchErrorCoupon: state.main.isFetchErrorCoupon,
   }
 }
 
-export default connect(mapStateToProps, { addNewOrderData })(CheckoutScreen)
+export default connect(mapStateToProps, { addNewOrderData, getCoupon })(CheckoutScreen)
