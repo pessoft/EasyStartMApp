@@ -104,49 +104,49 @@ class ShoppingBasketScreen extends React.Component {
     return products.filter(p => p.Id == productId)[0]
   }
 
-  productsTransform = () => {
-    const productsForRender = []
+  /**
+   * item - это productId в this.props.basketProducts
+   */
+  productTransform = item => {
+    const basketProduct = this.props.basketProducts[item]
+    
+    if (basketProduct.count == 0)
+      return null
 
-    for (let productId in this.props.basketProducts) {
-      if (this.props.basketProducts[productId].count == 0) {
-        continue
-      }
+    const categoryId = basketProduct.categoryId
+    const products = this.props.products[categoryId]
+    const product = products[basketProduct.index]
 
-      const categoryId = this.props.basketProducts[productId].categoryId
-      const products = this.props.products[categoryId]
-      const item = this.getProductById(productId, products)
-
-      if (!item || Object.keys(item).length == 0) {
-        continue
-      }
-
-      let countProduct = 0
-      if (this.props.basketProducts[productId]) {
-        countProduct = this.props.basketProducts[productId].count
-      }
-
-      productsForRender.push({
-        key: `${item.Id}-${this.state.refreshItems}`,
-        id: item.Id,
-        product: {
-          caption: item.Name,
-          imageSource: item.Image,
-          additionInfo: item.AdditionInfo,
-          price: item.Price,
-          currencyPrefix: this.props.currencyPrefix,
-          startCount: countProduct
-        }
-      })
+    let countProduct = 0
+    if (basketProduct) {
+      countProduct = basketProduct.count
     }
-    return productsForRender
+
+    return {
+      id: product.Id,
+      product: {
+        caption: product.Name,
+        imageSource: product.Image,
+        additionInfo: product.AdditionInfo,
+        price: product.Price,
+        currencyPrefix: this.props.currencyPrefix,
+        startCount: countProduct,
+        index: basketProduct.index
+      }
+    }
   }
 
   renderItem = ({ item }) => {
+    const itemTransform = this.productTransform(item)
+
+    if (itemTransform == null)
+      return null
+
     return <BasketProductItem
       style={this.props.style}
-      animation={item.animation}
-      id={item.id}
-      product={item.product}
+      animation={itemTransform.animation}
+      id={itemTransform.id}
+      product={itemTransform.product}
       onPress={this.onSelectedProduct}
       onToggleProduct={this.toggleProductInBasket}
     />
@@ -188,7 +188,8 @@ class ShoppingBasketScreen extends React.Component {
     const basketProductModify = { ...this.props.basketProducts }
     basketProductModify[basketProduct.id] = {
       categoryId: this.props.basketProducts[basketProduct.id].categoryId,
-      count: basketProduct.count
+      count: basketProduct.count,
+      index: basketProduct.index
     }
 
     this.props.toggleProductInBasket(basketProductModify)
@@ -229,6 +230,13 @@ class ShoppingBasketScreen extends React.Component {
       </Animated.View>
     )
   }
+  keyExtractor = item => {
+    if (this.props.basketProducts[item]) {
+        return `${item}-${this.props.basketProducts[item].count}`
+    }
+
+    return item.Id.toString()
+}
 
   renderBasketContents = () => {
     return (
@@ -246,8 +254,10 @@ class ShoppingBasketScreen extends React.Component {
             windowSize={4}
             removeClippedSubviews={Platform.OS !== 'ios'}
             initialNumToRender={4}
-            maxToRenderPerBatch={1}
-            data={this.productsTransform()}
+            maxToRenderPerBatch={4}
+            keyExtractor={this.keyExtractor}
+            extraData={this.props.basketProducts}
+            data={Object.keys(this.props.basketProducts)}
             renderItem={this.renderItem}
           />
         </ScrollView>

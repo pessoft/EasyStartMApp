@@ -36,7 +36,8 @@ export class ProductItem extends React.PureComponent {
     onToggleProduct = countProduct => {
         const basketProduct = {
             id: this.props.id,
-            count: countProduct
+            count: countProduct,
+            index: this.props.product.index
         }
 
         if (this.props.onToggleProduct) {

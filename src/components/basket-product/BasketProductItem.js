@@ -40,7 +40,8 @@ export class BasketProductItem extends React.Component {
         } else if (this.props.onToggleProduct) {
             const basketProduct = {
                 id: this.props.id,
-                count: countProduct
+                count: countProduct,
+                index: this.props.product.index
             }
             this.props.onToggleProduct(basketProduct)
         }
