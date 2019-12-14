@@ -92,6 +92,10 @@ class CheckoutScreen extends React.Component {
   }
 
   componentDidUpdate = (prevProps, prevSate) => {
+    if(this.isEmptyBasket() && !this.isEmptyCoupon()) {
+      this.props.cleanCoupon()
+    }
+
     const promotionData = this.getPromotionDataForEquals()
     if (!this.state.promotion.equalsPromotionData(promotionData)) {
       const promotion = this.getPromotionLogic()
@@ -100,6 +104,13 @@ class CheckoutScreen extends React.Component {
 
       this.setState({ promotion, selectedProductsBonus, limitSelectProductBonus })
     }
+  }
+
+  isEmptyCoupon = () => {
+    if(!this.props.coupon || Object.keys(this.props.coupon).length == 0)
+      return true
+
+    return false
   }
 
   isEmptyBasket = () => {
@@ -120,7 +131,8 @@ class CheckoutScreen extends React.Component {
   getPromotionDataForEquals = () => {
     return {
       deliveryType: this.state.deliveryType,
-      orderSum: this.getOrderPrice()
+      orderSum: this.getOrderPrice(),
+      coupon: this.getCoupon()
     }
   }
 

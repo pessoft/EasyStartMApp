@@ -18,6 +18,10 @@ export class Coupon extends React.Component {
     }
   }
 
+  componentDidUpdate() {
+    
+  }
+
   onPromotionCodeChange = promotionCode => this.setState({ promotionCode })
 
   isDisabled = () => {
