@@ -84,13 +84,13 @@ export class Coupon extends React.Component {
           {
             this.props.isProcessingActivation &&
             !this.props.isActivated &&
-            <View style={{ flex: 0.3 }}>
+            <View style={{ flex: 0.5 }}>
               <ActivityIndicator size="large" color={this.props.style.theme.defaultPrimaryColor.backgroundColor} />
             </View>
           }
           {
             this.props.isActivated &&
-            <View style={{ flex: 0.3 }}>
+            <View style={{ flex: 0.5 }}>
               <LottieView
                 style={Style.loader}
                 source={require('../../../animation/src/success.json')}
