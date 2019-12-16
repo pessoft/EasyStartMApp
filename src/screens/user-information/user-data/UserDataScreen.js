@@ -11,7 +11,7 @@ import {
 } from 'react-native'
 import { TextInputMask } from 'react-native-masked-text'
 import { SET_CITY } from '../../../navigation/pointsNavigate'
-import { setPhoneNumber, setUserName } from '../../../store/user/actions'
+import { setPhoneNumber, setUserName, setParentReferralCode, resetClientId } from '../../../store/user/actions'
 import Style from './style'
 import { timingAnimation } from '../../../animation/timingAnimation'
 
@@ -34,15 +34,12 @@ class UserDataScreen extends React.Component {
     timingAnimation(this.state.showScaleAnimation, 1, 300, true)
   }
 
-  onPhoneChange = phone => {
-    this.props.setPhoneNumber(phone)
-  }
-
-  onUserNameChange = userName => {
-    this.props.setUserName(userName)
-  }
+  onPhoneChange = phone => this.props.setPhoneNumber(phone)
+  onUserNameChange = userName => this.props.setUserName(userName)
+  onParentReferralCodeChange = referralCode => this.props.setParentReferralCode(referralCode)
 
   onNextPage = () => {
+    this.props.resetClientId()
     this.props.navigation.navigate(SET_CITY)
   }
 
@@ -59,7 +56,10 @@ class UserDataScreen extends React.Component {
   render() {
     return (
       <KeyboardAvoidingView style={Style.screen} behavior='height'>
-        <Animated.View style={{ transform: [{ scale: this.state.showScaleAnimation }] }}>
+        <Animated.View style={{
+          opacity: this.state.showScaleAnimation,
+          transform: [{ scale: this.state.showScaleAnimation }]
+        }}>
           <TextInput
             placeholder='Ваше имя'
             value={this.props.userName}
@@ -90,7 +90,26 @@ class UserDataScreen extends React.Component {
               this.props.style.theme.primaryTextColor,
               this.props.style.theme.dividerColor]}
             onChangeText={this.onPhoneChange}
+            returnKeyType={'next'}
+            onSubmitEditing={() => { this.referralCodeInput.focus() }}
+            blurOnSubmit={false}
           />
+          {
+            this.props.parentReferralClientId < 1 &&
+            <TextInput
+              ref={(input) => { this.referralCodeInput = input; }}
+              placeholder='Реферальный код'
+              value={this.props.parentReferralCode}
+              placeholderTextColor={this.props.style.theme.secondaryTextColor.color}
+              style={[
+                Style.inputText,
+                Style.inputSize,
+                this.props.style.fontSize.h7,
+                this.props.style.theme.primaryTextColor,
+                this.props.style.theme.dividerColor]}
+              onChangeText={this.onParentReferralCodeChange}
+            />
+          }
           <View style={[
             Style.inputSize,
             Style.buttonNext]}>
@@ -113,9 +132,18 @@ const mapStateToProps = state => {
   return {
     phoneNumber: state.user.phoneNumber,
     userName: state.user.userName,
+    parentReferralClientId: state.user.parentReferralClientId,
+    parentReferralCode: state.user.parentReferralCode,
     style: state.style
   }
 }
 
-export default connect(mapStateToProps, { setPhoneNumber, setUserName })(UserDataScreen)
+const mapDispathToProps = {
+  setPhoneNumber,
+  setUserName,
+  setParentReferralCode,
+  resetClientId
+}
+
+export default connect(mapStateToProps, mapDispathToProps)(UserDataScreen)
 

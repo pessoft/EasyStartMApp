@@ -53,7 +53,9 @@ class CityScreen extends React.Component {
     const userData = {
       id: this.props.clientId,
       userName: this.props.userName,
-      phoneNumber: this.props.phoneNumber
+      phoneNumber: this.props.phoneNumber,
+      parentReferralClientId: this.props.parentReferralClientId,
+      parentReferralCode: this.props.parentReferralCode,
     }
 
     this.setState({
@@ -184,6 +186,8 @@ const mapStateToProps = state => {
     clientId: state.user.clientId,
     userName: state.user.userName,
     phoneNumber: state.user.phoneNumber,
+    parentReferralClientId: state.user.parentReferralClientId,
+    parentReferralCode: state.user.parentReferralCode,
     categories: state.main.categories,
     style: state.style
   }

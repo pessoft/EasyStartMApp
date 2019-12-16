@@ -2,7 +2,10 @@ import {
   SET_IS_LOGIN,
   SET_USER_NAME,
   SET_USER_PHONE_NUMBER,
-  SET_CITY_ID, SET_BRANCH_ID,
+  SET_PARENT_REFERRAL_CODE,
+  SET_CITY_ID,
+  SET_BRANCH_ID,
+  RESET_CLIENT_ID,
   DROP_FETCH_FLAG,
   FETCH_CHECK_ACTUAL_USER_INFO_REQUEST,
   FETCH_CHECK_ACTUAL_USER_INFO_SUCCESS,
@@ -24,6 +27,7 @@ const defaultState = {
   clientId: -1,
   referralCode: '',
   parentReferralClientId: -1,
+  parentReferralCode: '',
   virtualMoney: 0,
   referralDiscount: 0,
   placedOrders: false
@@ -32,6 +36,18 @@ const defaultState = {
 export const userReducer = (state = defaultState, action) => {
 
   switch (action.type) {
+    case RESET_CLIENT_ID: {
+      return {
+        ...state,
+        clientId: action.payload
+      }
+    }
+    case SET_PARENT_REFERRAL_CODE: {
+      return {
+        ...state,
+        parentReferralCode: action.payload
+      }
+    }
     case UPDATE_VIRTUAL_MONEY: {
       return {
         ...state,

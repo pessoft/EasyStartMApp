@@ -6,6 +6,8 @@ import {
 export const SET_USER_PHONE_NUMBER = 'SET_USER_PHONE_NUMBER'
 export const SET_USER_NAME = 'SET_USER_NAME'
 export const SET_CITY_ID = 'SET_CITY_ID'
+export const RESET_CLIENT_ID = 'RESET_CLIENT_ID'
+export const SET_PARENT_REFERRAL_CODE = 'SET_PARENT_REFERRAL_CODE'
 export const SET_BRANCH_ID = 'SET_BRANCH_ID'
 export const SET_IS_LOGIN = 'SET_IS_LOGIN'
 export const DROP_FETCH_FLAG = 'DROP_FETCH_FLAG'
@@ -25,35 +27,49 @@ export const dropFetchFlag = () => {
   }
 }
 
-export const setIsLogin = (isLogin) => {
+export const resetClientId = () => {
+  return {
+    type: RESET_CLIENT_ID,
+    payload: -1
+  }
+}
+
+export const setIsLogin = isLogin => {
   return {
     type: SET_IS_LOGIN,
     payload: isLogin
   }
 }
 
-export const setPhoneNumber = (phoneNumber) => {
+export const setPhoneNumber = phoneNumber => {
   return {
     type: SET_USER_PHONE_NUMBER,
     payload: phoneNumber
   }
 }
 
-export const setUserName = (userName) => {
+export const setUserName = userName => {
   return {
     type: SET_USER_NAME,
     payload: userName
   }
 }
 
-export const setCityId = (cityId) => {
+export const setCityId = cityId => {
   return {
     type: SET_CITY_ID,
     payload: cityId
   }
 }
 
-export const setBranchId = (branchId) => {
+export const setParentReferralCode = parentReferralCode => {
+  return {
+    type: SET_PARENT_REFERRAL_CODE,
+    payload: parentReferralCode
+  }
+}
+
+export const setBranchId = branchId => {
   return {
     type: SET_BRANCH_ID,
     payload: branchId
@@ -67,7 +83,7 @@ export const updateVirtualMoney = value => {
   }
 }
 
-export const checkActualUserData = (userData) => async dispatch => {
+export const checkActualUserData = userData => async dispatch => {
   dispatch(requestPostsCheckData())
   try {
     const resultChecking = await checkActualUserDataFetch(userData)
@@ -77,7 +93,7 @@ export const checkActualUserData = (userData) => async dispatch => {
   }
 }
 
-export const addOrUpdateUser = (userData) => async dispatch => {
+export const addOrUpdateUser = userData => async dispatch => {
   dispatch(requestPostsAddOrUpdateUser())
   try {
     const newUserData = await addOrUpdateUserFetch(userData)
