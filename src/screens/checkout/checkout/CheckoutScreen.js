@@ -24,6 +24,7 @@ import { Coupon } from '../../../components/checkout/coupon/Coupon'
 import { getCoupon } from '../../../store/main/actions'
 import { NavigationEvents } from 'react-navigation';
 import { cleanCoupon } from '../../../store/main/actions'
+import { updateVirtualMoney } from '../../../store/user/actions'
 
 class CheckoutScreen extends React.Component {
   static navigationOptions = {
@@ -252,9 +253,19 @@ class CheckoutScreen extends React.Component {
 
   completeCheckout = () => {
     const newOrderData = this.getOrderData()
+    
     this.props.addNewOrderData(newOrderData)
+    this.props.cleanCoupon()
+    this.updateVirtualMoney()
 
     this.props.navigation.navigate(CHECKOUT_COMPLETE)
+  }
+
+  updateVirtualMoney = () => {
+    if(this.state.amountPayCashBack > 0) {
+      let newValue = this.props.userData.virtualMoney - this.state.amountPayCashBack
+      this.props.updateVirtualMoney(newValue)
+    }
   }
 
   isValidDeliveryAddress = () => {
@@ -410,7 +421,8 @@ const mapStateToProps = state => {
 const mapDispathToProps = {
   addNewOrderData,
   getCoupon,
-  cleanCoupon
+  cleanCoupon,
+  updateVirtualMoney
 }
 
 export default connect(mapStateToProps, mapDispathToProps)(CheckoutScreen)

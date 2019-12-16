@@ -9,7 +9,8 @@ import {
   FETCH_CHECK_ACTUAL_USER_INFO_FAILURE,
   FETCH_ADD_OR_UPDATE_USER_INFO_REQUEST,
   FETCH_ADD_OR_UPDATE_USER_INFO_SUCCESS,
-  FETCH_ADD_OR_UPDATE_USER_INFO_FAILURE
+  FETCH_ADD_OR_UPDATE_USER_INFO_FAILURE,
+  UPDATE_VIRTUAL_MONEY
 } from './actions'
 
 const defaultState = {
@@ -31,6 +32,12 @@ const defaultState = {
 export const userReducer = (state = defaultState, action) => {
 
   switch (action.type) {
+    case UPDATE_VIRTUAL_MONEY: {
+      return {
+        ...state,
+        virtualMoney: action.payload
+      }
+    }
     case DROP_FETCH_FLAG:
       return {
         ...state,

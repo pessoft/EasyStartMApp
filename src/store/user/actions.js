@@ -9,6 +9,7 @@ export const SET_CITY_ID = 'SET_CITY_ID'
 export const SET_BRANCH_ID = 'SET_BRANCH_ID'
 export const SET_IS_LOGIN = 'SET_IS_LOGIN'
 export const DROP_FETCH_FLAG = 'DROP_FETCH_FLAG'
+export const UPDATE_VIRTUAL_MONEY = 'UPDATE_VIRTUAL_MONEY'
 
 export const FETCH_CHECK_ACTUAL_USER_INFO_REQUEST = 'FETCH_CHECK_ACTUAL_USER_INFO_REQUEST'
 export const FETCH_CHECK_ACTUAL_USER_INFO_SUCCESS = 'FETCH_CHECK_ACTUAL_USER_INFO_SUCCESS'
@@ -56,6 +57,13 @@ export const setBranchId = (branchId) => {
   return {
     type: SET_BRANCH_ID,
     payload: branchId
+  }
+}
+
+export const updateVirtualMoney = value => {
+  return {
+    type: UPDATE_VIRTUAL_MONEY,
+    payload: value
   }
 }
 
