@@ -32,3 +32,13 @@ export const endingStrByNumber = (n, text_forms) => {
 
   return text_forms[2]
 }
+
+export const isInteger = num => (num ^ 0) === num
+
+export const priceValid = num => {
+  if (!isInteger(num)) {
+      num = num.toFixed(2);
+  }
+
+  return num;
+}

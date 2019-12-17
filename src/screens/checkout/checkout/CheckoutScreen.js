@@ -392,24 +392,18 @@ class CheckoutScreen extends React.Component {
               style={this.props.style}
               changeCommentText={this.setCommentText}
             />
-            {/* {
+            {
               this.props.promotionCashbackSetting.IsUseCashback &&
               this.props.userData.virtualMoney > 0 &&
               <PayVirtualMoney
-                style={this.props.style}
-                availableVirtualMoney={this.props.userData.virtualMoney}
-                toPay={this.getToPayPriceWithoutCashback()}
-                setting={this.props.promotionCashbackSetting}
-                onChangeAmountPayCashBack={this.setAmountPayCashBack}
-              />
-            } */}
-            <PayVirtualMoney
               style={this.props.style}
+              currencyPrefix={this.props.currencyPrefix}
               availableVirtualMoney={this.props.userData.virtualMoney}
               toPay={this.getToPayPriceWithoutCashback()}
               setting={this.props.promotionCashbackSetting}
               onChangeAmountPayCashBack={this.setAmountPayCashBack}
             />
+            }
             <CompleteCheckout
               style={this.props.style}
               orderPrice={this.getOrderPrice()}

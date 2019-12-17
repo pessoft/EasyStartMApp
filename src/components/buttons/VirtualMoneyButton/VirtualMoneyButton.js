@@ -6,6 +6,7 @@ import { View } from 'react-native'
 import Ruble from '../../../images/font-awesome-svg/ruble-sign.svg'
 import { getSVGColor } from '../../../helpers/color-helper'
 import Style from './style'
+import { priceValid } from '../../../helpers/utils'
 
 class VirtualMoneyButton extends React.Component {
     // goToCashbackScreen = () => this.props.navigation.navigate(CASHBACK_PROFILE)
@@ -20,7 +21,7 @@ class VirtualMoneyButton extends React.Component {
                     // onPress={this.goToCashbackScreen}
                     sizeText={this.props.style.fontSize.h7.fontSize}
                     color={this.props.style.theme.textPrimaryColor.color}
-                    text={this.props.virtualMoney} />
+                    text={priceValid(this.props.virtualMoney)} />
                 <Ruble
                     style={{ marginLeft: 2, marginTop: 2 }}
                     key={new Date().getTime().toString()}

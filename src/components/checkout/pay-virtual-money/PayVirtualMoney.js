@@ -5,8 +5,8 @@ import {
   Button,
   Platform
 } from 'react-native'
-import { TextInputMask } from 'react-native-masked-text'
 import Style from './style'
+import { priceValid } from '../../../helpers/utils'
 
 export class PayVirtualMoney extends React.Component {
   constructor(props) {
@@ -30,14 +30,13 @@ export class PayVirtualMoney extends React.Component {
         value = this.props.availableVirtualMoney
     }
 
-    this.setState({ paymentValue: value })
-
     return value
   }
 
   onApplyAmountPayCashBack = () => {
     const payCashback = this.getValuePayCashback()
 
+    this.setState({ paymentValue: payCashback })
     this.changeAmountPayCashBack(payCashback)
   }
 
@@ -50,21 +49,46 @@ export class PayVirtualMoney extends React.Component {
       this.props.onChangeAmountPayCashBack(value)
   }
 
+  renderPay = () => {
+    return (
+      <React.Fragment>
+        <Text style={[
+          this.props.style.fontSize.h8,
+          this.props.style.theme.primaryTextColor,
+          Style.text
+        ]}>
+          {`${priceValid(this.getValuePayCashback())}  ${this.props.currencyPrefix}`}
+        </Text>
+        <View style={{ flex: 1 }}>
+          <Button
+            title='Оплатить'
+            onPress={this.onApplyAmountPayCashBack}
+            color={Platform.OS == 'ios' ?
+              this.props.style.theme.accentOther.backgroundColor :
+              this.props.style.theme.darkPrimaryColor.backgroundColor} />
+        </View>
+      </React.Fragment>
+    )
+  }
+
   renderCancel = () => {
     return (
       <React.Fragment>
         <Text style={[
           this.props.style.fontSize.h8,
           this.props.style.theme.primaryTextColor,
+          Style.text
         ]}>
-          {`-${this.state.paymentValue}`}
+          {`- ${priceValid(this.state.paymentValue)} ${this.props.currencyPrefix}`}
         </Text>
-        <Button
-          title='Отменить'
-          onPress={this.onCancelAmountPayCashBack}
-          color={Platform.OS == 'ios' ?
-            this.props.style.theme.accentOther.backgroundColor :
-            this.props.style.theme.darkPrimaryColor.backgroundColor} />
+        <View style={{ flex: 1 }}>
+          <Button
+            title='Отменить'
+            onPress={this.onCancelAmountPayCashBack}
+            color={Platform.OS == 'ios' ?
+              this.props.style.theme.accentOther.backgroundColor :
+              this.props.style.theme.darkPrimaryColor.backgroundColor} />
+        </View>
       </React.Fragment>
     )
   }
@@ -85,17 +109,12 @@ export class PayVirtualMoney extends React.Component {
           </Text>
         </View>
         <View style={Style.content}>
-          {/* {
-            this.state.paymentValue == 0 &&
-            <Button
-              title='Оплатить'
-              onPress={this.onApplyAmountPayCashBack}
-              color={Platform.OS == 'ios' ?
-                this.props.style.theme.accentOther.backgroundColor :
-                this.props.style.theme.darkPrimaryColor.backgroundColor} />
-          } */}
           {
             this.state.paymentValue == 0 &&
+            this.renderPay()
+          }
+          {
+            this.state.paymentValue > 0 &&
             this.renderCancel()
           }
         </View>

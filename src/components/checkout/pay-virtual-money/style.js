@@ -20,7 +20,9 @@ export default StyleSheet.create({
   },
   content: {
     flex: 1,
-    alignSelf: 'center',
+    flexDirection: 'row',
+    alignSelf: 'stretch',
+    justifyContent: 'center',
     paddingHorizontal: 10
   },
   inputText: {
@@ -32,7 +34,10 @@ export default StyleSheet.create({
     borderRadius: 3,
     padding: 6,
   },
-  inputSize: {
-    width: 280,
+  text: {
+    flex: 0.5,
+    textAlign: 'center',
+    textAlignVertical: 'center',
+    marginHorizontal: 15
   },
 })

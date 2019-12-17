@@ -5,14 +5,14 @@ import {
   Button,
   Platform
 } from 'react-native'
-import { TextInputMask } from 'react-native-masked-text'
 import Style from './style'
+import { priceValid } from '../../../helpers/utils'
 
 export class CompleteCheckout extends React.Component {
   getDiscountText = () => {
     const percent = this.props.discountPercent > 0 ? `${this.props.discountPercent}%` : ''
     const ruble = this.props.discountRuble > 0 ? `${this.props.discountRuble} руб.` : ''
-    let text = percent && ruble ? `${percent} и ${ruble}` : percent || ruble
+    let text = percent && ruble ? `${percent} и ${priceValid(ruble)}` : percent || priceValid(ruble)
 
     return text
   }
@@ -31,7 +31,7 @@ export class CompleteCheckout extends React.Component {
               this.props.style.theme.primaryTextColor,
               this.props.style.fontSize.h8
             ]}>
-            Сумма заказа: {`${this.props.orderPrice} ${this.props.currencyPrefix}`}
+            Сумма заказа: {`${priceValid(this.props.orderPrice)} ${this.props.currencyPrefix}`}
           </Text>
           {
             this.props.deliveryPrice > 0 &&
@@ -39,7 +39,7 @@ export class CompleteCheckout extends React.Component {
               Style.textPadding,
               this.props.style.theme.primaryTextColor,
               this.props.style.fontSize.h8]}>
-              Доставка: {`${this.props.deliveryPrice} ${this.props.currencyPrefix}`}
+              Доставка: {`${priceValid(this.props.deliveryPrice)} ${this.props.currencyPrefix}`}
             </Text>
           }
           {
@@ -57,7 +57,7 @@ export class CompleteCheckout extends React.Component {
               Style.textPadding,
               this.props.style.theme.primaryTextColor,
               this.props.style.fontSize.h8]}>
-            К оплате: {`${this.props.toPay} ${this.props.currencyPrefix}`}
+            К оплате: {`${priceValid(this.props.toPay)} ${this.props.currencyPrefix}`}
           </Text>
           <View style={Style.buttonComplete}>
             <Button

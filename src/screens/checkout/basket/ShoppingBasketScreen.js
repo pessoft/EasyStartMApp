@@ -22,6 +22,7 @@ import { isWorkTime, getWorkTime } from '../../../helpers/work-time';
 import { WorkTimeInfo } from '../../../components/information/work-time/WorkTimeInfo'
 import LottieView from 'lottie-react-native';
 import VirtualMoneyButton from '../../../components/buttons/VirtualMoneyButton/VirtualMoneyButton'
+import { priceValid } from '../../../helpers/utils'
 
 class ShoppingBasketScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -272,7 +273,7 @@ class ShoppingBasketScreen extends React.Component {
               this.props.style.fontSize.h8,
               { marginBottom: 15 }
             ]}>
-            Сумма заказа {`${this.getOrderCost()} ${this.props.currencyPrefix}`}
+            Сумма заказа {`${priceValid(this.getOrderCost())} ${this.props.currencyPrefix}`}
           </Text>
           <View style={Style.buttonSize}>
             <Button
