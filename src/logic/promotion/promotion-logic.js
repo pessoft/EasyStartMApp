@@ -34,11 +34,11 @@ export class PromotionLogic {
                 continue
 
             if ((BitOperation.isHas(discountSection, section) || BitOperation.isHas(productsSection, section))
-             && sections.indexOf(section) == -1) {
+                && sections.indexOf(section) == -1) {
                 sections.push(section)
             }
         }
-        
+
         return sections.length > 1 ? this.filterSectionBySetting(sections) : sections[0]
     }
 
@@ -47,7 +47,8 @@ export class PromotionLogic {
 
         discountItem[PromotionSection.Stock] = this.stockLogic.getDiscount(discountType)
         discountItem[PromotionSection.Coupon] = this.couponLogic.getDiscount(discountType)
-        discountItem[PromotionSection.Partners] = this.referralLogic.getDiscount()
+        if (discountType == DiscountType.Percent)
+            discountItem[PromotionSection.Partners] = this.referralLogic.getDiscount()
 
         const sections = []
         for (let key in discountItem) {
@@ -81,12 +82,13 @@ export class PromotionLogic {
 
     getDiscount(discountType) {
         const discountItem = {}
-        
-        if(BitOperation.isHas(this.allowedSection, PromotionSection.Stock))
+
+        if (BitOperation.isHas(this.allowedSection, PromotionSection.Stock))
             discountItem[PromotionSection.Stock] = this.stockLogic.getDiscount(discountType)
-        if(BitOperation.isHas(this.allowedSection, PromotionSection.Coupon))
+        if (BitOperation.isHas(this.allowedSection, PromotionSection.Coupon))
             discountItem[PromotionSection.Coupon] = this.couponLogic.getDiscount(discountType)
-        if(BitOperation.isHas(this.allowedSection, PromotionSection.Partners))
+        if (discountType == DiscountType.Percent
+            && BitOperation.isHas(this.allowedSection, PromotionSection.Partners))
             discountItem[PromotionSection.Partners] = this.referralLogic.getDiscount()
 
         const sections = []
@@ -174,9 +176,9 @@ export class PromotionLogic {
     getBonusProducts() {
         const bonusProductsItem = {}
 
-        if(BitOperation.isHas(this.allowedSection, PromotionSection.Stock))
+        if (BitOperation.isHas(this.allowedSection, PromotionSection.Stock))
             bonusProductsItem[PromotionSection.Stock] = this.stockLogic.getProducts()
-        if(BitOperation.isHas(this.allowedSection, PromotionSection.Coupon))
+        if (BitOperation.isHas(this.allowedSection, PromotionSection.Coupon))
             bonusProductsItem[PromotionSection.Coupon] = this.couponLogic.getProducts()
 
         const sections = []
