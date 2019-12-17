@@ -5,6 +5,7 @@ import {
   TextInput,
   Button,
   ActivityIndicator,
+  Platform
 } from 'react-native'
 import Style from './style'
 import LottieView from 'lottie-react-native';
@@ -19,7 +20,7 @@ export class Coupon extends React.Component {
   }
 
   componentDidUpdate() {
-    
+
   }
 
   onPromotionCodeChange = promotionCode => this.setState({ promotionCode })

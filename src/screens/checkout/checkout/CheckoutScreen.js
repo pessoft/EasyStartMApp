@@ -21,6 +21,7 @@ import { PromotionLogic } from '../../../logic/promotion/promotion-logic'
 import { DiscountType } from '../../../logic/promotion/discount-type'
 import { BonusProducts } from '../../../components/checkout/bonus-products/BonusProducts'
 import { Coupon } from '../../../components/checkout/coupon/Coupon'
+import { PayVirtualMoney } from '../../../components/checkout/pay-virtual-money/PayVirtualMoney'
 import { getCoupon } from '../../../store/main/actions'
 import { NavigationEvents } from 'react-navigation';
 import { cleanCoupon } from '../../../store/main/actions'
@@ -93,7 +94,7 @@ class CheckoutScreen extends React.Component {
   }
 
   componentDidUpdate = (prevProps, prevSate) => {
-    if(this.isEmptyBasket() && !this.isEmptyCoupon()) {
+    if (this.isEmptyBasket() && !this.isEmptyCoupon()) {
       this.props.cleanCoupon()
     }
 
@@ -108,7 +109,7 @@ class CheckoutScreen extends React.Component {
   }
 
   isEmptyCoupon = () => {
-    if(!this.props.coupon || Object.keys(this.props.coupon).length == 0)
+    if (!this.props.coupon || Object.keys(this.props.coupon).length == 0)
       return true
 
     return false
@@ -142,6 +143,7 @@ class CheckoutScreen extends React.Component {
   changePaymentData = paymentData => this.setState({ paymentData })
   setDeliveryAddress = deliveryAddress => this.setState({ deliveryAddress })
   setCommentText = commentText => this.setState({ commentText })
+  setAmountPayCashBack = amountPayCashBack => this.setState({ amountPayCashBack })
 
   getOrderPrice = () => {
     let price = 0
@@ -188,13 +190,19 @@ class CheckoutScreen extends React.Component {
     return this.state.promotion.getDiscount(discountType)
   }
 
-  getToPayPrice = () => {
+  getToPayPriceWithoutCashback = () => {
     const orderPrice = parseFloat(this.getOrderPrice())
     const deliveryPrice = parseFloat(this.getDeliveryPrice())
     const discountPercent = parseFloat(this.getDiscount(DiscountType.Percent))
     const discountRuble = parseFloat(this.getDiscount(DiscountType.Ruble))
 
     return orderPrice - ((orderPrice * discountPercent / 100) + discountRuble) + deliveryPrice
+  }
+
+  getToPayPrice = () => {
+    const priceWithoutCashback = this.getToPayPriceWithoutCashback()
+
+    return priceWithoutCashback - this.state.amountPayCashBack
   }
 
   getProductCountJson = () => {
@@ -253,7 +261,7 @@ class CheckoutScreen extends React.Component {
 
   completeCheckout = () => {
     const newOrderData = this.getOrderData()
-    
+
     this.props.addNewOrderData(newOrderData)
     this.props.cleanCoupon()
     this.updateVirtualMoney()
@@ -262,7 +270,7 @@ class CheckoutScreen extends React.Component {
   }
 
   updateVirtualMoney = () => {
-    if(this.state.amountPayCashBack > 0) {
+    if (this.state.amountPayCashBack > 0) {
       let newValue = this.props.userData.virtualMoney - this.state.amountPayCashBack
       this.props.updateVirtualMoney(newValue)
     }
@@ -384,6 +392,24 @@ class CheckoutScreen extends React.Component {
               style={this.props.style}
               changeCommentText={this.setCommentText}
             />
+            {/* {
+              this.props.promotionCashbackSetting.IsUseCashback &&
+              this.props.userData.virtualMoney > 0 &&
+              <PayVirtualMoney
+                style={this.props.style}
+                availableVirtualMoney={this.props.userData.virtualMoney}
+                toPay={this.getToPayPriceWithoutCashback()}
+                setting={this.props.promotionCashbackSetting}
+                onChangeAmountPayCashBack={this.setAmountPayCashBack}
+              />
+            } */}
+            <PayVirtualMoney
+              style={this.props.style}
+              availableVirtualMoney={this.props.userData.virtualMoney}
+              toPay={this.getToPayPriceWithoutCashback()}
+              setting={this.props.promotionCashbackSetting}
+              onChangeAmountPayCashBack={this.setAmountPayCashBack}
+            />
             <CompleteCheckout
               style={this.props.style}
               orderPrice={this.getOrderPrice()}
@@ -411,6 +437,7 @@ const mapStateToProps = state => {
     products: state.main.products,
     deliverySettings: state.main.deliverySettings,
     promotionSettings: state.main.promotionSectionSettings,
+    promotionCashbackSetting: state.main.promotionCashbackSetting,
     stocks: state.main.stocks,
     coupon: state.main.coupon,
     isFetchingCoupon: state.main.isFetchingCoupon,
@@ -418,11 +445,11 @@ const mapStateToProps = state => {
   }
 }
 
-const mapDispathToProps = {
+const mapDispatchToProps = {
   addNewOrderData,
   getCoupon,
   cleanCoupon,
   updateVirtualMoney
 }
 
-export default connect(mapStateToProps, mapDispathToProps)(CheckoutScreen)
+export default connect(mapStateToProps, mapDispatchToProps)(CheckoutScreen)
