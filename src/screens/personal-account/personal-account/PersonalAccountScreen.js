@@ -10,7 +10,13 @@ import BonusIcon from '../../../images/font-awesome-svg/gift.svg'
 import UserInfoIcon from '../../../images/font-awesome-svg/address-card.svg'
 import PalleteIcon from '../../../images/font-awesome-svg/palette.svg'
 
-import { USER_INFO, ORDER_HISTORY_PROFILE, COLOR_THEME_PROFILE } from '../../../navigation/pointsNavigate'
+import {
+  USER_INFO,
+  ORDER_HISTORY_PROFILE,
+  COLOR_THEME_PROFILE,
+  PARTNERS_PROFILE
+}
+  from '../../../navigation/pointsNavigate'
 
 class PersonalAccountScreen extends React.Component {
   static navigationOptions = {
@@ -51,6 +57,7 @@ class PersonalAccountScreen extends React.Component {
             style={this.props.style}
             icon={PartnersIcon}
             text={'Партнерская программа'}
+            onPress={() => this.props.navigation.navigate(PARTNERS_PROFILE)}
           />
         }
         {

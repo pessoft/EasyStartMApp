@@ -5,13 +5,15 @@ import PersonalAccountScreen from '../screens/personal-account/personal-account/
 import OrdersHistoryScreen from '../screens/personal-account/order-history/OrdersHistoryScreen'
 import OrdersHistoryInfoScreen from '../screens/personal-account/order-history-info/OrderHistoryInfoScreen'
 import ColorThemeScreen from '../screens/personal-account/color-theme/ColorThemeScreen'
+import PartnersProfileScreen from '../screens/personal-account/partners/PartnersInfoScreen'
 
 const profileStackNavigator = style => createStackNavigator(
     {
         Profile: PersonalAccountScreen,
         OrdersHistoryProfile: OrdersHistoryScreen,
         OrdersHistoryInfoProfile: OrdersHistoryInfoScreen,
-        ColorThemeProfile: ColorThemeScreen
+        ColorThemeProfile: ColorThemeScreen,
+        PartnersProfile:PartnersProfileScreen
     },
     {
         ...defaultStyleNavigationStackOptions(style),
