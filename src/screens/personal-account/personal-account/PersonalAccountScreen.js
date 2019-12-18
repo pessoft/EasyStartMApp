@@ -58,7 +58,7 @@ class PersonalAccountScreen extends React.Component {
           <MenuItem
             style={this.props.style}
             icon={BonusIcon}
-            text={'Бонусы'}
+            text={'Кешбек'}
           />
         }
         <MenuItem
