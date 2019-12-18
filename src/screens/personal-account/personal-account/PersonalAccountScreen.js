@@ -45,16 +45,22 @@ class PersonalAccountScreen extends React.Component {
           text={'История заказов'}
           onPress={() => this.props.navigation.navigate(ORDER_HISTORY_PROFILE)}
         />
-        <MenuItem
-          style={this.props.style}
-          icon={PartnersIcon}
-          text={'Партнерская программа'}
-        />
-        <MenuItem
-          style={this.props.style}
-          icon={BonusIcon}
-          text={'Бонусы'}
-        />
+        {
+          this.props.promotionPartnersSetting.IsUsePartners &&
+          <MenuItem
+            style={this.props.style}
+            icon={PartnersIcon}
+            text={'Партнерская программа'}
+          />
+        }
+        {
+          this.props.promotionCashbackSetting.IsUseCashback &&
+          <MenuItem
+            style={this.props.style}
+            icon={BonusIcon}
+            text={'Бонусы'}
+          />
+        }
         <MenuItem
           style={this.props.style}
           icon={UserInfoIcon}
@@ -74,7 +80,9 @@ class PersonalAccountScreen extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    style: state.style
+    style: state.style,
+    promotionPartnersSetting: state.main.promotionPartnersSetting,
+    promotionCashbackSetting: state.main.promotionCashbackSetting,
   }
 }
 
