@@ -6,6 +6,7 @@ import OrdersHistoryScreen from '../screens/personal-account/order-history/Order
 import OrdersHistoryInfoScreen from '../screens/personal-account/order-history-info/OrderHistoryInfoScreen'
 import ColorThemeScreen from '../screens/personal-account/color-theme/ColorThemeScreen'
 import PartnersProfileScreen from '../screens/personal-account/partners/PartnersInfoScreen'
+import CashbackProfileScreen from '../screens/personal-account/cashback/CashbackInfoScreen'
 
 const profileStackNavigator = style => createStackNavigator(
     {
@@ -13,7 +14,8 @@ const profileStackNavigator = style => createStackNavigator(
         OrdersHistoryProfile: OrdersHistoryScreen,
         OrdersHistoryInfoProfile: OrdersHistoryInfoScreen,
         ColorThemeProfile: ColorThemeScreen,
-        PartnersProfile:PartnersProfileScreen
+        PartnersProfile: PartnersProfileScreen,
+        CashbackProfile: CashbackProfileScreen
     },
     {
         ...defaultStyleNavigationStackOptions(style),

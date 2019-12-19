@@ -2,8 +2,7 @@ import React from 'react'
 import { View, Text } from 'react-native'
 import Style from './style'
 
-
-export class MainTextBlock extends React.Component {
+export class SimpleTextBlock extends React.Component {
 
   render() {
     return (
@@ -11,23 +10,23 @@ export class MainTextBlock extends React.Component {
         Style.container,
         this.props.style.theme.navigationHeader,
         this.props.style.theme.dividerColor
-        ]}>
+      ]}>
         <Text
           style={[
             Style.mainText,
             this.props.style.theme.primaryTextColor,
             this.props.style.fontSize.h0,
           ]}>
-          3b4a27
-       </Text>
+          {this.props.mainText}
+        </Text>
         <Text
           style={[
-            Style.secoderText,
+            Style.secondText,
             this.props.style.theme.primaryTextColor,
             this.props.style.fontSize.h9,
           ]}>
-          Ваш реферальный код
-       </Text>
+          {this.props.secondText}
+        </Text>
       </View>
     )
   }

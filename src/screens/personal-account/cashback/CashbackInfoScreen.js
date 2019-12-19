@@ -4,17 +4,17 @@ import LottieView from 'lottie-react-native';
 import { Animated, FlatList, Text, ActivityIndicator } from 'react-native'
 import Style from './style'
 import { timingAnimation } from '../../../animation/timingAnimation'
-import { SimpleTextBlock } from '../../../components/big-header-content-block/SimpleTextBlock';
+import { ViewMoneyBlock } from '../../../components/big-header-content-block/ViewMoneyBlock';
+import { priceValid } from '../../../helpers/utils';
 
-class PartnersInfoScreen extends React.Component {
+class CashbackInfoScreen extends React.Component {
   static navigationOptions = {
-    headerTitle: 'Партнерская программа',
+    headerTitle: 'Кешбек',
   }
 
   constructor(props) {
     super(props)
 
-    this.secondText = 'Ваш реферальный код'
     this.state = {
       showAnimation: new Animated.Value(0),
     }
@@ -44,6 +44,10 @@ class PartnersInfoScreen extends React.Component {
     )
   }
 
+  cashbackToString = (value) => {
+    return `${priceValid(value)} ${this.props.currencyPrefix}`
+  }
+
   renderContent = () => {
     return (
       <Animated.ScrollView
@@ -54,10 +58,9 @@ class PartnersInfoScreen extends React.Component {
             transform: [{ scale: this.state.showAnimation }]
           }
         ]}>
-        <SimpleTextBlock
+        <ViewMoneyBlock
           style={this.props.style}
-          mainText={this.props.referralCode}
-          secondText={this.secondText}
+          mainText={priceValid(this.props.virtualMoney)}
         />
         {/* <FlatList
           data={this.props.history.reverse()}
@@ -109,11 +112,12 @@ const mapStateToProps = state => {
   return {
     style: state.style,
     clientId: state.user.clientId,
-    referralCode: state.user.referralCode
+    virtualMoney: state.user.virtualMoney,
+    currencyPrefix: state.appSetting.currencyPrefix,
   }
 }
 
 const mapDispatchToProps = {
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PartnersInfoScreen)
+export default connect(mapStateToProps, mapDispatchToProps)(CashbackInfoScreen)

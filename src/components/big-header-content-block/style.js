@@ -11,10 +11,15 @@ export default StyleSheet.create({
   },
   mainText: {
     flex: 1,
+    flexDirection: 'row',
     textAlignVertical: 'bottom'
   },
-  secoderText: {
-    flex:0.8,
-    textAlignVertical:'bottom'
+  secondText: {
+    flex: 0.8,
+    textAlignVertical: 'bottom'
+  },
+  iconMargin: {
+    marginLeft: 2,
+    marginTop: 2
   }
 })

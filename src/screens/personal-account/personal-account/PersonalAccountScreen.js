@@ -8,13 +8,14 @@ import HistoryIcon from '../../../images/font-awesome-svg/history.svg'
 import PartnersIcon from '../../../images/font-awesome-svg/users-medical.svg'
 import BonusIcon from '../../../images/font-awesome-svg/gift.svg'
 import UserInfoIcon from '../../../images/font-awesome-svg/address-card.svg'
-import PalleteIcon from '../../../images/font-awesome-svg/palette.svg'
+import PalletIcon from '../../../images/font-awesome-svg/palette.svg'
 
 import {
   USER_INFO,
   ORDER_HISTORY_PROFILE,
   COLOR_THEME_PROFILE,
-  PARTNERS_PROFILE
+  PARTNERS_PROFILE,
+  CASHBACK_PROFILE
 }
   from '../../../navigation/pointsNavigate'
 
@@ -66,6 +67,7 @@ class PersonalAccountScreen extends React.Component {
             style={this.props.style}
             icon={BonusIcon}
             text={'Кешбек'}
+            onPress={() => this.props.navigation.navigate(CASHBACK_PROFILE)}
           />
         }
         <MenuItem
@@ -76,7 +78,7 @@ class PersonalAccountScreen extends React.Component {
         />
         <MenuItem
           style={this.props.style}
-          icon={PalleteIcon}
+          icon={PalletIcon}
           text={'Внешний вид'}
           onPress={() => this.props.navigation.navigate(COLOR_THEME_PROFILE)}
         />
