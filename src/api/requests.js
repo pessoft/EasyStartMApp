@@ -8,7 +8,9 @@ import {
   sendNewOrderQuery,
   getHistoryOrderQuery,
   updateProductRatingQuery,
-  getCouponQuery
+  getCouponQuery,
+  getPartnersTransactionQuery,
+  getCashbackTransactionQuery
 } from './request-strings'
 import { fetchAPI } from './helper-api'
 
@@ -29,4 +31,7 @@ export const getHistoryOrderFetch = async (dataForHistory) => await fetchAPI(get
 export const updateProductRatingFetch = async (rating) => await fetchAPI(updateProductRatingQuery, rating)
 
 export const getCouponFetch = async (params) => fetchAPI(getCouponQuery, params)
+
+export const getPartnersTransactionFetch = async (clientId) => fetchAPI(getPartnersTransactionQuery, clientId)
+export const getCashbackTransactionFetch = async (clientId) => fetchAPI(getCashbackTransactionQuery, clientId)
 

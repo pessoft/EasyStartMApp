@@ -1,10 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import LottieView from 'lottie-react-native';
-import { Animated, FlatList, Text, ActivityIndicator } from 'react-native'
+import { Animated, FlatList, Text, ActivityIndicator, View } from 'react-native'
 import Style from './style'
 import { timingAnimation } from '../../../animation/timingAnimation'
 import { SimpleTextBlock } from '../../../components/big-header-content-block/SimpleTextBlock';
+import { getPartnersTransaction } from '../../../store/promotion-transaction/actions'
 
 class PartnersInfoScreen extends React.Component {
   static navigationOptions = {
@@ -17,11 +18,13 @@ class PartnersInfoScreen extends React.Component {
     this.secondText = 'Ваш реферальный код'
     this.state = {
       showAnimation: new Animated.Value(0),
+      showAnimationLoader: new Animated.Value(0),
     }
   }
 
   componentDidMount = () => {
-    timingAnimation(this.state.showAnimation, 1, 300, true)
+    timingAnimation(this.state.showAnimationLoader, 1, 300, true)
+    this.props.getPartnersTransaction(this.props.clientId)
   }
 
   componentDidUpdate = () => {
@@ -35,8 +38,8 @@ class PartnersInfoScreen extends React.Component {
         style={[
           Style.centerScreen,
           {
-            opacity: this.state.showLoaderScaleAnimation,
-            transform: [{ scale: this.state.showLoaderScaleAnimation }]
+            opacity: this.state.showAnimationLoader,
+            transform: [{ scale: this.state.showAnimationLoader }]
           }
         ]}>
         <ActivityIndicator size="large" color={this.props.style.theme.defaultPrimaryColor.backgroundColor} />
@@ -59,6 +62,11 @@ class PartnersInfoScreen extends React.Component {
           mainText={this.props.referralCode}
           secondText={this.secondText}
         />
+        {
+          (!this.props.partnerTransactions ||
+            this.props.partnerTransactions.length == 0) &&
+          this.renderEmpty()
+        }
         {/* <FlatList
           data={this.props.history.reverse()}
           keyExtractor={item => item.Id.toString()}
@@ -76,7 +84,7 @@ class PartnersInfoScreen extends React.Component {
 
   renderEmpty = () => {
     return (
-      <React.Fragment>
+      <View style={[Style.centerScreen, , Style.emptyContainer]}>
         <LottieView
           style={Style.loader}
           source={require('../../../animation/src/search-empty.json')}
@@ -91,9 +99,9 @@ class PartnersInfoScreen extends React.Component {
             { marginTop: 20 }
           ]}
         >
-          История заказов пуста
+          У вас пока нет рефералов
         </Text>
-      </React.Fragment>
+      </View>
     )
   }
 
@@ -109,11 +117,14 @@ const mapStateToProps = state => {
   return {
     style: state.style,
     clientId: state.user.clientId,
-    referralCode: state.user.referralCode
+    referralCode: state.user.referralCode,
+    isFetching: state.promotionTransaction.isFetching,
+    partnerTransactions: state.promotionTransaction.partnerTransactions
   }
 }
 
 const mapDispatchToProps = {
+  getPartnersTransaction
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(PartnersInfoScreen)

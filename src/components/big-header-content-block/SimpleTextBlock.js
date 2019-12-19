@@ -14,7 +14,7 @@ export class SimpleTextBlock extends React.Component {
         <Text
           style={[
             Style.mainText,
-            this.props.style.theme.primaryTextColor,
+            this.props.style.theme.textPrimaryColor,
             this.props.style.fontSize.h0,
           ]}>
           {this.props.mainText}
@@ -22,7 +22,7 @@ export class SimpleTextBlock extends React.Component {
         <Text
           style={[
             Style.secondText,
-            this.props.style.theme.primaryTextColor,
+            this.props.style.theme.textPrimaryColor,
             this.props.style.fontSize.h9,
           ]}>
           {this.props.secondText}

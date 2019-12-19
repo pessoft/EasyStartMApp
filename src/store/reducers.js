@@ -10,7 +10,7 @@ import { stockReducer } from '../store/stock/reducer'
 import { checkoutReducer } from '../store/checkout/reducer'
 import { navigationHelperReducer } from '../store/navigation/reducer'
 import { historyOrderReducer } from './history-order/reducer';
-
+import { promotionTransactionReducer } from './promotion-transaction/reducer'
 
 export default combineReducers({
   appSetting: appSettingReducer,
@@ -23,5 +23,6 @@ export default combineReducers({
   stock: stockReducer,
   checkout: checkoutReducer,
   navigationHelper: navigationHelperReducer,
-  historyOrder: historyOrderReducer
+  historyOrder: historyOrderReducer,
+  promotionTransaction: promotionTransactionReducer
 })

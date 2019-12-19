@@ -16,3 +16,6 @@ export const getHistoryOrderQuery = `${SERVER_DOMAIN}/api/AdminApp/gethistoryord
 export const updateProductRatingQuery = `${SERVER_DOMAIN}/api/AdminApp/updateproductrating`
 
 export const getCouponQuery = `${SERVER_DOMAIN}/api/AdminApp/getcoupun`
+
+export const getPartnersTransactionQuery = `${SERVER_DOMAIN}/api/AdminApp/getpartnerstransaction`
+export const getCashbackTransactionQuery = `${SERVER_DOMAIN}/api/AdminApp/getcashbacktransaction`

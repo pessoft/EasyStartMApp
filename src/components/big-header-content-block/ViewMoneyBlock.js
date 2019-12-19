@@ -15,7 +15,8 @@ export class ViewMoneyBlock extends React.Component {
       ]}>
         <Text
           style={[
-            this.props.style.theme.primaryTextColor,
+            Style.mainText,
+            this.props.style.theme.textPrimaryColor,
             this.props.style.fontSize.h0,
           ]}>
           {this.props.mainText}
@@ -25,6 +26,14 @@ export class ViewMoneyBlock extends React.Component {
             width={this.props.style.fontSize.h2.fontSize}
             height={this.props.style.fontSize.h2.fontSize}
             color={getSVGColor(this.props.style.theme.textPrimaryColor.color)} />
+        </Text>
+        <Text
+          style={[
+            Style.secondText,
+            this.props.style.theme.textPrimaryColor,
+            this.props.style.fontSize.h9,
+          ]}>
+          {this.props.secondText}
         </Text>
       </View>
     )

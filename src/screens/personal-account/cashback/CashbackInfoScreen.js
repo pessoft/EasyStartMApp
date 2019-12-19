@@ -1,11 +1,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import LottieView from 'lottie-react-native';
-import { Animated, FlatList, Text, ActivityIndicator } from 'react-native'
+import { Animated, FlatList, Text, ActivityIndicator, View } from 'react-native'
 import Style from './style'
 import { timingAnimation } from '../../../animation/timingAnimation'
 import { ViewMoneyBlock } from '../../../components/big-header-content-block/ViewMoneyBlock';
 import { priceValid } from '../../../helpers/utils';
+import { getCashbackTransaction } from '../../../store/promotion-transaction/actions'
 
 class CashbackInfoScreen extends React.Component {
   static navigationOptions = {
@@ -15,13 +16,16 @@ class CashbackInfoScreen extends React.Component {
   constructor(props) {
     super(props)
 
+    this.secondText = `Кешбек ${props.cashbackSetting.ReturnedValue}% с каждого заказа`
     this.state = {
       showAnimation: new Animated.Value(0),
+      showAnimationLoader: new Animated.Value(0),
     }
   }
 
   componentDidMount = () => {
-    timingAnimation(this.state.showAnimation, 1, 300, true)
+    timingAnimation(this.state.showAnimationLoader, 1, 300, true)
+    this.props.getCashbackTransaction(this.props.clientId)
   }
 
   componentDidUpdate = () => {
@@ -35,8 +39,8 @@ class CashbackInfoScreen extends React.Component {
         style={[
           Style.centerScreen,
           {
-            opacity: this.state.showLoaderScaleAnimation,
-            transform: [{ scale: this.state.showLoaderScaleAnimation }]
+            opacity: this.state.showAnimationLoader,
+            transform: [{ scale: this.state.showAnimationLoader }]
           }
         ]}>
         <ActivityIndicator size="large" color={this.props.style.theme.defaultPrimaryColor.backgroundColor} />
@@ -61,7 +65,13 @@ class CashbackInfoScreen extends React.Component {
         <ViewMoneyBlock
           style={this.props.style}
           mainText={priceValid(this.props.virtualMoney)}
+          secondText={this.secondText}
         />
+        {
+          (!this.props.cashbackTransactions ||
+            this.props.cashbackTransactions.length == 0) &&
+          this.renderEmpty()
+        }
         {/* <FlatList
           data={this.props.history.reverse()}
           keyExtractor={item => item.Id.toString()}
@@ -79,7 +89,7 @@ class CashbackInfoScreen extends React.Component {
 
   renderEmpty = () => {
     return (
-      <React.Fragment>
+      <View style={[Style.centerScreen, Style.emptyContainer]}>
         <LottieView
           style={Style.loader}
           source={require('../../../animation/src/search-empty.json')}
@@ -94,9 +104,9 @@ class CashbackInfoScreen extends React.Component {
             { marginTop: 20 }
           ]}
         >
-          История заказов пуста
+          История кешбека пуста
         </Text>
-      </React.Fragment>
+      </View>
     )
   }
 
@@ -114,10 +124,14 @@ const mapStateToProps = state => {
     clientId: state.user.clientId,
     virtualMoney: state.user.virtualMoney,
     currencyPrefix: state.appSetting.currencyPrefix,
+    cashbackSetting: state.main.promotionCashbackSetting,
+    isFetching: state.promotionTransaction.isFetching,
+    cashbackTransactions: state.promotionTransaction.cashbackTransactions
   }
 }
 
 const mapDispatchToProps = {
+  getCashbackTransaction
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CashbackInfoScreen)
