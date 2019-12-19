@@ -255,7 +255,7 @@ class CheckoutScreen extends React.Component {
       amountPayCashBack: this.state.amountPayCashBack,
       stockIds: this.state.promotion.getApplyStockIds(),
       couponId: this.state.promotion.getApplyCouponId(),
-      referralDiscount: this.promotion.getReferralDiscount(),
+      referralDiscount: this.state.promotion.getReferralDiscount(),
     }
   }
 
@@ -396,13 +396,13 @@ class CheckoutScreen extends React.Component {
               this.props.promotionCashbackSetting.IsUseCashback &&
               this.props.userData.virtualMoney > 0 &&
               <PayVirtualMoney
-              style={this.props.style}
-              currencyPrefix={this.props.currencyPrefix}
-              availableVirtualMoney={this.props.userData.virtualMoney}
-              toPay={this.getToPayPriceWithoutCashback()}
-              setting={this.props.promotionCashbackSetting}
-              onChangeAmountPayCashBack={this.setAmountPayCashBack}
-            />
+                style={this.props.style}
+                currencyPrefix={this.props.currencyPrefix}
+                availableVirtualMoney={this.props.userData.virtualMoney}
+                toPay={this.getToPayPriceWithoutCashback()}
+                setting={this.props.promotionCashbackSetting}
+                onChangeAmountPayCashBack={this.setAmountPayCashBack}
+              />
             }
             <CompleteCheckout
               style={this.props.style}
