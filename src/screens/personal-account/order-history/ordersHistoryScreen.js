@@ -7,6 +7,7 @@ import { getHistoryOrder, setSelectOrder } from '../../../store/history-order/ac
 import { timingAnimation } from '../../../animation/timingAnimation'
 import { MenuItemWithoutImage } from '../../../components/menu-item-without-image/MenuItemWithoutImage';
 import { ORDER_HISTORY_INFO_PROFILE } from '../../../navigation/pointsNavigate'
+import { dateFormatted } from '../../../helpers/utils'
 
 class OrdersHistoryScreen extends React.Component {
   static navigationOptions = {
@@ -55,12 +56,7 @@ class OrdersHistoryScreen extends React.Component {
   }
 
   getHeaderText = orderNumber => `Заказ #${orderNumber}`
-  getText = (date, price) => `${this.getDateFormatted(date)} на ${price} ${this.props.currencyPrefix}`
-
-  getDateFormatted = dateToFormatted => {
-    const date = new Date(dateToFormatted)
-    return `${date.getHours()}.${date.getMinutes()} ${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()} `
-  }
+  getText = (date, price) => `${dateFormatted(date)} на ${price} ${this.props.currencyPrefix}`
 
   getHistoryOrderById = id => {
     let findResult = this.props.history.filter(p => p.Id == id)

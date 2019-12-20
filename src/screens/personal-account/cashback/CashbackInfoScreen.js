@@ -5,8 +5,11 @@ import { Animated, FlatList, Text, ActivityIndicator, View } from 'react-native'
 import Style from './style'
 import { timingAnimation } from '../../../animation/timingAnimation'
 import { ViewMoneyBlock } from '../../../components/big-header-content-block/ViewMoneyBlock';
-import { priceValid } from '../../../helpers/utils';
+import { priceValid, dateFormatted } from '../../../helpers/utils';
 import { getCashbackTransaction } from '../../../store/promotion-transaction/actions'
+import { TransactionItem } from '../../../components/transaction-item/TransactionItem'
+import { PromotionTransactionType } from '../../../logic/promotion/promotion-transaction-type';
+import { CashbackTransactionType } from '../../../logic/promotion/cashback-transaction-type'
 
 class CashbackInfoScreen extends React.Component {
   static navigationOptions = {
@@ -52,6 +55,53 @@ class CashbackInfoScreen extends React.Component {
     return `${priceValid(value)} ${this.props.currencyPrefix}`
   }
 
+  renderContentAdditionalBlock = () => {
+    if (!this.props.cashbackTransactions ||
+      this.props.cashbackTransactions.length == 0) {
+      return this.renderEmpty()
+    } else {
+      return this.renderTransactions()
+    }
+  }
+
+  getHeaderText = (cashbackTransactionType, orderId) => {
+    switch (cashbackTransactionType) {
+      case CashbackTransactionType.EnrollmentPurchase:
+        return `Кешбек за заказ #${orderId}`
+      case CashbackTransactionType.OrderPayment:
+        return `Оплата заказа #${orderId}`
+    }
+  }
+
+  convertCasbackTransactionToPromotionTransaction = cashbackTransactionType => {
+    switch (cashbackTransactionType) {
+      case CashbackTransactionType.EnrollmentPurchase:
+        return PromotionTransactionType.Income
+      case CashbackTransactionType.OrderPayment:
+        return PromotionTransactionType.Expense
+    }
+  }
+
+  renderTransaction = ({ item }) => {
+    return <TransactionItem
+      style={this.props.style}
+      headerText={this.getHeaderText(item.TransactionType, item.OrderId)}
+      text={dateFormatted(item.Date)}
+      money={priceValid(item.Money)}
+      transactionType={this.convertCasbackTransactionToPromotionTransaction(item.TransactionType)}
+    />
+  }
+
+  renderTransactions = () => {
+    return (
+      <FlatList
+        data={this.props.cashbackTransactions}
+        keyExtractor={item => item.Id.toString()}
+        renderItem={this.renderTransaction}
+      />
+    )
+  }
+
   renderContent = () => {
     return (
       <Animated.ScrollView
@@ -67,11 +117,12 @@ class CashbackInfoScreen extends React.Component {
           mainText={priceValid(this.props.virtualMoney)}
           secondText={this.secondText}
         />
-        {
+        {this.renderContentAdditionalBlock()}
+        {/* {
           (!this.props.cashbackTransactions ||
             this.props.cashbackTransactions.length == 0) &&
           this.renderEmpty()
-        }
+        } */}
         {/* <FlatList
           data={this.props.history.reverse()}
           keyExtractor={item => item.Id.toString()}

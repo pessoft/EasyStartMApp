@@ -51,4 +51,6 @@ export const DarkTheme = StyleSheet.create({
   newColor: { color: '#1976D2' },
   stockColor: { color: '#FF5722' },
   vegetarionColor: { color: 'green' },
+  successTextColor: { color: '#388E3C' },
+  errorTextColor: { color: '#B00020' },
 })

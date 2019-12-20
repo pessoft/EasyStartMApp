@@ -37,8 +37,13 @@ export const isInteger = num => (num ^ 0) === num
 
 export const priceValid = num => {
   if (!isInteger(num)) {
-      num = num.toFixed(2);
+    num = num.toFixed(2);
   }
 
   return num;
+}
+
+export const dateFormatted = dateToFormatted => {
+  const date = new Date(dateToFormatted)
+  return `${date.getHours()}:${date.getMinutes()} ${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()} `
 }
