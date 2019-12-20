@@ -5,7 +5,7 @@ import { Animated, FlatList, Text, ActivityIndicator, View } from 'react-native'
 import Style from './style'
 import { timingAnimation } from '../../../animation/timingAnimation'
 import { ViewMoneyBlock } from '../../../components/big-header-content-block/ViewMoneyBlock';
-import { priceValid, dateFormatted } from '../../../helpers/utils';
+import { priceValid, dateFormatted } from '../../../helpers/utils'
 import { getCashbackTransaction } from '../../../store/promotion-transaction/actions'
 import { TransactionItem } from '../../../components/transaction-item/TransactionItem'
 import { PromotionTransactionType } from '../../../logic/promotion/promotion-transaction-type';
@@ -118,22 +118,6 @@ class CashbackInfoScreen extends React.Component {
           secondText={this.secondText}
         />
         {this.renderContentAdditionalBlock()}
-        {/* {
-          (!this.props.cashbackTransactions ||
-            this.props.cashbackTransactions.length == 0) &&
-          this.renderEmpty()
-        } */}
-        {/* <FlatList
-          data={this.props.history.reverse()}
-          keyExtractor={item => item.Id.toString()}
-          renderItem={({ item }) => <MenuItemWithoutImage
-            style={this.props.style}
-            id={item.Id}
-            headerText={this.getHeaderText(item.Id)}
-            text={this.getText(item.Date, item.AmountPay)}
-            onPress={this.onSelectOrderId}
-          />}
-        /> */}
       </Animated.ScrollView>
     )
   }

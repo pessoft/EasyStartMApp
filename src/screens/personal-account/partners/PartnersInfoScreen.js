@@ -6,6 +6,7 @@ import Style from './style'
 import { timingAnimation } from '../../../animation/timingAnimation'
 import { SimpleTextBlock } from '../../../components/big-header-content-block/SimpleTextBlock';
 import { getPartnersTransaction } from '../../../store/promotion-transaction/actions'
+import { priceValid, dateFormatted } from '../../../helpers/utils'
 
 class PartnersInfoScreen extends React.Component {
   static navigationOptions = {
@@ -47,6 +48,39 @@ class PartnersInfoScreen extends React.Component {
     )
   }
 
+  renderContentAdditionalBlock = () => {
+    if (!this.props.partnerTransactions ||
+      this.props.partnerTransactions.length == 0) {
+      return this.renderEmpty()
+    } else {
+      return this.renderTransactions()
+    }
+  }
+
+  renderTransaction = ({ item }) => {
+    return <TransactionItem
+      style={this.props.style}
+      headerText={this.getHeaderText(item.ReferralPhone)}
+      text={dateFormatted(item.Date)}
+      money={priceValid(item.Money)}
+      transactionType={PromotionTransactionType.Income}
+    />
+  }
+
+  getHeaderText = referralPhone => {
+    return `Бонус за привлечение клиента ${referralPhone}`
+  }
+
+  renderTransactions = () => {
+    return (
+      <FlatList
+        data={this.props.partnerTransactions}
+        keyExtractor={item => item.Id.toString()}
+        renderItem={this.renderTransaction}
+      />
+    )
+  }
+
   renderContent = () => {
     return (
       <Animated.ScrollView
@@ -62,22 +96,7 @@ class PartnersInfoScreen extends React.Component {
           mainText={this.props.referralCode}
           secondText={this.secondText}
         />
-        {
-          (!this.props.partnerTransactions ||
-            this.props.partnerTransactions.length == 0) &&
-          this.renderEmpty()
-        }
-        {/* <FlatList
-          data={this.props.history.reverse()}
-          keyExtractor={item => item.Id.toString()}
-          renderItem={({ item }) => <MenuItemWithoutImage
-            style={this.props.style}
-            id={item.Id}
-            headerText={this.getHeaderText(item.Id)}
-            text={this.getText(item.Date, item.AmountPay)}
-            onPress={this.onSelectOrderId}
-          />}
-        /> */}
+        {this.renderContentAdditionalBlock()}
       </Animated.ScrollView>
     )
   }
