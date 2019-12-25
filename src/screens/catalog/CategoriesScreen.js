@@ -114,6 +114,7 @@ class CategoriesScreen extends React.Component {
                     }]}>
                 {
                     this.props.stocks.length > 0 &&
+                    this.props.promotionSetting.IsShowStockBanner &&
                     <StockBannerCarousel
                         style={this.props.style}
                         stocks={this.props.stocks}
@@ -138,6 +139,7 @@ class CategoriesScreen extends React.Component {
 const mapStateToProps = state => {
     return {
         promotionCashbackSetting: state.main.promotionCashbackSetting,
+        promotionSetting: state.main.promotionSetting,
         serverDomain: state.appSetting.serverDomain,
         categories: state.main.categories,
         selectedCategory: state.catalog.selectedCategory,

@@ -20,6 +20,7 @@ const defaultState = {
   promotionCashbackSetting: {},
   promotionPartnersSetting: {},
   promotionSectionSettings: [],
+  promotionSetting: {},
   coupon: {},
   isFetchingCoupon: false,
   isFetchErrorCoupon: false,
