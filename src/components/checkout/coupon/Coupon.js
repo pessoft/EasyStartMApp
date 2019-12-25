@@ -36,8 +36,8 @@ export class Coupon extends React.Component {
   }
 
   activateCoupon = () => {
-    if (this.props.oncActivateCoupon)
-      this.props.oncActivateCoupon(this.state.promotionCode)
+    if (this.props.onActivateCoupon)
+      this.props.onActivateCoupon(this.state.promotionCode)
   }
 
   render() {

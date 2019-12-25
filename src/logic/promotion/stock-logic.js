@@ -207,8 +207,9 @@ export class StockLogic {
     }
 
     getStockIdsDiscountForCurrentOrder() {
-        const stocksDiscount = this.getStockDiscountByTriggers()
-        return this.getStockIdsForCurrentOrder(stocksDiscount)
+        const stocksDiscountPercent = this.getStockDiscountByTriggers(DiscountType.Percent)
+        const stocksDiscountRubel = this.getStockDiscountByTriggers(DiscountType.Ruble)
+        return this.getStockIdsForCurrentOrder([...stocksDiscountPercent, ...stocksDiscountRubel])
     }
 
 
@@ -220,8 +221,16 @@ export class StockLogic {
     getStockIdsForCurrentOrder(items) {
         let result = []
 
-        for (let item of items)
-            result = [...result, item.ids]
+        if (items && items.length > 0) {
+            for (let item of items) {
+                if (item.ids.length == 0) {
+                    continue
+                }
+
+                result = [...result, ...item.ids]
+            }
+
+        }
 
         return result
     }

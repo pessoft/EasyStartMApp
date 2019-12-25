@@ -140,10 +140,13 @@ export class PromotionLogic {
 
     getApplyStockIds() {
         let stockIds = []
-        const updateStockIds = ids => stockIds = [...stockIds, ids]
+        const updateStockIds = ids => {
+            if (ids && ids.length > 0)
+                stockIds = [...stockIds, ...ids]
+        }
 
         if (BitOperation.isHas(this.applySectionForDiscount, PromotionSection.Stock)) {
-            const ids = this.stockLogic.getStockIdsForCurrentOrder()
+            const ids = this.stockLogic.getStockIdsDiscountForCurrentOrder()
 
             updateStockIds(ids)
         }

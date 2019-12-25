@@ -261,7 +261,6 @@ class CheckoutScreen extends React.Component {
 
   completeCheckout = () => {
     const newOrderData = this.getOrderData()
-
     this.props.addNewOrderData(newOrderData)
     this.props.cleanCoupon()
     this.updateVirtualMoney()
@@ -314,6 +313,7 @@ class CheckoutScreen extends React.Component {
 
   activateCoupon = (promotionCode) => {
     const params = {
+      clientId: this.props.userData.clientId,
       branchId: this.props.userData.branchId,
       promocode: promotionCode
     }
@@ -351,7 +351,7 @@ class CheckoutScreen extends React.Component {
               style={this.props.style}
               isProcessingActivation={this.props.isFetchingCoupon}
               isActivated={this.props.coupon && Object.keys(this.props.coupon).length > 0}
-              oncActivateCoupon={this.activateCoupon}
+              onActivateCoupon={this.activateCoupon}
             />
             {
               this.state.promotion.getBonusProducts().length > 0
