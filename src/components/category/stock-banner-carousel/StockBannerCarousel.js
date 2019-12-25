@@ -33,7 +33,7 @@ export class StockBannerCarousel extends React.Component {
         <Carousel
           showsPageIndicator={false}
           autoplay
-          autoplayTimeout={2100}
+          autoplayTimeout={2300}
           loop
           index={0}
           pageSize={BannerWidth}

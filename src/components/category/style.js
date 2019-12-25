@@ -4,7 +4,7 @@ export default StyleSheet.create({
   bodyItem: {
     alignSelf: 'stretch',
     justifyContent: 'center',
-    height: 112,
+    height: 105,
     flex: 1,
   },
   captionCatalog: {
@@ -15,8 +15,8 @@ export default StyleSheet.create({
     alignItems: 'center',
   },
   catalogImage: {
-    width: 88,
-    height: 88,
+    width: 85,
+    height: 85,
     borderRadius: 5,
     marginHorizontal: 18
   },
@@ -26,6 +26,6 @@ export default StyleSheet.create({
     justifyContent: 'center',
     borderBottomWidth: 1,
     paddingRight: 24,
-    height: 112
+    height: 105
   }
 })
