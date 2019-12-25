@@ -2,14 +2,19 @@ import React from 'react'
 import { connect } from 'react-redux'
 import {
     FlatList,
-    Animated
+    Animated,
+    View,
+    ScrollView,
 } from 'react-native'
+import Image from 'react-native-scalable-image'
 import { CategoryItem } from '../../components/category/CategoryItem';
 import { setSelectedCategory, setSelectedProduct } from '../../store/catalog/actions'
-import { PRODUCTS } from '../../navigation/pointsNavigate';
+import { PRODUCTS, STOCK_INFO } from '../../navigation/pointsNavigate';
 import { timingAnimation } from '../../animation/timingAnimation'
 import { Text } from 'react-native'
 import VirtualMoneyButton from '../../components/buttons/VirtualMoneyButton/VirtualMoneyButton'
+import { StockBannerCarousel } from '../../components/category/stock-banner-carousel/StockBannerCarousel';
+import { setSelectedStock } from '../../store/stock/actions'
 
 class CategoriesScreen extends React.Component {
     static navigationOptions = ({ navigation }) => {
@@ -51,6 +56,8 @@ class CategoriesScreen extends React.Component {
         if (Object.keys(this.props.selectedCategory).length > 0
             && this.props.selectedCategory.Id > 0) {
             this.props.navigation.navigate(PRODUCTS)
+        } else if (this.props.selectedStock.Id > 0) {
+            this.props.navigation.navigate(STOCK_INFO)
         }
     }
 
@@ -81,6 +88,11 @@ class CategoriesScreen extends React.Component {
         return categories
     }
 
+    onSelectedStock = stock => {
+        this.props.setSelectedStock({})
+        this.props.setSelectedStock(stock)
+    }
+
     renderItem = ({ item }) => {
         return <CategoryItem
             style={this.props.style}
@@ -93,18 +105,32 @@ class CategoriesScreen extends React.Component {
 
     render() {
         return (
-            <Animated.ScrollView
+            <Animated.View
                 style={[
-                    { opacity: this.state.showScaleAnimation },
-                    { transform: [{ scale: this.state.showScaleAnimation }] }]}>
-                <FlatList
-                    windowSize={4}
-                    removeClippedSubviews={true}
-                    initialNumToRender={4}
-                    data={this.categoriesTransform()}
-                    renderItem={this.renderItem}
-                />
-            </Animated.ScrollView>
+                    {
+                        flex: 1,
+                        opacity: this.state.showScaleAnimation,
+                        transform: [{ scale: this.state.showScaleAnimation }]
+                    }]}>
+                {
+                    this.props.stocks.length > 0 &&
+                    <StockBannerCarousel
+                        style={this.props.style}
+                        stocks={this.props.stocks}
+                        onPress={this.onSelectedStock}
+                    />
+                }
+
+                <ScrollView style={{ flex: 1 }}>
+                    <FlatList
+                        windowSize={4}
+                        removeClippedSubviews={true}
+                        initialNumToRender={4}
+                        data={this.categoriesTransform()}
+                        renderItem={this.renderItem}
+                    />
+                </ScrollView>
+            </Animated.View>
         )
     }
 }
@@ -115,13 +141,16 @@ const mapStateToProps = state => {
         serverDomain: state.appSetting.serverDomain,
         categories: state.main.categories,
         selectedCategory: state.catalog.selectedCategory,
-        style: state.style
+        selectedStock: state.stock.selectedStock,
+        style: state.style,
+        stocks: state.main.stocks,
     }
 }
 
 const mapActionToProps = {
     setSelectedCategory,
-    setSelectedProduct
+    setSelectedProduct,
+    setSelectedStock
 }
 
 export default connect(mapStateToProps, mapActionToProps)(CategoriesScreen)

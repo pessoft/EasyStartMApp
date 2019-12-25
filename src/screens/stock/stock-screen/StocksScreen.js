@@ -98,7 +98,7 @@ class StocksScreen extends React.Component {
             )
           }}
         />
-      </Animated.ScrollView >
+      </Animated.ScrollView>
     )
   }
 

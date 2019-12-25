@@ -26,6 +26,12 @@ class StocksInfoScreen extends React.Component {
     timingAnimation(this.state.showScaleAnimation, 1, 300, true)
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props.selectedStock != prevProps.selectedStock) {
+      this.props.navigation.setParams({ StockName: this.props.selectedStock.Name })
+    }
+  }
+
   render() {
     return (
       <Animated.ScrollView
