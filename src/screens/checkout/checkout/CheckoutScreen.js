@@ -25,7 +25,7 @@ import { PayVirtualMoney } from '../../../components/checkout/pay-virtual-money/
 import { getCoupon } from '../../../store/main/actions'
 import { NavigationEvents } from 'react-navigation';
 import { cleanCoupon } from '../../../store/main/actions'
-import { updateVirtualMoney } from '../../../store/user/actions'
+import { updateVirtualMoney, updateReferralDiscount } from '../../../store/user/actions'
 
 class CheckoutScreen extends React.Component {
   static navigationOptions = {
@@ -34,7 +34,6 @@ class CheckoutScreen extends React.Component {
 
   constructor(props) {
     super(props)
-
     this.state = {
       showScaleAnimation: new Animated.Value(0),
       userData: {
@@ -264,6 +263,7 @@ class CheckoutScreen extends React.Component {
     this.props.addNewOrderData(newOrderData)
     this.props.cleanCoupon()
     this.updateVirtualMoney()
+    this.updateClientReferralDiscount(newOrderData.referralDiscount)
 
     this.props.navigation.navigate(CHECKOUT_COMPLETE)
   }
@@ -272,6 +272,12 @@ class CheckoutScreen extends React.Component {
     if (this.state.amountPayCashBack > 0) {
       let newValue = this.props.userData.virtualMoney - this.state.amountPayCashBack
       this.props.updateVirtualMoney(newValue)
+    }
+  }
+
+  updateClientReferralDiscount = referralDiscount => {
+    if (referralDiscount > 0) {
+      this.props.updateReferralDiscount(0)
     }
   }
 
@@ -443,7 +449,8 @@ const mapDispatchToProps = {
   addNewOrderData,
   getCoupon,
   cleanCoupon,
-  updateVirtualMoney
+  updateVirtualMoney,
+  updateReferralDiscount
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CheckoutScreen)

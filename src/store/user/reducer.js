@@ -13,7 +13,8 @@ import {
   FETCH_ADD_OR_UPDATE_USER_INFO_REQUEST,
   FETCH_ADD_OR_UPDATE_USER_INFO_SUCCESS,
   FETCH_ADD_OR_UPDATE_USER_INFO_FAILURE,
-  UPDATE_VIRTUAL_MONEY
+  UPDATE_VIRTUAL_MONEY,
+  UPDATE_REFERRAL_DISCOUNT
 } from './actions'
 
 const defaultState = {
@@ -52,6 +53,12 @@ export const userReducer = (state = defaultState, action) => {
       return {
         ...state,
         virtualMoney: action.payload
+      }
+    }
+    case UPDATE_REFERRAL_DISCOUNT: {
+      return {
+        ...state,
+        referralDiscount: action.payload
       }
     }
     case DROP_FETCH_FLAG:

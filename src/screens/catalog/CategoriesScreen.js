@@ -44,7 +44,8 @@ class CategoriesScreen extends React.Component {
         this.props.setSelectedCategory({})
 
         this.state = {
-            showScaleAnimation: new Animated.Value(0)
+            showScaleAnimation: new Animated.Value(0),
+            goToStock: false
         }
     }
 
@@ -56,8 +57,8 @@ class CategoriesScreen extends React.Component {
         if (Object.keys(this.props.selectedCategory).length > 0
             && this.props.selectedCategory.Id > 0) {
             this.props.navigation.navigate(PRODUCTS)
-        } else if (this.props.selectedStock.Id > 0) {
-            this.props.navigation.navigate(STOCK_INFO)
+        } else if (this.props.selectedStock.Id > 0 && this.state.goToStock) {
+            this.setState({ goToStock: false }, () => this.props.navigation.navigate(STOCK_INFO))
         }
     }
 
@@ -91,6 +92,7 @@ class CategoriesScreen extends React.Component {
     onSelectedStock = stock => {
         this.props.setSelectedStock({})
         this.props.setSelectedStock(stock)
+        this.setState({ goToStock: true })
     }
 
     renderItem = ({ item }) => {

@@ -94,22 +94,19 @@ class UserDataScreen extends React.Component {
             onSubmitEditing={() => { this.referralCodeInput.focus() }}
             blurOnSubmit={false}
           />
-          {
-            this.props.parentReferralClientId < 1 &&
-            <TextInput
-              ref={(input) => { this.referralCodeInput = input; }}
-              placeholder='Реферальный код'
-              value={this.props.parentReferralCode}
-              placeholderTextColor={this.props.style.theme.secondaryTextColor.color}
-              style={[
-                Style.inputText,
-                Style.inputSize,
-                this.props.style.fontSize.h7,
-                this.props.style.theme.primaryTextColor,
-                this.props.style.theme.dividerColor]}
-              onChangeText={this.onParentReferralCodeChange}
-            />
-          }
+          <TextInput
+            ref={(input) => { this.referralCodeInput = input; }}
+            placeholder='Реферальный код'
+            value={this.props.parentReferralCode}
+            placeholderTextColor={this.props.style.theme.secondaryTextColor.color}
+            style={[
+              Style.inputText,
+              Style.inputSize,
+              this.props.style.fontSize.h7,
+              this.props.style.theme.primaryTextColor,
+              this.props.style.theme.dividerColor]}
+            onChangeText={this.onParentReferralCodeChange}
+          />
           <View style={[
             Style.inputSize,
             Style.buttonNext]}>

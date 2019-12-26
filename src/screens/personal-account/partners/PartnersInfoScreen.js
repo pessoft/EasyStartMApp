@@ -7,6 +7,8 @@ import { timingAnimation } from '../../../animation/timingAnimation'
 import { SimpleTextBlock } from '../../../components/big-header-content-block/SimpleTextBlock';
 import { getPartnersTransaction } from '../../../store/promotion-transaction/actions'
 import { priceValid, dateFormatted } from '../../../helpers/utils'
+import { TransactionItem } from '../../../components/transaction-item/TransactionItem'
+import { PromotionTransactionType } from '../../../logic/promotion/promotion-transaction-type';
 
 class PartnersInfoScreen extends React.Component {
   static navigationOptions = {
@@ -68,7 +70,7 @@ class PartnersInfoScreen extends React.Component {
   }
 
   getHeaderText = referralPhone => {
-    return `Бонус за привлечение клиента ${referralPhone}`
+    return `Реферал ${referralPhone}`
   }
 
   renderTransactions = () => {

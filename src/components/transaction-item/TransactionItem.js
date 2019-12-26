@@ -7,6 +7,12 @@ import { PromotionTransactionType } from '../../logic/promotion/promotion-transa
 
 export class TransactionItem extends React.Component {
 
+  constructor(props) {
+    super(props)
+
+    this.HEADER_MAX_LENGTH = 25
+  }
+
   getColorByTransactionType = () => {
     switch (this.props.transactionType) {
       case PromotionTransactionType.Income:
@@ -17,6 +23,26 @@ export class TransactionItem extends React.Component {
         return this.props.style.theme.secondaryTextColor.color
     }
   }
+
+  formatStringMoneyByTransactionType = money => {
+    switch (this.props.transactionType) {
+      case PromotionTransactionType.Income:
+        return `+${money}`
+      default:
+        return `${money}`
+    }
+  }
+
+  getHeaderFontSize = () => {
+    if (this.props.headerText
+      && this.props.headerText.length > this.HEADER_MAX_LENGTH) {
+      return this.props.style.fontSize.h9.fontSize
+    }
+
+    return this.props.style.fontSize.h6.fontSize
+  }
+
+
 
   render() {
     return (
@@ -32,7 +58,7 @@ export class TransactionItem extends React.Component {
               style={[
                 this.props.style.theme.primaryTextColor,
                 this.props.style.fontSize.h6,
-
+                { fontSize: this.getHeaderFontSize() }
               ]}
             >
               {this.props.headerText}
@@ -52,11 +78,10 @@ export class TransactionItem extends React.Component {
             <Text
               style={[
                 { color: this.getColorByTransactionType() },
-                this.props.style.fontSize.h7,
-                Style.amountMoney
+                this.props.style.fontSize.h7
               ]}
             >
-              {this.props.money}
+              {this.formatStringMoneyByTransactionType(this.props.money)}
               <Ruble
                 style={Style.iconMargin}
                 key={new Date().getTime().toString()}
