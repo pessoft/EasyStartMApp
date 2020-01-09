@@ -9,12 +9,13 @@ import {
 import Image from 'react-native-scalable-image'
 import { CategoryItem } from '../../components/category/CategoryItem';
 import { setSelectedCategory, setSelectedProduct } from '../../store/catalog/actions'
-import { PRODUCTS, STOCK_INFO } from '../../navigation/pointsNavigate';
+import { PRODUCTS, STOCK_INFO, CONSTRUCTOR_PRODUCTS } from '../../navigation/pointsNavigate';
 import { timingAnimation } from '../../animation/timingAnimation'
 import { Text } from 'react-native'
 import VirtualMoneyButton from '../../components/buttons/VirtualMoneyButton/VirtualMoneyButton'
 import { StockBannerCarousel } from '../../components/category/stock-banner-carousel/StockBannerCarousel';
 import { setSelectedStock } from '../../store/stock/actions'
+import { CategoryType } from '../../helpers/type-category'
 
 class CategoriesScreen extends React.Component {
     static navigationOptions = ({ navigation }) => {
@@ -56,9 +57,19 @@ class CategoriesScreen extends React.Component {
     componentDidUpdate = () => {
         if (Object.keys(this.props.selectedCategory).length > 0
             && this.props.selectedCategory.Id > 0) {
-            this.props.navigation.navigate(PRODUCTS)
-        } else if (this.props.selectedStock.Id > 0 && this.state.goToStock) {
-            this.setState({ goToStock: false }, () => this.props.navigation.navigate(STOCK_INFO))
+            switch (this.props.selectedCategory.CategoryType) {
+                case CategoryType.Constructor:
+                    this.props.navigation.navigate(CONSTRUCTOR_PRODUCTS)
+                    break
+                default:
+                    this.props.navigation.navigate(PRODUCTS)
+                    break
+
+            }
+        } else if (this.props.selectedStock.Id > 0
+            && this.state.goToStock) {
+            this.setState({ goToStock: false },
+                () => this.props.navigation.navigate(STOCK_INFO))
         }
     }
 

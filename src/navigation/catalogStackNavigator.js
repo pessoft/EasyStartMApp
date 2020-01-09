@@ -1,6 +1,12 @@
 import { createStackNavigator } from 'react-navigation-stack'
 import { CATEGORIES } from './pointsNavigate'
-import { CategoriesScreen, ProductsScreen, ProductInfoScreen, ProductReviewScreen } from '../screens/catalog'
+import {
+    CategoriesScreen,
+    ProductsScreen,
+    ProductInfoScreen,
+    ProductReviewScreen,
+    ConstructorProductsScreen
+} from '../screens/catalog'
 import { defaultStyleNavigationStackOptions } from './defaultStyleStackNavOption'
 
 const catalogStackNavigator = style => {
@@ -8,6 +14,7 @@ const catalogStackNavigator = style => {
         {
             Categories: CategoriesScreen,
             Products: ProductsScreen,
+            ConstructorProducts: ConstructorProductsScreen,
             ProductInfo: ProductInfoScreen,
             ProductReview: ProductReviewScreen
         },

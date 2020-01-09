@@ -8,6 +8,7 @@ export const SET_CITY = 'CitySet'
 
 export const CATEGORIES = 'Categories'
 export const PRODUCTS = 'Products'
+export const CONSTRUCTOR_PRODUCTS = 'ConstructorProducts'
 export const PRODUCT_INFO = 'ProductInfo'
 export const PRODUCT_REVIEW = 'ProductReview'
 

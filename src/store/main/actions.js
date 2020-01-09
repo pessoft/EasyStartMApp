@@ -110,6 +110,20 @@ const processingMainData = mainData => {
             }
         }
     }
+
+    if (mainData && mainData.constructorCategories && mainData.constructorCategories.length > 0) {
+        for (const category of mainData.constructorCategories) {
+            category.Image = getImageSource(category.Image)
+        }
+    }
+
+    if (mainData && mainData.ingredients && Object.keys(mainData.ingredients).length > 0) {
+        for (const subCategoryId in mainData.ingredients) {
+            for (const ingredient of mainData.ingredients[subCategoryId]) {
+                ingredient.Image = getImageSource(ingredient.Image)
+            }
+        }
+    }
 }
 
 const failureMainDataPosts = () => {

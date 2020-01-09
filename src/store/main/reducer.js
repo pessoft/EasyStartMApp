@@ -14,6 +14,8 @@ const defaultState = {
   isFetchError: false,
   categories: [],
   products: {},
+  constructorCategories: [],
+  ingredients: {},
   deliverySettings: {},
   organizationSettings: {},
   stocks: [],
