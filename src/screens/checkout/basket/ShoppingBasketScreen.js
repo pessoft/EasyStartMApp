@@ -110,7 +110,7 @@ class ShoppingBasketScreen extends React.Component {
    */
   productTransform = item => {
     const basketProduct = this.props.basketProducts[item]
-    
+
     if (basketProduct.count == 0)
       return null
 
@@ -233,11 +233,11 @@ class ShoppingBasketScreen extends React.Component {
   }
   keyExtractor = item => {
     if (this.props.basketProducts[item]) {
-        return `${item}-${this.props.basketProducts[item].count}`
+      return `${item}-${this.props.basketProducts[item].count}`
     }
 
     return item.Id.toString()
-}
+  }
 
   renderBasketContents = () => {
     return (

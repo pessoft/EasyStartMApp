@@ -17,7 +17,7 @@ export class OrderHistoryProductItem extends React.Component {
                 <View style={[Style.directionRow]}>
                     <View style={Style.imageContainer}>
                         <Image
-                            source={this.props.product.imageSource}
+                            source={this.props.product.Image}
                             style={Style.productImage}
                         />
                     </View>
@@ -29,12 +29,12 @@ export class OrderHistoryProductItem extends React.Component {
                                 Style.textWrap,
                                 this.props.style.fontSize.h8,
                                 this.props.style.theme.primaryTextColor]}>
-                                {this.props.product.caption}
+                                {this.props.product.Name}
                             </Text>
                             <Text style={[
                                 this.props.style.fontSize.h10,
                                 this.props.style.theme.secondaryTextColor]}>
-                                {this.props.product.additionInfo}
+                                {this.props.product.AdditionInfo}
                             </Text>
                         </View>
                         <View style={Style.priceContainer}>
@@ -42,8 +42,8 @@ export class OrderHistoryProductItem extends React.Component {
                                 style={[
                                     this.props.style.theme.secondaryTextColor,
                                     this.props.style.fontSize.h9]}>
-                                {`${this.props.product.count} x ${this.props.product.price} ${this.props.product.currencyPrefix}`}
-                               </Text>
+                                {`${this.props.product.Count} x ${this.props.product.Price} ${this.props.currencyPrefix}`}
+                            </Text>
                         </View>
                     </View>
                 </View>

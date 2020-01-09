@@ -1,5 +1,5 @@
 import { getMainDataFetch, updateProductRatingFetch, getCouponFetch } from '../../api/requests'
-import { SERVER_DOMAIN } from '../../api/server-domain'
+import { getImageSource } from '../../helpers/utils'
 
 export const FETCH_MAIN_DATA_SUCCESS = 'FETCH_MAIN_DATA_SUCCESS'
 export const FETCH_MAIN_DATA_REQUEST = 'FETCH_MAIN_DATA_REQUEST'
@@ -110,11 +110,6 @@ const processingMainData = mainData => {
             }
         }
     }
-}
-
-
-const getImageSource = imagePath => {
-    return { uri: `${SERVER_DOMAIN}${imagePath}` }
 }
 
 const failureMainDataPosts = () => {

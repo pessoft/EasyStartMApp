@@ -1,3 +1,5 @@
+import { SERVER_DOMAIN } from "../api/server-domain";
+
 export const getMaxOfArray = numArray => {
   return Math.max.apply(null, numArray);
 }
@@ -46,4 +48,8 @@ export const priceValid = num => {
 export const dateFormatted = dateToFormatted => {
   const date = new Date(dateToFormatted)
   return `${date.getHours()}:${date.getMinutes()} ${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()} `
+}
+
+export const getImageSource = imagePath => {
+  return { uri: `${SERVER_DOMAIN}${imagePath}` }
 }

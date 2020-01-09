@@ -7,13 +7,16 @@ import {
   View,
   Text,
   Animated,
-  Platform
+  Platform,
+  ActivityIndicator
 } from 'react-native'
 import { timingAnimation } from '../../../animation/timingAnimation'
 import Style from './style'
 import { OrderHistoryProductItem } from '../../../components/order-history-product/OrderHistoryProductItem';
 import { toggleProductInBasket, changeTotalCountProductInBasket } from '../../../store/checkout/actions'
 import { SHOPPING_BASKET } from '../../../navigation/pointsNavigate'
+import { getProductsHistoryOrder } from '../../../store/history-order/actions'
+import { CategoryType } from '../../../helpers/type-category'
 
 class OrderHistoryInfoScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -29,15 +32,21 @@ class OrderHistoryInfoScreen extends React.Component {
 
     this.state = {
       showScaleAnimation: new Animated.Value(0),
+      showLoaderScaleAnimation: new Animated.Value(0),
       toBasket: false
     }
 
     this.productToRepeat = []
   }
 
-  componentDidMount = () => timingAnimation(this.state.showScaleAnimation, 1, 300, true)
-  componentDidUpdate = () => {
+  componentDidMount = () => this.props.getProductsHistoryOrder(this.props.selectHistoryOrder.Id)
 
+  componentDidUpdate = () => {
+    if (this.props.isFetchingProductsHistory) {
+      timingAnimation(this.state.showLoaderScaleAnimation, 1, 300, true)
+    } else {
+      timingAnimation(this.state.showScaleAnimation, 1, 300, true)
+    }
 
     if (this.state.toBasket) {
       this.setState({ toBasket: false }, () => {
@@ -95,25 +104,44 @@ class OrderHistoryInfoScreen extends React.Component {
     return productsForRender
   }
 
+  getProducts = () => [...this.props.productsHistory, ... this.props.constructorProductsHistory]
+
   renderItem = ({ item }) => {
-    return <OrderHistoryProductItem
-      style={this.props.style}
-      product={item.product}
-    />
+    switch (item.CategoryType) {
+      case CategoryType.Default:
+        return <OrderHistoryProductItem
+          style={this.props.style}
+          product={item}
+          currencyPrefix={this.props.currencyPrefix}
+        />
+      case CategoryType.Constructor:
+        return <OrderHistoryProductItem // OrderHistoryConstructorProductItem
+          style={this.props.style}
+          product={item}
+        />
+    }
   }
 
   repeatOrder = () => {
+    let products = this.props.productsHistory.filter(p => !p.IsDeleted)
+    let constructorProducts = this.props.constructorProductsHistory.filter(p => !p.IsDeleted)
+
     const basketProductModify = { ...this.props.basketProducts }
 
-    for (let item of this.productToRepeat) {
+    for (let item of products) {
 
-      basketProductModify[item.product.Id] = {
-        categoryId: item.product.CategoryId,
-        count: item.count
+      basketProductModify[item.Id] = {
+        categoryId: item.CategoryId,
+        count: item.Count,
+        index: this.props.products[item.CategoryId].findIndex(p => p.Id == item.Id)
       }
     }
-    this.props.toggleProductInBasket(basketProductModify)
-    this.setState({ toBasket: true })
+
+    if (products.length > 0
+      || constructorProducts.length > 0) {
+      this.props.toggleProductInBasket(basketProductModify)
+      this.setState({ toBasket: true })
+    }
   }
 
   changeTotalCountProductInBasket = () => {
@@ -131,7 +159,22 @@ class OrderHistoryInfoScreen extends React.Component {
     this.props.changeTotalCountProductInBasket(count)
   }
 
-  render() {
+  renderLoader = () => {
+    return (
+      <Animated.View
+        style={[
+          Style.centerScreen,
+          {
+            opacity: this.state.showLoaderScaleAnimation,
+            transform: [{ scale: this.state.showLoaderScaleAnimation }]
+          }
+        ]}>
+        <ActivityIndicator size="large" color={this.props.style.theme.defaultPrimaryColor.backgroundColor} />
+      </Animated.View>
+    )
+  }
+
+  renderHistoryOrders = () => {
     return (
       <Animated.View
         style={[
@@ -148,7 +191,8 @@ class OrderHistoryInfoScreen extends React.Component {
             removeClippedSubviews={Platform.OS !== 'ios'}
             initialNumToRender={4}
             maxToRenderPerBatch={1}
-            data={this.productsTransform()}
+            data={this.getProducts()}
+            keyExtractor={item => item.Id.toString()}
             renderItem={this.renderItem}
           />
         </ScrollView>
@@ -178,6 +222,13 @@ class OrderHistoryInfoScreen extends React.Component {
       </Animated.View>
     )
   }
+
+  render() {
+    if (this.props.isFetchingProductsHistory)
+      return this.renderLoader()
+    else
+      return this.renderHistoryOrders()
+  }
 }
 
 const mapStateToProps = state => {
@@ -187,13 +238,17 @@ const mapStateToProps = state => {
     products: state.main.products,
     style: state.style,
     selectHistoryOrder: state.historyOrder.selectOrder,
-    basketProducts: state.checkout.basketProducts
+    basketProducts: state.checkout.basketProducts,
+    isFetchingProductsHistory: state.historyOrder.isFetching,
+    productsHistory: state.historyOrder.productsHistory,
+    constructorProductsHistory: state.historyOrder.constructorProductsHistory,
   }
 }
 
 const mapDispatchToProps = {
   toggleProductInBasket,
-  changeTotalCountProductInBasket
+  changeTotalCountProductInBasket,
+  getProductsHistoryOrder
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(OrderHistoryInfoScreen)

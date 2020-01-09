@@ -7,6 +7,7 @@ import {
   addOrUpdateUserQuery,
   sendNewOrderQuery,
   getHistoryOrderQuery,
+  getProductsHistoryOrderQuery,
   updateProductRatingQuery,
   getCouponQuery,
   getPartnersTransactionQuery,
@@ -27,6 +28,7 @@ export const setProductReviewsFetch = async (review) => fetchAPI(setProductRevie
 export const sendNewOrderFetch = async (newOrder) => fetchAPI(sendNewOrderQuery, newOrder)
 
 export const getHistoryOrderFetch = async (dataForHistory) => await fetchAPI(getHistoryOrderQuery, dataForHistory)
+export const getProductsHistoryOrderFetch = async (orderId) => await fetchAPI(getProductsHistoryOrderQuery, orderId)
 
 export const updateProductRatingFetch = async (rating) => await fetchAPI(updateProductRatingQuery, rating)
 
