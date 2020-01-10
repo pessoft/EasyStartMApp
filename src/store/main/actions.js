@@ -111,9 +111,11 @@ const processingMainData = mainData => {
         }
     }
 
-    if (mainData && mainData.constructorCategories && mainData.constructorCategories.length > 0) {
-        for (const category of mainData.constructorCategories) {
-            category.Image = getImageSource(category.Image)
+    if (mainData && mainData.constructorCategories && Object.keys(mainData.constructorCategories).length > 0) {
+        for (const categoryId in mainData.constructorCategories) {
+            for (const constructorCategory of mainData.constructorCategories[categoryId]) {
+                constructorCategory.Image = getImageSource(constructorCategory.Image)
+            }
         }
     }
 

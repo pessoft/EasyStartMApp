@@ -11,6 +11,7 @@ import { timingAnimation } from '../../../animation/timingAnimation'
 import { toggleProductInBasket, changeTotalCountProductInBasket } from '../../../store/checkout/actions'
 import { markFromBasket } from '../../../store/navigation/actions'
 import VirtualMoneyButton from '../../../components/buttons/VirtualMoneyButton/VirtualMoneyButton'
+import { ConstructorCategory } from '../../../components/constructor-products/constructor-category/ConstructorCategory';
 
 class ConstructorProductsScreen extends React.Component {
     static navigationOptions = ({ navigation }) => {
@@ -51,10 +52,33 @@ class ConstructorProductsScreen extends React.Component {
     componentDidUpdate = () => {
     }
 
+    getData = () => {
+        return this.props.constructorCategories[this.props.selectedCategory.Id]
+    }
+
+    renderConstructorCategory = ({ item }) => {
+        return <ConstructorCategory
+            style={this.props.style}
+            ingredients={this.props.ingredients[item.Id]}
+            constructorCategory={item}
+        />
+    }
+
     render() {
         return (
-            <React.Fragment>
-            </React.Fragment>
+            <Animated.ScrollView
+                style={[
+                    {
+                        flex: 1,
+                        opacity: this.state.showScaleAnimation,
+                        transform: [{ scale: this.state.showScaleAnimation }]
+                    }]}>
+                <FlatList
+                    data={this.getData()}
+                    keyExtractor={item => item.Id.toString()}
+                    renderItem={this.renderConstructorCategory}
+                />
+            </Animated.ScrollView>
         )
     }
 }
@@ -68,6 +92,8 @@ const mapStateToProps = state => {
         totalCountProducts: state.checkout.totalCountProducts,
         style: state.style,
         promotionCashbackSetting: state.main.promotionCashbackSetting,
+        constructorCategories: state.main.constructorCategories,
+        ingredients: state.main.ingredients,
     }
 }
 
