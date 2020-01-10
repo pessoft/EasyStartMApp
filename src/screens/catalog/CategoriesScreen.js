@@ -64,7 +64,6 @@ class CategoriesScreen extends React.Component {
                 default:
                     this.props.navigation.navigate(PRODUCTS)
                     break
-
             }
         } else if (this.props.selectedStock.Id > 0
             && this.state.goToStock) {
@@ -101,6 +100,7 @@ class CategoriesScreen extends React.Component {
     }
 
     onSelectedStock = stock => {
+        this.props.setSelectedCategory({})
         this.props.setSelectedStock({})
         this.props.setSelectedStock(stock)
         this.setState({ goToStock: true })
