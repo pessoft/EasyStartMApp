@@ -3,6 +3,7 @@ let width = Dimensions.get('screen').width - 15
 let height = width * 0.5
 export default StyleSheet.create({
   container: {
+    flexDirection:'row',
     width: width,
     height: height,
     borderRadius: 3,
@@ -10,11 +11,12 @@ export default StyleSheet.create({
     margin: 5
   },
   imageContainer: {
-    flex: 0.5,
-    justifyContent: 'center'
+    flex: 0.3,
+    justifyContent: 'flex-start',
+    paddingTop: 12
   },
   image: {
-    flex: 0.62,
+    flex: 0.48,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 9999
