@@ -12,11 +12,14 @@ export class ConstructorCategory extends React.Component {
         return <ShortIngredient
           style={this.props.style}
           ingredient={item}
+          currencyPrefix={this.props.currencyPrefix}
+
         />
       case StyleTypeIngredient.Long:
         return <LongIngredient
           style={this.props.style}
           ingredient={item}
+          currencyPrefix={this.props.currencyPrefix}
         />
     }
   }
@@ -41,7 +44,7 @@ export class ConstructorCategory extends React.Component {
         <View style={[Style.header]}>
           <Text
             style={[
-              this.props.style.fontSize.h6,
+              this.props.style.fontSize.h5,
               this.props.style.theme.primaryTextColor,
             ]}>
             {this.props.constructorCategory.Name}

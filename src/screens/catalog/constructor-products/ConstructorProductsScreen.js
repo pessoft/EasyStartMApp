@@ -61,6 +61,7 @@ class ConstructorProductsScreen extends React.Component {
             style={this.props.style}
             ingredients={this.props.ingredients[item.Id]}
             constructorCategory={item}
+            currencyPrefix={this.props.currencyPrefix}
         />
     }
 
