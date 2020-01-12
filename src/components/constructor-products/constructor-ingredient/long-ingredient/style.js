@@ -3,10 +3,11 @@ let width = Dimensions.get('screen').width - 20
 let height = width * 0.5
 export default StyleSheet.create({
   container: {
+    position:'relative',
     flexDirection:'row',
     width: width,
     height: height,
-    borderRadius: 4,
+    borderRadius: 5,
     borderWidth: 3,
     margin: 5
   },
