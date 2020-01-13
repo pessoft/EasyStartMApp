@@ -16,7 +16,7 @@ export class ShortIngredient extends React.Component {
   }
 
   addIngredient = () => {
-    if (this.props.count + 1 > this.props.ingredient.MaxAddCount) {
+    if (this.props.ingredient.MaxAddCount != 0 && this.props.count + 1 > this.props.ingredient.MaxAddCount) {
       this.changeIngredientCount(0)
     } else if (this.props.onAllowAddIngredinet
       && this.props.onAllowAddIngredinet()) {

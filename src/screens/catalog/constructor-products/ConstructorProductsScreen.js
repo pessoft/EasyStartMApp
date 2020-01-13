@@ -2,7 +2,8 @@ import React from 'react'
 import { connect } from 'react-redux'
 import {
     FlatList,
-    Animated
+    Animated,
+    View
 } from 'react-native'
 import { ProductItem } from '../../../components/product/ProductItem';
 import { setSelectedProduct } from '../../../store/catalog/actions'
@@ -12,6 +13,8 @@ import { toggleProductInBasket, changeTotalCountProductInBasket } from '../../..
 import { markFromBasket } from '../../../store/navigation/actions'
 import VirtualMoneyButton from '../../../components/buttons/VirtualMoneyButton/VirtualMoneyButton'
 import { ConstructorCategory } from '../../../components/constructor-products/constructor-category/ConstructorCategory';
+import Style from './style'
+import { ConstructorToggleBasket } from '../../../components/constructor-products/constructor-toggle-basket/ConstructorToggleBasket';
 
 class ConstructorProductsScreen extends React.Component {
     static navigationOptions = ({ navigation }) => {
@@ -42,7 +45,35 @@ class ConstructorProductsScreen extends React.Component {
 
         this.state = {
             showScaleAnimation: new Animated.Value(0),
+            count: 1,
+            constructorIngredients: this.initConstructorIngredients()
         }
+    }
+
+    initConstructorIngredients = () => {
+        const constructorCategories = this.props.constructorCategories[this.props.selectedCategory.Id]
+        let constructorIngredients = {}
+
+        for (const constructorCategory of constructorCategories) {
+            const ingredients = this.props.ingredients[constructorCategory.Id]
+            constructorIngredients[constructorCategory.Id] = {
+                constructorCategory: constructorCategory,
+                ingredients: ingredients,
+                ingredientsCount: this.initIngredientsCount(ingredients)
+            }
+        }
+
+        return constructorIngredients
+    }
+
+    initIngredientsCount = ingredients => {
+        let ingredientsCount = {}
+
+        for (let ingredient of ingredients) {
+            ingredientsCount[ingredient.Id] = 0
+        }
+
+        return ingredientsCount
     }
 
     componentDidMount = () => {
@@ -56,18 +87,39 @@ class ConstructorProductsScreen extends React.Component {
         return this.props.constructorCategories[this.props.selectedCategory.Id]
     }
 
+    changeIngredientsCount = (categoryConstructorId, ingredintsCount) => {
+        let constructorIngredients = { ...this.state.constructorIngredients }
+
+        constructorIngredients[categoryConstructorId].ingredientsCount = ingredintsCount
+
+        this.setState({ constructorIngredients })
+    }
+
     renderConstructorCategory = ({ item }) => {
         return <ConstructorCategory
             style={this.props.style}
+            onChangeIngredientsCount={this.changeIngredientsCount}
             ingredients={this.props.ingredients[item.Id]}
+            ingredientsCount={this.state.constructorIngredients[item.Id].ingredientsCount}
             constructorCategory={item}
             currencyPrefix={this.props.currencyPrefix}
         />
     }
 
+    onChangeCount = count => {
+        if (count < 1)
+            this.setState({ count: 1 })
+        else
+            this.setState({ count })
+    }
+
     render() {
         return (
             <Animated.ScrollView
+                contentContainerStyle={{
+                    flexGrow: 1,
+                    justifyContent: 'space-between'
+                }}
                 style={[
                     {
                         flex: 1,
@@ -78,7 +130,20 @@ class ConstructorProductsScreen extends React.Component {
                     data={this.getData()}
                     keyExtractor={item => item.Id.toString()}
                     renderItem={this.renderConstructorCategory}
+                    extraData={this.state.constructorIngredients}
                 />
+                <View
+                    style={[
+                        Style.constructorFooter,
+                        this.props.style.theme.dividerColor]}>
+                    <ConstructorToggleBasket
+                        style={this.props.style}
+                        count={this.state.count}
+                        constructorIngredients={this.state.constructorIngredients}
+                        onChangeCount={this.onChangeCount}
+                        currencyPrefix={this.props.currencyPrefix}
+                    />
+                </View>
             </Animated.ScrollView>
         )
     }

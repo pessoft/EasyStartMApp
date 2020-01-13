@@ -7,33 +7,18 @@ import Style from './style'
 export class CounterButton extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {
-      count: this.props.startCount || 0
-    }
   }
 
-  onPress = () => {
-    if (this.props.onPress)
-      this.props.onPress(this.state.count)
-  }
+  onPress = count => this.props.onPress && this.props.onPress(count)
 
-  onMinus = () => {
-    this.setState(
-      {
-        count: this.state.count - 1
-      },
-      this.onPress)
-  }
+  onMinus = () => this.onPress(this.props.startCount - 1)
 
   onPlus = () => {
-    if (this.props.limit == 0 || this.state.count == this.props.maxCount)
+    if (this.props.limit == 0
+      || this.props.startCount == this.props.maxCount)
       return
 
-    this.setState(
-      {
-        count: this.state.count + 1
-      },
-      this.onPress)
+    this.onPress(this.props.startCount + 1)
   }
 
   render() {
@@ -42,7 +27,7 @@ export class CounterButton extends React.Component {
         <MinusButton {...this.props} onPress={this.onMinus} />
         <Text style={[
           Style.valueContainer,
-          { color: this.props.tintColor }]}>{this.state.count}</Text>
+          { color: this.props.tintColor }]}>{this.props.startCount}</Text>
         <PlusButton {...this.props} onPress={this.onPlus} />
       </View>
     )

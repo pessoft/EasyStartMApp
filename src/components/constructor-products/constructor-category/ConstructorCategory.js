@@ -15,18 +15,7 @@ export class ConstructorCategory extends React.Component {
     this.state = {
       isShowConstructorCategory: true,
       angle: new Animated.Value(1),
-      ingredientsCount: this.initIngredientsCount()
     }
-  }
-
-  initIngredientsCount = () => {
-    let ingredientsCount = {}
-
-    for (let ingredient of this.props.ingredients) {
-      ingredientsCount[ingredient.Id] = 0
-    }
-
-    return ingredientsCount
   }
 
   componentDidUpdate() {
@@ -38,20 +27,22 @@ export class ConstructorCategory extends React.Component {
   }
 
   changeIngredientCount = (ingredientId, ingredientCount) => {
-    let ingredientsCount = { ...this.state.ingredientsCount }
-    ingredientsCount[ingredientId] = ingredientCount
+    if (this.props.onChangeIngredientsCount) {
+      let ingredientsCount = { ...this.props.ingredientsCount }
+      ingredientsCount[ingredientId] = ingredientCount
 
-    this.setState({ ingredientsCount })
+      this.props.onChangeIngredientsCount(this.props.constructorCategory.Id, ingredientsCount)
+    }
   }
 
   isAllowAddIngredient = () => {
     let allCount = 0
-    for (let id in this.state.ingredientsCount) {
-      allCount += this.state.ingredientsCount[id]
+    for (let id in this.props.ingredientsCount) {
+      allCount += this.props.ingredientsCount[id]
     }
-
+    
     const result = this.props.constructorCategory.MaxCountIngredient == 0 ||
-    allCount < this.props.constructorCategory.MaxCountIngredient
+      allCount < this.props.constructorCategory.MaxCountIngredient
 
     return result
   }
@@ -62,7 +53,7 @@ export class ConstructorCategory extends React.Component {
         return <ShortIngredient
           onAllowAddIngredinet={this.isAllowAddIngredient}
           onChangeIngredientCount={this.changeIngredientCount}
-          count={this.state.ingredientsCount[item.Id]}
+          count={this.props.ingredientsCount[item.Id]}
           style={this.props.style}
           ingredient={item}
           currencyPrefix={this.props.currencyPrefix}
@@ -72,7 +63,7 @@ export class ConstructorCategory extends React.Component {
         return <LongIngredient
           onAllowAddIngredinet={this.isAllowAddIngredient}
           onChangeIngredientCount={this.changeIngredientCount}
-          count={this.state.ingredientsCount[item.Id]}
+          count={this.props.ingredientsCount[item.Id]}
           style={this.props.style}
           ingredient={item}
           currencyPrefix={this.props.currencyPrefix}
@@ -134,7 +125,7 @@ export class ConstructorCategory extends React.Component {
               data={this.props.ingredients}
               keyExtractor={item => item.Id.toString()}
               renderItem={this.renderIngredient}
-              extraData={this.state.ingredientsCount}
+              extraData={this.props.ingredientsCount}
             />
           </View>
         }

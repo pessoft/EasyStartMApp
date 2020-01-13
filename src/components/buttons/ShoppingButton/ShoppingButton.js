@@ -38,8 +38,6 @@ export class ShoppingButton extends React.Component {
         {...this.props}
         onPress={this.onChangeCount}
         startCount={this.state.count}
-        limit={this.props.limit}
-        maxCount={this.props.maxCount}
       />
   }
 
