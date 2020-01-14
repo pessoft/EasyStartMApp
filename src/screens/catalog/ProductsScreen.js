@@ -106,13 +106,18 @@ class ProductsScreen extends React.Component {
     changeTotalCountProductInBasket = () => {
         let count = 0
 
-        if (this.props.basketProducts && Object.keys(this.props.basketProducts).length != 0) {
-            for (let productId in this.props.basketProducts) {
-                const itemBasket = this.props.basketProducts[productId]
-                const productCount = itemBasket.count;
-
-                count += productCount;
+        const countCalc = items => {
+            for (const id in items) {
+                count += items[id].count;
             }
+        }
+
+        if (this.props.basketProducts && Object.keys(this.props.basketProducts).length != 0) {
+            countCalc(this.props.basketProducts)
+        }
+
+        if (this.props.basketConstructoProducts && Object.keys(this.props.basketConstructoProducts).length != 0) {
+            countCalc(this.props.basketConstructoProducts)
         }
 
         this.props.changeTotalCountProductInBasket(count)
@@ -179,6 +184,7 @@ const mapStateToProps = state => {
         selectedCategory: state.catalog.selectedCategory,
         selectedProduct: state.catalog.selectedProduct,
         basketProducts: state.checkout.basketProducts,
+        basketConstructoProducts: state.checkout.basketConstructoProducts,
         totalCountProducts: state.checkout.totalCountProducts,
         style: state.style,
         promotionCashbackSetting: state.main.promotionCashbackSetting,

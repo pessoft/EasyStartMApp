@@ -9,12 +9,17 @@ import { ProductItem } from '../../../components/product/ProductItem';
 import { setSelectedProduct } from '../../../store/catalog/actions'
 import { PRODUCT_INFO } from '../../../navigation/pointsNavigate'
 import { timingAnimation } from '../../../animation/timingAnimation'
-import { toggleProductInBasket, changeTotalCountProductInBasket } from '../../../store/checkout/actions'
 import { markFromBasket } from '../../../store/navigation/actions'
 import VirtualMoneyButton from '../../../components/buttons/VirtualMoneyButton/VirtualMoneyButton'
 import { ConstructorCategory } from '../../../components/constructor-products/constructor-category/ConstructorCategory';
 import Style from './style'
 import { ConstructorToggleBasket } from '../../../components/constructor-products/constructor-toggle-basket/ConstructorToggleBasket';
+import {
+    toggleConstructorProductInBasket,
+    changeTotalCountProductInBasket
+} from '../../../store/checkout/actions'
+import { generateRandomString } from '../../../helpers/utils';
+
 
 class ConstructorProductsScreen extends React.Component {
     static navigationOptions = ({ navigation }) => {
@@ -81,6 +86,7 @@ class ConstructorProductsScreen extends React.Component {
     }
 
     componentDidUpdate = () => {
+        this.changeTotalCountProductInBasket()
     }
 
     getData = () => {
@@ -113,6 +119,55 @@ class ConstructorProductsScreen extends React.Component {
             this.setState({ count })
     }
 
+    changeTotalCountProductInBasket = () => {
+        let count = 0
+
+        const countCalc = items => {
+            for (const id in items) {
+                count += items[id].count;
+            }
+        }
+
+        if (this.props.basketProducts && Object.keys(this.props.basketProducts).length != 0) {
+            countCalc(this.props.basketProducts)
+        }
+
+        if (this.props.basketConstructoProducts && Object.keys(this.props.basketConstructoProducts).length != 0) {
+            countCalc(this.props.basketConstructoProducts)
+        }
+
+        this.props.changeTotalCountProductInBasket(count)
+    }
+
+    getConstructorProductForBasket = () => {
+        let ingredientsCount = {}
+
+        for(const constructorCategoryId in this.state.constructorIngredients) {
+            const itemIngredientsCount = this.state.constructorIngredients[constructorCategoryId]
+            ingredientsCount = {...ingredientsCount, ...itemIngredientsCount}
+        }
+
+        return {
+            id: this.props.selectedCategory.Id,
+            ingredientsCount,
+            count: this.state.count
+        }
+    }
+
+    toggleConstructorProductInBasket = () => {
+        const basketProduct = this.getConstructorProductForBasket()
+        const basketConstructorProductModify = { ...this.props.basketConstructoProducts }
+        const uniqId = generateRandomString(10)
+        basketConstructorProductModify[uniqId] = {
+            uniqId,
+            categoryId: basketProduct.id,
+            count: basketProduct.count,
+            ingredientsCount: basketProduct.ingredientsCount
+        }
+
+        this.props.toggleConstructorProductInBasket(basketConstructorProductModify)
+    }
+
     render() {
         return (
             <Animated.ScrollView
@@ -142,6 +197,7 @@ class ConstructorProductsScreen extends React.Component {
                         constructorIngredients={this.state.constructorIngredients}
                         onChangeCount={this.onChangeCount}
                         currencyPrefix={this.props.currencyPrefix}
+                        onToggleContructorProducts={this.toggleConstructorProductInBasket}
                     />
                 </View>
             </Animated.ScrollView>
@@ -155,6 +211,7 @@ const mapStateToProps = state => {
         currencyPrefix: state.appSetting.currencyPrefix,
         selectedCategory: state.catalog.selectedCategory,
         basketProducts: state.checkout.basketProducts,
+        basketConstructoProducts: state.checkout.basketConstructoProducts,
         totalCountProducts: state.checkout.totalCountProducts,
         style: state.style,
         promotionCashbackSetting: state.main.promotionCashbackSetting,
@@ -164,6 +221,8 @@ const mapStateToProps = state => {
 }
 
 const mapActionToProps = {
+    toggleConstructorProductInBasket,
+    changeTotalCountProductInBasket
 }
 
 export default connect(mapStateToProps, mapActionToProps)(ConstructorProductsScreen)

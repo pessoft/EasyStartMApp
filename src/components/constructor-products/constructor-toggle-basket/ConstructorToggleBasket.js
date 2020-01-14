@@ -14,8 +14,8 @@ export class ConstructorToggleBasket extends React.Component {
     }
 
     componentDidUpdate(prevPros) {
-        if(prevPros.constructorIngredients != this.props.constructorIngredients) {
-            this.setState({price: this.getPrice()})
+        if (prevPros.constructorIngredients != this.props.constructorIngredients) {
+            this.setState({ price: this.getPrice() })
         }
     }
 
@@ -75,7 +75,6 @@ export class ConstructorToggleBasket extends React.Component {
                     {
                         this.state.price != 0 &&
                         <View style={Style.headerCounter}>
-
                             <CounterButton
                                 onPress={this.props.onChangeCount}
                                 startCount={this.props.count}
@@ -89,7 +88,13 @@ export class ConstructorToggleBasket extends React.Component {
                     }
                 </View>
                 <View style={Style.blockFooter}>
-                    <Button title='В корзину' disabled={this.state.price == 0} />
+                    <Button
+                        onPress={this.props.onToggleContructorProducts}
+                        title='В корзину'
+                        disabled={this.state.price == 0}
+                        color={Platform.OS == 'ios' ?
+                            this.props.style.theme.accentOther.backgroundColor :
+                            this.props.style.theme.defaultPrimaryColor.backgroundColor} />
                 </View>
             </View>
         )

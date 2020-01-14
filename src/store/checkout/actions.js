@@ -1,6 +1,7 @@
 import { sendNewOrderFetch } from '../../api/requests'
 
 export const TOGGLE_PRODUCT_IN_BASKET_SHOP = 'TOGGLE_PRODUCT_IN_BASKET_SHOP'
+export const TOGGLE_CONSTRUCTOR_PRODUCT_IN_BASKET_SHOP = 'TOGGLE_CONSTRUCTOR_PRODUCT_IN_BASKET_SHOP'
 export const CHANGE_TOTAL_COUNT_PRODUCT_IN_BASKET_SHOP = 'CHANGE_TOTAL_COUNT_PRODUCT_IN_BASKET_SHOP'
 export const FETCH_CHECKOUT_COMPLETE_SUCCESS = 'FETCH_CHECKOUT_COMPLETE_SUCCESS'
 export const FETCH_CHECKOUT_COMPLETE_REQUEST = 'FETCH_CHECKOUT_COMPLETE_REQUEST'
@@ -12,6 +13,13 @@ export const addNewOrderData = newOrder => {
   return {
     type: ADD_NEW_ORDER_DATA,
     payload: newOrder
+  }
+}
+
+export const toggleConstructorProductInBasket = basketProduct => {
+  return {
+    type: TOGGLE_CONSTRUCTOR_PRODUCT_IN_BASKET_SHOP,
+    payload: basketProduct
   }
 }
 

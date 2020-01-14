@@ -53,3 +53,9 @@ export const dateFormatted = dateToFormatted => {
 export const getImageSource = imagePath => {
   return { uri: `${SERVER_DOMAIN}${imagePath}` }
 }
+
+export const generateRandomString = length => {
+  const defaultLength = 6
+  length = length == null || typeof(length) ==='undefined' ? defaultLength : length
+  return Math.random().toString(36).slice(-length);
+}

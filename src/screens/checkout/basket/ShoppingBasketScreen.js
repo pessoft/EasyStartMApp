@@ -13,7 +13,11 @@ import { BasketProductItem } from '../../../components/basket-product/BasketProd
 import { setSelectedProduct } from '../../../store/catalog/actions'
 import { PRODUCT_INFO_FROM_BASKET, CHECKOUT_ORDER } from '../../../navigation/pointsNavigate'
 import { timingAnimation } from '../../../animation/timingAnimation'
-import { toggleProductInBasket, changeTotalCountProductInBasket } from '../../../store/checkout/actions'
+import {
+  toggleProductInBasket,
+  toggleConstructorProductInBasket,
+  changeTotalCountProductInBasket
+} from '../../../store/checkout/actions'
 import ShoppingBasketIcon from '../../../images/font-awesome-svg/shopping-basket.svg'
 import Style from './style'
 import { getSVGColor } from '../../../helpers/color-helper';
@@ -74,7 +78,7 @@ class ShoppingBasketScreen extends React.Component {
     this.focusListener.remove();
   }
 
-  componentDidUpdate = (prevProps, prevState) => {
+  componentDidUpdate = () => {
     if (Object.keys(this.props.selectedProduct).length > 0
       && this.props.selectedProduct.Id > 0
       && this.props.navigation.isFocused()) {
@@ -173,13 +177,18 @@ class ShoppingBasketScreen extends React.Component {
   changeTotalCountProductInBasket = () => {
     let count = 0
 
-    if (this.props.basketProducts && Object.keys(this.props.basketProducts).length != 0) {
-      for (let productId in this.props.basketProducts) {
-        const itemBasket = this.props.basketProducts[productId]
-        const productCount = itemBasket.count;
-
-        count += productCount;
+    const countCalc = items => {
+      for (const id in items) {
+        count += items[id].count;
       }
+    }
+
+    if (this.props.basketProducts && Object.keys(this.props.basketProducts).length != 0) {
+      countCalc(this.props.basketProducts)
+    }
+
+    if (this.props.basketConstructoProducts && Object.keys(this.props.basketConstructoProducts).length != 0) {
+      countCalc(this.props.basketConstructoProducts)
     }
 
     this.props.changeTotalCountProductInBasket(count)
@@ -194,6 +203,18 @@ class ShoppingBasketScreen extends React.Component {
     }
 
     this.props.toggleProductInBasket(basketProductModify)
+  }
+
+  toggleConstructorProductInBasket = basketProduct => {
+    const basketConstructorProductModify = { ...this.props.basketConstructoProducts }
+    basketConstructorProductModify[basketProduct.uniqId] = {
+      uniqId: basketProduct.uniqId,
+      categoryId: basketProduct.id,
+      count: basketProduct.count,
+      ingredientsCount: basketProduct.ingredientsCount
+    }
+
+    this.props.toggleConstructorProductInBasket(basketConstructorProductModify)
   }
 
   isEmptyBasket = () => {
@@ -338,6 +359,7 @@ const mapStateToProps = state => {
     products: state.main.products,
     selectedProduct: state.catalog.selectedProduct,
     basketProducts: state.checkout.basketProducts,
+    basketConstructoProducts: state.checkout.basketConstructoProducts,
     totalCountProducts: state.checkout.totalCountProducts,
     style: state.style,
     deliverySettings: state.main.deliverySettings,
@@ -348,6 +370,7 @@ const mapStateToProps = state => {
 const mapActionToProps = {
   setSelectedProduct,
   toggleProductInBasket,
+  toggleConstructorProductInBasket,
   markFromBasket,
   changeTotalCountProductInBasket
 }

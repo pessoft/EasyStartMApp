@@ -1,5 +1,6 @@
 import {
   TOGGLE_PRODUCT_IN_BASKET_SHOP,
+  TOGGLE_CONSTRUCTOR_PRODUCT_IN_BASKET_SHOP,
   CHANGE_TOTAL_COUNT_PRODUCT_IN_BASKET_SHOP,
   FETCH_CHECKOUT_COMPLETE_SUCCESS,
   FETCH_CHECKOUT_COMPLETE_REQUEST,
@@ -9,6 +10,7 @@ import {
 
 const defaultState = {
   basketProducts: {},
+  basketConstructoProducts: {},
   totalCountProducts: 0,
   isFetching: false,
   isError: false,
@@ -23,6 +25,11 @@ export const checkoutReducer = (state = defaultState, action) => {
         ...state,
         lastOrder: action.payload
       }
+      case TOGGLE_CONSTRUCTOR_PRODUCT_IN_BASKET_SHOP:
+        return {
+          ...state,
+          basketConstructoProducts: action.payload
+        }
     case TOGGLE_PRODUCT_IN_BASKET_SHOP:
       return {
         ...state,
