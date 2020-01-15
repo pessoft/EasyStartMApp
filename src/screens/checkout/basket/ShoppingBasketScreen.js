@@ -27,6 +27,8 @@ import { WorkTimeInfo } from '../../../components/information/work-time/WorkTime
 import LottieView from 'lottie-react-native';
 import VirtualMoneyButton from '../../../components/buttons/VirtualMoneyButton/VirtualMoneyButton'
 import { priceValid } from '../../../helpers/utils'
+import { CategoryType } from '../../../helpers/type-category'
+import { BasketConstructorProductItem } from '../../../components/basket-constructor-product/BasketConstructorProductItem';
 
 class ShoppingBasketScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -56,7 +58,8 @@ class ShoppingBasketScreen extends React.Component {
       showScaleAnimation: new Animated.Value(0),
       showScaleAnimationEmptyBasket: new Animated.Value(0),
       showScaleAnimationWorkTimeInfo: new Animated.Value(0),
-      refreshItems: false
+      refreshItems: false,
+      price: this.getOrderCost()
     }
 
     this.props.setSelectedProduct({})
@@ -109,11 +112,8 @@ class ShoppingBasketScreen extends React.Component {
     return products.filter(p => p.Id == productId)[0]
   }
 
-  /**
-   * item - это productId в this.props.basketProducts
-   */
-  productTransform = item => {
-    const basketProduct = this.props.basketProducts[item]
+  productTransform = productId => {
+    const basketProduct = this.props.basketProducts[productId]
 
     if (basketProduct.count == 0)
       return null
@@ -141,8 +141,8 @@ class ShoppingBasketScreen extends React.Component {
     }
   }
 
-  renderItem = ({ item }) => {
-    const itemTransform = this.productTransform(item)
+  renderDefaultProduct = productId => {
+    const itemTransform = this.productTransform(productId)
 
     if (itemTransform == null)
       return null
@@ -157,6 +157,59 @@ class ShoppingBasketScreen extends React.Component {
     />
   }
 
+  constructorProductTransform = uniqId => {
+    const basketProduct = this.props.basketConstructoProducts[uniqId]
+
+    if (basketProduct.count == 0)
+      return null
+
+    let ingredients = []
+    
+    for(const constructorCategoryId in basketProduct.constructorIngredients) {
+      const categoryConstructor = this.state.constructorIngredients[constructorCategoryId]
+      for(const ingredient of categoryConstructor.ingredients) {
+        const ingedientCount = categoryConstructor.ingredientsCount[ingredient.Id]
+
+        if(ingedientCount == 0)
+          continue
+
+        ingredients.push(`${ingredient.Name} x ${ingedientCount}`)
+      }
+    }
+
+    return {
+        caption: basketProduct.category.Name,
+        imageSource:  basketProduct.category.Image,
+        ingredients: ingredients,
+        price: basketProduct.price,
+        currencyPrefix: this.props.currencyPrefix,
+        startCount: basketProduct.count,
+    }
+  }
+
+  renderConstroctorProduct = uniqId => {
+    const constructorProduct = this.constructorProductTransform(uniqId)
+
+    if (constructorProduct == null)
+    return null
+
+    return <BasketConstructorProductItem
+      style={this.props.style}
+      uniqId={uniqId}
+      product={constructorProduct}
+      onToggleProduct={this.toggleConstructorProductInBasket}
+    />
+  }
+
+  renderItem = ({ item }) => {
+    switch (item.type) {
+      case CategoryType.Default:
+        return this.renderDefaultProduct(item.id)
+      case CategoryType.Constructor:
+        return this.renderConstroctorProduct(item.id)
+    }
+  }
+
   getOrderCost = () => {
     let cost = 0
 
@@ -165,6 +218,11 @@ class ShoppingBasketScreen extends React.Component {
       const item = this.getProductById(productId, products)
 
       cost += (item.Price * this.props.basketProducts[productId].count)
+    }
+
+    for (let uniqId in this.props.basketConstructoProducts) {
+      const basketItem = this.props.basketConstructoProducts[uniqId]
+      cost += basketItem.price * basketItem.count
     }
 
     return cost
@@ -207,11 +265,18 @@ class ShoppingBasketScreen extends React.Component {
 
   toggleConstructorProductInBasket = basketProduct => {
     const basketConstructorProductModify = { ...this.props.basketConstructoProducts }
-    basketConstructorProductModify[basketProduct.uniqId] = {
-      uniqId: basketProduct.uniqId,
-      categoryId: basketProduct.id,
-      count: basketProduct.count,
-      ingredientsCount: basketProduct.ingredientsCount
+   
+    if(basketProduct.count > 0) {
+      const item = basketConstructorProductModify[basketProduct.uniqId]
+      basketConstructorProductModify[basketProduct.uniqId] = {
+        uniqId: basketProduct.uniqId,
+        category: item.category,
+        price: item.price,
+        count: basketProduct.count,
+        constructorIngredients: item.constructorIngredients
+      }
+    } else {
+      delete basketConstructorProductModify[basketProduct.uniqId]
     }
 
     this.props.toggleConstructorProductInBasket(basketConstructorProductModify)
@@ -219,14 +284,22 @@ class ShoppingBasketScreen extends React.Component {
 
   isEmptyBasket = () => {
     let isEmpty = true
-
-    if (Object.keys(this.props.basketProducts).length > 0) {
+    const countProductsCalc = items => {
       let countProducts = 0
-      for (let key in this.props.basketProducts) {
-        countProducts += this.props.basketProducts[key].count
+
+      for (let key in items) {
+        countProducts += items[key].count
       }
 
-      isEmpty = countProducts == 0
+      return countProducts
+    }
+    if (Object.keys(this.props.basketProducts).length > 0) {
+      isEmpty = countProductsCalc(this.props.basketProducts) == 0
+    }
+
+    if(isEmpty
+      && Object.keys(this.props.basketConstructoProducts).length > 0) {
+        isEmpty = countProductsCalc(this.props.basketConstructoProducts) == 0
     }
 
     return isEmpty
@@ -252,12 +325,26 @@ class ShoppingBasketScreen extends React.Component {
       </Animated.View>
     )
   }
-  keyExtractor = item => {
-    if (this.props.basketProducts[item]) {
-      return `${item}-${this.props.basketProducts[item].count}`
+
+  getDataFromBasket = () => {
+    let products = []
+    const addeddProducts = (items, type) => {
+      for (const id in items) {
+        products.push({ id, type })
+      }
     }
 
-    return item.Id.toString()
+    if (this.props.basketProducts
+      && Object.keys(this.props.basketProducts).length > 0) {
+      addeddProducts(this.props.basketProducts, CategoryType.Default)
+    }
+
+    if (this.props.basketConstructoProducts
+      && Object.keys(this.props.basketConstructoProducts).length > 0) {
+      addeddProducts(this.props.basketConstructoProducts, CategoryType.Constructor)
+    }
+
+    return products
   }
 
   renderBasketContents = () => {
@@ -277,9 +364,9 @@ class ShoppingBasketScreen extends React.Component {
             removeClippedSubviews={Platform.OS !== 'ios'}
             initialNumToRender={4}
             maxToRenderPerBatch={4}
-            keyExtractor={this.keyExtractor}
-            extraData={this.props.basketProducts}
-            data={Object.keys(this.props.basketProducts)}
+            keyExtractor={item => item.id.toString()}
+            extraData={this.props.totalCountProducts}
+            data={this.getDataFromBasket()}
             renderItem={this.renderItem}
           />
         </ScrollView>

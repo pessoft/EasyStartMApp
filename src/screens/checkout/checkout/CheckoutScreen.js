@@ -116,14 +116,22 @@ class CheckoutScreen extends React.Component {
 
   isEmptyBasket = () => {
     let isEmpty = true
-
-    if (Object.keys(this.props.basketProducts).length > 0) {
+    const countProductsCalc = items => {
       let countProducts = 0
-      for (let key in this.props.basketProducts) {
-        countProducts += this.props.basketProducts[key].count
+
+      for (let key in items) {
+        countProducts += items[key].count
       }
 
-      isEmpty = countProducts == 0
+      return countProducts
+    }
+    if (Object.keys(this.props.basketProducts).length > 0) {
+      isEmpty = countProductsCalc(this.props.basketProducts) == 0
+    }
+
+    if(isEmpty
+      && Object.keys(this.props.basketConstructoProducts).length > 0) {
+        isEmpty = countProductsCalc(this.props.basketConstructoProducts) == 0
     }
 
     return isEmpty
@@ -145,16 +153,21 @@ class CheckoutScreen extends React.Component {
   setAmountPayCashBack = amountPayCashBack => this.setState({ amountPayCashBack })
 
   getOrderPrice = () => {
-    let price = 0
+    let cost = 0
 
     for (let productId in this.props.basketProducts) {
       const products = this.props.products[this.props.basketProducts[productId].categoryId]
       const item = this.getProductById(productId, products)
 
-      price += (item.Price * this.props.basketProducts[productId].count)
+      cost += (item.Price * this.props.basketProducts[productId].count)
     }
 
-    return price
+    for (let uniqId in this.props.basketConstructoProducts) {
+      const basketItem = this.props.basketConstructoProducts[uniqId]
+      cost += basketItem.price * basketItem.count
+    }
+
+    return cost
   }
 
   getProductById = (productId, products) => {
@@ -434,6 +447,7 @@ const mapStateToProps = state => {
     userData: state.user,
     currencyPrefix: state.appSetting.currencyPrefix,
     basketProducts: state.checkout.basketProducts,
+    basketConstructoProducts: state.checkout.basketConstructoProducts,
     products: state.main.products,
     deliverySettings: state.main.deliverySettings,
     promotionSettings: state.main.promotionSectionSettings,

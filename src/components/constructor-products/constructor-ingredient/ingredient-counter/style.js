@@ -7,7 +7,7 @@ export default StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'stretch',
         backgroundColor:'#00000070',
-        borderRadius: 3,
+        borderRadius: 2,
         top: 0,
         left: 0,
         right: 0,

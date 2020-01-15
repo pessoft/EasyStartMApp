@@ -19,7 +19,7 @@ import {
     changeTotalCountProductInBasket
 } from '../../../store/checkout/actions'
 import { generateRandomString } from '../../../helpers/utils';
-
+import { priceValid } from '../../../helpers/utils'
 
 class ConstructorProductsScreen extends React.Component {
     static navigationOptions = ({ navigation }) => {
@@ -140,16 +140,19 @@ class ConstructorProductsScreen extends React.Component {
     }
 
     getConstructorProductForBasket = () => {
-        let ingredientsCount = {}
+        let price = 0
 
-        for(const constructorCategoryId in this.state.constructorIngredients) {
-            const itemIngredientsCount = this.state.constructorIngredients[constructorCategoryId]
-            ingredientsCount = {...ingredientsCount, ...itemIngredientsCount}
+        for (const constructorCategoryId in this.state.constructorIngredients) {
+            const categoryConstructor = this.state.constructorIngredients[constructorCategoryId]
+            for (const ingredient of categoryConstructor.ingredients) {
+                price += ingredient.Price * categoryConstructor.ingredientsCount[ingredient.Id]
+            }
         }
 
         return {
-            id: this.props.selectedCategory.Id,
-            ingredientsCount,
+            category: this.props.selectedCategory,
+            price: priceValid(price),
+            constructorIngredients: this.state.constructorIngredients,
             count: this.state.count
         }
     }
@@ -160,7 +163,8 @@ class ConstructorProductsScreen extends React.Component {
         const uniqId = generateRandomString(10)
         basketConstructorProductModify[uniqId] = {
             uniqId,
-            categoryId: basketProduct.id,
+            category: basketProduct.category,
+            price: basketProduct.price,
             count: basketProduct.count,
             ingredientsCount: basketProduct.ingredientsCount
         }
