@@ -19,7 +19,7 @@ import {
     changeTotalCountProductInBasket
 } from '../../../store/checkout/actions'
 import { generateRandomString } from '../../../helpers/utils';
-import { priceValid } from '../../../helpers/utils'
+import { priceValid, cloneObject } from '../../../helpers/utils'
 
 class ConstructorProductsScreen extends React.Component {
     static navigationOptions = ({ navigation }) => {
@@ -132,8 +132,8 @@ class ConstructorProductsScreen extends React.Component {
             countCalc(this.props.basketProducts)
         }
 
-        if (this.props.basketConstructoProducts && Object.keys(this.props.basketConstructoProducts).length != 0) {
-            countCalc(this.props.basketConstructoProducts)
+        if (this.props.basketConstructorProducts && Object.keys(this.props.basketConstructorProducts).length != 0) {
+            countCalc(this.props.basketConstructorProducts)
         }
 
         this.props.changeTotalCountProductInBasket(count)
@@ -152,21 +152,21 @@ class ConstructorProductsScreen extends React.Component {
         return {
             category: this.props.selectedCategory,
             price: priceValid(price),
-            constructorIngredients: this.state.constructorIngredients,
+            constructorIngredients: cloneObject(this.state.constructorIngredients),
             count: this.state.count
         }
     }
 
     toggleConstructorProductInBasket = () => {
         const basketProduct = this.getConstructorProductForBasket()
-        const basketConstructorProductModify = { ...this.props.basketConstructoProducts }
+        const basketConstructorProductModify = { ...this.props.basketConstructorProducts }
         const uniqId = generateRandomString(10)
         basketConstructorProductModify[uniqId] = {
             uniqId,
             category: basketProduct.category,
             price: basketProduct.price,
             count: basketProduct.count,
-            ingredientsCount: basketProduct.ingredientsCount
+            constructorIngredients: basketProduct.constructorIngredients
         }
 
         this.props.toggleConstructorProductInBasket(basketConstructorProductModify)
@@ -201,7 +201,7 @@ class ConstructorProductsScreen extends React.Component {
                         constructorIngredients={this.state.constructorIngredients}
                         onChangeCount={this.onChangeCount}
                         currencyPrefix={this.props.currencyPrefix}
-                        onToggleContructorProducts={this.toggleConstructorProductInBasket}
+                        onToggleConstructorProducts={this.toggleConstructorProductInBasket}
                     />
                 </View>
             </Animated.ScrollView>
@@ -215,7 +215,7 @@ const mapStateToProps = state => {
         currencyPrefix: state.appSetting.currencyPrefix,
         selectedCategory: state.catalog.selectedCategory,
         basketProducts: state.checkout.basketProducts,
-        basketConstructoProducts: state.checkout.basketConstructoProducts,
+        basketConstructorProducts: state.checkout.basketConstructorProducts,
         totalCountProducts: state.checkout.totalCountProducts,
         style: state.style,
         promotionCashbackSetting: state.main.promotionCashbackSetting,

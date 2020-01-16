@@ -56,6 +56,12 @@ export const getImageSource = imagePath => {
 
 export const generateRandomString = length => {
   const defaultLength = 6
-  length = length == null || typeof(length) ==='undefined' ? defaultLength : length
+  length = length == null || typeof (length) === 'undefined' ? defaultLength : length
   return Math.random().toString(36).slice(-length);
+}
+
+export const cloneObject = obj => {
+  let json = JSON.stringify(obj)
+
+  return JSON.parse(json)
 }

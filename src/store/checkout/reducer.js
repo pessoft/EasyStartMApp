@@ -10,7 +10,7 @@ import {
 
 const defaultState = {
   basketProducts: {},
-  basketConstructoProducts: {},
+  basketConstructorProducts: {},
   totalCountProducts: 0,
   isFetching: false,
   isError: false,
@@ -25,11 +25,11 @@ export const checkoutReducer = (state = defaultState, action) => {
         ...state,
         lastOrder: action.payload
       }
-      case TOGGLE_CONSTRUCTOR_PRODUCT_IN_BASKET_SHOP:
-        return {
-          ...state,
-          basketConstructoProducts: action.payload
-        }
+    case TOGGLE_CONSTRUCTOR_PRODUCT_IN_BASKET_SHOP:
+      return {
+        ...state,
+        basketConstructorProducts: action.payload
+      }
     case TOGGLE_PRODUCT_IN_BASKET_SHOP:
       return {
         ...state,

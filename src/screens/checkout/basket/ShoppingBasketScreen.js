@@ -158,32 +158,32 @@ class ShoppingBasketScreen extends React.Component {
   }
 
   constructorProductTransform = uniqId => {
-    const basketProduct = this.props.basketConstructoProducts[uniqId]
+    const basketProduct = this.props.basketConstructorProducts[uniqId]
 
     if (basketProduct.count == 0)
       return null
 
     let ingredients = []
-    
-    for(const constructorCategoryId in basketProduct.constructorIngredients) {
-      const categoryConstructor = this.state.constructorIngredients[constructorCategoryId]
-      for(const ingredient of categoryConstructor.ingredients) {
-        const ingedientCount = categoryConstructor.ingredientsCount[ingredient.Id]
 
-        if(ingedientCount == 0)
+    for (const constructorCategoryId in basketProduct.constructorIngredients) {
+      const categoryConstructor = basketProduct.constructorIngredients[constructorCategoryId]
+      for (const ingredient of categoryConstructor.ingredients) {
+        const ingredientCount = categoryConstructor.ingredientsCount[ingredient.Id]
+
+        if (ingredientCount == 0)
           continue
 
-        ingredients.push(`${ingredient.Name} x ${ingedientCount}`)
+        ingredients.push(`${ingredient.Name} x ${ingredientCount}`)
       }
     }
 
     return {
-        caption: basketProduct.category.Name,
-        imageSource:  basketProduct.category.Image,
-        ingredients: ingredients,
-        price: basketProduct.price,
-        currencyPrefix: this.props.currencyPrefix,
-        startCount: basketProduct.count,
+      caption: basketProduct.category.Name,
+      imageSource: basketProduct.category.Image,
+      ingredients: ingredients,
+      price: basketProduct.price,
+      currencyPrefix: this.props.currencyPrefix,
+      startCount: basketProduct.count,
     }
   }
 
@@ -191,7 +191,7 @@ class ShoppingBasketScreen extends React.Component {
     const constructorProduct = this.constructorProductTransform(uniqId)
 
     if (constructorProduct == null)
-    return null
+      return null
 
     return <BasketConstructorProductItem
       style={this.props.style}
@@ -220,8 +220,8 @@ class ShoppingBasketScreen extends React.Component {
       cost += (item.Price * this.props.basketProducts[productId].count)
     }
 
-    for (let uniqId in this.props.basketConstructoProducts) {
-      const basketItem = this.props.basketConstructoProducts[uniqId]
+    for (let uniqId in this.props.basketConstructorProducts) {
+      const basketItem = this.props.basketConstructorProducts[uniqId]
       cost += basketItem.price * basketItem.count
     }
 
@@ -245,8 +245,8 @@ class ShoppingBasketScreen extends React.Component {
       countCalc(this.props.basketProducts)
     }
 
-    if (this.props.basketConstructoProducts && Object.keys(this.props.basketConstructoProducts).length != 0) {
-      countCalc(this.props.basketConstructoProducts)
+    if (this.props.basketConstructorProducts && Object.keys(this.props.basketConstructorProducts).length != 0) {
+      countCalc(this.props.basketConstructorProducts)
     }
 
     this.props.changeTotalCountProductInBasket(count)
@@ -264,9 +264,9 @@ class ShoppingBasketScreen extends React.Component {
   }
 
   toggleConstructorProductInBasket = basketProduct => {
-    const basketConstructorProductModify = { ...this.props.basketConstructoProducts }
-   
-    if(basketProduct.count > 0) {
+    const basketConstructorProductModify = { ...this.props.basketConstructorProducts }
+
+    if (basketProduct.count > 0) {
       const item = basketConstructorProductModify[basketProduct.uniqId]
       basketConstructorProductModify[basketProduct.uniqId] = {
         uniqId: basketProduct.uniqId,
@@ -297,9 +297,9 @@ class ShoppingBasketScreen extends React.Component {
       isEmpty = countProductsCalc(this.props.basketProducts) == 0
     }
 
-    if(isEmpty
-      && Object.keys(this.props.basketConstructoProducts).length > 0) {
-        isEmpty = countProductsCalc(this.props.basketConstructoProducts) == 0
+    if (isEmpty
+      && Object.keys(this.props.basketConstructorProducts).length > 0) {
+      isEmpty = countProductsCalc(this.props.basketConstructorProducts) == 0
     }
 
     return isEmpty
@@ -339,9 +339,9 @@ class ShoppingBasketScreen extends React.Component {
       addeddProducts(this.props.basketProducts, CategoryType.Default)
     }
 
-    if (this.props.basketConstructoProducts
-      && Object.keys(this.props.basketConstructoProducts).length > 0) {
-      addeddProducts(this.props.basketConstructoProducts, CategoryType.Constructor)
+    if (this.props.basketConstructorProducts
+      && Object.keys(this.props.basketConstructorProducts).length > 0) {
+      addeddProducts(this.props.basketConstructorProducts, CategoryType.Constructor)
     }
 
     return products
@@ -446,7 +446,7 @@ const mapStateToProps = state => {
     products: state.main.products,
     selectedProduct: state.catalog.selectedProduct,
     basketProducts: state.checkout.basketProducts,
-    basketConstructoProducts: state.checkout.basketConstructoProducts,
+    basketConstructorProducts: state.checkout.basketConstructorProducts,
     totalCountProducts: state.checkout.totalCountProducts,
     style: state.style,
     deliverySettings: state.main.deliverySettings,

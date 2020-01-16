@@ -129,9 +129,9 @@ class CheckoutScreen extends React.Component {
       isEmpty = countProductsCalc(this.props.basketProducts) == 0
     }
 
-    if(isEmpty
-      && Object.keys(this.props.basketConstructoProducts).length > 0) {
-        isEmpty = countProductsCalc(this.props.basketConstructoProducts) == 0
+    if (isEmpty
+      && Object.keys(this.props.basketConstructorProducts).length > 0) {
+      isEmpty = countProductsCalc(this.props.basketConstructorProducts) == 0
     }
 
     return isEmpty
@@ -162,8 +162,8 @@ class CheckoutScreen extends React.Component {
       cost += (item.Price * this.props.basketProducts[productId].count)
     }
 
-    for (let uniqId in this.props.basketConstructoProducts) {
-      const basketItem = this.props.basketConstructoProducts[uniqId]
+    for (let uniqId in this.props.basketConstructorProducts) {
+      const basketItem = this.props.basketConstructorProducts[uniqId]
       cost += basketItem.price * basketItem.count
     }
 
@@ -447,7 +447,7 @@ const mapStateToProps = state => {
     userData: state.user,
     currencyPrefix: state.appSetting.currencyPrefix,
     basketProducts: state.checkout.basketProducts,
-    basketConstructoProducts: state.checkout.basketConstructoProducts,
+    basketConstructorProducts: state.checkout.basketConstructorProducts,
     products: state.main.products,
     deliverySettings: state.main.deliverySettings,
     promotionSettings: state.main.promotionSectionSettings,

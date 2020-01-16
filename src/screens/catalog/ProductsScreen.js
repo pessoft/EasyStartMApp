@@ -116,8 +116,8 @@ class ProductsScreen extends React.Component {
             countCalc(this.props.basketProducts)
         }
 
-        if (this.props.basketConstructoProducts && Object.keys(this.props.basketConstructoProducts).length != 0) {
-            countCalc(this.props.basketConstructoProducts)
+        if (this.props.basketConstructorProducts && Object.keys(this.props.basketConstructorProducts).length != 0) {
+            countCalc(this.props.basketConstructorProducts)
         }
 
         this.props.changeTotalCountProductInBasket(count)
@@ -154,7 +154,7 @@ class ProductsScreen extends React.Component {
         return item.Id.toString()
     }
 
-     render() {
+    render() {
         return (
             <Animated.ScrollView
                 style={[
@@ -184,7 +184,7 @@ const mapStateToProps = state => {
         selectedCategory: state.catalog.selectedCategory,
         selectedProduct: state.catalog.selectedProduct,
         basketProducts: state.checkout.basketProducts,
-        basketConstructoProducts: state.checkout.basketConstructoProducts,
+        basketConstructorProducts: state.checkout.basketConstructorProducts,
         totalCountProducts: state.checkout.totalCountProducts,
         style: state.style,
         promotionCashbackSetting: state.main.promotionCashbackSetting,

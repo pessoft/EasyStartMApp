@@ -69,6 +69,12 @@ export class BasketConstructorProductItem extends React.Component {
                             source={this.props.product.imageSource}
                             style={Style.productImage}
                         />
+                        <Text style={[
+                            Style.price,
+                            this.props.style.theme.primaryTextColor,
+                            this.props.style.fontSize.h8]}>
+                            {`${this.props.product.price} ${this.props.product.currencyPrefix}`}
+                        </Text>
                     </View>
                     <View style={[
                         Style.productHeader,
@@ -79,14 +85,16 @@ export class BasketConstructorProductItem extends React.Component {
                             this.props.style.theme.primaryTextColor]}>
                             {this.props.product.caption}
                         </Text>
-
-                        <Text style={[
-                            Style.mt_5,
-                            this.props.style.theme.secondaryTextColor,
-                            this.props.style.fontSize.h10]}>
-                            {`${this.props.product.price} ${this.props.product.currencyPrefix}`}
-                        </Text>
-
+                        {
+                            this.props.product.ingredients.map(p => <Text
+                                key={new Date().getTime().toString()}
+                                style={[
+                                    Style.ingredient,
+                                    this.props.style.theme.secondaryTextColor,
+                                    this.props.style.fontSize.h10]}>
+                                {p}
+                            </Text>)
+                        }
                         <View style={Style.blockShopAction}>
                             <TrashButton
                                 size={20}

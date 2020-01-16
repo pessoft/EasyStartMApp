@@ -4,14 +4,18 @@ export default StyleSheet.create({
   bodyItem: {
     alignSelf: 'stretch',
     justifyContent: 'center',
-    minHeight: 112
+    minHeight: 120
   },
   directionRow: {
     flexDirection: 'row',
     justifyContent: 'center'
   },
-  mt_5: {
-    marginTop: 3
+  price: {
+    marginTop: 3,
+    alignSelf: 'center'
+  },
+  ingredient: {
+    marginTop: 3,
   },
   textWrap: {
     flexWrap: 'wrap'
@@ -26,7 +30,7 @@ export default StyleSheet.create({
   imageContainer: {
     alignSelf: 'stretch',
     justifyContent: 'center',
-    minHeight: 112
+    minHeight: 120
   },
   productHeader: {
     flex: 1,

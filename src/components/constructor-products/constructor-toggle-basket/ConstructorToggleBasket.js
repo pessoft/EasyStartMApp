@@ -89,7 +89,7 @@ export class ConstructorToggleBasket extends React.Component {
                 </View>
                 <View style={Style.blockFooter}>
                     <Button
-                        onPress={this.props.onToggleContructorProducts}
+                        onPress={this.props.onToggleConstructorProducts}
                         title='В корзину'
                         disabled={this.state.price == 0}
                         color={Platform.OS == 'ios' ?
