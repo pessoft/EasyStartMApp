@@ -6,7 +6,11 @@ import Style from './style'
 import { timingAnimation } from '../../../animation/timingAnimation'
 import { sendNewOrder } from '../../../store/checkout/actions'
 import { MAIN } from '../../../navigation/pointsNavigate'
-import { toggleProductInBasket, changeTotalCountProductInBasket } from '../../../store/checkout/actions'
+import {
+  toggleProductInBasket,
+  changeTotalCountProductInBasket,
+  toggleConstructorProductInBasket
+} from '../../../store/checkout/actions'
 
 class CheckoutCompleteScreen extends React.Component {
   constructor(props) {
@@ -34,6 +38,7 @@ class CheckoutCompleteScreen extends React.Component {
 
   onFinishCheckout = () => {
     this.props.toggleProductInBasket({})
+    this.props.toggleConstructorProductInBasket({})
     this.props.changeTotalCountProductInBasket(0)
 
     this.props.navigation.navigate(MAIN)
@@ -193,6 +198,7 @@ const mapStateToProps = state => {
 const mapActionToProps = {
   sendNewOrder,
   toggleProductInBasket,
+  toggleConstructorProductInBasket,
   changeTotalCountProductInBasket
 }
 

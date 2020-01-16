@@ -228,6 +228,36 @@ class CheckoutScreen extends React.Component {
     return JSON.stringify(productCount)
   }
 
+  getProductConstructorCountJson = () => {
+    const constructorProducts = []
+
+    for (const uniqId in this.props.basketConstructorProducts) {
+      const constructorItem = this.props.basketConstructorProducts[uniqId]
+      let ingredientsCount = {}
+
+      for (const id in constructorItem.constructorIngredients) {
+        const constructorIngredient = constructorItem.constructorIngredients[id]
+
+        for (const ingredientId in constructorIngredient.ingredientsCount) {
+          const count = constructorIngredient.ingredientsCount[ingredientId]
+
+          if (count == 0)
+            continue
+
+          ingredientsCount[ingredientId] = count
+        }
+      }
+
+      constructorProducts.push({
+        CategoryId: constructorItem.category.Id,
+        Count: constructorItem.count,
+        IngrdientCount: ingredientsCount
+      })
+    }
+
+    return JSON.stringify(constructorProducts)
+  }
+
   getProductBonusCountJson = () => {
     const productCount = {}
 
@@ -262,7 +292,7 @@ class CheckoutScreen extends React.Component {
       amountPay: this.getOrderPrice(),
       amountPayDiscountDelivery: this.getToPayPrice(),
       productCountJSON: this.getProductCountJson(),
-
+      productConstructorCountJSON: this.getProductConstructorCountJson(),
       productBonusCountJSON: this.getProductBonusCountJson(),
       amountPayCashBack: this.state.amountPayCashBack,
       stockIds: this.state.promotion.getApplyStockIds(),

@@ -1,4 +1,4 @@
 export const DeliveryType = {
-  Delivery: 1,
-  TakeYourSelf: 2
+  TakeYourSelf: 1,
+  Delivery: 2,
 }

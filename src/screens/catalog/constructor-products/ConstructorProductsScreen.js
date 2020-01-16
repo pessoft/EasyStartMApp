@@ -5,11 +5,7 @@ import {
     Animated,
     View
 } from 'react-native'
-import { ProductItem } from '../../../components/product/ProductItem';
-import { setSelectedProduct } from '../../../store/catalog/actions'
-import { PRODUCT_INFO } from '../../../navigation/pointsNavigate'
 import { timingAnimation } from '../../../animation/timingAnimation'
-import { markFromBasket } from '../../../store/navigation/actions'
 import VirtualMoneyButton from '../../../components/buttons/VirtualMoneyButton/VirtualMoneyButton'
 import { ConstructorCategory } from '../../../components/constructor-products/constructor-category/ConstructorCategory';
 import Style from './style'
