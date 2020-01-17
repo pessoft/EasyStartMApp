@@ -1,4 +1,7 @@
-import { StyleSheet } from 'react-native'
+import { StyleSheet, Dimensions } from 'react-native'
+
+const size = Dimensions.get('screen').width
+const top = 0.7 * size
 
 export default StyleSheet.create({
   basketProducts: {
@@ -20,4 +23,23 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center'
   },
+  wrongContainer: {
+    flex: 1,
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    right: 0,
+    bottom: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 9999
+  },
+  wrong: {
+    width: size,
+    height: size
+  },
+  wrongText: {
+    position: 'absolute',
+    top: top
+  }
 })

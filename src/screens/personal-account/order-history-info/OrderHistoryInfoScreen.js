@@ -23,6 +23,7 @@ import { SHOPPING_BASKET } from '../../../navigation/pointsNavigate'
 import { getProductsHistoryOrder } from '../../../store/history-order/actions'
 import { CategoryType } from '../../../helpers/type-category'
 import { generateRandomString } from '../../../helpers/utils'
+import LottieView from 'lottie-react-native';
 
 class OrderHistoryInfoScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -238,6 +239,30 @@ class OrderHistoryInfoScreen extends React.Component {
     )
   }
 
+  renderWrong = () => {
+    return (
+      <View style={Style.wrongContainer}>
+        <View style={Style.wrong}>
+          <LottieView
+            style={Style.loader}
+            source={require('../../../animation/src/wrong.json')}
+            autoPlay
+            loop={true}
+            resizeMode='contain'
+            speed={1} />
+        </View>
+        <Text
+            style={[
+              Style.wrongText,
+              this.props.style.theme.primaryTextColor,
+              this.props.style.fontSize.h8,
+            ]}>
+            Что то пошло не так...
+          </Text>
+      </View>
+    )
+  }
+
   renderHistoryOrders = () => {
     return (
       <Animated.View
@@ -290,8 +315,10 @@ class OrderHistoryInfoScreen extends React.Component {
   render() {
     if (this.props.isFetchingProductsHistory)
       return this.renderLoader()
-    else
+    else if (this.props.productsHistory.length > 0)
       return this.renderHistoryOrders()
+    else
+      return this.renderWrong()
   }
 }
 
