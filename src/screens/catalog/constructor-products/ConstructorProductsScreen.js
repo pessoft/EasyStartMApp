@@ -16,6 +16,7 @@ import {
 } from '../../../store/checkout/actions'
 import { generateRandomString } from '../../../helpers/utils';
 import { priceValid, cloneObject } from '../../../helpers/utils'
+import LottieView from 'lottie-react-native';
 
 class ConstructorProductsScreen extends React.Component {
     static navigationOptions = ({ navigation }) => {
@@ -47,7 +48,17 @@ class ConstructorProductsScreen extends React.Component {
         this.state = {
             showScaleAnimation: new Animated.Value(0),
             count: 1,
-            constructorIngredients: this.initConstructorIngredients()
+            constructorIngredients: this.initConstructorIngredients(),
+            showSuccessAnimation: false
+        }
+    }
+
+    showSuccessAnimation = () => this.setState({ showSuccessAnimation: true })
+    hideSuccessAnimation = () => this.setState({ showSuccessAnimation: false })
+
+    delayFunc = func => {
+        if (func) {
+            setTimeout(func, 1000)
         }
     }
 
@@ -154,6 +165,7 @@ class ConstructorProductsScreen extends React.Component {
     }
 
     toggleConstructorProductInBasket = () => {
+        this.showSuccessAnimation()
         const basketProduct = this.getConstructorProductForBasket()
         const basketConstructorProductModify = { ...this.props.basketConstructorProducts }
         const uniqId = generateRandomString(10)
@@ -170,37 +182,54 @@ class ConstructorProductsScreen extends React.Component {
 
     render() {
         return (
-            <Animated.ScrollView
-                contentContainerStyle={{
-                    flexGrow: 1,
-                    justifyContent: 'space-between'
-                }}
-                style={[
-                    {
-                        flex: 1,
-                        opacity: this.state.showScaleAnimation,
-                        transform: [{ scale: this.state.showScaleAnimation }]
-                    }]}>
-                <FlatList
-                    data={this.getData()}
-                    keyExtractor={item => item.Id.toString()}
-                    renderItem={this.renderConstructorCategory}
-                    extraData={this.state.constructorIngredients}
-                />
-                <View
+            <View style={{flex: 1}}>
+                {
+                    this.state.showSuccessAnimation &&
+                    <View style={Style.successContainer}>
+                        <View style={Style.success}>
+                            <LottieView
+                                style={Style.loader}
+                                source={require('../../../animation/src/success-2.json')}
+                                autoPlay
+                                loop={false}
+                                onAnimationFinish={() => this.delayFunc(this.hideSuccessAnimation)}
+                                resizeMode='contain'
+                                speed={1} />
+                        </View>
+                    </View>
+                }
+                <Animated.ScrollView
+                    contentContainerStyle={{
+                        flexGrow: 1,
+                        justifyContent: 'space-between'
+                    }}
                     style={[
-                        Style.constructorFooter,
-                        this.props.style.theme.dividerColor]}>
-                    <ConstructorToggleBasket
-                        style={this.props.style}
-                        count={this.state.count}
-                        constructorIngredients={this.state.constructorIngredients}
-                        onChangeCount={this.onChangeCount}
-                        currencyPrefix={this.props.currencyPrefix}
-                        onToggleConstructorProducts={this.toggleConstructorProductInBasket}
+                        {
+                            flex: 1,
+                            opacity: this.state.showScaleAnimation,
+                            transform: [{ scale: this.state.showScaleAnimation }]
+                        }]}>
+                    <FlatList
+                        data={this.getData()}
+                        keyExtractor={item => item.Id.toString()}
+                        renderItem={this.renderConstructorCategory}
+                        extraData={this.state.constructorIngredients}
                     />
-                </View>
-            </Animated.ScrollView>
+                    <View
+                        style={[
+                            Style.constructorFooter,
+                            this.props.style.theme.dividerColor]}>
+                        <ConstructorToggleBasket
+                            style={this.props.style}
+                            count={this.state.count}
+                            constructorIngredients={this.state.constructorIngredients}
+                            onChangeCount={this.onChangeCount}
+                            currencyPrefix={this.props.currencyPrefix}
+                            onToggleConstructorProducts={this.toggleConstructorProductInBasket}
+                        />
+                    </View>
+                </Animated.ScrollView>
+            </View>
         )
     }
 }
