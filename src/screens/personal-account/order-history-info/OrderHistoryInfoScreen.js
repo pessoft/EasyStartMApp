@@ -169,6 +169,13 @@ class OrderHistoryInfoScreen extends React.Component {
     return ingredientsCount
   }
 
+  isAllowRepeadOrder = () => {
+    let products = this.props.productsHistory.filter(p => !p.IsDeleted)
+    let constructorProducts = this.props.constructorProductsHistory.filter(p => !p.IsDeleted)
+
+    return products.length > 0 || constructorProducts.length > 0
+  }
+
   repeatOrder = () => {
     let products = this.props.productsHistory.filter(p => !p.IsDeleted)
     let constructorProducts = this.props.constructorProductsHistory.filter(p => !p.IsDeleted)
@@ -252,12 +259,12 @@ class OrderHistoryInfoScreen extends React.Component {
             speed={1} />
         </View>
         <Text
-            style={[
-              Style.wrongText,
-              this.props.style.theme.primaryTextColor,
-              this.props.style.fontSize.h8,
-            ]}>
-            Что то пошло не так...
+          style={[
+            Style.wrongText,
+            this.props.style.theme.primaryTextColor,
+            this.props.style.fontSize.h8,
+          ]}>
+          Что то пошло не так...
           </Text>
       </View>
     )
@@ -300,6 +307,7 @@ class OrderHistoryInfoScreen extends React.Component {
           </Text>
           <View style={Style.buttonSize}>
             <Button
+              disabled={!this.isAllowRepeadOrder()}
               title='Повторить заказ'
               onPress={this.repeatOrder}
               color={Platform.OS == 'ios' ?
