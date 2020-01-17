@@ -13,10 +13,16 @@ import {
 import { timingAnimation } from '../../../animation/timingAnimation'
 import Style from './style'
 import { OrderHistoryProductItem } from '../../../components/order-history-product/OrderHistoryProductItem';
-import { toggleProductInBasket, changeTotalCountProductInBasket } from '../../../store/checkout/actions'
+import { OrderHistoryConstructorProductItem } from '../../../components/order-history-constructor-product/OrderHistoryProductItem';
+import {
+  toggleProductInBasket,
+  toggleConstructorProductInBasket,
+  changeTotalCountProductInBasket
+} from '../../../store/checkout/actions'
 import { SHOPPING_BASKET } from '../../../navigation/pointsNavigate'
 import { getProductsHistoryOrder } from '../../../store/history-order/actions'
 import { CategoryType } from '../../../helpers/type-category'
+import { generateRandomString } from '../../../helpers/utils'
 
 class OrderHistoryInfoScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -115,11 +121,51 @@ class OrderHistoryInfoScreen extends React.Component {
           currencyPrefix={this.props.currencyPrefix}
         />
       case CategoryType.Constructor:
-        return <OrderHistoryProductItem // OrderHistoryConstructorProductItem
+        return <OrderHistoryConstructorProductItem
           style={this.props.style}
           product={item}
+          currencyPrefix={this.props.currencyPrefix}
         />
     }
+  }
+
+  getCategoryById = id => {
+    const categories = this.props.categories.filter(p => p.Id == id)
+
+    if (categories && categories.length > 0)
+      return categories[0]
+    else
+      return null
+  }
+
+  getConstructorIngredients = (categoryIdHistory, ingredientsHistory) => {
+    const constructorCategories = this.props.constructorCategories[categoryIdHistory]
+    let constructorIngredients = {}
+
+    for (const constructorCategory of constructorCategories) {
+      const ingredients = this.props.ingredients[constructorCategory.Id]
+      constructorIngredients[constructorCategory.Id] = {
+        constructorCategory: constructorCategory,
+        ingredients: ingredients,
+        ingredientsCount: this.initIngredientsCountFromHistory(ingredientsHistory, ingredients)
+      }
+    }
+
+    return constructorIngredients
+  }
+
+  initIngredientsCountFromHistory = (ingredientsHistory, ingredients) => {
+    let ingredientsCount = {}
+
+    for (let ingredient of ingredients) {
+      ingredientsCount[ingredient.Id] = 0
+    }
+
+    for (let ingredient of ingredientsHistory) {
+      ingredientsCount[ingredient.Id] = ingredient.Count
+    }
+
+    return ingredientsCount
   }
 
   repeatOrder = () => {
@@ -129,7 +175,6 @@ class OrderHistoryInfoScreen extends React.Component {
     const basketProductModify = { ...this.props.basketProducts }
 
     for (let item of products) {
-
       basketProductModify[item.Id] = {
         categoryId: item.CategoryId,
         count: item.Count,
@@ -137,9 +182,28 @@ class OrderHistoryInfoScreen extends React.Component {
       }
     }
 
+    const basketConstructorProducts = { ...this.props.basketConstructorProducts }
+
+    for (let constructorProduct of constructorProducts) {
+      const uniqId = generateRandomString(10)
+      const category = this.getCategoryById(constructorProduct.Id)
+      const constructorIngredients = this.getConstructorIngredients(constructorProduct.Id, constructorProduct.Ingredients)
+      if (!category || !constructorIngredients)
+        continue
+
+      basketConstructorProducts[uniqId] = {
+        uniqId,
+        category: category,
+        price: constructorProduct.Price,
+        count: constructorProduct.Count,
+        constructorIngredients: constructorIngredients
+      }
+    }
+
     if (products.length > 0
       || constructorProducts.length > 0) {
-      this.props.toggleProductInBasket(basketProductModify)
+      products.length > 0 && this.props.toggleProductInBasket(basketProductModify)
+      constructorProducts.length > 0 && this.props.toggleConstructorProductInBasket(basketConstructorProducts)
       this.setState({ toBasket: true })
     }
   }
@@ -236,9 +300,13 @@ const mapStateToProps = state => {
     serverDomain: state.appSetting.serverDomain,
     currencyPrefix: state.appSetting.currencyPrefix,
     products: state.main.products,
+    categories: state.main.categories,
     style: state.style,
     selectHistoryOrder: state.historyOrder.selectOrder,
     basketProducts: state.checkout.basketProducts,
+    basketConstructorProducts: state.checkout.basketConstructorProducts,
+    constructorCategories: state.main.constructorCategories,
+    ingredients: state.main.ingredients,
     isFetchingProductsHistory: state.historyOrder.isFetching,
     productsHistory: state.historyOrder.productsHistory,
     constructorProductsHistory: state.historyOrder.constructorProductsHistory,
@@ -247,6 +315,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
   toggleProductInBasket,
+  toggleConstructorProductInBasket,
   changeTotalCountProductInBasket,
   getProductsHistoryOrder
 }

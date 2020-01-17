@@ -1,5 +1,5 @@
 import {
-  getHistoryOrderFetch,
+  getHistoryOrdersFetch,
   getProductsHistoryOrderFetch
 } from '../../api/requests'
 
@@ -22,11 +22,11 @@ export const setSelectOrder = order => {
   }
 }
 
-export const getHistoryOrder = dataForHistory => async (dispatch) => {
+export const getHistoryOrders = dataForHistory => async (dispatch) => {
   dispatch(requestPosts())
 
   try {
-    const history = await getHistoryOrderFetch(dataForHistory)
+    const history = await getHistoryOrdersFetch(dataForHistory)
     dispatch(successPosts(history))
   } catch {
     dispatch(failurePosts())

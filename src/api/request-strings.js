@@ -11,7 +11,7 @@ export const setProductReviewsQuery = `${SERVER_DOMAIN}/api/AdminApp/setProductR
 
 export const sendNewOrderQuery = `${SERVER_DOMAIN}/api/AdminApp/sendorder`
 
-export const getHistoryOrderQuery = `${SERVER_DOMAIN}/api/AdminApp/gethistoryorder`
+export const getHistoryOrdersQuery = `${SERVER_DOMAIN}/api/AdminApp/gethistoryorders`
 export const getProductsHistoryOrderQuery = `${SERVER_DOMAIN}/api/AdminApp/getproductshistoryorder`
 
 export const updateProductRatingQuery = `${SERVER_DOMAIN}/api/AdminApp/updateproductrating`

@@ -11,6 +11,7 @@ import Style from './style'
 import { ShoppingButton } from '../buttons/ShoppingButton/ShoppingButton';
 import { timingAnimation } from '../../animation/timingAnimation'
 import { TrashButton } from '../buttons/Square/TrashButton'
+import { generateRandomString } from '../../helpers/utils'
 
 export class BasketConstructorProductItem extends React.Component {
     constructor(props) {
@@ -87,7 +88,7 @@ export class BasketConstructorProductItem extends React.Component {
                         </Text>
                         {
                             this.props.product.ingredients.map(p => <Text
-                                key={new Date().getTime().toString()}
+                                key={generateRandomString(8)}
                                 style={[
                                     Style.ingredient,
                                     this.props.style.theme.secondaryTextColor,

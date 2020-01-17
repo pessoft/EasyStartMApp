@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import LottieView from 'lottie-react-native';
 import { Animated, FlatList, Text, ActivityIndicator } from 'react-native'
 import Style from './style'
-import { getHistoryOrder, setSelectOrder } from '../../../store/history-order/actions'
+import { getHistoryOrders, setSelectOrder } from '../../../store/history-order/actions'
 import { timingAnimation } from '../../../animation/timingAnimation'
 import { MenuItemWithoutImage } from '../../../components/menu-item-without-image/MenuItemWithoutImage';
 import { ORDER_HISTORY_INFO_PROFILE } from '../../../navigation/pointsNavigate'
@@ -25,7 +25,7 @@ class OrdersHistoryScreen extends React.Component {
   }
 
   componentDidMount = () => {
-    this.props.getHistoryOrder({
+    this.props.getHistoryOrders({
       clientId: this.props.clientId,
       branchId: this.props.branchId
     })
@@ -152,7 +152,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
   setSelectOrder,
-  getHistoryOrder
+  getHistoryOrders
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(OrdersHistoryScreen)
