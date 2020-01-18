@@ -288,7 +288,7 @@ class OrderHistoryInfoScreen extends React.Component {
             initialNumToRender={4}
             maxToRenderPerBatch={1}
             data={this.getProducts()}
-            keyExtractor={item => item.Id.toString()}
+            keyExtractor={item => `${generateRandomString()}_${item.Id.toString()}`}
             renderItem={this.renderItem}
           />
         </ScrollView>
