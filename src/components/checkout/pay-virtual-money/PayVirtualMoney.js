@@ -81,7 +81,7 @@ export class PayVirtualMoney extends React.Component {
         ]}>
           {`- ${priceValid(this.state.paymentValue)} ${this.props.currencyPrefix}`}
         </Text>
-        <View style={{ flex: 1 }}>
+        <View style={{ flex: 0.6 }}>
           <Button
             title='Отменить'
             onPress={this.onCancelAmountPayCashBack}

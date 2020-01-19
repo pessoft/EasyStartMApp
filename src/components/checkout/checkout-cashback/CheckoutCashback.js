@@ -143,6 +143,7 @@ export class CheckoutCashback extends React.Component {
             Нужна сдача
           </Text>
           <Switch
+            backgroundColor={this.props.style.theme.backdoor.backgroundColor}
             disabled={this.props.disabled}
             onValueChange={this.onToggleSwitch}
             value={this.state.needCashBack}

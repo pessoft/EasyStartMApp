@@ -64,7 +64,6 @@ export class Coupon extends React.Component {
             placeholderTextColor={this.props.style.theme.secondaryTextColor.color}
             style={[
               Style.inputText,
-              Style.inputSize,
               this.props.style.fontSize.h8,
               this.props.style.theme.primaryTextColor,
               this.props.style.theme.dividerColor]}

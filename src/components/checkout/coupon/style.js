@@ -22,10 +22,10 @@ export default StyleSheet.create({
     flex: 1,
     alignSelf: 'center',
     flexDirection: 'row',
-    paddingHorizontal: 20,
+    paddingHorizontal: 10
   },
   inputText: {
-    flex: 1,
+    width: 160,
     textAlign: 'center',
     borderWidth: 1,
     borderRadius: 3,
