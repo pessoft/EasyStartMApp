@@ -35,11 +35,18 @@ export class ConstructorCategory extends React.Component {
     }
   }
 
-  isAllowAddIngredient = () => {
+  getAllCountIngredients = () => {
     let allCount = 0
+
     for (let id in this.props.ingredientsCount) {
       allCount += this.props.ingredientsCount[id]
     }
+
+    return allCount
+  }
+
+  isAllowAddIngredient = () => {
+    let allCount = this.getAllCountIngredients()
     
     const result = this.props.constructorCategory.MaxCountIngredient == 0 ||
       allCount < this.props.constructorCategory.MaxCountIngredient
@@ -84,6 +91,13 @@ export class ConstructorCategory extends React.Component {
     this.setState({ isShowConstructorCategory: !this.state.isShowConstructorCategory })
   }
 
+  getCountDescription = () => {
+    if(this.props.constructorCategory.MinCountIngredient == 0)
+      return ''
+
+    return `(${this.getAllCountIngredients()} из ${this.props.constructorCategory.MaxCountIngredient})`
+  }
+
   render() {
     const spin = this.state.angle.interpolate({
       inputRange: [0, 1],
@@ -101,14 +115,21 @@ export class ConstructorCategory extends React.Component {
           <View style={[Style.header]}>
             <Text
               style={[
+                {flex: 0.9},
                 this.props.style.fontSize.h5,
                 this.props.style.theme.primaryTextColor,
               ]}>
-              {this.props.constructorCategory.Name}
+              {this.props.constructorCategory.Name} 
+              <Text
+              style={[
+                this.props.style.fontSize.h7,
+                this.props.style.theme.primaryTextColor,
+              ]}>
+                {" " + this.getCountDescription()}
+                </Text>
             </Text>
             <Animated.View
-              style={[{ transform: [{ rotate: spin }] }]}
-            >
+              style={[{ transform: [{ rotate: spin }] }]}>
               <Arrow
                 key={new Date().getTime().toString()}
                 width={20}
