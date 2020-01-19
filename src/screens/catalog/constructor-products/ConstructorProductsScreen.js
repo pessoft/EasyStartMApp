@@ -70,6 +70,7 @@ class ConstructorProductsScreen extends React.Component {
             const ingredients = this.props.ingredients[constructorCategory.Id]
             constructorIngredients[constructorCategory.Id] = {
                 constructorCategory: constructorCategory,
+                minCountIngredient: constructorCategory.MinCountIngredient,
                 ingredients: ingredients,
                 ingredientsCount: this.initIngredientsCount(ingredients)
             }

@@ -1,35 +1,48 @@
 import React from 'react'
 import { Text, View, Button } from 'react-native'
 import Style from './style'
-import { CounterButton } from '../../buttons/CounterButton/CounterButton';
+import { CounterButton } from '../../buttons/CounterButton/CounterButton'
 
 export class ConstructorToggleBasket extends React.Component {
 
     constructor(props) {
         super(props)
 
+        const constructorData = this.getConstructorData()
         this.state = {
-            price: this.getPrice()
+            price: constructorData.price,
+            isAllowToBasket: constructorData.isAllowToBasket
         }
     }
 
     componentDidUpdate(prevPros) {
         if (prevPros.constructorIngredients != this.props.constructorIngredients) {
-            this.setState({ price: this.getPrice() })
+            const constructorData = this.getConstructorData()
+            this.setState({ price: constructorData.price, isAllowToBasket: constructorData.isAllowToBasket })
         }
     }
 
-    getPrice = () => {
-        let price = 0;
+    getConstructorData = () => {
+        let price = 0
+        let isAllowToBasket = true
 
         for (const categoryConstructorId in this.props.constructorIngredients) {
             let categoryConstructor = this.props.constructorIngredients[categoryConstructorId]
+            let countAdded = 0
+
             for (const ingredient of categoryConstructor.ingredients) {
-                price += ingredient.Price * categoryConstructor.ingredientsCount[ingredient.Id]
+                const count = categoryConstructor.ingredientsCount[ingredient.Id]
+                
+                price += ingredient.Price * count
+                countAdded += count
+            }
+
+            if(categoryConstructor.minCountIngredient > countAdded) {
+                isAllowToBasket = false
             }
         }
 
-        return price
+        return { price, isAllowToBasket }
     }
 
     getAllPrice = () => `${this.props.count * this.state.price} ${this.props.currencyPrefix}`
@@ -41,7 +54,7 @@ export class ConstructorToggleBasket extends React.Component {
             <View style={Style.container}>
                 <View style={Style.blockHeader}>
                     {
-                        this.state.price != 0 &&
+                        this.state.isAllowToBasket &&
                         <View style={Style.headerPrice}>
                             <Text
                                 style={[
@@ -60,7 +73,7 @@ export class ConstructorToggleBasket extends React.Component {
                         </View>
                     }
                     {
-                        this.state.price == 0 &&
+                        !this.state.isAllowToBasket &&
                         <View style={Style.headerEmpty}>
                             <Text
                                 style={[
@@ -73,7 +86,7 @@ export class ConstructorToggleBasket extends React.Component {
                         </View>
                     }
                     {
-                        this.state.price != 0 &&
+                        this.state.isAllowToBasket &&
                         <View style={Style.headerCounter}>
                             <CounterButton
                                 onPress={this.props.onChangeCount}
@@ -91,7 +104,7 @@ export class ConstructorToggleBasket extends React.Component {
                     <Button
                         onPress={this.props.onToggleConstructorProducts}
                         title='В корзину'
-                        disabled={this.state.price == 0}
+                        disabled={!this.state.isAllowToBasket}
                         color={Platform.OS == 'ios' ?
                             this.props.style.theme.accentOther.backgroundColor :
                             this.props.style.theme.defaultPrimaryColor.backgroundColor} />
