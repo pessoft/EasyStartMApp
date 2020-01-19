@@ -110,7 +110,7 @@ class PartnersInfoScreen extends React.Component {
           style={Style.loader}
           source={require('../../../animation/src/search-empty.json')}
           autoPlay
-          resizeMode='cover'
+          resizeMode='contain'
           autoSize={true}
           speed={1.5} />
         <Text

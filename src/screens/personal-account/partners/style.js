@@ -14,6 +14,6 @@ export default StyleSheet.create({
     alignItems: 'center'
   },
   emptyContainer: {
-    marginTop: 100
+    marginTop: 50
   }
 })
