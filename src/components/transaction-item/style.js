@@ -23,10 +23,10 @@ export default StyleSheet.create({
     marginLeft: 2,
   },
   textContainer: {
-    flex: 7.5
+    flex: 7
   },
   amountMoneyContainer: {
-    flex: 2.5,
+    flex: 3,
     marginTop: 3,
     height: 72,
     justifyContent: 'center',

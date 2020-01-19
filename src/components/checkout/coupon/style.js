@@ -25,13 +25,11 @@ export default StyleSheet.create({
     paddingHorizontal: 20,
   },
   inputText: {
+    flex: 1,
     textAlign: 'center',
     borderWidth: 1,
     borderRadius: 3,
     padding: Platform.OS == 'ios' ? 5 : 3,
     marginHorizontal: 5
-  },
-  inputSize: {
-    width: 220,
-  },
+  }
 })

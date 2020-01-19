@@ -67,7 +67,7 @@ class CashbackInfoScreen extends React.Component {
   getHeaderText = (cashbackTransactionType, orderId) => {
     switch (cashbackTransactionType) {
       case CashbackTransactionType.EnrollmentPurchase:
-        return `Кешбек за заказ #${orderId}`
+        return `Заказ #${orderId}`
       case CashbackTransactionType.OrderPayment:
         return `Оплата заказа #${orderId}`
     }

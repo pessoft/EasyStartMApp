@@ -25,17 +25,8 @@ export default StyleSheet.create({
     justifyContent: 'center',
     paddingHorizontal: 10
   },
-  inputText: {
-    textAlign: 'left',
-    textAlignVertical: 'top',
-    minHeight: 60,
-    marginTop: 10,
-    borderWidth: 1,
-    borderRadius: 3,
-    padding: 6,
-  },
   text: {
-    flex: 0.5,
+    flex: 0.4,
     textAlign: 'center',
     textAlignVertical: 'center',
     marginHorizontal: 15
