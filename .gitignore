@@ -57,3 +57,15 @@ buck-out/
 
 # CocoaPods
 /ios/Pods/
+ios/EasyStartMApp.xcodeproj/project.pbxproj
+ios/assets/app.json
+ios/assets/src/animation/src/city.json
+ios/assets/src/animation/src/close.json
+ios/assets/src/animation/src/error.json
+ios/assets/src/animation/src/food-loader.json
+ios/assets/src/animation/src/search-empty.json
+ios/assets/src/animation/src/success-2.json
+ios/assets/src/animation/src/success.json
+ios/assets/src/animation/src/wrong.json
+ios/EasyStartMApp.xcodeproj/project.pbxproj
+ios/assets/src/images/start-logo.png

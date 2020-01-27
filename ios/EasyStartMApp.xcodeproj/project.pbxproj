@@ -17,6 +17,7 @@
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* EasyStartMAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* EasyStartMAppTests.m */; };
 		391D0DADCD4B91443AE76B50 /* libPods-EasyStartMAppTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E2EF6E7FCB49463835E2B8C6 /* libPods-EasyStartMAppTests.a */; };
+		4506BA2023DF8270001A9428 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = 4506BA1F23DF826F001A9428 /* assets */; };
 		45F6F159234D06FA00F9C377 /* Link-lottie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45F6F158234D06FA00F9C377 /* Link-lottie.swift */; };
 		9E6491FEB05B996658705822 /* libPods-EasyStartMApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1996350EFC0D317DBC14277B /* libPods-EasyStartMApp.a */; };
 		C0F4DC0D29AD8282040B636D /* libPods-EasyStartMApp-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 38A700B3DD14591370961EE9 /* libPods-EasyStartMApp-tvOSTests.a */; };
@@ -58,6 +59,7 @@
 		2D02E4901E0B4A5D006451C7 /* EasyStartMApp-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "EasyStartMApp-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		38A700B3DD14591370961EE9 /* libPods-EasyStartMApp-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-EasyStartMApp-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4167A932AD1599D48BE608E1 /* Pods-EasyStartMApp-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EasyStartMApp-tvOS.release.xcconfig"; path = "Target Support Files/Pods-EasyStartMApp-tvOS/Pods-EasyStartMApp-tvOS.release.xcconfig"; sourceTree = "<group>"; };
+		4506BA1F23DF826F001A9428 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = assets; sourceTree = "<group>"; };
 		45F6F158234D06FA00F9C377 /* Link-lottie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Link-lottie.swift"; sourceTree = "<group>"; };
 		4C6D5E68577DCF23EA30588B /* Pods-EasyStartMAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EasyStartMAppTests.debug.xcconfig"; path = "Target Support Files/Pods-EasyStartMAppTests/Pods-EasyStartMAppTests.debug.xcconfig"; sourceTree = "<group>"; };
 		674224E23432944FF5065826 /* Pods-EasyStartMApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EasyStartMApp.release.xcconfig"; path = "Target Support Files/Pods-EasyStartMApp/Pods-EasyStartMApp.release.xcconfig"; sourceTree = "<group>"; };
@@ -127,6 +129,7 @@
 		13B07FAE1A68108700A75B9A /* EasyStartMApp */ = {
 			isa = PBXGroup;
 			children = (
+				4506BA1F23DF826F001A9428 /* assets */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -342,6 +345,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4506BA2023DF8270001A9428 /* assets in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 			);

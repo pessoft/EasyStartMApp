@@ -1,10 +1,11 @@
 import { StyleSheet, Dimensions } from 'react-native'
 let width = Dimensions.get('screen').width - 20
 let height = width * 0.5
+const imageSize = parseInt(width / 5)
 export default StyleSheet.create({
   container: {
-    position:'relative',
-    flexDirection:'row',
+    position: 'relative',
+    flexDirection: 'row',
     width: width,
     minHeight: height,
     borderRadius: 5,
@@ -14,17 +15,17 @@ export default StyleSheet.create({
   imageContainer: {
     flex: 0.3,
     justifyContent: 'flex-start',
+    alignItems: 'center',
     paddingTop: 12
   },
   image: {
-    flex: 0.45,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 9999
+    width: imageSize,
+    height: imageSize,
+    borderRadius: 9999,
   },
   descriptionContainer: {
     flex: 0.7,
-    justifyContent:'space-between',
+    justifyContent: 'space-between',
     paddingHorizontal: 10,
     paddingVertical: 10
   },

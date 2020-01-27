@@ -48,7 +48,6 @@ export class ShortIngredient extends React.Component {
           />
           <View style={Style.imageContainer}>
             <Image
-              resizeMode={"contain"}
               style={Style.image}
               source={this.props.ingredient.Image} />
           </View>
