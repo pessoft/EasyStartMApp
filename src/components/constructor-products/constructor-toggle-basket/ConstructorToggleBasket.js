@@ -32,12 +32,12 @@ export class ConstructorToggleBasket extends React.Component {
 
             for (const ingredient of categoryConstructor.ingredients) {
                 const count = categoryConstructor.ingredientsCount[ingredient.Id]
-                
+
                 price += ingredient.Price * count
                 countAdded += count
             }
 
-            if(categoryConstructor.minCountIngredient > countAdded) {
+            if (categoryConstructor.minCountIngredient > countAdded) {
                 isAllowToBasket = false
             }
         }
@@ -48,6 +48,23 @@ export class ConstructorToggleBasket extends React.Component {
     getAllPrice = () => `${this.props.count * this.state.price} ${this.props.currencyPrefix}`
 
     getCountWithPrice = () => `${this.props.count} x ${this.state.price} ${this.props.currencyPrefix}`
+
+    getFooter = () => {
+        if (!this.state.isAllowToBasket && Platform.OS == 'ios')
+            return null
+        else
+            return (
+                <View style={Style.blockFooter}>
+                    <Button
+                        onPress={this.props.onToggleConstructorProducts}
+                        title='В корзину'
+                        disabled={!this.state.isAllowToBasket}
+                        color={Platform.OS == 'ios' ?
+                            this.props.style.theme.accentOther.backgroundColor :
+                            this.props.style.theme.defaultPrimaryColor.backgroundColor} />
+                </View>
+            )
+    }
 
     render() {
         return (
@@ -100,15 +117,10 @@ export class ConstructorToggleBasket extends React.Component {
                         </View>
                     }
                 </View>
-                <View style={Style.blockFooter}>
-                    <Button
-                        onPress={this.props.onToggleConstructorProducts}
-                        title='В корзину'
-                        disabled={!this.state.isAllowToBasket}
-                        color={Platform.OS == 'ios' ?
-                            this.props.style.theme.accentOther.backgroundColor :
-                            this.props.style.theme.defaultPrimaryColor.backgroundColor} />
-                </View>
+                {
+                    this.getFooter()
+                }
+
             </View>
         )
     }
