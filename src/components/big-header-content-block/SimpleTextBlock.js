@@ -11,22 +11,26 @@ export class SimpleTextBlock extends React.Component {
         this.props.style.theme.navigationHeader,
         this.props.style.theme.dividerColor
       ]}>
-        <Text
-          style={[
-            Style.mainText,
-            this.props.style.theme.textPrimaryColor,
-            this.props.style.fontSize.h0,
-          ]}>
-          {this.props.mainText}
-        </Text>
-        <Text
-          style={[
-            Style.secondText,
-            this.props.style.theme.textPrimaryColor,
-            this.props.style.fontSize.h9,
-          ]}>
-          {this.props.secondText}
-        </Text>
+        <View style={Style.mainTextContainer}>
+          <Text
+            style={[
+              Style.textBottom,
+              this.props.style.theme.textPrimaryColor,
+              this.props.style.fontSize.h0,
+                     ]}>
+            {this.props.mainText}
+          </Text>
+        </View>
+        <View style={Style.secondTextContainer}>
+          <Text
+            style={[
+              Style.textBottom,
+              this.props.style.theme.textPrimaryColor,
+              this.props.style.fontSize.h9,
+            ]}>
+            {this.props.secondText}
+          </Text>
+        </View>
       </View>
     )
   }

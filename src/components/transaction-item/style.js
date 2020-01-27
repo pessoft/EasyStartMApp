@@ -14,7 +14,7 @@ export default StyleSheet.create({
     alignItems: 'center',
     borderBottomWidth: 0.7,
     paddingVertical: 12,
-    paddingHorizontal: 18
+    paddingHorizontal: 14
   },
   text: {
     marginTop: 3,
@@ -23,10 +23,10 @@ export default StyleSheet.create({
     marginLeft: 2,
   },
   textContainer: {
-    flex: 7
+    flex: 6.5
   },
   amountMoneyContainer: {
-    flex: 3,
+    flex: 2.5,
     marginTop: 3,
     height: 72,
     justifyContent: 'center',

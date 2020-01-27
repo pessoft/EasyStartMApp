@@ -39,7 +39,7 @@ export class TransactionItem extends React.Component {
       return this.props.style.fontSize.h9.fontSize
     }
 
-    return this.props.style.fontSize.h6.fontSize
+    return this.props.style.fontSize.h7.fontSize
   }
 
 
@@ -57,7 +57,6 @@ export class TransactionItem extends React.Component {
             <Text
               style={[
                 this.props.style.theme.primaryTextColor,
-                this.props.style.fontSize.h6,
                 { fontSize: this.getHeaderFontSize() }
               ]}
             >
@@ -78,15 +77,15 @@ export class TransactionItem extends React.Component {
             <Text
               style={[
                 { color: this.getColorByTransactionType() },
-                this.props.style.fontSize.h7
+                this.props.style.fontSize.h8
               ]}
             >
               {this.formatStringMoneyByTransactionType(this.props.money)}
               <Ruble
                 style={Style.iconMargin}
                 key={new Date().getTime().toString()}
-                width={this.props.style.fontSize.h9.fontSize}
-                height={this.props.style.fontSize.h9.fontSize}
+                width={this.props.style.fontSize.h10.fontSize}
+                height={this.props.style.fontSize.h10.fontSize}
                 color={getSVGColor(this.getColorByTransactionType())} />
             </Text>
           </View>

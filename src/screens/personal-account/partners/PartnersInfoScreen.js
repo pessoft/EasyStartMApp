@@ -70,7 +70,7 @@ class PartnersInfoScreen extends React.Component {
   }
 
   getHeaderText = referralPhone => {
-    return `Реферал ${referralPhone}`
+    return `Реф. ${referralPhone}`
   }
 
   renderTransactions = () => {

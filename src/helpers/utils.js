@@ -47,7 +47,7 @@ export const priceValid = num => {
 
 export const dateFormatted = dateToFormatted => {
   const date = new Date(dateToFormatted)
-  return `${date.getHours()}:${date.getMinutes()} ${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()} `
+  return `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()} `
 }
 
 export const getImageSource = imagePath => {

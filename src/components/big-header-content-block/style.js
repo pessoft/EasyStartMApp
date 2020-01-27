@@ -3,23 +3,27 @@ import { StyleSheet } from 'react-native'
 export default StyleSheet.create({
   container: {
     flex: 1,
-    minHeight: 150,
+    height: 150,
     justifyContent: 'center',
     alignItems: 'center',
-    borderBottomWidth: 0.5,
-    paddingVertical: 10
+    borderBottomWidth: 0.7,
+    paddingBottom: 8
   },
-  mainText: {
+  textBottom: {
+    textAlignVertical: 'bottom'
+  },
+  mainTextContainer: {
     flex: 1,
-    flexDirection: 'row',
-    textAlignVertical: 'bottom'
+    justifyContent: 'flex-end',
+    alignContent: 'flex-end',
   },
-  secondText: {
+  secondTextContainer: {
     flex: 0.8,
-    textAlignVertical: 'bottom'
+    justifyContent: 'flex-end',
+    alignItems: 'flex-end'
   },
   iconMargin: {
     marginLeft: 2,
-    marginTop: 2
+    marginTop: 6
   }
 })
