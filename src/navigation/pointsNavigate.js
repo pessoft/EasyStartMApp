@@ -1,6 +1,9 @@
 export const START_APP = 'StartApp'
+
 export const AUTH = 'Auth'
 export const AUTH_LOGIN = 'AuthLogin'
+export const AUTH_REGISTRATION = 'AuthRegistration'
+
 export const USER_INFO = 'UserSetInfo'
 export const MAIN = 'MainBottomTab'
 export const CHECKOUT_COMPLETE = 'CheckoutComplete'

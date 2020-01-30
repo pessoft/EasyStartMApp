@@ -122,6 +122,7 @@ export const userReducer = (state = defaultState, action) => {
     case FETCH_RESTORE_PASSWORD_REQUEST:
       return {
         ...state,
+        clientId: -1,
         isFetching: true,
         isFetchError: false,
         errorMessage: '',

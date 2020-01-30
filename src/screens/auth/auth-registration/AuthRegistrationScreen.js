@@ -12,17 +12,17 @@ import {
   Platform
 } from 'react-native'
 import { TextInputMask } from 'react-native-masked-text'
-import { AUTH_REGISTRATION } from '../../../navigation/pointsNavigate'
-import { login } from '../../../store/user/actions'
+import { SET_CITY } from '../../../navigation/pointsNavigate'
+import { setPhoneNumber, setUserPassword, registrationUser } from '../../../store/user/actions'
 import Style from './style'
 import { timingAnimation } from '../../../animation/timingAnimation'
 import UserPhotoDefaultIcon from '../../../images/font-awesome-svg/user-circle.svg'
 import { getSVGColor } from '../../../helpers/color-helper'
 const { width } = Dimensions.get('window')
 
-class AuthLoginScreen extends React.Component {
+class AuthRegistrationScreen extends React.Component {
   static navigationOptions = {
-    headerTitle: 'Вход в аккаунт',
+    headerTitle: 'Регистрация',
   }
 
   constructor(props) {
@@ -32,6 +32,7 @@ class AuthLoginScreen extends React.Component {
       showScaleAnimation: new Animated.Value(0),
       phoneNumber: '',
       password: '',
+      confirmPassword: ''
     }
   }
 
@@ -45,8 +46,9 @@ class AuthLoginScreen extends React.Component {
 
   onPhoneChange = phoneNumber => this.setState({ phoneNumber })
   onPasswordChange = password => this.setState({ password })
+  onConfirmPasswordChange = confirmPassword => this.setState({ confirmPassword })
 
-  login = () => this.props.login({
+  registration = () => this.props.registrationUser({
     PhoneNumber: this.state.phoneNumber,
     Password: this.state.password
   })
@@ -56,13 +58,12 @@ class AuthLoginScreen extends React.Component {
 
     if (this.state.phoneNumber.match(regexp)
       && this.state.password
-      && this.state.password.length > 3)
+      && this.state.password.length > 3
+      && this.state.password == this.state.confirmPassword)
       return true
 
     return false
   }
-
-  goToRegistrationPage = () => this.props.navigation.navigate(AUTH_REGISTRATION)
 
   render() {
     return (
@@ -95,11 +96,11 @@ class AuthLoginScreen extends React.Component {
                 this.props.style.theme.dividerColor]}
               onChangeText={this.onPhoneChange}
               returnKeyType={'next'}
-              onSubmitEditing={() => { this.secondTextInput.focus() }}
+              onSubmitEditing={() => { this.passwordTextInput.focus() }}
               blurOnSubmit={false}
             />
             <TextInput
-              ref={(input) => { this.secondTextInput = input; }}
+              ref={(input) => { this.passwordTextInput = input; }}
               secureTextEntry={true}
               placeholder='Пароль'
               value={this.state.password}
@@ -111,6 +112,23 @@ class AuthLoginScreen extends React.Component {
                 this.props.style.theme.primaryTextColor,
                 this.props.style.theme.dividerColor]}
               onChangeText={this.onPasswordChange}
+              returnKeyType={'next'}
+              onSubmitEditing={() => { this.confirmPasswordTextInput.focus() }}
+              blurOnSubmit={false}
+            />
+            <TextInput
+              ref={(input) => { this.confirmPasswordTextInput = input; }}
+              secureTextEntry={true}
+              placeholder='Повторите пароль'
+              value={this.state.confirmPassword}
+              placeholderTextColor={this.props.style.theme.secondaryTextColor.color}
+              style={[
+                Style.inputText,
+                Style.inputSize,
+                this.props.style.fontSize.h7,
+                this.props.style.theme.primaryTextColor,
+                this.props.style.theme.dividerColor]}
+              onChangeText={this.onConfirmPasswordChange}
               onSubmitEditing={() => Keyboard.dismiss()}
               blurOnSubmit={false}
             />
@@ -119,27 +137,9 @@ class AuthLoginScreen extends React.Component {
               Style.buttonsContainer]}>
               <View style={Style.buttonMargin}>
                 <Button
-                  title='Войти'
-                  onPress={this.login}
+                  title='Зарегистрироваться'
+                  onPress={this.registration}
                   disabled={!this.isValidData()}
-                  color={Platform.OS == 'ios' ?
-                    this.props.style.theme.primaryTextColor.color :
-                    this.props.style.theme.defaultPrimaryColor.backgroundColor}
-                />
-              </View>
-              <View style={Style.buttonMargin}>
-                <Button
-                  title='Регистрация'
-                  onPress={this.goToRegistrationPage}
-                  color={Platform.OS == 'ios' ?
-                    this.props.style.theme.primaryTextColor.color :
-                    this.props.style.theme.defaultPrimaryColor.backgroundColor}
-                />
-              </View>
-              <View style={Style.buttonMargin}>
-                <Button
-                  title='Восстановить пароль'
-                  // onPress={this.onNextPage}
                   color={Platform.OS == 'ios' ?
                     this.props.style.theme.primaryTextColor.color :
                     this.props.style.theme.defaultPrimaryColor.backgroundColor}
@@ -157,13 +157,16 @@ const mapStateToProps = state => {
   return {
     isLogin: state.user.isLogin,
     isFetching: state.user.isFetching,
+    phoneNumber: state.user.phoneNumber,
+    password: state.user.password,
+    clientId: state.user.clientId,
     style: state.style
   }
 }
 
 const mapDispatchToProps = {
-  login
+  registrationUser
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AuthLoginScreen)
+export default connect(mapStateToProps, mapDispatchToProps)(AuthRegistrationScreen)
 
