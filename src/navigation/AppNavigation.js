@@ -1,5 +1,6 @@
 import { createSwitchNavigator, createAppContainer } from 'react-navigation'
 import StartLogoScreen from '../screens/start/StartLogoScreen'
+import { authStackNavigator } from './authStackNavigator'
 import { userInfoStackNavigator } from './userInfoStackNavigator';
 import { mainBottomTab } from './mainBottomTabNavigator';
 import { START_APP } from './pointsNavigate';
@@ -13,6 +14,7 @@ export class AppContainer extends React.Component {
     const appNavigation = createSwitchNavigator(
       {
         StartApp: StartLogoScreen,
+        Auth: authStackNavigator(this.props.style),
         UserSetInfo: userInfoStackNavigator(this.props.style),
         MainBottomTab: mainBottomTab(this.props.style),
         CheckoutComplete: CheckoutCompleteScreen

@@ -4,7 +4,7 @@ import { FullScreenLogo } from '../../components/full-screen-logo/FullScreenLogo
 import { login, setIsLogin, dropFetchFlag } from '../../store/user/actions'
 import { getMainData } from '../../store/main/actions'
 import { getLocation } from '../../store/location/actions'
-import { USER_INFO, MAIN } from '../../navigation/pointsNavigate'
+import { AUTH, USER_INFO, MAIN } from '../../navigation/pointsNavigate'
 
 class StartLogoScreen extends React.Component {
   constructor(props) {
@@ -22,7 +22,7 @@ class StartLogoScreen extends React.Component {
 
   userLogin = () => {
     if (this.props.categories.length > 0) {
-      this.props.navigation.navigate(MAIN)
+      this.goToMainPage()
     } else {
       this.props.getLocation()
 
@@ -31,9 +31,9 @@ class StartLogoScreen extends React.Component {
     }
   }
 
-  userRegister = () => {
+  updateUserData = () => {
     if (Object.keys(this.props.cities).length > 0) {
-      this.props.navigation.navigate(USER_INFO)
+      this.goToSetUserInfoPage()
     } else {
       this.props.getLocation()
     }
@@ -48,23 +48,46 @@ class StartLogoScreen extends React.Component {
     this.props.login(userDate)
   }
 
-  componentDidUpdate() {
-    if (this.props.isLogin) {
+  nextPage = () => {
+    if (!this.isValidUserInfo()) {
+      this.updateUserData()
+    } else {
       this.userLogin()
     }
+  }
+
+  isValidUserInfo = () => {
+    if (this.props.cityId < 1 ||
+      !this.props.userName ||
+      !this.props.email)
+      return false;
+
+    return true
+  }
+
+  goToAuthPage = () => this.props.navigation.navigate(AUTH)
+  goToSetUserInfoPage = () => this.props.navigation.navigate(USER_INFO)
+  goToMainPage = () => this.props.navigation.navigate(MAIN)
+
+  componentDidUpdate() {
+    if (this.props.isLogin) {
+      this.nextPage()
+    }
     else if (!this.props.isFetching) {
-      this.userRegister()
+      this.goToAuthPage()
     }
   }
 
   componentDidMount = () => {
-    if (this.props.isLogin) {
+    if (this.isValidAuthData()) {
       this.props.setIsLogin(false)
       this.login()
     }
     else
-      this.userRegister()
+      this.goToAuthPage()
   }
+
+  isValidAuthData = () => !!(this.props.phoneNumber && this.props.password)
 
   render() {
     return (
@@ -80,6 +103,8 @@ const mapStateToProps = state => {
     isLogin: state.user.isLogin,
     logo: state.appSetting.logo,
     phoneNumber: state.user.phoneNumber,
+    userName: state.user.userName,
+    email: state.user.email,
     password: state.user.password,
     cityId: state.user.cityId,
     clientId: state.user.clientId,
