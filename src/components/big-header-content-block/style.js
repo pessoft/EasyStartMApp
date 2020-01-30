@@ -22,8 +22,11 @@ export default StyleSheet.create({
     justifyContent: 'flex-end',
     alignItems: 'flex-end'
   },
+  priceRow: {
+    flexDirection: 'row',
+  },
   iconMargin: {
     marginLeft: 2,
-    marginTop: 6
+    marginTop: 8
   }
 })

@@ -36,9 +36,11 @@ export const getProductReviews = productId => async (dispatch) => {
 
 export const setProductReviews = review => async (dispatch) => {
     try {
-        setProductReviewsFetch(review)
-        dispatch(addReview(review))
-    } catch { }
+        let savedReview =  await setProductReviewsFetch(review)
+        dispatch(addReview(savedReview))
+    } catch { 
+        dispatch(failurePosts())
+    }
 }
 
 const requestPosts = () => {

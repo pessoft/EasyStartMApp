@@ -2,6 +2,8 @@ import React from 'react'
 import { connect } from 'react-redux'
 import {
   KeyboardAvoidingView,
+  Keyboard,
+  TouchableWithoutFeedback,
   TextInput,
   Button,
   View,
@@ -55,72 +57,77 @@ class UserDataScreen extends React.Component {
 
   render() {
     return (
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <KeyboardAvoidingView style={Style.screen} behavior='height'>
-        <Animated.View style={{
-          opacity: this.state.showScaleAnimation,
-          transform: [{ scale: this.state.showScaleAnimation }]
-        }}>
-          <TextInput
-            placeholder='Ваше имя'
-            value={this.props.userName}
-            placeholderTextColor={this.props.style.theme.secondaryTextColor.color}
-            style={[
-              Style.inputText,
-              Style.inputSize,
-              this.props.style.fontSize.h7,
-              this.props.style.theme.primaryTextColor,
-              this.props.style.theme.dividerColor]}
-            onChangeText={this.onUserNameChange}
-            returnKeyType={'next'}
-            onSubmitEditing={() => { this.secondTextInput.focus() }}
-            blurOnSubmit={false}
-          />
-          <TextInputMask
-            refInput={(input) => { this.secondTextInput = input; }}
-            keyboardType={'phone-pad'}
-            placeholder={'+7(999)999-99-99'}
-            placeholderTextColor={this.props.style.theme.secondaryTextColor.color}
-            type={'custom'}
-            options={{ mask: '+9(999)999-99-99' }}
-            value={this.props.phoneNumber}
-            style={[
-              Style.inputText,
-              Style.inputSize,
-              this.props.style.fontSize.h7,
-              this.props.style.theme.primaryTextColor,
-              this.props.style.theme.dividerColor]}
-            onChangeText={this.onPhoneChange}
-            returnKeyType={'next'}
-            onSubmitEditing={() => { this.referralCodeInput.focus() }}
-            blurOnSubmit={false}
-          />
-          <TextInput
-            ref={(input) => { this.referralCodeInput = input; }}
-            placeholder='Реферальный код'
-            value={this.props.parentReferralCode}
-            placeholderTextColor={this.props.style.theme.secondaryTextColor.color}
-            style={[
-              Style.inputText,
-              Style.inputSize,
-              this.props.style.fontSize.h7,
-              this.props.style.theme.primaryTextColor,
-              this.props.style.theme.dividerColor]}
-            onChangeText={this.onParentReferralCodeChange}
-          />
-          <View style={[
-            Style.inputSize,
-            Style.buttonNext]}>
-            <Button
-              title='Далее'
-              onPress={this.onNextPage}
-              disabled={!this.isValidData()}
-              color={Platform.OS == 'ios' ?
-                this.props.style.theme.primaryTextColor.color :
-                this.props.style.theme.defaultPrimaryColor.backgroundColor}
+        
+          <Animated.View
+            style={{
+              opacity: this.state.showScaleAnimation,
+              transform: [{ scale: this.state.showScaleAnimation }]
+            }}>
+            <TextInput
+              placeholder='Ваше имя'
+              value={this.props.userName}
+              placeholderTextColor={this.props.style.theme.secondaryTextColor.color}
+              style={[
+                Style.inputText,
+                Style.inputSize,
+                this.props.style.fontSize.h7,
+                this.props.style.theme.primaryTextColor,
+                this.props.style.theme.dividerColor]}
+              onChangeText={this.onUserNameChange}
+              returnKeyType={'next'}
+              onSubmitEditing={() => { this.secondTextInput.focus() }}
+              blurOnSubmit={false}
             />
-          </View>
-        </Animated.View>
+            <TextInputMask
+              refInput={(input) => { this.secondTextInput = input; }}
+              keyboardType={'phone-pad'}
+              placeholder={'+7(999)999-99-99'}
+              placeholderTextColor={this.props.style.theme.secondaryTextColor.color}
+              type={'custom'}
+              options={{ mask: '+9(999)999-99-99' }}
+              value={this.props.phoneNumber}
+              style={[
+                Style.inputText,
+                Style.inputSize,
+                this.props.style.fontSize.h7,
+                this.props.style.theme.primaryTextColor,
+                this.props.style.theme.dividerColor]}
+              onChangeText={this.onPhoneChange}
+              returnKeyType={'next'}
+              onSubmitEditing={() => { this.referralCodeInput.focus() }}
+              blurOnSubmit={false}
+            />
+            <TextInput
+              ref={(input) => { this.referralCodeInput = input; }}
+              placeholder='Реферальный код'
+              value={this.props.parentReferralCode}
+              placeholderTextColor={this.props.style.theme.secondaryTextColor.color}
+              style={[
+                Style.inputText,
+                Style.inputSize,
+                this.props.style.fontSize.h7,
+                this.props.style.theme.primaryTextColor,
+                this.props.style.theme.dividerColor]}
+              onChangeText={this.onParentReferralCodeChange}
+            />
+            <View style={[
+              Style.inputSize,
+              Style.buttonNext]}>
+              <Button
+                title='Далее'
+                onPress={this.onNextPage}
+                disabled={!this.isValidData()}
+                color={Platform.OS == 'ios' ?
+                  this.props.style.theme.primaryTextColor.color :
+                  this.props.style.theme.defaultPrimaryColor.backgroundColor}
+              />
+            </View>
+          </Animated.View>
+        
       </KeyboardAvoidingView>
+      </TouchableWithoutFeedback>
     )
   }
 }

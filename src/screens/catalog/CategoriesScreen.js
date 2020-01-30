@@ -9,7 +9,7 @@ import {
 import Image from 'react-native-scalable-image'
 import { CategoryItem } from '../../components/category/CategoryItem';
 import { setSelectedCategory, setSelectedProduct } from '../../store/catalog/actions'
-import { PRODUCTS, STOCK_INFO, CONSTRUCTOR_PRODUCTS } from '../../navigation/pointsNavigate';
+import { PRODUCTS, STOCK_INFO, CONSTRUCTOR_PRODUCTS, CASHBACK_PROFILE } from '../../navigation/pointsNavigate';
 import { timingAnimation } from '../../animation/timingAnimation'
 import { Text } from 'react-native'
 import VirtualMoneyButton from '../../components/buttons/VirtualMoneyButton/VirtualMoneyButton'
@@ -20,7 +20,7 @@ import { CategoryType } from '../../helpers/type-category'
 class CategoriesScreen extends React.Component {
     static navigationOptions = ({ navigation }) => {
         const isShowVirtualMoney = navigation.getParam('isShowVirtualMoney', false)
-
+        const onPress = navigation.getParam('onPress', null)
         if (isShowVirtualMoney)
             return {
                 headerTitle: 'Категории',
@@ -28,7 +28,7 @@ class CategoriesScreen extends React.Component {
                     textAlign: "left",
                     flex: 1,
                 },
-                headerRight: () => <VirtualMoneyButton />
+                headerRight: () => <VirtualMoneyButton onPress={onPress}/>
             }
 
         return {
@@ -39,7 +39,10 @@ class CategoriesScreen extends React.Component {
     constructor(props) {
         super(props)
 
-        this.props.navigation.setParams({ isShowVirtualMoney: this.props.promotionCashbackSetting.IsUseCashback })
+        this.props.navigation.setParams({ 
+            isShowVirtualMoney: this.props.promotionCashbackSetting.IsUseCashback,
+            onPress: () => this.goToCashbackScreen()
+        })
 
         this.props.setSelectedProduct({})
         this.props.setSelectedCategory({})
@@ -49,6 +52,8 @@ class CategoriesScreen extends React.Component {
             goToStock: false
         }
     }
+
+    goToCashbackScreen = () => this.props.navigation.navigate(CASHBACK_PROFILE)
 
     componentDidMount = () => {
         timingAnimation(this.state.showScaleAnimation, 1, 300, true)

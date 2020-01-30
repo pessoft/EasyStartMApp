@@ -1,7 +1,6 @@
 import React from 'react'
 import { SimpleTextButton } from '../SimpleTextButton/SimpleTextButton'
 import { connect } from 'react-redux'
-import { CASHBACK_PROFILE } from '../../../navigation/pointsNavigate'
 import { View } from 'react-native'
 import Ruble from '../../../images/font-awesome-svg/ruble-sign.svg'
 import { getSVGColor } from '../../../helpers/color-helper'
@@ -9,8 +8,7 @@ import Style from './style'
 import { priceValid } from '../../../helpers/utils'
 
 class VirtualMoneyButton extends React.Component {
-    // goToCashbackScreen = () => this.props.navigation.navigate(CASHBACK_PROFILE)
-
+    
     render() {
         if (!this.props.promotionCashbackSetting.IsUseCashback)
             return null;
@@ -18,7 +16,7 @@ class VirtualMoneyButton extends React.Component {
         return (
             <View style={Style.moneyBody}>
                 <SimpleTextButton
-                    // onPress={this.goToCashbackScreen}
+                    onPress={this.props.onPress}
                     sizeText={this.props.style.fontSize.h7.fontSize}
                     color={this.props.style.theme.textPrimaryColor.color}
                     text={priceValid(this.props.virtualMoney)} />

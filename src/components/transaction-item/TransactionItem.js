@@ -74,22 +74,23 @@ export class TransactionItem extends React.Component {
           </View>
 
           <View style={Style.amountMoneyContainer}>
-            <Text
-              style={[
-                { color: this.getColorByTransactionType() },
-                this.props.style.fontSize.h8
-              ]}
-            >
-              {this.formatStringMoneyByTransactionType(this.props.money)}
+            <View style={Style.priceRow}> 
+              <Text
+                style={[
+                  { color: this.getColorByTransactionType() },
+                  this.props.style.fontSize.h8
+                ]}
+              >
+                {this.formatStringMoneyByTransactionType(this.props.money)}
+              </Text>
               <Ruble
                 style={Style.iconMargin}
                 key={new Date().getTime().toString()}
                 width={this.props.style.fontSize.h10.fontSize}
                 height={this.props.style.fontSize.h10.fontSize}
                 color={getSVGColor(this.getColorByTransactionType())} />
-            </Text>
+            </View>
           </View>
-
         </View>
       </View>
     )

@@ -90,6 +90,8 @@ class CityScreen extends React.Component {
   }
 
   renderCitiesIOS = () => {
+    let citiesReal = this.citiesToArray()
+    let cities = [{key:-1, city: 'Выберите город'}, ...citiesReal]
     return (
       <Picker
         selectedValue={this.props.cityId}
@@ -104,7 +106,7 @@ class CityScreen extends React.Component {
         onValueChange={(this.setCityId)
         }>
         {
-          this.citiesToArray().map(p => <Picker.Item key={p.key.toString()} label={p.city} value={p.key} />)
+          cities.map(p => <Picker.Item key={p.key.toString()} label={p.city} value={p.key} />)
         }
       </Picker>
     )

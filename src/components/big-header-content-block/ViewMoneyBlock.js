@@ -14,20 +14,22 @@ export class ViewMoneyBlock extends React.Component {
         this.props.style.theme.dividerColor
       ]}>
         <View style={Style.mainTextContainer}>
-          <Text
-            style={[
-              Style.textBottom,
-              this.props.style.theme.textPrimaryColor,
-              this.props.style.fontSize.h0,
-            ]}>
-            {this.props.mainText}
+          <View style={Style.priceRow}>
+            <Text
+              style={[
+                // Style.textBottom,
+                this.props.style.theme.textPrimaryColor,
+                this.props.style.fontSize.h0,
+              ]}>
+              {this.props.mainText}
+            </Text>
             <Ruble
               style={Style.iconMargin}
               key={new Date().getTime().toString()}
               width={this.props.style.fontSize.h2.fontSize}
               height={this.props.style.fontSize.h2.fontSize}
               color={getSVGColor(this.props.style.theme.textPrimaryColor.color)} />
-          </Text>
+          </View>
         </View>
         <View style={Style.secondTextContainer}>
           <Text

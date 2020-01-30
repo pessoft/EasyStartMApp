@@ -16,7 +16,7 @@ export default StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'stretch',
-    marginBottom: 6
+    marginBottom: 6,
   },
   content: {
     flex: 1,
@@ -31,4 +31,9 @@ export default StyleSheet.create({
     textAlignVertical: 'center',
     marginHorizontal: 15
   },
+  row: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+  }
 })

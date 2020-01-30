@@ -51,7 +51,7 @@ export class PayVirtualMoney extends React.Component {
 
   renderPay = () => {
     return (
-      <React.Fragment>
+      <View style={Style.row}>
         <Text style={[
           this.props.style.fontSize.h8,
           this.props.style.theme.primaryTextColor,
@@ -67,13 +67,13 @@ export class PayVirtualMoney extends React.Component {
               this.props.style.theme.accentOther.backgroundColor :
               this.props.style.theme.darkPrimaryColor.backgroundColor} />
         </View>
-      </React.Fragment>
+      </View>
     )
   }
 
   renderCancel = () => {
     return (
-      <React.Fragment>
+      <View style={Style.row}>
         <Text style={[
           this.props.style.fontSize.h8,
           this.props.style.theme.primaryTextColor,
@@ -89,7 +89,7 @@ export class PayVirtualMoney extends React.Component {
               this.props.style.theme.accentOther.backgroundColor :
               this.props.style.theme.darkPrimaryColor.backgroundColor} />
         </View>
-      </React.Fragment>
+      </View>
     )
   }
 
