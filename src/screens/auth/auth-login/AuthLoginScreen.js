@@ -53,7 +53,8 @@ class AuthLoginScreen extends React.Component {
     const regexp = /\+7[(]\d{3}\)\d{3}-\d{2}-\d{2}$/
 
     if (this.props.phoneNumber.match(regexp)
-      && this.props.password)
+      && this.props.password
+      && this.props.password.length > 3)
       return true
 
     return false
@@ -105,7 +106,7 @@ class AuthLoginScreen extends React.Component {
                 this.props.style.fontSize.h7,
                 this.props.style.theme.primaryTextColor,
                 this.props.style.theme.dividerColor]}
-              onChangeText={this.onUserNameChange}
+              onChangeText={this.onPasswordChange}
               onSubmitEditing={() => Keyboard.dismiss()}
               blurOnSubmit={false}
             />
