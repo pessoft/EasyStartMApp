@@ -264,7 +264,7 @@ class OrderHistoryInfoScreen extends React.Component {
             this.props.style.theme.primaryTextColor,
             this.props.style.fontSize.h8,
           ]}>
-          Что то пошло не так...
+          Что-то пошло не так...
           </Text>
       </View>
     )

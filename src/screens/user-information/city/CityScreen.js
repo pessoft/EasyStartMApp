@@ -11,7 +11,7 @@ import {
   Platform,
   Picker
 } from 'react-native'
-import { setCityId, setBranchId, addOrUpdateUser, setIsLogin } from '../../../store/user/actions'
+import { setCityId, setBranchId, updateUser, setIsLogin } from '../../../store/user/actions'
 import { getMainData } from '../../../store/main/actions'
 import Style from './style'
 import { MAIN } from '../../../navigation/pointsNavigate'
@@ -61,7 +61,7 @@ class CityScreen extends React.Component {
     this.setState({
       onFinishedButton: true
     },
-      () => this.props.addOrUpdateUser(userData))
+      () => this.props.updateUser(userData))
   }
 
   nextPage = () => {
@@ -91,7 +91,7 @@ class CityScreen extends React.Component {
 
   renderCitiesIOS = () => {
     let citiesReal = this.citiesToArray()
-    let cities = [{key:-1, city: 'Выберите город'}, ...citiesReal]
+    let cities = [{ key: -1, city: 'Выберите город' }, ...citiesReal]
     return (
       <Picker
         selectedValue={this.props.cityId}
@@ -200,7 +200,7 @@ const mapDispatchToProps = {
   setCityId,
   setBranchId,
   getMainData,
-  addOrUpdateUser
+  updateUser
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CityScreen)

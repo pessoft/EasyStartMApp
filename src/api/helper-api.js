@@ -1,3 +1,4 @@
+const errMessage = 'Что-то пошло не так'
 
 export const fetchAPI = async (query, body) => {
   const option = getFetchOption(body)
@@ -9,9 +10,9 @@ export const fetchAPI = async (query, body) => {
       if (json.Success)
         return json.Data
       else
-        throw new Error()
+        throw new Error(json.ErrorMessage)
     } catch {
-      throw new Error()
+      throw new Error(errMessage)
     }
   }
 

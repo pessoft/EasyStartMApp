@@ -2,26 +2,40 @@ import {
   SET_IS_LOGIN,
   SET_USER_NAME,
   SET_USER_PHONE_NUMBER,
+  SET_USER_PASSWORD,
+  SET_USER_EMAIL,
   SET_PARENT_REFERRAL_CODE,
   SET_CITY_ID,
   SET_BRANCH_ID,
   RESET_CLIENT_ID,
   DROP_FETCH_FLAG,
-  FETCH_CHECK_ACTUAL_USER_INFO_REQUEST,
-  FETCH_CHECK_ACTUAL_USER_INFO_SUCCESS,
-  FETCH_CHECK_ACTUAL_USER_INFO_FAILURE,
-  FETCH_ADD_OR_UPDATE_USER_INFO_REQUEST,
-  FETCH_ADD_OR_UPDATE_USER_INFO_SUCCESS,
-  FETCH_ADD_OR_UPDATE_USER_INFO_FAILURE,
+  FETCH_LOGIN_REQUEST,
+  FETCH_LOGIN_SUCCESS,
+  FETCH_LOGIN_FAILURE,
+  FETCH_UPDATE_USER_INFO_REQUEST,
+  FETCH_UPDATE_USER_INFO_SUCCESS,
+  FETCH_UPDATE_USER_INFO_FAILURE,
   UPDATE_VIRTUAL_MONEY,
-  UPDATE_REFERRAL_DISCOUNT
+  UPDATE_REFERRAL_DISCOUNT,
+
+  FETCH_REGISTRATION_USER_REQUEST,
+  FETCH_REGISTRATION_USER_SUCCESS,
+  FETCH_REGISTRATION_USER_FAILURE,
+
+  FETCH_RESTORE_PASSWORD_REQUEST,
+  FETCH_RESTORE_PASSWORD_SUCCESS,
+  FETCH_RESTORE_PASSWORD_FAILURE
 } from './actions'
 
 const defaultState = {
   isFetching: false,
   isFetchError: false,
+  isNotifyAboutRestorePassword: false,
+  errorMessage: '',
   isLogin: false,
   phoneNumber: '',
+  password: '',
+  email: '',
   userName: '',
   cityId: -1,
   branchId: -1,
@@ -72,10 +86,20 @@ export const userReducer = (state = defaultState, action) => {
         ...state,
         userName: action.payload
       }
+    case SET_USER_PASSWORD:
+      return {
+        ...state,
+        password: action.payload
+      }
     case SET_USER_PHONE_NUMBER:
       return {
         ...state,
         phoneNumber: action.payload
+      }
+    case SET_USER_EMAIL:
+      return {
+        ...state,
+        email: action.payload
       }
     case SET_CITY_ID:
       return {
@@ -92,26 +116,40 @@ export const userReducer = (state = defaultState, action) => {
         ...state,
         isLogin: action.payload,
       }
-    case FETCH_CHECK_ACTUAL_USER_INFO_REQUEST:
-    case FETCH_ADD_OR_UPDATE_USER_INFO_REQUEST:
+    case FETCH_LOGIN_REQUEST:
+    case FETCH_UPDATE_USER_INFO_REQUEST:
+    case FETCH_REGISTRATION_USER_REQUEST:
+    case FETCH_RESTORE_PASSWORD_REQUEST:
       return {
         ...state,
         isFetching: true,
-        isFetchError: false
+        isFetchError: false,
+        errorMessage: '',
+        isNotifyAboutRestorePassword: false
       }
-    case FETCH_CHECK_ACTUAL_USER_INFO_SUCCESS:
-    case FETCH_ADD_OR_UPDATE_USER_INFO_SUCCESS:
+    case FETCH_LOGIN_SUCCESS:
+    case FETCH_UPDATE_USER_INFO_SUCCESS:
+    case FETCH_REGISTRATION_USER_SUCCESS:
       return {
         ...state,
         ...action.payload,
         isFetching: false,
       }
-    case FETCH_CHECK_ACTUAL_USER_INFO_FAILURE:
-    case FETCH_ADD_OR_UPDATE_USER_INFO_FAILURE:
+    case FETCH_RESTORE_PASSWORD_SUCCESS:
+      return {
+        ...state,
+        isNotifyAboutRestorePassword: true,
+        isFetching: false,
+      }
+    case FETCH_LOGIN_FAILURE:
+    case FETCH_UPDATE_USER_INFO_FAILURE:
+    case FETCH_REGISTRATION_USER_FAILURE:
+    case FETCH_RESTORE_PASSWORD_FAILURE:
       return {
         ...state,
         isFetchError: true,
         isFetching: false,
+        errorMessage: action.payload
       }
   }
 

@@ -1,8 +1,10 @@
 import { SERVER_DOMAIN } from './server-domain'
 
-export const addOrUpdateUserQuery = `${SERVER_DOMAIN}/api/AdminApp/addorupdateclient`
+export const updateUserQuery = `${SERVER_DOMAIN}/api/AdminApp/updateclient`
+export const loginQuery = `${SERVER_DOMAIN}/api/AdminApp/login`
+export const registrationClientQuery = `${SERVER_DOMAIN}/api/AdminApp/registrationclient`
+export const restorePasswordClientQuery = `${SERVER_DOMAIN}/api/AdminApp/restorepasswordclient`
 
-export const checkActualUserDataQuery = `${SERVER_DOMAIN}/api/AdminApp/checkactualuserdata`
 export const getLocationQuery = `${SERVER_DOMAIN}/api/AdminApp/getlocation`
 export const getMainDataQuery = `${SERVER_DOMAIN}/api/AdminApp/getmaindata`
 

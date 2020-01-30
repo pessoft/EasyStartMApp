@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { FullScreenLogo } from '../../components/full-screen-logo/FullScreenLogo'
-import { checkActualUserData, setIsLogin, dropFetchFlag } from '../../store/user/actions'
+import { login, setIsLogin, dropFetchFlag } from '../../store/user/actions'
 import { getMainData } from '../../store/main/actions'
 import { getLocation } from '../../store/location/actions'
 import { USER_INFO, MAIN } from '../../navigation/pointsNavigate'
@@ -39,14 +39,13 @@ class StartLogoScreen extends React.Component {
     }
   }
 
-  checkActualUserData = () => {
+  login = () => {
     const userDate = {
       phoneNumber: this.props.phoneNumber,
-      cityId: this.props.cityId,
-      clientId: this.props.clientId,
+      password: this.props.password
     }
 
-    this.props.checkActualUserData(userDate)
+    this.props.login(userDate)
   }
 
   componentDidUpdate() {
@@ -61,7 +60,7 @@ class StartLogoScreen extends React.Component {
   componentDidMount = () => {
     if (this.props.isLogin) {
       this.props.setIsLogin(false)
-      this.checkActualUserData()
+      this.login()
     }
     else
       this.userRegister()
@@ -81,6 +80,7 @@ const mapStateToProps = state => {
     isLogin: state.user.isLogin,
     logo: state.appSetting.logo,
     phoneNumber: state.user.phoneNumber,
+    password: state.user.password,
     cityId: state.user.cityId,
     clientId: state.user.clientId,
     branchId: state.user.branchId,
@@ -92,7 +92,7 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = {
-  checkActualUserData,
+  login,
   setIsLogin,
   getMainData,
   getLocation,

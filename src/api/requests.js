@@ -1,10 +1,12 @@
 import {
-  checkActualUserDataQuery,
+  loginQuery,
   getLocationQuery,
   getMainDataQuery,
   getProductReviewsQuery,
   setProductReviewsQuery,
-  addOrUpdateUserQuery,
+  updateUserQuery,
+  registrationClientQuery,
+  restorePasswordClientQuery,
   sendNewOrderQuery,
   getHistoryOrdersQuery,
   getProductsHistoryOrderQuery,
@@ -15,9 +17,10 @@ import {
 } from './request-strings'
 import { fetchAPI } from './helper-api'
 
-export const addOrUpdateUserFetch = async (userData) => await fetchAPI(addOrUpdateUserQuery, userData)
-
-export const checkActualUserDataFetch = async (userData) => await fetchAPI(checkActualUserDataQuery, userData)
+export const updateUserFetch = async (userData) => await fetchAPI(updateUserQuery, userData)
+export const loginFetch = async (userData) => await fetchAPI(loginQuery, userData)
+export const registrationClientFetch = async (userData) => await fetchAPI(registrationClientQuery, userData)
+export const restorePasswordClientFetch = async (email) => await fetchAPI(restorePasswordClientQuery, email)
 
 export const getLocationFetch = async () => await fetchAPI(getLocationQuery)
 export const getMainDataFetch = async (params) => fetchAPI(getMainDataQuery, params)
