@@ -14,13 +14,14 @@ import {
 } from 'react-native'
 import { TextInputMask } from 'react-native-masked-text'
 import { AUTH_REGISTRATION, AUTH_RESTORE_PASSWORD, USER_INFO, MAIN } from '../../../navigation/pointsNavigate'
-import { login } from '../../../store/user/actions'
+import { login, dropFetchFlag } from '../../../store/user/actions'
 import Style from './style'
 import { timingAnimation } from '../../../animation/timingAnimation'
 import UserPhotoDefaultIcon from '../../../images/font-awesome-svg/user-circle.svg'
 import { getSVGColor } from '../../../helpers/color-helper'
 import { getMainData } from '../../../store/main/actions'
 import { getLocation } from '../../../store/location/actions'
+import { showMessage } from "react-native-flash-message"
 
 const { width } = Dimensions.get('window')
 
@@ -52,7 +53,19 @@ class AuthLoginScreen extends React.Component {
       }
     } else if (!this.props.isFetching) {
       timingAnimation(this.state.showScaleAnimation, 1, 300, true)
+      this.showErrMessage()
     }
+  }
+
+  showErrMessage = () => {
+    if (!this.props.isFetchError)
+      return
+
+    showMessage({
+      message: this.props.errorMessage,
+      type: "danger",
+    });
+    this.props.dropFetchFlag()
   }
 
   updateUserData = () => {
@@ -174,7 +187,7 @@ class AuthLoginScreen extends React.Component {
             />
             <View style={[
               Style.inputSize,
-              Style.buttonsContainer]}>
+            ]}>
               <View style={Style.buttonMargin}>
                 <Button
                   title='Войти'
@@ -185,23 +198,25 @@ class AuthLoginScreen extends React.Component {
                     this.props.style.theme.defaultPrimaryColor.backgroundColor}
                 />
               </View>
-              <View style={Style.buttonMargin}>
-                <Button
-                  title='Регистрация'
-                  onPress={this.goToRegistrationPage}
-                  color={Platform.OS == 'ios' ?
-                    this.props.style.theme.primaryTextColor.color :
-                    this.props.style.theme.defaultPrimaryColor.backgroundColor}
-                />
-              </View>
-              <View style={Style.buttonMargin}>
-                <Button
-                  title='Восстановить пароль'
-                  onPress={this.goToRestorePasswordPage}
-                  color={Platform.OS == 'ios' ?
-                    this.props.style.theme.primaryTextColor.color :
-                    this.props.style.theme.defaultPrimaryColor.backgroundColor}
-                />
+              <View style={Style.buttonsSecondary}>
+                <View style={Style.buttonMargin}>
+                  <Button
+                    title='Регистрация'
+                    onPress={this.goToRegistrationPage}
+                    color={Platform.OS == 'ios' ?
+                      this.props.style.theme.primaryTextColor.color :
+                      this.props.style.theme.defaultPrimaryColor.backgroundColor}
+                  />
+                </View>
+                <View style={Style.buttonMargin}>
+                  <Button
+                    title='Восстановить пароль'
+                    onPress={this.goToRestorePasswordPage}
+                    color={Platform.OS == 'ios' ?
+                      this.props.style.theme.primaryTextColor.color :
+                      this.props.style.theme.defaultPrimaryColor.backgroundColor}
+                  />
+                </View>
               </View>
             </View>
           </Animated.View>
@@ -225,6 +240,8 @@ const mapStateToProps = state => {
     style: state.style,
     isLogin: state.user.isLogin,
     isFetching: state.user.isFetching,
+    isFetchError: state.user.isFetchError,
+    errorMessage: state.user.errorMessage,
     user: state.user,
     cities: state.location.cities,
     categories: state.main.categories,
@@ -235,6 +252,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
   login,
+  dropFetchFlag,
   getMainData,
   getLocation
 }

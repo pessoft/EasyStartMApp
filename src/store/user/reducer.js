@@ -49,8 +49,6 @@ const defaultState = {
   referralDiscount: 0,
 }
 
-
-
 export const userReducer = (state = defaultState, action) => {
 
   switch (action.type) {

@@ -74,6 +74,7 @@ class StartLogoScreen extends React.Component {
       this.nextPage()
     }
     else if (!this.props.isFetching) {
+      this.props.dropFetchFlag()
       this.goToAuthPage()
     }
   }
@@ -83,8 +84,11 @@ class StartLogoScreen extends React.Component {
       this.props.setIsLogin(false)
       this.login()
     }
-    else
+    else {
+      this.props.dropFetchFlag()
       this.goToAuthPage()
+    }
+
   }
 
   isValidAuthData = () => !!(this.props.phoneNumber && this.props.password)

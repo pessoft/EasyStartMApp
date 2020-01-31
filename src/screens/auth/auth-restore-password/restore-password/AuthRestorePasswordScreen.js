@@ -13,12 +13,13 @@ import {
   ActivityIndicator
 } from 'react-native'
 import { TextInputMask } from 'react-native-masked-text'
-import { restoreUserPassword } from '../../../../store/user/actions'
+import { restoreUserPassword, dropFetchFlag } from '../../../../store/user/actions'
 import Style from './style'
 import { timingAnimation } from '../../../../animation/timingAnimation'
 import UserPhotoDefaultIcon from '../../../../images/font-awesome-svg/user-lock.svg'
 import { getSVGColor } from '../../../../helpers/color-helper'
 import { AUTH_RESTORE_PASSWORD_SUCCESS } from '../../../../navigation/pointsNavigate'
+import { showMessage } from "react-native-flash-message"
 
 const { width } = Dimensions.get('window')
 
@@ -45,7 +46,19 @@ class AuthRestorePasswordScreen extends React.Component {
       this.goToRestorePasswordSuccessPage()
     } else if (!this.props.isFetching) {
       timingAnimation(this.state.showScaleAnimation, 1, 300, true)
+      this.showErrMessage()
     }
+  }
+
+  showErrMessage = () => {
+    if (!this.props.isFetchError)
+      return
+
+    showMessage({
+      message: this.props.errorMessage,
+      type: "danger",
+    });
+    this.props.dropFetchFlag()
   }
 
   goToRestorePasswordSuccessPage = () => this.props.navigation.navigate(AUTH_RESTORE_PASSWORD_SUCCESS)
@@ -128,12 +141,15 @@ const mapStateToProps = state => {
   return {
     isNotifyAboutRestorePassword: state.user.isNotifyAboutRestorePassword,
     isFetching: state.user.isFetching,
+    isFetchError: state.user.isFetchError,
+    errorMessage: state.user.errorMessage,
     style: state.style
   }
 }
 
 const mapDispatchToProps = {
-  restoreUserPassword
+  restoreUserPassword,
+  dropFetchFlag
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AuthRestorePasswordScreen)

@@ -16,11 +16,11 @@ export default StyleSheet.create({
   inputSize: {
     width: 280,
   },
-  buttonsContainer: {
-    marginTop: 5
-  },
   buttonMargin: {
     margin: 5
+  },
+  buttonsSecondary: {
+    marginTop: 30
   },
   loginIcon: {
     borderRadius: 20,

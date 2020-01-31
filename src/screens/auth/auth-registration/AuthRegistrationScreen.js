@@ -14,13 +14,14 @@ import {
 } from 'react-native'
 import { TextInputMask } from 'react-native-masked-text'
 import { USER_INFO } from '../../../navigation/pointsNavigate'
-import { setPhoneNumber, setUserPassword, registrationUser } from '../../../store/user/actions'
+import { dropFetchFlag, registrationUser } from '../../../store/user/actions'
 import Style from './style'
 import { timingAnimation } from '../../../animation/timingAnimation'
 import UserPhotoDefaultIcon from '../../../images/font-awesome-svg/user-plus.svg'
 import { getSVGColor } from '../../../helpers/color-helper'
 import { getMainData } from '../../../store/main/actions'
 import { getLocation } from '../../../store/location/actions'
+import { showMessage } from "react-native-flash-message"
 
 const { width } = Dimensions.get('window')
 
@@ -53,7 +54,19 @@ class AuthRegistrationScreen extends React.Component {
       }
     } else if (!this.props.isFetching) {
       timingAnimation(this.state.showScaleAnimation, 1, 300, true)
+      this.showErrMessage()
     }
+  }
+
+  showErrMessage = () => {
+    if (!this.props.isFetchError)
+      return
+
+    showMessage({
+      message: this.props.errorMessage,
+      type: "danger",
+    });
+    this.props.dropFetchFlag()
   }
 
   updateUserData = () => {
@@ -222,6 +235,8 @@ const mapStateToProps = state => {
   return {
     isLogin: state.user.isLogin,
     isFetching: state.user.isFetching,
+    isFetchError: state.user.isFetchError,
+    errorMessage: state.user.errorMessage,
     user: state.user,
     cities: state.location.cities,
     categories: state.main.categories,
@@ -233,6 +248,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
   registrationUser,
+  dropFetchFlag,
   getMainData,
   getLocation
 }

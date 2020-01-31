@@ -7,6 +7,7 @@ import { START_APP } from './pointsNavigate';
 import CheckoutCompleteScreen from '../screens/checkout/checkout-complete/CheckoutCompleteScreen'
 import React from 'react'
 import { connect } from 'react-redux'
+import FlashMessage from "react-native-flash-message"
 
 export class AppContainer extends React.Component {
 
@@ -25,7 +26,12 @@ export class AppContainer extends React.Component {
 
     const Container = createAppContainer(appNavigation)
 
-    return <Container />
+    return (
+      <React.Fragment>
+        <Container />
+        <FlashMessage position='top' duration={4000} />
+      </React.Fragment>
+    )
   }
 }
 
