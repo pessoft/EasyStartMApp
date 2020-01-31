@@ -9,13 +9,16 @@ import PartnersIcon from '../../../images/font-awesome-svg/users-medical.svg'
 import BonusIcon from '../../../images/font-awesome-svg/gift.svg'
 import UserInfoIcon from '../../../images/font-awesome-svg/address-card.svg'
 import PalletIcon from '../../../images/font-awesome-svg/palette.svg'
+import LogoutIcon from '../../../images/font-awesome-svg/sign-out-alt.svg'
+import { logout } from '../../../store/user/actions'
 
 import {
   USER_INFO,
   ORDER_HISTORY_PROFILE,
   COLOR_THEME_PROFILE,
   PARTNERS_PROFILE,
-  CASHBACK_PROFILE
+  CASHBACK_PROFILE,
+  AUTH_LOGIN
 }
   from '../../../navigation/pointsNavigate'
 
@@ -34,6 +37,11 @@ class PersonalAccountScreen extends React.Component {
 
   componentDidMount() {
     timingAnimation(this.state.showScaleAnimation, 1, 300, true)
+  }
+
+  logout = () => {
+    this.props.logout()
+    this.props.navigation.navigate(AUTH_LOGIN)
   }
 
   render() {
@@ -82,6 +90,12 @@ class PersonalAccountScreen extends React.Component {
           text={'Внешний вид'}
           onPress={() => this.props.navigation.navigate(COLOR_THEME_PROFILE)}
         />
+        <MenuItem
+          style={this.props.style}
+          icon={LogoutIcon}
+          text={'Выйти из аккаунта'}
+          onPress={this.logout}
+        />
       </Animated.ScrollView>
     )
   }
@@ -95,4 +109,4 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps)(PersonalAccountScreen)
+export default connect(mapStateToProps, { logout })(PersonalAccountScreen)

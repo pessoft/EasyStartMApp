@@ -9,15 +9,19 @@ import {
   View,
   Animated,
   Dimensions,
-  Platform
+  Platform,
+  ActivityIndicator
 } from 'react-native'
 import { TextInputMask } from 'react-native-masked-text'
-import { AUTH_REGISTRATION } from '../../../navigation/pointsNavigate'
+import { AUTH_REGISTRATION, AUTH_RESTORE_PASSWORD, USER_INFO, MAIN } from '../../../navigation/pointsNavigate'
 import { login } from '../../../store/user/actions'
 import Style from './style'
 import { timingAnimation } from '../../../animation/timingAnimation'
 import UserPhotoDefaultIcon from '../../../images/font-awesome-svg/user-circle.svg'
 import { getSVGColor } from '../../../helpers/color-helper'
+import { getMainData } from '../../../store/main/actions'
+import { getLocation } from '../../../store/location/actions'
+
 const { width } = Dimensions.get('window')
 
 class AuthLoginScreen extends React.Component {
@@ -40,7 +44,50 @@ class AuthLoginScreen extends React.Component {
   }
 
   componentDidUpdate() {
+    if (this.props.isLogin) {
+      if (!this.isValidUserInfo()) {
+        this.updateUserData()
+      } else {
+        this.userLogin()
+      }
+    } else if (!this.props.isFetching) {
+      timingAnimation(this.state.showScaleAnimation, 1, 300, true)
+    }
+  }
 
+  updateUserData = () => {
+    if (Object.keys(this.props.cities).length > 0) {
+      this.goToSetUserInfoPage()
+    } else {
+      this.props.getLocation()
+    }
+  }
+
+  userLogin = () => {
+    if (this.props.categories.length > 0) {
+      this.goToMainPage()
+    } else {
+      this.props.getLocation()
+
+      const params = this.getParamsForMainData()
+      this.props.getMainData(params)
+    }
+  }
+
+  getParamsForMainData = () => {
+    return {
+      branchId: this.props.branchId,
+      clientId: this.props.clientId
+    }
+  }
+
+  isValidUserInfo = () => {
+    if (this.props.user.cityId < 1 ||
+      !this.props.user.userName ||
+      !this.props.user.email)
+      return false;
+
+    return true
   }
 
   onPhoneChange = phoneNumber => this.setState({ phoneNumber })
@@ -63,10 +110,21 @@ class AuthLoginScreen extends React.Component {
   }
 
   goToRegistrationPage = () => this.props.navigation.navigate(AUTH_REGISTRATION)
+  goToRestorePasswordPage = () => this.props.navigation.navigate(AUTH_RESTORE_PASSWORD)
+  goToSetUserInfoPage = () => this.props.navigation.navigate(USER_INFO)
+  goToMainPage = () => this.props.navigation.navigate(MAIN)
 
-  render() {
+  renderLoader = () => {
     return (
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+      <View style={Style.centerScreen}>
+        <ActivityIndicator size="large" color={this.props.style.theme.defaultPrimaryColor.backgroundColor} />
+      </View>
+    )
+  }
+
+  renderContent = () => {
+    return (
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false} >
         <KeyboardAvoidingView style={Style.screen} behavior='height'>
 
           <Animated.View
@@ -139,7 +197,7 @@ class AuthLoginScreen extends React.Component {
               <View style={Style.buttonMargin}>
                 <Button
                   title='Восстановить пароль'
-                  // onPress={this.onNextPage}
+                  onPress={this.goToRestorePasswordPage}
                   color={Platform.OS == 'ios' ?
                     this.props.style.theme.primaryTextColor.color :
                     this.props.style.theme.defaultPrimaryColor.backgroundColor}
@@ -151,18 +209,34 @@ class AuthLoginScreen extends React.Component {
       </TouchableWithoutFeedback>
     )
   }
+
+  render() {
+    if (this.props.isFetching ||
+      this.props.isLogin) {
+      return this.renderLoader()
+    } else {
+      return this.renderContent()
+    }
+  }
 }
 
 const mapStateToProps = state => {
   return {
+    style: state.style,
     isLogin: state.user.isLogin,
     isFetching: state.user.isFetching,
-    style: state.style
+    user: state.user,
+    cities: state.location.cities,
+    categories: state.main.categories,
+    clientId: state.user.clientId,
+    branchId: state.user.branchId,
   }
 }
 
 const mapDispatchToProps = {
-  login
+  login,
+  getMainData,
+  getLocation
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AuthLoginScreen)

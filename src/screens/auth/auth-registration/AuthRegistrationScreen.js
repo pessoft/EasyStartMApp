@@ -9,15 +9,19 @@ import {
   View,
   Animated,
   Dimensions,
-  Platform
+  Platform,
+  ActivityIndicator
 } from 'react-native'
 import { TextInputMask } from 'react-native-masked-text'
-import { SET_CITY } from '../../../navigation/pointsNavigate'
+import { USER_INFO } from '../../../navigation/pointsNavigate'
 import { setPhoneNumber, setUserPassword, registrationUser } from '../../../store/user/actions'
 import Style from './style'
 import { timingAnimation } from '../../../animation/timingAnimation'
-import UserPhotoDefaultIcon from '../../../images/font-awesome-svg/user-circle.svg'
+import UserPhotoDefaultIcon from '../../../images/font-awesome-svg/user-plus.svg'
 import { getSVGColor } from '../../../helpers/color-helper'
+import { getMainData } from '../../../store/main/actions'
+import { getLocation } from '../../../store/location/actions'
+
 const { width } = Dimensions.get('window')
 
 class AuthRegistrationScreen extends React.Component {
@@ -41,12 +45,56 @@ class AuthRegistrationScreen extends React.Component {
   }
 
   componentDidUpdate() {
+    if (this.props.isLogin) {
+      if (!this.isValidUserInfo()) {
+        this.updateUserData()
+      } else {
+        this.userLogin()
+      }
+    } else if (!this.props.isFetching) {
+      timingAnimation(this.state.showScaleAnimation, 1, 300, true)
+    }
+  }
 
+  updateUserData = () => {
+    if (Object.keys(this.props.cities).length > 0) {
+      this.goToSetUserInfoPage()
+    } else {
+      this.props.getLocation()
+    }
+  }
+
+  userLogin = () => {
+    if (this.props.categories.length > 0) {
+      this.goToMainPage()
+    } else {
+      this.props.getLocation()
+
+      const params = this.getParamsForMainData()
+      this.props.getMainData(params)
+    }
+  }
+
+  getParamsForMainData = () => {
+    return {
+      branchId: this.props.branchId,
+      clientId: this.props.clientId
+    }
+  }
+
+  isValidUserInfo = () => {
+    if (this.props.user.cityId < 1 ||
+      !this.props.user.userName ||
+      !this.props.user.email)
+      return false;
+
+    return true
   }
 
   onPhoneChange = phoneNumber => this.setState({ phoneNumber })
   onPasswordChange = password => this.setState({ password })
   onConfirmPasswordChange = confirmPassword => this.setState({ confirmPassword })
+  goToSetUserInfoPage = () => this.props.navigation.navigate(USER_INFO)
 
   registration = () => this.props.registrationUser({
     PhoneNumber: this.state.phoneNumber,
@@ -65,7 +113,15 @@ class AuthRegistrationScreen extends React.Component {
     return false
   }
 
-  render() {
+  renderLoader = () => {
+    return (
+      <View style={Style.centerScreen}>
+        <ActivityIndicator size="large" color={this.props.style.theme.defaultPrimaryColor.backgroundColor} />
+      </View>
+    )
+  }
+
+  renderContent = () => {
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
         <KeyboardAvoidingView style={Style.screen} behavior='height'>
@@ -151,21 +207,34 @@ class AuthRegistrationScreen extends React.Component {
       </TouchableWithoutFeedback>
     )
   }
+
+  render() {
+    if (this.props.isFetching ||
+      this.props.isLogin) {
+      return this.renderLoader()
+    } else {
+      return this.renderContent()
+    }
+  }
 }
 
 const mapStateToProps = state => {
   return {
     isLogin: state.user.isLogin,
     isFetching: state.user.isFetching,
-    phoneNumber: state.user.phoneNumber,
-    password: state.user.password,
+    user: state.user,
+    cities: state.location.cities,
+    categories: state.main.categories,
+    style: state.style,
     clientId: state.user.clientId,
-    style: state.style
+    branchId: state.user.branchId,
   }
 }
 
 const mapDispatchToProps = {
-  registrationUser
+  registrationUser,
+  getMainData,
+  getLocation
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AuthRegistrationScreen)

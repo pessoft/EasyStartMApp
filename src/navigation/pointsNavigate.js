@@ -3,6 +3,8 @@ export const START_APP = 'StartApp'
 export const AUTH = 'Auth'
 export const AUTH_LOGIN = 'AuthLogin'
 export const AUTH_REGISTRATION = 'AuthRegistration'
+export const AUTH_RESTORE_PASSWORD = 'AuthRestorePassword'
+export const AUTH_RESTORE_PASSWORD_SUCCESS = 'AuthRestorePasswordSuccess'
 
 export const USER_INFO = 'UserSetInfo'
 export const MAIN = 'MainBottomTab'

@@ -29,7 +29,7 @@ export default StyleSheet.create({
     textAlign: 'center',
     borderWidth: 1,
     borderRadius: 3,
-    padding: Platform.OS == 'ios' ? 5 : 3,
+    padding: Platform.OS == 'ios' ? 8 : 3,
     marginHorizontal: 5
   }
 })

@@ -162,7 +162,6 @@ class CheckoutCompleteScreen extends React.Component {
         <Button
           title='Готово'
           onPress={this.onFinishCheckout}
-          disabled={this.props.cityId == -1}
           color={Platform.OS == 'ios' ?
             this.props.style.theme.primaryTextColor.color :
             this.props.style.theme.defaultPrimaryColor.backgroundColor} />

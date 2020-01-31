@@ -11,7 +11,7 @@ import {
   Platform,
   Picker
 } from 'react-native'
-import { setCityId, setBranchId, updateUser, setIsLogin } from '../../../store/user/actions'
+import { setCityId, setBranchId, updateUser } from '../../../store/user/actions'
 import { getMainData } from '../../../store/main/actions'
 import Style from './style'
 import { MAIN } from '../../../navigation/pointsNavigate'
@@ -52,10 +52,12 @@ class CityScreen extends React.Component {
   onFinishSetUserData = () => {
     const userData = {
       id: this.props.clientId,
-      userName: this.props.userName,
-      phoneNumber: this.props.phoneNumber,
-      parentReferralClientId: this.props.parentReferralClientId,
-      parentReferralCode: this.props.parentReferralCode,
+      phoneNumber: this.props.user.phoneNumber,
+      password: this.props.user.password,
+      email: this.props.user.email,
+      userName: this.props.user.userName,
+      parentReferralClientId: this.props.user.parentReferralClientId,
+      parentReferralCode: this.props.user.parentReferralCode,
     }
 
     this.setState({
@@ -78,7 +80,6 @@ class CityScreen extends React.Component {
   componentDidUpdate() {
     if (this.props.clientId > 0 &&
       this.state.onFinishedButton) {
-      this.props.setIsLogin(true)
 
       const params = this.getParamsForMainData()
       this.props.getMainData(params)
@@ -191,12 +192,12 @@ const mapStateToProps = state => {
     parentReferralClientId: state.user.parentReferralClientId,
     parentReferralCode: state.user.parentReferralCode,
     categories: state.main.categories,
+    user: state.user,
     style: state.style
   }
 }
 
 const mapDispatchToProps = {
-  setIsLogin,
   setCityId,
   setBranchId,
   getMainData,

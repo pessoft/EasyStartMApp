@@ -24,7 +24,9 @@ import {
 
   FETCH_RESTORE_PASSWORD_REQUEST,
   FETCH_RESTORE_PASSWORD_SUCCESS,
-  FETCH_RESTORE_PASSWORD_FAILURE
+  FETCH_RESTORE_PASSWORD_FAILURE,
+
+  LOGOUT,
 } from './actions'
 
 const defaultState = {
@@ -45,36 +47,38 @@ const defaultState = {
   parentReferralCode: '',
   virtualMoney: 0,
   referralDiscount: 0,
-  placedOrders: false
 }
+
+
 
 export const userReducer = (state = defaultState, action) => {
 
   switch (action.type) {
-    case RESET_CLIENT_ID: {
+    case LOGOUT:
+      return { ...defaultState }
+
+    case RESET_CLIENT_ID:
       return {
         ...state,
         clientId: action.payload
       }
-    }
-    case SET_PARENT_REFERRAL_CODE: {
+
+    case SET_PARENT_REFERRAL_CODE:
       return {
         ...state,
         parentReferralCode: action.payload
       }
-    }
-    case UPDATE_VIRTUAL_MONEY: {
+
+    case UPDATE_VIRTUAL_MONEY:
       return {
         ...state,
         virtualMoney: action.payload
       }
-    }
-    case UPDATE_REFERRAL_DISCOUNT: {
+    case UPDATE_REFERRAL_DISCOUNT:
       return {
         ...state,
         referralDiscount: action.payload
       }
-    }
     case DROP_FETCH_FLAG:
       return {
         ...state,
@@ -143,9 +147,16 @@ export const userReducer = (state = defaultState, action) => {
         isFetching: false,
       }
     case FETCH_LOGIN_FAILURE:
-    case FETCH_UPDATE_USER_INFO_FAILURE:
     case FETCH_REGISTRATION_USER_FAILURE:
     case FETCH_RESTORE_PASSWORD_FAILURE:
+      return {
+        ...state,
+        isLogin: false,
+        isFetchError: true,
+        isFetching: false,
+        errorMessage: action.payload
+      }
+    case FETCH_UPDATE_USER_INFO_FAILURE:
       return {
         ...state,
         isFetchError: true,

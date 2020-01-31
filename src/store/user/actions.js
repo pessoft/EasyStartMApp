@@ -34,6 +34,14 @@ export const FETCH_RESTORE_PASSWORD_REQUEST = 'FETCH_RESTORE_PASSWORD_REQUEST'
 export const FETCH_RESTORE_PASSWORD_SUCCESS = 'FETCH_RESTORE_PASSWORD_SUCCESS'
 export const FETCH_RESTORE_PASSWORD_FAILURE = 'FETCH_RESTORE_PASSWORD_FAILURE'
 
+export const LOGOUT = 'LOGOUT'
+
+export const logout = () => {
+  return {
+    type: LOGOUT,
+  }
+}
+
 export const dropFetchFlag = () => {
   return {
     type: DROP_FETCH_FLAG,
