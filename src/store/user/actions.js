@@ -34,7 +34,15 @@ export const FETCH_RESTORE_PASSWORD_REQUEST = 'FETCH_RESTORE_PASSWORD_REQUEST'
 export const FETCH_RESTORE_PASSWORD_SUCCESS = 'FETCH_RESTORE_PASSWORD_SUCCESS'
 export const FETCH_RESTORE_PASSWORD_FAILURE = 'FETCH_RESTORE_PASSWORD_FAILURE'
 
+export const CLEAR_FLAG_NOTIFY_RESTORE_PASSWORD = 'CLEAR_FLAG_NOTIFY_RESTORE_PASSWORD'
+
 export const LOGOUT = 'LOGOUT'
+
+export const clearFlagNotifyRestoryPassword = () => {
+  return {
+    type: CLEAR_FLAG_NOTIFY_RESTORE_PASSWORD,
+  }
+}
 
 export const logout = () => {
   return {

@@ -27,6 +27,7 @@ import {
   FETCH_RESTORE_PASSWORD_FAILURE,
 
   LOGOUT,
+  CLEAR_FLAG_NOTIFY_RESTORE_PASSWORD
 } from './actions'
 
 const defaultState = {
@@ -143,6 +144,11 @@ export const userReducer = (state = defaultState, action) => {
         ...state,
         isNotifyAboutRestorePassword: true,
         isFetching: false,
+      }
+    case CLEAR_FLAG_NOTIFY_RESTORE_PASSWORD:
+      return {
+        ...state,
+        isNotifyAboutRestorePassword: false,
       }
     case FETCH_LOGIN_FAILURE:
     case FETCH_REGISTRATION_USER_FAILURE:

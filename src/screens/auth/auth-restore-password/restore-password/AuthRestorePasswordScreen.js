@@ -13,7 +13,7 @@ import {
   ActivityIndicator
 } from 'react-native'
 import { TextInputMask } from 'react-native-masked-text'
-import { restoreUserPassword, dropFetchFlag } from '../../../../store/user/actions'
+import { restoreUserPassword, dropFetchFlag, clearFlagNotifyRestoryPassword } from '../../../../store/user/actions'
 import Style from './style'
 import { timingAnimation } from '../../../../animation/timingAnimation'
 import UserPhotoDefaultIcon from '../../../../images/font-awesome-svg/user-lock.svg'
@@ -38,11 +38,13 @@ class AuthRestorePasswordScreen extends React.Component {
   }
 
   componentDidMount() {
+    this.props.clearFlagNotifyRestoryPassword()
     timingAnimation(this.state.showScaleAnimation, 1, 300, true)
   }
 
   componentDidUpdate() {
     if (this.props.isNotifyAboutRestorePassword) {
+      this.props.clearFlagNotifyRestoryPassword()
       this.goToRestorePasswordSuccessPage()
     } else if (!this.props.isFetching) {
       timingAnimation(this.state.showScaleAnimation, 1, 300, true)
@@ -149,7 +151,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
   restoreUserPassword,
-  dropFetchFlag
+  dropFetchFlag,
+  clearFlagNotifyRestoryPassword
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AuthRestorePasswordScreen)
