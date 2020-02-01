@@ -17,7 +17,6 @@ export class ViewMoneyBlock extends React.Component {
           <View style={Style.priceRow}>
             <Text
               style={[
-                // Style.textBottom,
                 this.props.style.theme.textPrimaryColor,
                 this.props.style.fontSize.h0,
               ]}>
@@ -26,8 +25,8 @@ export class ViewMoneyBlock extends React.Component {
             <Ruble
               style={Style.iconMargin}
               key={new Date().getTime().toString()}
-              width={this.props.style.fontSize.h2.fontSize}
-              height={this.props.style.fontSize.h2.fontSize}
+              width={this.props.style.fontSize.h3.fontSize}
+              height={this.props.style.fontSize.h3.fontSize}
               color={getSVGColor(this.props.style.theme.textPrimaryColor.color)} />
           </View>
         </View>

@@ -86,8 +86,8 @@ export class TransactionItem extends React.Component {
               <Ruble
                 style={Style.iconMargin}
                 key={new Date().getTime().toString()}
-                width={this.props.style.fontSize.h10.fontSize}
-                height={this.props.style.fontSize.h10.fontSize}
+                width={this.props.style.fontSize.h9.fontSize}
+                height={this.props.style.fontSize.h9.fontSize}
                 color={getSVGColor(this.getColorByTransactionType())} />
             </View>
           </View>

@@ -24,9 +24,10 @@ export default StyleSheet.create({
   },
   priceRow: {
     flexDirection: 'row',
+    alignItems: 'center',
   },
   iconMargin: {
     marginLeft: 2,
-    marginTop: 8
+    marginTop: 3
   }
 })

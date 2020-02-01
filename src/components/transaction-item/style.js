@@ -21,7 +21,7 @@ export default StyleSheet.create({
   },
   iconMargin: {
     marginLeft: 2,
-    marginTop: 4,
+    marginTop: 2,
   },
   textContainer: {
     flex: 6.5
@@ -31,9 +31,10 @@ export default StyleSheet.create({
     marginTop: 3,
     height: 72,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'flex-end'
   },
   priceRow: {
-    flexDirection: 'row'
+    flexDirection: 'row',
+    alignItems: 'center',
   }
 })
