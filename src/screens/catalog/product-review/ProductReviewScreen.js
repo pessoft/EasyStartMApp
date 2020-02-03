@@ -169,7 +169,10 @@ class ProductReviewScreen extends React.Component {
                         <Text style={[this.props.style.fontSize.h7, this.props.style.theme.secondaryTextColor]}>Будь первым!</Text>
                         <Text style={[this.props.style.fontSize.h7, this.props.style.theme.secondaryTextColor]}>Оставь свой отзыв!</Text>
                     </Animated.View>
-                    {this.renderInputFooter()}
+                    {
+                        this.props.user.isLogin &&
+                        this.renderInputFooter()
+                    }
                 </View>
             </TouchableWithoutFeedback>
         )
