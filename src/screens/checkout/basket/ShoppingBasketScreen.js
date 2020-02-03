@@ -11,7 +11,7 @@ import {
 } from 'react-native'
 import { BasketProductItem } from '../../../components/basket-product/BasketProductItem';
 import { setSelectedProduct } from '../../../store/catalog/actions'
-import { PRODUCT_INFO_FROM_BASKET, CHECKOUT_ORDER } from '../../../navigation/pointsNavigate'
+import { PRODUCT_INFO_FROM_BASKET, CHECKOUT_ORDER, AUTH_LOGIN } from '../../../navigation/pointsNavigate'
 import { timingAnimation } from '../../../animation/timingAnimation'
 import {
   toggleProductInBasket,
@@ -305,6 +305,8 @@ class ShoppingBasketScreen extends React.Component {
     return isEmpty
   }
 
+  goToAuthLoginPage = () => this.props.navigation.navigate(AUTH_LOGIN)
+
   renderEmptyBasket = () => {
     return (
       <Animated.View style={[
@@ -370,30 +372,65 @@ class ShoppingBasketScreen extends React.Component {
             renderItem={this.renderItem}
           />
         </ScrollView>
-        <View
-          style={[
-            Style.footer,
-            this.props.style.theme.dividerColor
-          ]}>
-          <Text
-            style={[
-              this.props.style.theme.primaryTextColor,
-              this.props.style.fontSize.h8,
-              { marginBottom: 15 }
-            ]}>
-            Сумма заказа {`${priceValid(this.getOrderCost())} ${this.props.currencyPrefix}`}
-          </Text>
-          <View style={Style.buttonSize}>
-            <Button
-              title='Перейти к оформлению'
-              onPress={this.checkoutOrder}
-              color={Platform.OS == 'ios' ?
-                this.props.style.theme.accentOther.backgroundColor :
-                this.props.style.theme.defaultPrimaryColor.backgroundColor}
-            />
-          </View>
-        </View>
+        {this.props.isLogin && this.renderCheckoutFooter()}
+        {!this.props.isLogin && this.renderLoginInfoFooter()}
       </Animated.View>
+    )
+  }
+
+  renderCheckoutFooter = () => {
+    return (
+      <View
+        style={[
+          Style.footer,
+          this.props.style.theme.dividerColor
+        ]}>
+        <Text
+          style={[
+            this.props.style.theme.primaryTextColor,
+            this.props.style.fontSize.h8,
+            Style.footerText
+          ]}>
+          Сумма заказа {`${priceValid(this.getOrderCost())} ${this.props.currencyPrefix}`}
+        </Text>
+        <View style={Style.buttonSize}>
+          <Button
+            title='Перейти к оформлению'
+            onPress={this.checkoutOrder}
+            color={Platform.OS == 'ios' ?
+              this.props.style.theme.accentOther.backgroundColor :
+              this.props.style.theme.defaultPrimaryColor.backgroundColor}
+          />
+        </View>
+      </View>
+    )
+  }
+
+  renderLoginInfoFooter = () => {
+    return (
+      <View
+        style={[
+          Style.footer,
+          this.props.style.theme.dividerColor
+        ]}>
+        <Text
+          style={[
+            this.props.style.theme.primaryTextColor,
+            this.props.style.fontSize.h8,
+            Style.footerText
+          ]}>
+          Для оформления заказа войдите в аккаунт или зарегистрируйтесь
+        </Text>
+        <View style={Style.buttonSize}>
+          <Button
+            title='Вход / Регистрация'
+            onPress={this.goToAuthLoginPage}
+            color={Platform.OS == 'ios' ?
+              this.props.style.theme.accentOther.backgroundColor :
+              this.props.style.theme.defaultPrimaryColor.backgroundColor}
+          />
+        </View>
+      </View>
     )
   }
 
@@ -451,6 +488,7 @@ const mapStateToProps = state => {
     style: state.style,
     deliverySettings: state.main.deliverySettings,
     promotionCashbackSetting: state.main.promotionCashbackSetting,
+    isLogin: state.user.isLogin
   }
 }
 

@@ -13,6 +13,13 @@ export const FETCH_COUPON_SUCCESS = 'FETCH_COUPON_SUCCESS'
 export const FETCH_COUPON_REQUEST = 'FETCH_COUPON_REQUEST'
 export const FETCH_COUPON_FAILURE = 'FETCH_COUPON_FAILURE'
 export const CLEAN_COUPON = 'CLEAN_COUPON'
+export const RESET_DATA = 'RESET_DATA'
+
+export const resetMainData = () => {
+    return {
+        type: RESET_DATA
+    }
+}
 
 export const getMainData = params => async (dispatch) => {
     dispatch(requestMainDataPosts())

@@ -13,13 +13,14 @@ import {
   ActivityIndicator
 } from 'react-native'
 import { TextInputMask } from 'react-native-masked-text'
-import { AUTH_REGISTRATION, AUTH_RESTORE_PASSWORD, USER_INFO, MAIN } from '../../../navigation/pointsNavigate'
+import { AUTH_REGISTRATION, AUTH_RESTORE_PASSWORD, USER_INFO, MAIN, START_APP } from '../../../navigation/pointsNavigate'
 import { login, dropFetchFlag } from '../../../store/user/actions'
 import Style from './style'
 import { timingAnimation } from '../../../animation/timingAnimation'
 import UserPhotoDefaultIcon from '../../../images/font-awesome-svg/user-circle.svg'
 import { getSVGColor } from '../../../helpers/color-helper'
-import { getMainData } from '../../../store/main/actions'
+import { getMainData, resetMainData } from '../../../store/main/actions'
+import { resetCheckoutData } from '../../../store/checkout/actions'
 import { getLocation } from '../../../store/location/actions'
 import { showMessage } from "react-native-flash-message"
 
@@ -41,6 +42,8 @@ class AuthLoginScreen extends React.Component {
   }
 
   componentDidMount() {
+    this.props.resetCheckoutData()
+    this.props.resetMainData()
     timingAnimation(this.state.showScaleAnimation, 1, 300, true)
   }
 
@@ -53,7 +56,9 @@ class AuthLoginScreen extends React.Component {
       }
     } else if (!this.props.isFetching) {
       timingAnimation(this.state.showScaleAnimation, 1, 300, true)
-      this.showErrMessage()
+
+      if (this.props.isFetchError)
+        this.showErrMessage()
     }
   }
 
@@ -106,10 +111,12 @@ class AuthLoginScreen extends React.Component {
   onPhoneChange = phoneNumber => this.setState({ phoneNumber })
   onPasswordChange = password => this.setState({ password })
 
-  login = () => this.props.login({
-    PhoneNumber: this.state.phoneNumber,
-    Password: this.state.password
-  })
+  login = () => {
+    this.props.login({
+      PhoneNumber: this.state.phoneNumber,
+      Password: this.state.password
+    })
+  }
 
   isValidData = () => {
     const regexp = /\+7[(]\d{3}\)\d{3}-\d{2}-\d{2}$/
@@ -126,6 +133,7 @@ class AuthLoginScreen extends React.Component {
   goToRestorePasswordPage = () => this.props.navigation.navigate(AUTH_RESTORE_PASSWORD)
   goToSetUserInfoPage = () => this.props.navigation.navigate(USER_INFO)
   goToMainPage = () => this.props.navigation.navigate(MAIN)
+  goToStartPage = () => this.props.navigation.navigate(START_APP)
 
   renderLoader = () => {
     return (
@@ -217,6 +225,15 @@ class AuthLoginScreen extends React.Component {
                       this.props.style.theme.defaultPrimaryColor.backgroundColor}
                   />
                 </View>
+                <View style={Style.buttonMargin}>
+                  <Button
+                    title='Продолжить без входа'
+                    onPress={this.goToStartPage}
+                    color={Platform.OS == 'ios' ?
+                      this.props.style.theme.primaryTextColor.color :
+                      this.props.style.theme.defaultPrimaryColor.backgroundColor}
+                  />
+                </View>
               </View>
             </View>
           </Animated.View>
@@ -254,7 +271,9 @@ const mapDispatchToProps = {
   login,
   dropFetchFlag,
   getMainData,
-  getLocation
+  resetMainData,
+  getLocation,
+  resetCheckoutData
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AuthLoginScreen)

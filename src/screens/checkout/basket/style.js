@@ -12,6 +12,10 @@ export default StyleSheet.create({
     borderTopWidth: 0.5,
     marginTop: 10,
   },
+  footerText: {
+    marginBottom: 15,
+    textAlign: 'center'
+  },
   buttonSize: {
     width: 230,
   },

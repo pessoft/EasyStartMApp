@@ -67,6 +67,9 @@ class ProductInfoScreen extends React.Component {
     }
 
     onFinishRating = score => {
+        if (!this.props.isLogin)
+            return
+
         this.props.updateRating({
             clientId: this.props.clientId,
             productId: this.props.selectedProduct.Id,
@@ -95,6 +98,7 @@ class ProductInfoScreen extends React.Component {
                                 showRating={false}
                                 defaultRating={this.state.selectedProduct.Rating}
                                 onFinishRating={this.onFinishRating}
+                                isDisabled={!this.props.isLogin}
                             />
                             <Text style={[
                                 this.props.style.fontSize.h9,
@@ -145,6 +149,7 @@ const mapStateToProps = state => {
         serverDomain: state.appSetting.serverDomain,
         currencyPrefix: state.appSetting.currencyPrefix,
         selectedProduct: state.catalog.selectedProduct,
+        isLogin: state.user.isLogin,
         main: state.main,
         fromBasket: state.navigationHelper.fromBasket,
         style: state.style,

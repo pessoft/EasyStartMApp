@@ -6,7 +6,8 @@ import {
   FETCH_COUPON_SUCCESS,
   FETCH_COUPON_REQUEST,
   FETCH_COUPON_FAILURE,
-  CLEAN_COUPON
+  CLEAN_COUPON,
+  RESET_DATA
 } from './actions'
 
 const defaultState = {
@@ -31,6 +32,8 @@ const defaultState = {
 export const mainReducer = (state = defaultState, action) => {
 
   switch (action.type) {
+    case RESET_DATA:
+      return { ...defaultState }
     case FETCH_MAIN_DATA_REQUEST:
       return {
         ...state,

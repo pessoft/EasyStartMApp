@@ -5,7 +5,8 @@ import {
   FETCH_CHECKOUT_COMPLETE_SUCCESS,
   FETCH_CHECKOUT_COMPLETE_REQUEST,
   FETCH_CHECKOUT_COMPLETE_FAILURE,
-  ADD_NEW_ORDER_DATA
+  ADD_NEW_ORDER_DATA,
+  RESET_DATA
 } from './actions'
 
 const defaultState = {
@@ -20,6 +21,8 @@ const defaultState = {
 
 export const checkoutReducer = (state = defaultState, action) => {
   switch (action.type) {
+    case RESET_DATA:
+      return { ...defaultState }
     case ADD_NEW_ORDER_DATA:
       return {
         ...state,

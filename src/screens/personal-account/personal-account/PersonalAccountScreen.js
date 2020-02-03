@@ -10,6 +10,7 @@ import BonusIcon from '../../../images/font-awesome-svg/gift.svg'
 import UserInfoIcon from '../../../images/font-awesome-svg/address-card.svg'
 import PalletIcon from '../../../images/font-awesome-svg/palette.svg'
 import LogoutIcon from '../../../images/font-awesome-svg/sign-out-alt.svg'
+import LoginIcon from '../../../images/font-awesome-svg/sign-in-alt.svg'
 import { logout } from '../../../store/user/actions'
 
 import {
@@ -41,8 +42,10 @@ class PersonalAccountScreen extends React.Component {
 
   logout = () => {
     this.props.logout()
-    this.props.navigation.navigate(AUTH_LOGIN)
+    this.goToAuthLoginPage()
   }
+
+  goToAuthLoginPage = () => this.props.navigation.navigate(AUTH_LOGIN)
 
   render() {
     return (
@@ -54,13 +57,18 @@ class PersonalAccountScreen extends React.Component {
           }
         ]}
       >
-        <MenuItem
-          style={this.props.style}
-          icon={HistoryIcon}
-          text={'История заказов'}
-          onPress={() => this.props.navigation.navigate(ORDER_HISTORY_PROFILE)}
-        />
         {
+          this.props.isLogin &&
+          <MenuItem
+            style={this.props.style}
+            icon={HistoryIcon}
+            text={'История заказов'}
+            onPress={() => this.props.navigation.navigate(ORDER_HISTORY_PROFILE)}
+          />
+        }
+
+        {
+          this.props.isLogin &&
           this.props.promotionPartnersSetting.IsUsePartners &&
           <MenuItem
             style={this.props.style}
@@ -70,6 +78,7 @@ class PersonalAccountScreen extends React.Component {
           />
         }
         {
+          this.props.isLogin &&
           this.props.promotionCashbackSetting.IsUseCashback &&
           <MenuItem
             style={this.props.style}
@@ -78,24 +87,39 @@ class PersonalAccountScreen extends React.Component {
             onPress={() => this.props.navigation.navigate(CASHBACK_PROFILE)}
           />
         }
-        <MenuItem
-          style={this.props.style}
-          icon={UserInfoIcon}
-          text={'Изменить мои данные'}
-          onPress={() => this.props.navigation.navigate(USER_INFO)}
-        />
+        {
+          this.props.isLogin &&
+          <MenuItem
+            style={this.props.style}
+            icon={UserInfoIcon}
+            text={'Изменить мои данные'}
+            onPress={() => this.props.navigation.navigate(USER_INFO)}
+          />
+        }
         <MenuItem
           style={this.props.style}
           icon={PalletIcon}
           text={'Внешний вид'}
           onPress={() => this.props.navigation.navigate(COLOR_THEME_PROFILE)}
         />
-        <MenuItem
-          style={this.props.style}
-          icon={LogoutIcon}
-          text={'Выйти из аккаунта'}
-          onPress={this.logout}
-        />
+        {
+          this.props.isLogin &&
+          <MenuItem
+            style={this.props.style}
+            icon={LogoutIcon}
+            text={'Выйти из аккаунта'}
+            onPress={this.logout}
+          />
+        }
+        {
+          !this.props.isLogin &&
+          <MenuItem
+            style={this.props.style}
+            icon={LoginIcon}
+            text={'Войти'}
+            onPress={this.goToAuthLoginPage}
+          />
+        }
       </Animated.ScrollView>
     )
   }
@@ -104,6 +128,7 @@ class PersonalAccountScreen extends React.Component {
 const mapStateToProps = state => {
   return {
     style: state.style,
+    isLogin: state.user.isLogin,
     promotionPartnersSetting: state.main.promotionPartnersSetting,
     promotionCashbackSetting: state.main.promotionCashbackSetting,
   }

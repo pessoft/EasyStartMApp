@@ -20,7 +20,7 @@ export default StyleSheet.create({
     margin: 5
   },
   buttonsSecondary: {
-    marginTop: 30
+    marginTop: 20
   },
   loginIcon: {
     borderRadius: 20,

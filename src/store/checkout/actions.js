@@ -7,7 +7,13 @@ export const FETCH_CHECKOUT_COMPLETE_SUCCESS = 'FETCH_CHECKOUT_COMPLETE_SUCCESS'
 export const FETCH_CHECKOUT_COMPLETE_REQUEST = 'FETCH_CHECKOUT_COMPLETE_REQUEST'
 export const FETCH_CHECKOUT_COMPLETE_FAILURE = 'FETCH_CHECKOUT_COMPLETE_FAILURE'
 export const ADD_NEW_ORDER_DATA = 'ADD_NEW_ORDER_DATA'
+export const RESET_DATA = 'RESET_DATA'
 
+export const resetCheckoutData = () => {
+  return {
+    type: RESET_DATA,
+  }
+}
 
 export const addNewOrderData = newOrder => {
   return {

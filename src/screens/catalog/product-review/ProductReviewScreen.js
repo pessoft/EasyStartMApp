@@ -145,7 +145,10 @@ class ProductReviewScreen extends React.Component {
                         renderItem={this.renderItem}
                     />
                 </Animated.ScrollView>
-                {this.renderInputFooter()}
+                {
+                    this.props.user.isLogin &&
+                    this.renderInputFooter()
+                }
             </React.Fragment>
         )
     }

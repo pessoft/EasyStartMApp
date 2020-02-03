@@ -17,10 +17,18 @@ import {
     RedTheme
 } from '../../../style/themes'
 import { ColorThemeItem } from '../../../components/color-theme-item/ColorThemeItem'
+import { resetMainData } from '../../../store/main/actions'
 
 class ColorThemeScreen extends React.Component {
     static navigationOptions = {
         headerTitle: 'Цветовые темы',
+    }
+
+    changeColorTheme = theme => {
+        if (!this.props.isLogin)
+            this.props.resetMainData()
+
+        this.props.changeColorTheme(theme)
     }
 
     render() {
@@ -28,73 +36,73 @@ class ColorThemeScreen extends React.Component {
             <Animated.ScrollView>
                 <ColorThemeItem
                     style={BlueGreyTheme}
-                    onPress={() => this.props.changeColorTheme(BlueGreyTheme)}
+                    onPress={() => this.changeColorTheme(BlueGreyTheme)}
                     fontSize={this.props.style.fontSize.h8.fontSize}
                     text={'Blue Grey'}
                 />
                 <ColorThemeItem
                     style={BlueTheme}
-                    onPress={() => this.props.changeColorTheme(BlueTheme)}
+                    onPress={() => this.changeColorTheme(BlueTheme)}
                     fontSize={this.props.style.fontSize.h8.fontSize}
                     text={'Blue'}
                 />
                 <ColorThemeItem
                     style={CaynTheme}
-                    onPress={() => this.props.changeColorTheme(CaynTheme)}
+                    onPress={() => this.changeColorTheme(CaynTheme)}
                     fontSize={this.props.style.fontSize.h8.fontSize}
                     text={'Cayn'}
                 />
                 <ColorThemeItem
                     style={DarkTheme}
-                    onPress={() => this.props.changeColorTheme(DarkTheme)}
+                    onPress={() => this.changeColorTheme(DarkTheme)}
                     fontSize={this.props.style.fontSize.h8.fontSize}
                     text={'Dark'}
                 />
                 <ColorThemeItem
                     style={DeepOrangeTheme}
-                    onPress={() => this.props.changeColorTheme(DeepOrangeTheme)}
+                    onPress={() => this.changeColorTheme(DeepOrangeTheme)}
                     fontSize={this.props.style.fontSize.h8.fontSize}
                     text={'Deep Orange'}
                 />
                 <ColorThemeItem
                     style={DeepPurpleTheme}
-                    onPress={() => this.props.changeColorTheme(DeepPurpleTheme)}
+                    onPress={() => this.changeColorTheme(DeepPurpleTheme)}
                     fontSize={this.props.style.fontSize.h8.fontSize}
                     text={'Deep Purple'}
                 />
                 <ColorThemeItem
                     style={GreenTheme}
-                    onPress={() => this.props.changeColorTheme(GreenTheme)}
+                    onPress={() => this.changeColorTheme(GreenTheme)}
                     fontSize={this.props.style.fontSize.h8.fontSize}
                     text={'Green'}
                 />
                 <ColorThemeItem
                     style={IndigoTheme}
-                    onPress={() => this.props.changeColorTheme(IndigoTheme)}
+                    onPress={() => this.changeColorTheme(IndigoTheme)}
                     fontSize={this.props.style.fontSize.h8.fontSize}
                     text={'Indigo'}
                 />
                 <ColorThemeItem
                     style={LightBlueTheme}
-                    onPress={() => this.props.changeColorTheme(LightBlueTheme)}
+                    onPress={() => this.changeColorTheme(LightBlueTheme)}
                     fontSize={this.props.style.fontSize.h8.fontSize}
                     text={'Light Blue'}
                 />
                 <ColorThemeItem
                     style={OrangeTheme}
-                    onPress={() => this.props.changeColorTheme(OrangeTheme)}
+                    onPress={() => this.changeColorTheme(OrangeTheme)}
                     fontSize={this.props.style.fontSize.h8.fontSize}
                     text={'Orange'}
                 />
                 <ColorThemeItem
                     style={PurpleTheme}
-                    onPress={() => this.props.changeColorTheme(PurpleTheme)}
+                    onPress={() => this.changeColorTheme(PurpleTheme)}
                     fontSize={this.props.style.fontSize.h8.fontSize}
                     text={'Purple'}
                 />
                 <ColorThemeItem
                     style={RedTheme}
-                    onPress={() => this.props.changeColorTheme(RedTheme)}
+                    onPress={() => this.changeColorTheme(RedTheme)}
                     fontSize={this.props.style.fontSize.h8.fontSize}
                     text={'Red'}
                 />
@@ -105,8 +113,14 @@ class ColorThemeScreen extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        style: state.style
+        style: state.style,
+        isLogin: state.user.isLogin
     }
 }
 
-export default connect(mapStateToProps, { changeColorTheme })(ColorThemeScreen)
+const mapDispatchToProps = {
+    changeColorTheme,
+    resetMainData
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ColorThemeScreen)

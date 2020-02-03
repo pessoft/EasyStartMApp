@@ -1,8 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { FullScreenLogo } from '../../components/full-screen-logo/FullScreenLogo'
-import { login, setIsLogin, dropFetchFlag } from '../../store/user/actions'
-import { getMainData } from '../../store/main/actions'
+import { login, setIsLogin, dropFetchFlag, logout } from '../../store/user/actions'
+import { getMainData, resetMainData } from '../../store/main/actions'
 import { getLocation } from '../../store/location/actions'
 import { AUTH, USER_INFO, MAIN } from '../../navigation/pointsNavigate'
 
@@ -69,13 +69,14 @@ class StartLogoScreen extends React.Component {
   goToSetUserInfoPage = () => this.props.navigation.navigate(USER_INFO)
   goToMainPage = () => this.props.navigation.navigate(MAIN)
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
     if (this.props.isLogin) {
       this.nextPage()
     }
-    else if (!this.props.isFetching) {
-      this.props.dropFetchFlag()
-      this.goToAuthPage()
+    else if (!this.props.isFetching && prevProps.isFetching) {
+      this.accessNoLogin()
+    } else if (!this.props.isFetching && !this.props.dataIsFetching) {
+      this.userLogin()
     }
   }
 
@@ -85,10 +86,15 @@ class StartLogoScreen extends React.Component {
       this.login()
     }
     else {
-      this.props.dropFetchFlag()
-      this.goToAuthPage()
+      this.accessNoLogin()
     }
+  }
 
+  accessNoLogin = () => {
+    this.props.logout()
+    this.props.resetMainData()
+    this.props.dropFetchFlag()
+    this.userLogin()
   }
 
   isValidAuthData = () => !!(this.props.phoneNumber && this.props.password)
@@ -115,6 +121,7 @@ const mapStateToProps = state => {
     branchId: state.user.branchId,
     cities: state.location.cities,
     categories: state.main.categories,
+    dataIsFetching: state.main.isFetching,
     style: state.style,
     isFetching: state.user.isFetching
   }
@@ -122,8 +129,10 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
   login,
+  logout,
   setIsLogin,
   getMainData,
+  resetMainData,
   getLocation,
   dropFetchFlag
 }
