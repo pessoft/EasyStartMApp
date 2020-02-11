@@ -8,8 +8,15 @@ import CheckoutCompleteScreen from '../screens/checkout/checkout-complete/Checko
 import React from 'react'
 import { connect } from 'react-redux'
 import FlashMessage from "react-native-flash-message"
+import { registerAppWithFCM, requestPermission } from '../store/FCM/actions'
 
 export class AppContainer extends React.Component {
+
+  componentDidMount() {
+    //TO DO for ios
+    // this.props.registerAppWithFCM()
+    // this.props.requestPermission()
+  }
 
   render() {
     const appNavigation = createSwitchNavigator(
@@ -41,4 +48,9 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps)(AppContainer)
+const mapDispatchToProps = {
+  registerAppWithFCM,
+  requestPermission
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AppContainer)
