@@ -5,6 +5,7 @@ import {
     Animated,
     View,
     ScrollView,
+    Platform
 } from 'react-native'
 import Image from 'react-native-scalable-image'
 import { CategoryItem } from '../../components/category/CategoryItem';
@@ -28,7 +29,7 @@ class CategoriesScreen extends React.Component {
                     textAlign: "left",
                     flex: 1,
                 },
-                headerRight: () => <VirtualMoneyButton onPress={onPress}/>
+                headerRight: () => <VirtualMoneyButton onPress={onPress} />
             }
 
         return {
@@ -39,7 +40,7 @@ class CategoriesScreen extends React.Component {
     constructor(props) {
         super(props)
 
-        this.props.navigation.setParams({ 
+        this.props.navigation.setParams({
             isShowVirtualMoney: this.props.promotionCashbackSetting.IsUseCashback,
             onPress: () => this.goToCashbackScreen()
         })
@@ -121,6 +122,17 @@ class CategoriesScreen extends React.Component {
         />
     }
 
+    getFlatListPerformanceProperty = () => {
+        if (Platform.OS == 'ios')
+            return {}
+        else
+            return {
+                windowSize: 4,
+                removeClippedSubviews: true,
+                initialNumToRender: 4,
+            }
+    }
+
     render() {
         return (
             <Animated.View
@@ -142,9 +154,7 @@ class CategoriesScreen extends React.Component {
 
                 <ScrollView style={{ flex: 1 }}>
                     <FlatList
-                        windowSize={4}
-                        removeClippedSubviews={true}
-                        initialNumToRender={4}
+                        {...this.getFlatListPerformanceProperty()}
                         data={this.categoriesTransform()}
                         renderItem={this.renderItem}
                     />
