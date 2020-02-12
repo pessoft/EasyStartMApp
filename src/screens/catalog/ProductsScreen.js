@@ -2,7 +2,8 @@ import React from 'react'
 import { connect } from 'react-redux'
 import {
     FlatList,
-    Animated
+    Animated,
+    Platform
 } from 'react-native'
 import { ProductItem } from '../../components/product/ProductItem';
 import { setSelectedProduct } from '../../store/catalog/actions'
@@ -154,6 +155,18 @@ class ProductsScreen extends React.Component {
         return item.Id.toString()
     }
 
+    getFlatListPerformanceProperty = () => {
+        if (Platform.OS == 'ios')
+            return {}
+        else
+            return {
+                windowSize: 4,
+                removeClippedSubviews: true,
+                initialNumToRender: 4,
+                maxToRenderPerBatch: 1,
+            }
+    }
+
     render() {
         return (
             <Animated.ScrollView
@@ -161,11 +174,9 @@ class ProductsScreen extends React.Component {
                     { marginTop: 5 },
                     { opacity: this.state.showScaleAnimation },
                     { transform: [{ scale: this.state.showScaleAnimation }] }]}>
+
                 <FlatList
-                    windowSize={4}
-                    removeClippedSubviews={true}
-                    initialNumToRender={4}
-                    maxToRenderPerBatch={1}
+                    {...this.getFlatListPerformanceProperty()}
                     renderItem={this.renderItem}
                     keyExtractor={this.keyExtractor}
                     extraData={this.props.basketProducts}
