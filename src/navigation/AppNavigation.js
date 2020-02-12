@@ -24,6 +24,7 @@ class AppNavigation extends React.Component {
       })
 
     const Container = createAppContainer(appNavigation)
+
     return <Container />
   }
 }

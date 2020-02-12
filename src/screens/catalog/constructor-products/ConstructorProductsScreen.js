@@ -93,7 +93,11 @@ class ConstructorProductsScreen extends React.Component {
         timingAnimation(this.state.showScaleAnimation, 1, 300, true)
     }
 
-    componentDidUpdate = () => {
+    componentDidUpdate = (prevProps) => {
+        if (this.props.selectedCategory != prevProps.selectedCategory) {
+            this.props.navigation.setParams({ categoryName: this.props.selectedCategory.Name })
+        }
+
         this.changeTotalCountProductInBasket()
     }
 
@@ -183,7 +187,7 @@ class ConstructorProductsScreen extends React.Component {
 
     render() {
         return (
-            <View style={{flex: 1}}>
+            <View style={{ flex: 1 }}>
                 {
                     this.state.showSuccessAnimation &&
                     <View style={Style.successContainer}>

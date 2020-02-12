@@ -9,7 +9,7 @@ import {
 import Image from 'react-native-scalable-image'
 import { SimpleTextButton } from '../../../components/buttons/SimpleTextButton/SimpleTextButton'
 import { AirbnbRating } from 'react-native-ratings';
-import { PRODUCT_REVIEW, PRODUCT_REVIEW_FROM_BASKET } from '../../../navigation/pointsNavigate'
+import { PRODUCT_REVIEW, PRODUCT_REVIEW_FROM_BASKET, PRODUCTS } from '../../../navigation/pointsNavigate'
 import Style from './style'
 import CommentLinesIcon from '../../../images/font-awesome-svg/comment-lines.svg'
 import { timingAnimation } from '../../../animation/timingAnimation'
@@ -39,12 +39,19 @@ class ProductInfoScreen extends React.Component {
         timingAnimation(this.state.showScaleAnimation, 1, 300, true)
     }
 
-    componentDidUpdate() {
+    componentDidUpdate(prevProps) {
         const category = this.props.main.products[this.state.selectedProduct.CategoryId]
         const product = category.filter(p => p.Id == this.state.selectedProduct.Id)[0]
 
         if (product.Rating != this.state.selectedProduct.Rating) {
             this.setState({ selectedProduct: product })
+        }
+
+        if (!this.props.selectedProduct ||
+            Object.keys(this.props.selectedProduct).length == 0) {
+            this.props.navigation.navigate(PRODUCTS)
+        } else if (this.props.selectedProduct != prevProps.selectedProduct) {
+            this.props.navigation.setParams({ productName: this.props.selectedProduct.Name })
         }
     }
 

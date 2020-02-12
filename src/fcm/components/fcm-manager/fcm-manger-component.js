@@ -3,14 +3,24 @@ import { connect } from 'react-redux'
 import { Platform, View } from 'react-native'
 import messaging, { firebase } from '@react-native-firebase/messaging'
 import { registerAppWithFCM, requestPermission } from '../../../store/FCM/actions'
-import { FCMManager } from '../../logic/fcm-manager/fcm-manger'
+import { setupPushNotification } from '../../../push-services/push-notification'
+import {
+  NotificationActionType,
+  openCashback,
+  openCategory,
+  openPartners,
+  openProductInfo,
+  openStock
+} from '../../logic/notification-open-actions/actions'
+
+import { setSelectedCategory, setSelectedProduct } from '../../../store/catalog/actions'
+import { setSelectedStock } from '../../../store/stock/actions'
 
 class FCMManagerComponent extends React.Component {
 
   constructor(props) {
     super(props)
-
-    this.fcmManager = new FCMManager(Platform.OS == 'android')
+    this.pushNotification = setupPushNotification(data => this.handleNotificationOpen(data))
   }
 
   componentDidMount() {
@@ -21,9 +31,64 @@ class FCMManagerComponent extends React.Component {
   }
 
   subscribeForegroundMessage = () => {
-    messaging().onMessage(async remoteMessage => this.fcmManager.processing(remoteMessage.data))
+    messaging().onMessage(async remoteMessage => {
+      let data = null
+      try {
+        data = JSON.parse(remoteMessage.data.payload)
+      } catch{ }
+
+      if (data)
+        this.sendNotification(data)
+    })
   }
 
+  sendNotification = data => {
+    this.pushNotification.localNotification({
+      title: data.title,
+      message: data.message,
+      data: data
+    })
+  }
+
+  handleNotificationOpen = notification => {
+    const data = notification.data
+    if (!data || !data.action)
+      return
+
+    let options = {
+      navigate: this.props.navigation.navigate,
+      targetId: data.action.targetId,
+      targetItems: null,
+    }
+
+    switch (data.action.type) {
+      case NotificationActionType.OpenCategory:
+        options.targetItems = this.props.categories
+        options.setSelectedCategory = this.props.setSelectedCategory
+        options.setSelectedProduct = this.props.setSelectedProduct
+
+        openCategory(options)
+        break
+      case NotificationActionType.OpenProductInfo:
+        options.targetItems = this.props.products
+        options.setSelectedProduct = this.props.setSelectedProduct
+
+        openProductInfo(options)
+        break
+      case NotificationActionType.OpenStock:
+        options.targetItems = this.props.stocks
+        options.setSelectedStock = this.props.setSelectedStock
+
+        openStock(options)
+        break
+      case NotificationActionType.OpenPartners:
+        openPartners(options)
+        break
+      case NotificationActionType.OpenCashback:
+        openCashback(options)
+        break
+    }
+  }
 
   settingFCMForIOS = () => {
     const isRegisteredForRemoteNotifications = firebase.messaging().isRegisteredForRemoteNotifications
@@ -41,13 +106,19 @@ class FCMManagerComponent extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    style: state.style
+    style: state.style,
+    categories: state.main.categories,
+    products: state.main.products,
+    stocks: state.main.stocks,
   }
 }
 
 const mapDispatchToProps = {
   registerAppWithFCM,
-  requestPermission
+  requestPermission,
+  setSelectedCategory,
+  setSelectedProduct,
+  setSelectedStock
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(FCMManagerComponent)

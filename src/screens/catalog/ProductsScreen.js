@@ -55,11 +55,15 @@ class ProductsScreen extends React.Component {
         });
     }
 
-    componentDidUpdate = () => {
+    componentDidUpdate = (prevProps) => {
         if (Object.keys(this.props.selectedProduct).length > 0
             && this.props.selectedProduct.Id > 0
             && this.props.navigation.isFocused()) {
             this.props.navigation.navigate(PRODUCT_INFO)
+        }
+
+        if (this.props.selectedCategory != prevProps.selectedCategory) {
+            this.props.navigation.setParams({ categoryName: this.props.selectedCategory.Name })
         }
 
         this.changeTotalCountProductInBasket()
