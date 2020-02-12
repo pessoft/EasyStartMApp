@@ -3,18 +3,21 @@ import { fcmAction } from './fmc-factory'
 export class FCMManager {
 
   processing = data => {
-    alert('push')
     if (!this.isValidData(data))
       return
 
-    for (item of data.payload) {
-      fcmAction(item)
-    }
+    try {
+      const payload = JSON.parse(data.payload)
+      for (item of payload) {
+        fcmAction(item)
+      }
+    } catch{ }
   }
 
   isValidData = data => {
-    if (!data || !data.payload || !Array.isArray(data.payload))
+    if (!data || !data.payload)
       return false
-    else true
+    else
+      return true
   }
 }
