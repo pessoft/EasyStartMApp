@@ -7,16 +7,8 @@ import { START_APP } from './pointsNavigate';
 import CheckoutCompleteScreen from '../screens/checkout/checkout-complete/CheckoutCompleteScreen'
 import React from 'react'
 import { connect } from 'react-redux'
-import FlashMessage from "react-native-flash-message"
-import { registerAppWithFCM, requestPermission } from '../store/FCM/actions'
 
-export class AppContainer extends React.Component {
-
-  componentDidMount() {
-    //TO DO for ios
-    // this.props.registerAppWithFCM()
-    // this.props.requestPermission()
-  }
+class AppNavigation extends React.Component {
 
   render() {
     const appNavigation = createSwitchNavigator(
@@ -32,13 +24,7 @@ export class AppContainer extends React.Component {
       })
 
     const Container = createAppContainer(appNavigation)
-
-    return (
-      <React.Fragment>
-        <Container />
-        <FlashMessage position='top' duration={4000} />
-      </React.Fragment>
-    )
+    return <Container />
   }
 }
 
@@ -48,9 +34,4 @@ const mapStateToProps = state => {
   }
 }
 
-const mapDispatchToProps = {
-  registerAppWithFCM,
-  requestPermission
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(AppContainer)
+export default connect(mapStateToProps)(AppNavigation)
