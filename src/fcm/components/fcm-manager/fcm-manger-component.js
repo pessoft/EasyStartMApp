@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Platform, View } from 'react-native'
 import messaging, { firebase } from '@react-native-firebase/messaging'
 import { registerAppWithFCM, requestPermission } from '../../../store/FCM/actions'
-import { setupPushNotification } from '../../../push-services/push-notification'
+import { setupPushNotification, NotificationStatus } from '../../../push-services/push-notification'
 import {
   NotificationActionType,
   openCashback,
@@ -26,6 +26,8 @@ class FCMManagerComponent extends React.Component {
   componentDidMount() {
     if (Platform.OS == 'ios')
       this.settingFCMForIOS()
+      else 
+      this.backgroundAndroid()
 
     this.subscribeForegroundMessage()
   }
@@ -42,16 +44,28 @@ class FCMManagerComponent extends React.Component {
     })
   }
 
+  backgroundAndroid = () => {
+    messaging().setBackgroundMessageHandler(async remoteMessage => {
+      let data = null
+      try {
+        data = JSON.parse(remoteMessage.data.payload)
+      } catch{ }
+
+      if (data)
+        this.sendNotification(data)
+    });
+  }
+  
   sendNotification = data => {
     this.pushNotification.localNotification({
       title: data.title,
       message: data.message,
-      data: data
+      data: data, // data for android
+      userInfo: data //data for ios
     })
   }
 
-  handleNotificationOpen = notification => {
-    const data = notification.data
+  handleNotificationOpen = data => {
     if (!data || !data.action)
       return
 
