@@ -3,10 +3,10 @@ import { StyleSheet, Platform } from 'react-native'
 export default StyleSheet.create({
   contacts: {
     flex: 1,
-    marginVertical: 6,
     paddingTop: 7,
     paddingBottom: 14,
     paddingHorizontal: 12,
+    marginVertical: 3,
     borderTopWidth: 0.5,
     borderBottomWidth: 0.5,
     justifyContent: 'center',
