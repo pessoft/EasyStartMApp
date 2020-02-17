@@ -31,6 +31,7 @@ class FCMManagerComponent extends React.Component {
   }
 
   subscribeForegroundMessage = () => {
+    messaging().subscribeToTopic(this.props.appPackageName);
     messaging().onMessage(async remoteMessage => {
       let data = null
       try {
@@ -44,6 +45,8 @@ class FCMManagerComponent extends React.Component {
 
   sendNotification = data => {
     this.pushNotification.localNotification({
+      largeIcon: "ic_launcher",
+      smallIcon: "ic_notification",
       title: data.title,
       message: data.message,
       data: data, // data for android
@@ -110,6 +113,7 @@ const mapStateToProps = state => {
     categories: state.main.categories,
     products: state.main.products,
     stocks: state.main.stocks,
+    appPackageName: state.appSetting.appPackageName
   }
 }
 
