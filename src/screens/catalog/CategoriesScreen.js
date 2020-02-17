@@ -142,17 +142,16 @@ class CategoriesScreen extends React.Component {
                         opacity: this.state.showScaleAnimation,
                         transform: [{ scale: this.state.showScaleAnimation }]
                     }]}>
-                {
-                    this.props.stocks.length > 0 &&
-                    this.props.promotionSetting.IsShowStockBanner &&
-                    <StockBannerCarousel
-                        style={this.props.style}
-                        stocks={this.props.stocks}
-                        onPress={this.onSelectedStock}
-                    />
-                }
-
                 <ScrollView style={{ flex: 1 }}>
+                    {
+                        this.props.stocks.length > 0 &&
+                        this.props.promotionSetting.IsShowStockBanner &&
+                        <StockBannerCarousel
+                            style={this.props.style}
+                            stocks={this.props.stocks}
+                            onPress={this.onSelectedStock}
+                        />
+                    }
                     <FlatList
                         {...this.getFlatListPerformanceProperty()}
                         data={this.categoriesTransform()}
