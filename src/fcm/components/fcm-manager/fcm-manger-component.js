@@ -26,8 +26,6 @@ class FCMManagerComponent extends React.Component {
   componentDidMount() {
     if (Platform.OS == 'ios')
       this.settingFCMForIOS()
-      else 
-      this.backgroundAndroid()
 
     this.subscribeForegroundMessage()
   }
@@ -44,18 +42,6 @@ class FCMManagerComponent extends React.Component {
     })
   }
 
-  backgroundAndroid = () => {
-    messaging().setBackgroundMessageHandler(async remoteMessage => {
-      let data = null
-      try {
-        data = JSON.parse(remoteMessage.data.payload)
-      } catch{ }
-
-      if (data)
-        this.sendNotification(data)
-    });
-  }
-  
   sendNotification = data => {
     this.pushNotification.localNotification({
       title: data.title,

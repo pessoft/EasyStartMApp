@@ -8,6 +8,8 @@ export const setupPushNotification = handleNotification => {
       if (handleNotification &&
         !notification.data.remote)
         handleNotification(notification.data)
+
+      notification.finish(PushNotificationIOS.FetchResult.NoData)
     },
   })
 
