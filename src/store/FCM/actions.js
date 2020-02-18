@@ -8,6 +8,9 @@ export const FETCH_REQUEST_PERMISSION_REQUEST = 'FETCH_REQUEST_PERMISSION_REQUES
 export const FETCH_REQUEST_PERMISSION_SUCCESS = 'FETCH_REQUEST_PERMISSION_SUCCESS'
 export const FETCH_REQUEST_PERMISSION_FAILURE = 'FETCH_REQUEST_PERMISSION_FAILURE'
 
+export const SET_NOTIFICATION_ACTION_ON_EXECUTION = 'SET_NOTIFICATION_ACTION_ON_EXECUTION'
+export const NOTIFICATION_ACTION_DONE = 'NOTIFICATION_ACTION_DONE'
+
 export const registerAppWithFCM = () => async (dispatch) => {
     dispatch(requestRegisterAppWithFCMPosts())
 
@@ -27,6 +30,19 @@ export const requestPermission = () => async (dispatch) => {
         dispatch(successRequestPermissionPosts(granted.toString()))
     } catch {
         dispatch(failureRequestPermissionPosts())
+    }
+}
+
+export const setNotificationActionExecution = action => {
+    return {
+        type: SET_NOTIFICATION_ACTION_ON_EXECUTION,
+        payload: action
+    }
+}
+
+export const notificationActionDone = () => {
+    return {
+        type: NOTIFICATION_ACTION_DONE
     }
 }
 

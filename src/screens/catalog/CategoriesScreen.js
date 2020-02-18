@@ -17,6 +17,7 @@ import VirtualMoneyButton from '../../components/buttons/VirtualMoneyButton/Virt
 import { StockBannerCarousel } from '../../components/category/stock-banner-carousel/StockBannerCarousel';
 import { setSelectedStock } from '../../store/stock/actions'
 import { CategoryType } from '../../helpers/type-category'
+import { notificationActionDone } from '../../store/FCM/actions'
 
 class CategoriesScreen extends React.Component {
     static navigationOptions = ({ navigation }) => {
@@ -57,6 +58,11 @@ class CategoriesScreen extends React.Component {
     goToCashbackScreen = () => this.props.navigation.navigate(CASHBACK_PROFILE)
 
     componentDidMount = () => {
+        if (this.props.fcmNotificationAction) {
+            this.props.fcmNotificationAction()
+            this.props.notificationActionDone()
+        }
+
         timingAnimation(this.state.showScaleAnimation, 1, 300, true)
     }
 
@@ -173,13 +179,15 @@ const mapStateToProps = state => {
         selectedStock: state.stock.selectedStock,
         style: state.style,
         stocks: state.main.stocks,
+        fcmNotificationAction: state.fcm.notificationAction
     }
 }
 
 const mapActionToProps = {
     setSelectedCategory,
     setSelectedProduct,
-    setSelectedStock
+    setSelectedStock,
+    notificationActionDone
 }
 
 export default connect(mapStateToProps, mapActionToProps)(CategoriesScreen)

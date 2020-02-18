@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { Platform, View } from 'react-native'
 import messaging, { firebase } from '@react-native-firebase/messaging'
-import { registerAppWithFCM, requestPermission } from '../../../store/FCM/actions'
+import { registerAppWithFCM, requestPermission, setNotificationActionExecution } from '../../../store/FCM/actions'
 import { setupPushNotification, NotificationStatus } from '../../../push-services/push-notification'
 import {
   NotificationActionType,
@@ -50,13 +50,18 @@ class FCMManagerComponent extends React.Component {
       title: data.title,
       message: data.message,
       data: data, // data for android
-      userInfo: data //data for ios
+      userInfo: data, //data for ios
     })
   }
 
   handleNotificationOpen = data => {
     if (!data || !data.action)
       return
+
+    if (this.props.categories.length == 0) {
+      this.props.setNotificationActionExecution(() => this.handleNotificationOpen(data))
+      return
+    }
 
     let options = {
       navigate: this.props.navigation.navigate,
@@ -72,23 +77,31 @@ class FCMManagerComponent extends React.Component {
 
         openCategory(options)
         break
+
       case NotificationActionType.OpenProductInfo:
         options.targetItems = this.props.products
         options.setSelectedProduct = this.props.setSelectedProduct
 
         openProductInfo(options)
         break
+
       case NotificationActionType.OpenStock:
         options.targetItems = this.props.stocks
         options.setSelectedStock = this.props.setSelectedStock
 
         openStock(options)
         break
+
       case NotificationActionType.OpenPartners:
-        openPartners(options)
+        if (this.props.isLogin &&
+          this.props.promotionPartnersSetting.IsUsePartners)
+          openPartners(options)
         break
+
       case NotificationActionType.OpenCashback:
-        openCashback(options)
+        if (this.props.isLogin &&
+          this.props.promotionCashbackSetting.IsUseCashback)
+          openCashback(options)
         break
     }
   }
@@ -113,7 +126,10 @@ const mapStateToProps = state => {
     categories: state.main.categories,
     products: state.main.products,
     stocks: state.main.stocks,
-    appPackageName: state.appSetting.appPackageName
+    appPackageName: state.appSetting.appPackageName,
+    isLogin: state.user.isLogin,
+    promotionPartnersSetting: state.main.promotionPartnersSetting,
+    promotionCashbackSetting: state.main.promotionCashbackSetting,
   }
 }
 
@@ -122,7 +138,8 @@ const mapDispatchToProps = {
   requestPermission,
   setSelectedCategory,
   setSelectedProduct,
-  setSelectedStock
+  setSelectedStock,
+  setNotificationActionExecution
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(FCMManagerComponent)
