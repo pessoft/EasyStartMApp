@@ -9,13 +9,15 @@ import {
   View,
   Animated,
   Dimensions,
-  Platform
+  Platform,
+  ActivityIndicator
 } from 'react-native'
 import { TextInputMask } from 'react-native-masked-text'
 import { SET_CITY } from '../../../navigation/pointsNavigate'
-import { setUserEmail, setUserName, setParentReferralCode, resetClientId } from '../../../store/user/actions'
+import { setUserEmail, setUserName, setParentReferralCode, dropSuccessClientUpdateDataFlag, updateUser, dropFetchFlag } from '../../../store/user/actions'
 import Style from './style'
 import { timingAnimation } from '../../../animation/timingAnimation'
+import { showMessage } from "react-native-flash-message"
 
 const { width } = Dimensions.get('window')
 
@@ -33,16 +35,50 @@ class UserDataScreen extends React.Component {
   }
 
   componentDidMount() {
+    this.props.dropSuccessClientUpdateDataFlag()
     timingAnimation(this.state.showScaleAnimation, 1, 300, true)
+  }
+
+  componentDidUpdate() {
+    if (this.props.isFetchUserError) {
+      this.showErrMessage()
+      timingAnimation(this.state.showScaleAnimation, 1, 300, true)
+    } else if (this.props.isSuccessClientUpdateData) {
+      this.onNextPage()
+    }
+  }
+
+  showErrMessage = () => {
+    if (!this.props.isFetchUserError)
+      return
+
+    showMessage({
+      message: this.props.errorMessage,
+      type: "danger",
+    });
+    this.props.dropFetchFlag()
   }
 
   onUserNameChange = userName => this.props.setUserName(userName)
   onParentReferralCodeChange = referralCode => this.props.setParentReferralCode(referralCode)
   onEmailChange = email => this.props.setUserEmail(email)
 
-  onNextPage = () => {
-    this.props.resetClientId()
-    this.props.navigation.navigate(SET_CITY)
+  onNextPage = () => this.props.navigation.navigate(SET_CITY)
+
+  onUpdateUserData = () => {
+    const userData = {
+      id: this.props.clientId,
+      phoneNumber: this.props.user.phoneNumber,
+      password: this.props.user.password,
+      cityId: this.props.user.cityId,
+      branchId: this.props.user.branchId,
+      email: this.props.user.email,
+      userName: this.props.user.userName,
+      parentReferralClientId: this.props.user.parentReferralClientId,
+      parentReferralCode: this.props.user.parentReferralCode,
+    }
+
+    this.props.updateUser(userData)
   }
 
   isEmailValid = () => {
@@ -59,7 +95,15 @@ class UserDataScreen extends React.Component {
     return false
   }
 
-  render() {
+  renderLoader() {
+    return (
+      <View style={Style.centerScreen}>
+        <ActivityIndicator size="large" color={this.props.style.theme.defaultPrimaryColor.backgroundColor} />
+      </View>
+    )
+  }
+
+  renderScreen = () => {
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
         <KeyboardAvoidingView style={Style.screen} behavior='height'>
@@ -117,7 +161,7 @@ class UserDataScreen extends React.Component {
               Style.buttonNext]}>
               <Button
                 title='Далее'
-                onPress={this.onNextPage}
+                onPress={this.onUpdateUserData}
                 disabled={!this.isValidData()}
                 color={Platform.OS == 'ios' ?
                   this.props.style.theme.primaryTextColor.color :
@@ -130,15 +174,27 @@ class UserDataScreen extends React.Component {
       </TouchableWithoutFeedback>
     )
   }
+
+  render() {
+    if (this.props.isFetchingUser)
+      return this.renderLoader()
+    else
+      return this.renderScreen()
+  }
 }
 
 const mapStateToProps = state => {
   return {
     email: state.user.email,
     userName: state.user.userName,
+    user: state.user,
     parentReferralClientId: state.user.parentReferralClientId,
     parentReferralCode: state.user.parentReferralCode,
-    style: state.style
+    style: state.style,
+    isFetchingUser: state.user.isFetching,
+    isFetchUserError: state.user.isFetchError,
+    errorMessage: state.user.errorMessage,
+    isSuccessClientUpdateData: state.user.isSuccessClientUpdateData,
   }
 }
 
@@ -146,7 +202,9 @@ const mapDispatchToProps = {
   setUserEmail,
   setUserName,
   setParentReferralCode,
-  resetClientId
+  dropSuccessClientUpdateDataFlag,
+  updateUser,
+  dropFetchFlag
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserDataScreen)

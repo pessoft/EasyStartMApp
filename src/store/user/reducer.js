@@ -27,12 +27,14 @@ import {
   FETCH_RESTORE_PASSWORD_FAILURE,
 
   LOGOUT,
-  CLEAR_FLAG_NOTIFY_RESTORE_PASSWORD
+  CLEAR_FLAG_NOTIFY_RESTORE_PASSWORD,
+  DROP_SUCCESS_CLIENT_UPDATE_DATA_FLAG
 } from './actions'
 
 const defaultState = {
   isFetching: false,
   isFetchError: false,
+  isSuccessClientUpdateData: false,
   isNotifyAboutRestorePassword: false,
   errorMessage: '',
   isLogin: false,
@@ -53,21 +55,23 @@ const defaultState = {
 export const userReducer = (state = defaultState, action) => {
 
   switch (action.type) {
+    case DROP_SUCCESS_CLIENT_UPDATE_DATA_FLAG:
+      return {
+        ...state,
+        isSuccessClientUpdateData: false,
+      }
     case LOGOUT:
       return { ...defaultState }
-
     case RESET_CLIENT_ID:
       return {
         ...state,
         clientId: action.payload
       }
-
     case SET_PARENT_REFERRAL_CODE:
       return {
         ...state,
         parentReferralCode: action.payload
       }
-
     case UPDATE_VIRTUAL_MONEY:
       return {
         ...state,
@@ -119,8 +123,17 @@ export const userReducer = (state = defaultState, action) => {
         ...state,
         isLogin: action.payload,
       }
-    case FETCH_LOGIN_REQUEST:
     case FETCH_UPDATE_USER_INFO_REQUEST:
+      return {
+        ...state,
+        clientId: -1,
+        isFetching: true,
+        isFetchError: false,
+        errorMessage: '',
+        isNotifyAboutRestorePassword: false,
+        isSuccessClientUpdateData: false
+      }
+    case FETCH_LOGIN_REQUEST:
     case FETCH_REGISTRATION_USER_REQUEST:
     case FETCH_RESTORE_PASSWORD_REQUEST:
       return {
@@ -131,8 +144,14 @@ export const userReducer = (state = defaultState, action) => {
         errorMessage: '',
         isNotifyAboutRestorePassword: false
       }
-    case FETCH_LOGIN_SUCCESS:
     case FETCH_UPDATE_USER_INFO_SUCCESS:
+      return {
+        ...state,
+        ...action.payload,
+        isFetching: false,
+        isSuccessClientUpdateData: true
+      }
+    case FETCH_LOGIN_SUCCESS:
     case FETCH_REGISTRATION_USER_SUCCESS:
       return {
         ...state,
@@ -165,7 +184,8 @@ export const userReducer = (state = defaultState, action) => {
         ...state,
         isFetchError: true,
         isFetching: false,
-        errorMessage: action.payload
+        errorMessage: action.payload,
+        isSuccessClientUpdateData: false
       }
   }
 

@@ -15,6 +15,7 @@ export const SET_PARENT_REFERRAL_CODE = 'SET_PARENT_REFERRAL_CODE'
 export const SET_BRANCH_ID = 'SET_BRANCH_ID'
 export const SET_IS_LOGIN = 'SET_IS_LOGIN'
 export const DROP_FETCH_FLAG = 'DROP_FETCH_FLAG'
+export const DROP_SUCCESS_CLIENT_UPDATE_DATA_FLAG = 'DROP_SUCCESS_CLIENT_UPDATE_DATA_FLAG'
 export const UPDATE_VIRTUAL_MONEY = 'UPDATE_VIRTUAL_MONEY'
 export const UPDATE_REFERRAL_DISCOUNT = 'UPDATE_REFERRAL_DISCOUNT'
 
@@ -53,6 +54,12 @@ export const logout = () => {
 export const dropFetchFlag = () => {
   return {
     type: DROP_FETCH_FLAG,
+  }
+}
+
+export const dropSuccessClientUpdateDataFlag = () => {
+  return {
+    type: DROP_SUCCESS_CLIENT_UPDATE_DATA_FLAG,
   }
 }
 
