@@ -28,6 +28,10 @@ export default StyleSheet.create({
     marginTop: 5,
   },
   paddingBottomText: {
-    paddingBottom: 5
+    paddingBottom: 2,
+    marginBottom: 0
+  },
+  AreaDeliveryInfo: {
+    marginTop: 5
   }
 })

@@ -146,7 +146,7 @@ class CheckoutScreen extends React.Component {
   }
 
   setContactsData = userData => this.setState({ userData })
-  changeDeliveryType = deliveryType => this.setState({ deliveryType })
+  changeDeliveryType = deliveryType => this.setState({ deliveryType, deliveryAddress: { areaDeliveryId: -1 } })
   changePaymentData = paymentData => this.setState({ paymentData })
   setDeliveryAddress = deliveryAddress => this.setState({ deliveryAddress })
   setCommentText = commentText => this.setState({ commentText })
@@ -183,6 +183,21 @@ class CheckoutScreen extends React.Component {
       return null
   }
 
+  getCurrentAreaDeliveryPrice = () => {
+    let deliveryPrice = 0
+
+    try {
+      const findResults = this.props.deliverySettings.AreaDeliveries.filter(p => p.UniqId == this.state.deliveryAddress.areaDeliveryId)
+
+      if (findResults && findResults.length > 0)
+        deliveryPrice = findResults[0].DeliveryPrice
+    } catch (ex) {
+      deliveryPrice = 0
+    }
+
+    return deliveryPrice
+  }
+
   isFreeDelivery = () => {
     if (this.state.deliveryAddress.areaDeliveryId == -1)
       return false
@@ -195,7 +210,7 @@ class CheckoutScreen extends React.Component {
       || this.isFreeDelivery())
       return 0
     else
-      return this.props.deliverySettings.PriceDelivery
+      return this.getCurrentAreaDeliveryPrice()
   }
 
   getDiscount = (discountType) => {

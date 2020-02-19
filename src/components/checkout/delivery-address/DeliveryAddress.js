@@ -61,18 +61,18 @@ export class DeliveryAddress extends React.Component {
             style={[
               this.props.style.theme.secondaryTextColor,
               this.props.style.fontSize.h8,
-              
+
             ]}
             itemStyle={[
-              {height: 100},
+              { height: 100 },
               this.props.style.theme.secondaryTextColor,
               this.props.style.fontSize.h8]}
             onValueChange={(this.onChangeDeliveryArea)
             }>
-            <Picker.Item label="Район доставки" value="-1" />
+            <Picker.Item label="Выберите район доставки" value="-1" />
             {this.props.areaDeliveries &&
-            this.props.areaDeliveries.map(p => <Picker.Item key={p.UniqId.toString()} label={p.NameArea} value={p.UniqId} />)}
-            
+              this.props.areaDeliveries.map(p => <Picker.Item key={p.UniqId.toString()} label={p.NameArea} value={p.UniqId} />)}
+
           </Picker>
           <TextInput
             placeholder='Улица'
