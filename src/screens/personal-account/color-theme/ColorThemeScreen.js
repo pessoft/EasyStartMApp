@@ -7,6 +7,7 @@ import {
     BlueTheme,
     CaynTheme,
     DarkTheme,
+    DarkOrangeTheme,
     DeepOrangeTheme,
     DeepPurpleTheme,
     GreenTheme,
@@ -63,6 +64,12 @@ class ColorThemeScreen extends React.Component {
                     onPress={() => this.changeColorTheme(DeepOrangeTheme)}
                     fontSize={this.props.style.fontSize.h8.fontSize}
                     text={'Deep Orange'}
+                />
+                <ColorThemeItem
+                    style={DarkOrangeTheme}
+                    onPress={() => this.changeColorTheme(DarkOrangeTheme)}
+                    fontSize={this.props.style.fontSize.h8.fontSize}
+                    text={'DarkOrange'}
                 />
                 <ColorThemeItem
                     style={DeepPurpleTheme}
