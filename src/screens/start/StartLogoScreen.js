@@ -5,7 +5,7 @@ import { login, setIsLogin, dropFetchFlag, logout } from '../../store/user/actio
 import { getMainData, resetMainData } from '../../store/main/actions'
 import { getLocation } from '../../store/location/actions'
 import { AUTH, USER_INFO, MAIN } from '../../navigation/pointsNavigate'
-import FCMManagerComponent from '../../fcm/components/fcm-manager/fcm-manger-component'
+
 
 class StartLogoScreen extends React.Component {
   constructor(props) {
@@ -102,13 +102,9 @@ class StartLogoScreen extends React.Component {
 
   render() {
     return (
-      <React.Fragment>
-        <FCMManagerComponent navigation={this.props.navigation} />
-        <FullScreenLogo
-          source={this.props.logo}
-          theme={this.props.style.theme} />
-      </React.Fragment>
-
+      <FullScreenLogo
+        source={this.props.logo}
+        theme={this.props.style.theme} />
     )
   }
 }

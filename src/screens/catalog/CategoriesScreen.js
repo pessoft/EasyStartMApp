@@ -18,6 +18,7 @@ import { StockBannerCarousel } from '../../components/category/stock-banner-caro
 import { setSelectedStock } from '../../store/stock/actions'
 import { CategoryType } from '../../helpers/type-category'
 import { notificationActionDone } from '../../store/FCM/actions'
+import FCMManagerComponent from '../../fcm/components/fcm-manager/fcm-manger-component'
 
 class CategoriesScreen extends React.Component {
     static navigationOptions = ({ navigation }) => {
@@ -148,6 +149,7 @@ class CategoriesScreen extends React.Component {
                         opacity: this.state.showScaleAnimation,
                         transform: [{ scale: this.state.showScaleAnimation }]
                     }]}>
+                <FCMManagerComponent navigation={this.props.navigation} />
                 <ScrollView style={{ flex: 1 }}>
                     {
                         this.props.stocks.length > 0 &&

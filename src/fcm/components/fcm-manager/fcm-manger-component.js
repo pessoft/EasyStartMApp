@@ -25,15 +25,13 @@ class FCMManagerComponent extends React.Component {
 
   constructor(props) {
     super(props)
-    this.pushNotification = setupPushNotification(data => this.handleNotificationOpen(data),
-      token => this.registerToken(token))
+    this.pushNotification = setupPushNotification(this.handleNotificationOpen)
   }
 
-  registerToken = token => {
+  registerToken = () => {
     let device = {
       branchId: this.props.user.branchId,
       clientId: this.props.user.clientId,
-      token: token,
       platform: PlatformType[Platform.OS]
     }
     this.props.registerDevice(device)
@@ -42,11 +40,13 @@ class FCMManagerComponent extends React.Component {
   componentDidMount() {
     if (Platform.OS == 'ios')
       this.settingFCMForIOS()
+    else
+      this.registerToken()
 
     this.subscribeForegroundMessage()
   }
 
-  subscribeForegroundMessage = () => {
+  subscribeForegroundMessage = async () => {
     messaging().onMessage(async remoteMessage => {
       let data = null
       try {
@@ -56,7 +56,6 @@ class FCMManagerComponent extends React.Component {
       if (data)
         this.sendNotification(data)
     })
-    messaging().subscribeToTopic(this.props.appPackageName)
   }
 
   sendNotification = data => {
@@ -74,9 +73,7 @@ class FCMManagerComponent extends React.Component {
     if (!data || !data.action)
       return
 
-
-
-    if (this.props.categories.length == 0) {
+      if (this.props.categories.length == 0) {
       this.props.setNotificationActionExecution(() => this.handleNotificationOpen(data))
       return
     }
@@ -86,13 +83,13 @@ class FCMManagerComponent extends React.Component {
       targetId: data.action.targetId,
       targetItems: null,
     }
-
+   
     switch (data.action.type) {
       case NotificationActionType.OpenCategory:
         options.targetItems = this.props.categories
         options.setSelectedCategory = this.props.setSelectedCategory
         options.setSelectedProduct = this.props.setSelectedProduct
-
+        
         openCategory(options)
         break
 
@@ -130,11 +127,12 @@ class FCMManagerComponent extends React.Component {
       this.props.registerAppWithFCM()
     }
 
+    this.registerToken()
     this.props.requestPermission()
   }
 
   render() {
-    return <React.Fragment />
+  return <React.Fragment/>
   }
 }
 

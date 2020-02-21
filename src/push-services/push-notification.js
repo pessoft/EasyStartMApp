@@ -2,15 +2,8 @@ import PushNotification from 'react-native-push-notification'
 import PushNotificationIOS from '@react-native-community/push-notification-ios'
 import { Platform, DeviceEventEmitter } from 'react-native'
 
-export const setupPushNotification = (handleNotification, registerDevice) => {
-
+export const setupPushNotification = (handleNotification) => {
   PushNotification.configure({
-    requestPermissions: false,
-    onRegister: function (token) {
-      alert('sdf')
-      if (registerDevice)
-        registerDevice(token)
-    },
     onNotification: function (notification) {
       if (Platform.OS == 'android') {
         let data = notification.data || JSON.parse(notification.payload)
