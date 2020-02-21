@@ -70,6 +70,11 @@ export const isWorkTime = operationMode => {
       if (currentHours > splitStartPeriod[0]
         || currentMinutes >= splitStartPeriod[1])
         return true
+    } else if (currentHours >= splitStartPeriod[0]
+      && currentHours == splitEndPeriod[0]) {
+      if (currentHours == splitEndPeriod[0]
+        && currentMinutes <= splitEndPeriod[1])
+        return true
     }
   }
 

@@ -18,5 +18,10 @@ export default StyleSheet.create({
   },
   buttonNext: {
     marginTop: 10
+  },
+  centerScreen: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 })

@@ -11,13 +11,14 @@ import {
   Platform,
   Picker
 } from 'react-native'
-import { setCityId, setBranchId, updateUser } from '../../../store/user/actions'
+import { setCityId, setBranchId, updateUser, dropFetchFlag, dropSuccessClientUpdateDataFlag } from '../../../store/user/actions'
 import { getMainData } from '../../../store/main/actions'
 import Style from './style'
 import { MAIN } from '../../../navigation/pointsNavigate'
 import { SimpleListItem } from '../../../components/simple-list-item/SimpleListItem'
 import { timingAnimation } from '../../../animation/timingAnimation'
 import LottieView from 'lottie-react-native';
+import { showMessage } from "react-native-flash-message"
 
 const { width } = Dimensions.get('window')
 
@@ -37,7 +38,21 @@ class CityScreen extends React.Component {
   }
 
   componentDidMount() {
+    this.props.dropSuccessClientUpdateDataFlag()
+    this.props.setCityId(-1)
     timingAnimation(this.state.showScaleAnimation, 1, 300, true)
+  }
+
+
+  showErrMessage = () => {
+    if (!this.props.isFetchUserError)
+      return
+    alert(this.props.errorMessage)
+    showMessage({
+      message: this.props.errorMessage,
+      type: "danger",
+    });
+    this.props.dropFetchFlag()
   }
 
   citiesToArray = () => {
@@ -80,14 +95,20 @@ class CityScreen extends React.Component {
   }
 
   componentDidUpdate() {
-    if (this.props.clientId > 0 &&
+    if (this.props.isFetchUserError) {
+      this.showErrMessage()
+      this.setState({ onFinishedButton: false, nextPage: false })
+      timingAnimation(this.state.showScaleAnimation, 1, 300, true)
+    } else if (this.props.clientId > 0 &&
       this.state.onFinishedButton) {
-
       const params = this.getParamsForMainData()
       this.props.getMainData(params)
 
       this.setState({ onFinishedButton: false, nextPage: true })
-    } else if (this.props.categories.length > 0 && this.state.nextPage) {
+    } else if (this.props.cityId > 0
+      && this.props.categories.length > 0
+      && this.state.nextPage
+      && this.props.isSuccessClientUpdateData) {
       this.nextPage()
     }
   }
@@ -155,7 +176,7 @@ class CityScreen extends React.Component {
           <Button
             title='Далее'
             onPress={this.onFinishSetUserData}
-            disabled={this.props.cityId == -1}
+            disabled={this.props.cityId < 1}
             color={Platform.OS == 'ios' ?
               this.props.style.theme.primaryTextColor.color :
               this.props.style.theme.defaultPrimaryColor.backgroundColor} />
@@ -173,7 +194,7 @@ class CityScreen extends React.Component {
   }
 
   render() {
-    if (this.props.isFetchingMainData || this.props.isFetchingLogin)
+    if (this.props.isFetchingMainData || this.props.isFetchingUser)
       return this.renderLoader()
     else
       return this.renderScreen()
@@ -187,7 +208,9 @@ const mapStateToProps = state => {
     cityId: state.user.cityId,
     branchId: state.user.branchId,
     isFetchingMainData: state.main.isFetching,
-    isFetchingLogin: state.user.isFetching,
+    isFetchingUser: state.user.isFetching,
+    isFetchUserError: state.user.isFetchError,
+    errorMessage: state.user.errorMessage,
     clientId: state.user.clientId,
     userName: state.user.userName,
     phoneNumber: state.user.phoneNumber,
@@ -195,7 +218,8 @@ const mapStateToProps = state => {
     parentReferralCode: state.user.parentReferralCode,
     categories: state.main.categories,
     user: state.user,
-    style: state.style
+    style: state.style,
+    isSuccessClientUpdateData: state.user.isSuccessClientUpdateData,
   }
 }
 
@@ -203,7 +227,9 @@ const mapDispatchToProps = {
   setCityId,
   setBranchId,
   getMainData,
-  updateUser
+  updateUser,
+  dropFetchFlag,
+  dropSuccessClientUpdateDataFlag,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CityScreen)

@@ -48,6 +48,22 @@ class CheckoutScreen extends React.Component {
     return areaDeliveries
   }
 
+  getAreaDeliveryPrice = () => {
+    let areaDeliveries = []
+
+    for (let index in this.props.deliverySettings.AreaDeliveries) {
+      const area = this.props.deliverySettings.AreaDeliveries[index]
+
+      if (areaDeliveries[area.DeliveryPrice])
+        areaDeliveries[area.DeliveryPrice].push(area.NameArea)
+      else
+        areaDeliveries[area.DeliveryPrice] = [area.NameArea]
+    }
+
+    areaDeliveries = areaDeliveries.map((areas, price) => `${areas.join(", ")}: ${price} ${this.props.currencyPrefix}`)
+    return areaDeliveries
+  }
+
   render() {
     return (
       <Animated.View
@@ -74,8 +90,8 @@ class CheckoutScreen extends React.Component {
           <DeliveryPriceInfo
             style={this.props.style}
             currencyPrefix={this.props.currencyPrefix}
-            startFreeDeliveryPrice={this.props.deliverySettings.PriceDelivery}
-            areaDelievries={this.getAreaDelivery()}
+            areaDeliveriesPrice={this.getAreaDeliveryPrice()}
+            areaDeliveries={this.getAreaDelivery()}
           />
           <DeliveryTypeInfo
             style={this.props.style}

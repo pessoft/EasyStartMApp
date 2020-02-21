@@ -29,29 +29,51 @@ export class DeliveryPriceInfo extends React.Component {
           </Text>
           </View>
           <View style={Style.content}>
-            <Text style={[
-              this.props.style.theme.secondaryTextColor,
-              this.props.style.fontSize.h9,
-              Style.paddingBottomText
-            ]}>
-              {`Стоимость доставки ${this.props.startFreeDeliveryPrice} ${this.props.currencyPrefix}`}
-            </Text>
             {
-              this.props.areaDelievries &&
-              this.props.areaDelievries.length > 0 &&
+              this.props.areaDeliveriesPrice &&
+              this.props.areaDeliveriesPrice.length > 0 &&
               <Text
                 style={[
                   this.props.style.theme.secondaryTextColor,
                   this.props.style.fontSize.h9,
                   Style.paddingBottomText
                 ]}>
+                Стоимость доставки зависит от вашего местонахождения
+              </Text>
+            }
+            {
+              this.props.areaDeliveriesPrice &&
+              this.props.areaDeliveriesPrice.map((value, index) => {
+                return (
+                  <Text
+                    key={index}
+                    style={[
+                      this.props.style.theme.secondaryTextColor,
+                      this.props.style.fontSize.h9,
+                      Style.paddingBottomText
+                    ]}>
+                    {value}
+                  </Text>)
+              })
+            }
+
+            {
+              this.props.areaDeliveries &&
+              this.props.areaDeliveries.length > 0 &&
+              <Text
+                style={[
+                  this.props.style.theme.secondaryTextColor,
+                  this.props.style.fontSize.h9,
+                  Style.paddingBottomText,
+                  Style.AreaDeliveryInfo
+                ]}>
                 Бесплатная доставка осуществляется при заказа на минимальную
                 сумму, которая зависит от вашего местонахождения
               </Text>
             }
             {
-              this.props.areaDelievries &&
-              this.props.areaDelievries.map((value, index) => {
+              this.props.areaDeliveries &&
+              this.props.areaDeliveries.map((value, index) => {
                 return (
                   <Text
                     key={index}

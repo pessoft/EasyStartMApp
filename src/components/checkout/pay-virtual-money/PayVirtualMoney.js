@@ -49,6 +49,12 @@ export class PayVirtualMoney extends React.Component {
       this.props.onChangeAmountPayCashBack(value)
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.state.paymentValue > 0 && prevProps.toPay != this.props.toPay) {
+      this.onApplyAmountPayCashBack()
+    }
+  }
+
   renderPay = () => {
     return (
       <View style={Style.row}>

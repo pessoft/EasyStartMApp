@@ -137,7 +137,7 @@ class AuthRegistrationScreen extends React.Component {
   renderContent = () => {
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-        <KeyboardAvoidingView style={Style.screen} behavior='height'>
+        <KeyboardAvoidingView style={Style.screen} behavior='padding'>
 
           <Animated.View
             style={[Style.screen,
