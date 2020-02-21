@@ -22,3 +22,5 @@ export const getCouponQuery = `${SERVER_DOMAIN}/api/AdminApp/getcoupun`
 
 export const getPartnersTransactionQuery = `${SERVER_DOMAIN}/api/AdminApp/getpartnerstransaction`
 export const getCashbackTransactionQuery = `${SERVER_DOMAIN}/api/AdminApp/getcashbacktransaction`
+
+export const registerDeviceQuery = `${SERVER_DOMAIN}/api/AdminApp/registerdevice`

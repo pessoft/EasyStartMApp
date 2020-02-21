@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { Platform, View } from 'react-native'
 import messaging, { firebase } from '@react-native-firebase/messaging'
-import { registerAppWithFCM, requestPermission, setNotificationActionExecution } from '../../../store/FCM/actions'
+import { registerAppWithFCM, requestPermission, setNotificationActionExecution, registerDevice } from '../../../store/FCM/actions'
 import { setupPushNotification, NotificationStatus } from '../../../push-services/push-notification'
 import {
   NotificationActionType,
@@ -16,11 +16,27 @@ import {
 import { setSelectedCategory, setSelectedProduct } from '../../../store/catalog/actions'
 import { setSelectedStock } from '../../../store/stock/actions'
 
+const PlatformType = {
+  'android': 0,
+  'ios': 1
+}
+
 class FCMManagerComponent extends React.Component {
 
   constructor(props) {
     super(props)
-    this.pushNotification = setupPushNotification(data => this.handleNotificationOpen(data))
+    this.pushNotification = setupPushNotification(data => this.handleNotificationOpen(data),
+      token => this.registerToken(token))
+  }
+
+  registerToken = token => {
+    let device = {
+      branchId: this.props.user.branchId,
+      clientId: this.props.user.clientId,
+      token: token,
+      platform: PlatformType[Platform.OS]
+    }
+    this.props.registerDevice(device)
   }
 
   componentDidMount() {
@@ -31,7 +47,6 @@ class FCMManagerComponent extends React.Component {
   }
 
   subscribeForegroundMessage = () => {
-    messaging().subscribeToTopic(this.props.appPackageName);
     messaging().onMessage(async remoteMessage => {
       let data = null
       try {
@@ -41,6 +56,7 @@ class FCMManagerComponent extends React.Component {
       if (data)
         this.sendNotification(data)
     })
+    messaging().subscribeToTopic(this.props.appPackageName)
   }
 
   sendNotification = data => {
@@ -57,6 +73,8 @@ class FCMManagerComponent extends React.Component {
   handleNotificationOpen = data => {
     if (!data || !data.action)
       return
+
+
 
     if (this.props.categories.length == 0) {
       this.props.setNotificationActionExecution(() => this.handleNotificationOpen(data))
@@ -128,6 +146,7 @@ const mapStateToProps = state => {
     stocks: state.main.stocks,
     appPackageName: state.appSetting.appPackageName,
     isLogin: state.user.isLogin,
+    user: state.user,
     promotionPartnersSetting: state.main.promotionPartnersSetting,
     promotionCashbackSetting: state.main.promotionCashbackSetting,
   }
@@ -139,7 +158,8 @@ const mapDispatchToProps = {
   setSelectedCategory,
   setSelectedProduct,
   setSelectedStock,
-  setNotificationActionExecution
+  setNotificationActionExecution,
+  registerDevice
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(FCMManagerComponent)

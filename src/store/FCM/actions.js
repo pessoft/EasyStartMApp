@@ -1,4 +1,5 @@
 import messaging from '@react-native-firebase/messaging'
+import { registerDeviceFetch } from '../../api/requests'
 
 export const FETCH_REGISTER_APP_WITH_FCM_REQUEST = 'FETCH_REGISTER_APP_WITH_FCM_REQUEST'
 export const FETCH_REGISTER_APP_WITH_FCM_SUCCESS = 'FETCH_REGISTER_APP_WITH_FCM_SUCCESS'
@@ -10,6 +11,10 @@ export const FETCH_REQUEST_PERMISSION_FAILURE = 'FETCH_REQUEST_PERMISSION_FAILUR
 
 export const SET_NOTIFICATION_ACTION_ON_EXECUTION = 'SET_NOTIFICATION_ACTION_ON_EXECUTION'
 export const NOTIFICATION_ACTION_DONE = 'NOTIFICATION_ACTION_DONE'
+
+export const FETCH_REQUEST_REGISTER_DEVICE_REQUEST = 'FETCH_REQUEST_REGISTER_DEVICE_REQUEST'
+export const FETCH_REQUEST_REGISTER_DEVICE_SUCCESS = 'FETCH_REQUEST_REGISTER_DEVICE_SUCCESS'
+export const FETCH_REQUEST_REGISTER_DEVICE_FAILURE = 'FETCH_REQUEST_REGISTER_DEVICE_FAILURE'
 
 export const registerAppWithFCM = () => async (dispatch) => {
     dispatch(requestRegisterAppWithFCMPosts())
@@ -30,6 +35,17 @@ export const requestPermission = () => async (dispatch) => {
         dispatch(successRequestPermissionPosts(granted.toString()))
     } catch {
         dispatch(failureRequestPermissionPosts())
+    }
+}
+
+export const registerDevice = device => async (dispatch) => {
+    dispatch(requestRequestRegisterDevicePosts())
+
+    try {
+        await registerDeviceFetch(device)
+        dispatch(successRequestRegisterDevicePosts(granted.toString()))
+    } catch (ex) {
+        dispatch(failureRequestRegisterDevicePosts(ex.message))
     }
 }
 
@@ -82,5 +98,24 @@ const failureRequestPermissionPosts = () => {
     return {
         type: FETCH_REQUEST_PERMISSION_FAILURE,
         payload: true
+    }
+}
+
+const requestRequestRegisterDevicePosts = () => {
+    return {
+        type: FETCH_REQUEST_REGISTER_DEVICE_REQUEST
+    }
+}
+
+const successRequestRegisterDevicePosts = () => {
+    return {
+        type: FETCH_REQUEST_REGISTER_DEVICE_SUCCESS,
+    }
+}
+
+const failureRequestRegisterDevicePosts = errMessage => {
+    return {
+        type: FETCH_REQUEST_REGISTER_DEVICE_FAILURE,
+        payload: errMessage
     }
 }
