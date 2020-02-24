@@ -46,15 +46,12 @@ export const registerDevice = device => async (dispatch) => {
     dispatch(requestRequestRegisterDevicePosts())
 
     try {
-        
         const token = await messaging().getToken()
-        alert('token')
         let deviceWithToken = {...device, token}    
         
         await registerDeviceFetch(deviceWithToken)
         dispatch(successRequestRegisterDevicePosts())
     } catch (ex) {
-        alert(ex.message)
         dispatch(failureRequestRegisterDevicePosts(ex.message))
     }
 }
