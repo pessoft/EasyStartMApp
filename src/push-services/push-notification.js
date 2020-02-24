@@ -4,6 +4,13 @@ import { Platform, DeviceEventEmitter } from 'react-native'
 
 export const setupPushNotification = (handleNotification) => {
   PushNotification.configure({
+    permissions: {
+      alert: true,
+      badge: true,
+      sound: true
+    },
+    popInitialNotification: true,
+    requestPermissions: true,
     onNotification: function (notification) {
       if (Platform.OS == 'android') {
         let data = notification.data || JSON.parse(notification.payload)
@@ -13,8 +20,6 @@ export const setupPushNotification = (handleNotification) => {
         if (handleNotification &&
           !notification.data.remote)
           handleNotification(notification.data)
-
-        notification.finish(PushNotificationIOS.FetchResult.NoData)
       }
     },
   })

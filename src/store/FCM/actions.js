@@ -1,5 +1,6 @@
 import messaging from '@react-native-firebase/messaging'
 import { registerDeviceFetch } from '../../api/requests'
+import {Platform} from 'react-native'
 
 export const FETCH_REGISTER_APP_WITH_FCM_REQUEST = 'FETCH_REGISTER_APP_WITH_FCM_REQUEST'
 export const FETCH_REGISTER_APP_WITH_FCM_SUCCESS = 'FETCH_REGISTER_APP_WITH_FCM_SUCCESS'
@@ -16,23 +17,26 @@ export const FETCH_REQUEST_REGISTER_DEVICE_REQUEST = 'FETCH_REQUEST_REGISTER_DEV
 export const FETCH_REQUEST_REGISTER_DEVICE_SUCCESS = 'FETCH_REQUEST_REGISTER_DEVICE_SUCCESS'
 export const FETCH_REQUEST_REGISTER_DEVICE_FAILURE = 'FETCH_REQUEST_REGISTER_DEVICE_FAILURE'
 
-export const registerAppWithFCM = () => async (dispatch) => {
+export const registerAppWithFCM = device => async (dispatch) => {
     dispatch(requestRegisterAppWithFCMPosts())
 
     try {
         await messaging().registerForRemoteNotifications()
+        requestPermission(device)(dispatch)
         dispatch(successRegisterAppWithFCMPosts())
     } catch {
         dispatch(failureRegisterAppWithFCMPosts())
     }
 }
 
-export const requestPermission = () => async (dispatch) => {
+export const requestPermission = device => async (dispatch) => {
     dispatch(requestRequestPermissionPosts())
 
     try {
-        const granted = messaging().requestPermission()
-        dispatch(successRequestPermissionPosts(granted.toString()))
+        const granted = await messaging().requestPermission()
+        
+        registerDevice(device)(dispatch)
+        dispatch(successRequestPermissionPosts(granted))
     } catch {
         dispatch(failureRequestPermissionPosts())
     }
@@ -42,12 +46,15 @@ export const registerDevice = device => async (dispatch) => {
     dispatch(requestRequestRegisterDevicePosts())
 
     try {
+        
         const token = await messaging().getToken()
-        let deviceWithToken = {...device, token}
-
+        alert('token')
+        let deviceWithToken = {...device, token}    
+        
         await registerDeviceFetch(deviceWithToken)
-        dispatch(successRequestRegisterDevicePosts(granted.toString()))
+        dispatch(successRequestRegisterDevicePosts())
     } catch (ex) {
+        alert(ex.message)
         dispatch(failureRequestRegisterDevicePosts(ex.message))
     }
 }

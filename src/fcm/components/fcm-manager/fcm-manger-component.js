@@ -25,29 +25,42 @@ class FCMManagerComponent extends React.Component {
 
   constructor(props) {
     super(props)
-    this.pushNotification = setupPushNotification(this.handleNotificationOpen)
+    this.pushNotification = setupPushNotification(this.handleNotificationOpen, this.registerToken)
+  }
+
+  getDeviceData = () => {
+    return {
+      branchId: this.props.user.branchId,
+      clientId: this.props.user.clientId,
+      platform: PlatformType[Platform.OS],
+    }
   }
 
   registerToken = () => {
-    let device = {
-      branchId: this.props.user.branchId,
-      clientId: this.props.user.clientId,
-      platform: PlatformType[Platform.OS]
-    }
+    let device = this.getDeviceData()
     this.props.registerDevice(device)
   }
 
   componentDidMount() {
     if (Platform.OS == 'ios')
       this.settingFCMForIOS()
-    else
+    else {
       this.registerToken()
+      this.subscribeForegroundMessage()
+    }
+  }
 
-    this.subscribeForegroundMessage()
+  componentDidUpdate(prevProps) {
+    if (Platform.OS == 'ios' &&
+      !prevProps.granted &&
+      this.props.granted) {
+      this.subscribeForegroundMessage()
+    }
   }
 
   subscribeForegroundMessage = async () => {
     messaging().onMessage(async remoteMessage => {
+      alert('on Message')
       let data = null
       try {
         data = JSON.parse(remoteMessage.data.payload)
@@ -73,7 +86,7 @@ class FCMManagerComponent extends React.Component {
     if (!data || !data.action)
       return
 
-      if (this.props.categories.length == 0) {
+    if (this.props.categories.length == 0) {
       this.props.setNotificationActionExecution(() => this.handleNotificationOpen(data))
       return
     }
@@ -83,13 +96,13 @@ class FCMManagerComponent extends React.Component {
       targetId: data.action.targetId,
       targetItems: null,
     }
-   
+
     switch (data.action.type) {
       case NotificationActionType.OpenCategory:
         options.targetItems = this.props.categories
         options.setSelectedCategory = this.props.setSelectedCategory
         options.setSelectedProduct = this.props.setSelectedProduct
-        
+
         openCategory(options)
         break
 
@@ -124,15 +137,14 @@ class FCMManagerComponent extends React.Component {
   settingFCMForIOS = () => {
     const isRegisteredForRemoteNotifications = firebase.messaging().isRegisteredForRemoteNotifications
     if (!isRegisteredForRemoteNotifications) {
-      this.props.registerAppWithFCM()
+      this.props.registerAppWithFCM(this.getDeviceData())
+    } else {
+      this.props.requestPermission(this.getDeviceData())
     }
-
-    this.registerToken()
-    this.props.requestPermission()
   }
 
   render() {
-  return <React.Fragment/>
+    return <React.Fragment />
   }
 }
 
@@ -145,6 +157,7 @@ const mapStateToProps = state => {
     appPackageName: state.appSetting.appPackageName,
     isLogin: state.user.isLogin,
     user: state.user,
+    granted: state.fcm.granted,
     promotionPartnersSetting: state.main.promotionPartnersSetting,
     promotionCashbackSetting: state.main.promotionCashbackSetting,
   }
