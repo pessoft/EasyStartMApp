@@ -38,6 +38,10 @@ target 'EasyStartMApp' do
   use_native_modules!
 end
 
+target 'NotificationServiceExtension' do
+pod 'Firebase/Messaging'
+end
+
 target 'EasyStartMApp-tvOS' do
   # Pods for EasyStartMApp-tvOS
 
