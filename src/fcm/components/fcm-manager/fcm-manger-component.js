@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Platform, View } from 'react-native'
 import messaging, { firebase } from '@react-native-firebase/messaging'
 import { registerAppWithFCM, requestPermission, setNotificationActionExecution, registerDevice } from '../../../store/FCM/actions'
-import { setupPushNotification, NotificationStatus } from '../../../push-services/push-notification'
+import { setupPushNotification } from '../../../push-services/push-notification'
 import {
   NotificationActionType,
   openCashback,
@@ -12,6 +12,7 @@ import {
   openProductInfo,
   openStock
 } from '../../logic/notification-open-actions/actions'
+import PushNotificationIOS from '@react-native-community/push-notification-ios'
 
 import { setSelectedCategory, setSelectedProduct } from '../../../store/catalog/actions'
 import { setSelectedStock } from '../../../store/stock/actions'
@@ -25,7 +26,7 @@ class FCMManagerComponent extends React.Component {
 
   constructor(props) {
     super(props)
-    this.pushNotification = setupPushNotification(this.handleNotificationOpen, this.registerToken)
+    this.pushNotification = setupPushNotification(this.handleNotificationOpen)
   }
 
   getDeviceData = () => {
@@ -50,18 +51,10 @@ class FCMManagerComponent extends React.Component {
     }
   }
 
-  componentDidUpdate(prevProps) {
-    if (Platform.OS == 'ios' &&
-      !prevProps.granted &&
-      this.props.granted) {
-      this.subscribeForegroundMessage()
-    }
-  }
-
   subscribeForegroundMessage = async () => {
     messaging().onMessage(async remoteMessage => {
-      alert('on Message')
       let data = null
+     
       try {
         data = JSON.parse(remoteMessage.data.payload)
       } catch{ }
@@ -135,11 +128,11 @@ class FCMManagerComponent extends React.Component {
   }
 
   settingFCMForIOS = () => {
+    PushNotificationIOS.removeEventListener('register', this.registerToken)
+    PushNotificationIOS.addEventListener('register', this.registerToken)
     const isRegisteredForRemoteNotifications = firebase.messaging().isRegisteredForRemoteNotifications
     if (!isRegisteredForRemoteNotifications) {
-      this.props.registerAppWithFCM(this.getDeviceData())
-    } else {
-      this.props.requestPermission(this.getDeviceData())
+      this.props.registerAppWithFCM()
     }
   }
 

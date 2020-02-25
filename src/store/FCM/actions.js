@@ -17,25 +17,24 @@ export const FETCH_REQUEST_REGISTER_DEVICE_REQUEST = 'FETCH_REQUEST_REGISTER_DEV
 export const FETCH_REQUEST_REGISTER_DEVICE_SUCCESS = 'FETCH_REQUEST_REGISTER_DEVICE_SUCCESS'
 export const FETCH_REQUEST_REGISTER_DEVICE_FAILURE = 'FETCH_REQUEST_REGISTER_DEVICE_FAILURE'
 
-export const registerAppWithFCM = device => async (dispatch) => {
+export const registerAppWithFCM = () => async (dispatch) => {
     dispatch(requestRegisterAppWithFCMPosts())
 
     try {
         await messaging().registerForRemoteNotifications()
-        requestPermission(device)(dispatch)
+       
         dispatch(successRegisterAppWithFCMPosts())
     } catch {
         dispatch(failureRegisterAppWithFCMPosts())
     }
 }
 
-export const requestPermission = device => async (dispatch) => {
+export const requestPermission = () => async (dispatch) => {
     dispatch(requestRequestPermissionPosts())
 
     try {
         const granted = await messaging().requestPermission()
-        
-        registerDevice(device)(dispatch)
+       
         dispatch(successRequestPermissionPosts(granted))
     } catch {
         dispatch(failureRequestPermissionPosts())
@@ -52,7 +51,7 @@ export const registerDevice = device => async (dispatch) => {
         await registerDeviceFetch(deviceWithToken)
         dispatch(successRequestRegisterDevicePosts())
     } catch (ex) {
-        dispatch(failureRequestRegisterDevicePosts(ex.message))
+         dispatch(failureRequestRegisterDevicePosts(ex.message))
     }
 }
 
