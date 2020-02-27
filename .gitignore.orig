@@ -73,8 +73,14 @@ ios/assets/src/animation/src/success-send-email.json
 ios/EasyStartMApp.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist
 ios/EasyStartMApp.xcodeproj/project.pbxproj
 ios/EasyStartMApp.xcodeproj/project.pbxproj
+<<<<<<< HEAD
 android/app/google-services.json
 ios/GoogleService-Info.plist
 ios/EasyStartMApp/EasyStartMAppDebug.entitlements
 ios/EasyStartMApp.xcodeproj/project.pbxproj
 ios/EasyStartMApp.xcodeproj/xcshareddata/xcschemes/EasyStartMApp.xcscheme
+=======
+/android/app/google-services.json
+ios/GoogleService-Info.plist
+ios/EasyStartMApp/EasyStartMAppDebug.entitlements
+>>>>>>> master

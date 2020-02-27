@@ -11,6 +11,7 @@ import { checkoutReducer } from '../store/checkout/reducer'
 import { navigationHelperReducer } from '../store/navigation/reducer'
 import { historyOrderReducer } from './history-order/reducer';
 import { promotionTransactionReducer } from './promotion-transaction/reducer'
+import { fcmReducer } from './FCM/reducer'
 
 export default combineReducers({
   appSetting: appSettingReducer,
@@ -24,5 +25,6 @@ export default combineReducers({
   checkout: checkoutReducer,
   navigationHelper: navigationHelperReducer,
   historyOrder: historyOrderReducer,
-  promotionTransaction: promotionTransactionReducer
+  promotionTransaction: promotionTransactionReducer,
+  fcm: fcmReducer
 })

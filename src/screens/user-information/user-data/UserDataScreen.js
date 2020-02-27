@@ -42,10 +42,11 @@ class UserDataScreen extends React.Component {
   componentDidUpdate() {
     if (this.props.isFetchUserError) {
       this.showErrMessage()
-      timingAnimation(this.state.showScaleAnimation, 1, 300, true)
     } else if (this.props.isSuccessClientUpdateData) {
       this.onNextPage()
     }
+
+    timingAnimation(this.state.showScaleAnimation, 1, 300, true)
   }
 
   showErrMessage = () => {

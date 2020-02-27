@@ -6,6 +6,7 @@ import { getMainData, resetMainData } from '../../store/main/actions'
 import { getLocation } from '../../store/location/actions'
 import { AUTH, USER_INFO, MAIN } from '../../navigation/pointsNavigate'
 
+
 class StartLogoScreen extends React.Component {
   constructor(props) {
     super(props)

@@ -13,7 +13,8 @@ import {
   updateProductRatingQuery,
   getCouponQuery,
   getPartnersTransactionQuery,
-  getCashbackTransactionQuery
+  getCashbackTransactionQuery,
+  registerDeviceQuery
 } from './request-strings'
 import { fetchAPI } from './helper-api'
 
@@ -39,4 +40,6 @@ export const getCouponFetch = async (params) => fetchAPI(getCouponQuery, params)
 
 export const getPartnersTransactionFetch = async (clientId) => fetchAPI(getPartnersTransactionQuery, clientId)
 export const getCashbackTransactionFetch = async (clientId) => fetchAPI(getCashbackTransactionQuery, clientId)
+
+export const registerDeviceFetch = async (device) => fetchAPI(registerDeviceQuery, device)
 

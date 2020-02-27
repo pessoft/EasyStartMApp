@@ -7,9 +7,8 @@ import { START_APP } from './pointsNavigate';
 import CheckoutCompleteScreen from '../screens/checkout/checkout-complete/CheckoutCompleteScreen'
 import React from 'react'
 import { connect } from 'react-redux'
-import FlashMessage from "react-native-flash-message"
 
-export class AppContainer extends React.Component {
+class AppNavigation extends React.Component {
 
   render() {
     const appNavigation = createSwitchNavigator(
@@ -26,12 +25,7 @@ export class AppContainer extends React.Component {
 
     const Container = createAppContainer(appNavigation)
 
-    return (
-      <React.Fragment>
-        <Container />
-        <FlashMessage position='top' duration={4000} />
-      </React.Fragment>
-    )
+    return <Container />
   }
 }
 
@@ -41,4 +35,4 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps)(AppContainer)
+export default connect(mapStateToProps)(AppNavigation)

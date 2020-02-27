@@ -27,12 +27,19 @@ target 'EasyStartMApp' do
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
+  pod 'Firebase/Analytics'
+  pod 'Firebase/Messaging'
+
   target 'EasyStartMAppTests' do
     inherit! :search_paths
     # Pods for testing
   end
 
   use_native_modules!
+end
+
+target 'NotificationServiceExtension' do
+pod 'Firebase/Messaging'
 end
 
 target 'EasyStartMApp-tvOS' do

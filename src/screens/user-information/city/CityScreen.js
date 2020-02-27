@@ -47,7 +47,6 @@ class CityScreen extends React.Component {
   showErrMessage = () => {
     if (!this.props.isFetchUserError)
       return
-    alert(this.props.errorMessage)
     showMessage({
       message: this.props.errorMessage,
       type: "danger",
