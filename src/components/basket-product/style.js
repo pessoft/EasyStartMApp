@@ -6,7 +6,7 @@ export default StyleSheet.create({
     justifyContent: 'center',
     minHeight: 110,
     marginVertical: 5,
-    borderRadius: 6,
+    borderRadius: 5,
     elevation: 6,
   },
   directionRow: {

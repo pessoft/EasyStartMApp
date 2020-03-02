@@ -57,68 +57,71 @@ export class BasketConstructorProductItem extends React.Component {
 
     render() {
         return (
-            <TouchableHighlight
-                underlayColor={this.props.style.theme.backdoor.backgroundColor}
-                style={Style.bodyItem}
-                onPress={this.onPress}>
-                <Animated.View style={[
-                    Style.directionRow,
-                    { opacity: this.state.showScaleAnimation },
-                    { transform: [{ scale: this.state.showScaleAnimation }] }]}>
-                    <View style={Style.imageContainer}>
-                        <Image
-                            source={this.props.product.imageSource}
-                            style={Style.productImage}
-                        />
-                        <Text style={[
-                            Style.price,
-                            this.props.style.theme.primaryTextColor,
-                            this.props.style.fontSize.h8]}>
-                            {`${this.props.product.price} ${this.props.product.currencyPrefix}`}
-                        </Text>
-                    </View>
+            <Animated.View style={[
+                { opacity: this.state.showScaleAnimation },
+                { transform: [{ scale: this.state.showScaleAnimation }] }]}>
+                <TouchableHighlight
+                    underlayColor={this.props.style.theme.backdoor.backgroundColor}
+                    style={[Style.bodyItem, this.props.style.theme.backdoor]}
+                    onPress={this.onPress}>
                     <View style={[
-                        Style.productHeader,
-                        this.props.style.theme.dividerColor]}>
-                        <Text style={[
-                            Style.textWrap,
-                            this.props.style.fontSize.h8,
-                            this.props.style.theme.primaryTextColor]}>
-                            {this.props.product.caption}
-                        </Text>
-                        {
-                            this.props.product.ingredients.map(p => <Text
-                                key={generateRandomString(8)}
-                                style={[
-                                    Style.ingredient,
-                                    this.props.style.theme.secondaryTextColor,
-                                    this.props.style.fontSize.h10]}>
-                                {p}
-                            </Text>)
-                        }
-                        <View style={Style.blockShopAction}>
-                            <TrashButton
-                                size={20}
-                                underlayColor={this.props.style.theme.secondaryTextColor.color}
-                                color={this.props.style.theme.textPrimaryColor.color}
-                                borderColor={this.props.style.theme.dividerColor.borderColor}
-                                backgroundColor={this.props.style.theme.secondaryTextColor.color}
-                                onPress={this.onPressTrash} />
-                            <View style={Style.blockShopButtons}>
-                                <ShoppingButton
-                                    startCount={this.props.product.startCount}
+                        Style.directionRow,
+                    ]}>
+                        <View style={Style.imageContainer}>
+                            <Image
+                                source={this.props.product.imageSource}
+                                style={Style.productImage}
+                            />
+                            <Text style={[
+                                Style.price,
+                                this.props.style.theme.primaryTextColor,
+                                this.props.style.fontSize.h8]}>
+                                {`${this.props.product.price} ${this.props.product.currencyPrefix}`}
+                            </Text>
+                        </View>
+                        <View style={[
+                            Style.productHeader,
+                            this.props.style.theme.dividerColor]}>
+                            <Text style={[
+                                Style.textWrap,
+                                this.props.style.fontSize.h8,
+                                this.props.style.theme.primaryTextColor]}>
+                                {this.props.product.caption}
+                            </Text>
+                            {
+                                this.props.product.ingredients.map(p => <Text
+                                    key={generateRandomString(8)}
+                                    style={[
+                                        Style.ingredient,
+                                        this.props.style.theme.secondaryTextColor,
+                                        this.props.style.fontSize.h10]}>
+                                    {p}
+                                </Text>)
+                            }
+                            <View style={Style.blockShopAction}>
+                                <TrashButton
                                     size={20}
-                                    underlayColor={this.props.style.theme.lightPrimaryColor.backgroundColor}
+                                    underlayColor={this.props.style.theme.secondaryTextColor.color}
                                     color={this.props.style.theme.textPrimaryColor.color}
-                                    tintColor={this.props.style.theme.primaryTextColor.color}
                                     borderColor={this.props.style.theme.dividerColor.borderColor}
-                                    backgroundColor={this.props.style.theme.accentColor.backgroundColor}
-                                    onPress={this.onToggleProduct} />
+                                    backgroundColor={this.props.style.theme.secondaryTextColor.color}
+                                    onPress={this.onPressTrash} />
+                                <View style={Style.blockShopButtons}>
+                                    <ShoppingButton
+                                        startCount={this.props.product.startCount}
+                                        size={20}
+                                        underlayColor={this.props.style.theme.lightPrimaryColor.backgroundColor}
+                                        color={this.props.style.theme.textPrimaryColor.color}
+                                        tintColor={this.props.style.theme.primaryTextColor.color}
+                                        borderColor={this.props.style.theme.dividerColor.borderColor}
+                                        backgroundColor={this.props.style.theme.accentColor.backgroundColor}
+                                        onPress={this.onToggleProduct} />
+                                </View>
                             </View>
                         </View>
                     </View>
-                </Animated.View>
-            </TouchableHighlight>
+                </TouchableHighlight>
+            </Animated.View>
         )
     }
 }

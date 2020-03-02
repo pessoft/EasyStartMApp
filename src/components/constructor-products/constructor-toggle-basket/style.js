@@ -1,28 +1,30 @@
-import {StyleSheet} from 'react-native'
+import { StyleSheet } from 'react-native'
 
 export default StyleSheet.create({
     container: {
         flex: 1,
-        height: 130
+        height: 130,
+        borderRadius: 5,
+        elevation: 5
     },
     blockHeader: {
         flex: 1,
-        flexDirection:'row',
+        flexDirection: 'row',
         paddingHorizontal: 20,
         paddingVertical: 10
     },
     headerPrice: {
-        flex:1,
+        flex: 1,
         justifyContent: 'center',
         alignItems: 'flex-start'
     },
     headerEmpty: {
-        flex:1,
+        flex: 1,
         justifyContent: 'center',
         alignItems: 'center'
     },
     headerCounter: {
-        flex:1,
+        flex: 1,
         justifyContent: 'center',
         alignItems: 'flex-end'
     },

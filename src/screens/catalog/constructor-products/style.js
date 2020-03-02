@@ -4,10 +4,10 @@ const size = Dimensions.get('screen').width / 3
 
 export default StyleSheet.create({
     constructorFooter: {
-        marginTop: 3,
+        marginTop: 6,
+        marginBottom: 12,
         height: 130,
         maxHeight: 130,
-        borderTopWidth: 0.8,
     },
     successContainer: {
         flex: 1,

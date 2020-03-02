@@ -187,7 +187,7 @@ class ShoppingBasketScreen extends React.Component {
     }
   }
 
-  renderConstroctorProduct = uniqId => {
+  renderConstructorProduct = uniqId => {
     const constructorProduct = this.constructorProductTransform(uniqId)
 
     if (constructorProduct == null)
@@ -206,7 +206,7 @@ class ShoppingBasketScreen extends React.Component {
       case CategoryType.Default:
         return this.renderDefaultProduct(item.id)
       case CategoryType.Constructor:
-        return this.renderConstroctorProduct(item.id)
+        return this.renderConstructorProduct(item.id)
     }
   }
 
