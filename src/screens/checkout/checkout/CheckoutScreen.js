@@ -454,7 +454,7 @@ class CheckoutScreen extends React.Component {
           behavior='padding'
           enabled>
           <ScrollView
-            contentContainerStyle={{ flex: 1, paddingHorizontal: 6 }}
+            contentContainerStyle={{ flex: 1, paddingHorizontal: 10 }}
             keyboardShouldPersistTaps="always">
             <Coupon
               style={this.props.style}

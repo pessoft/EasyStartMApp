@@ -6,11 +6,11 @@ export default StyleSheet.create({
     paddingTop: 14,
     paddingBottom: 6,
     paddingHorizontal: 12,
-    marginVertical: 3,
-    borderWidth: 0.8,
+    marginVertical: 5,
     justifyContent: 'center',
     alignItems: 'stretch',
-    borderRadius: 5
+    borderRadius: 5,
+    elevation: 6
   },
   header: {
     flex: 1,
