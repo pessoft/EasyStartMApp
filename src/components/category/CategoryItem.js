@@ -37,6 +37,7 @@ export class CategoryItem extends React.PureComponent {
                 underlayColor={this.props.style.theme.backdoor.backgroundColor}
                 style={[
                     Style.bodyItem,
+                    this.props.style.theme.backdoor,
                     this.props.style.theme.dividerColor]}
                 onPress={this.onPress}>
                 <Animated.View
@@ -51,10 +52,13 @@ export class CategoryItem extends React.PureComponent {
                     <View style={[
                         Style.captionContainer,
                         this.props.style.theme.dividerColor,]}>
-                        <Text style={[
-                            this.props.style.fontSize.h6,
-                            Style.captionCatalog,
-                            this.props.style.theme.primaryTextColor]}>
+                        <Text
+                            numberOfLines={2}
+                            ellipsizeMode="tail"
+                            style={[
+                                this.props.style.fontSize.h8,
+                                Style.captionCatalog,
+                                this.props.style.theme.primaryTextColor]}>
                             {this.props.caption}
                         </Text>
                     </View>

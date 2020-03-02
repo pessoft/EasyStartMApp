@@ -150,7 +150,7 @@ class CategoriesScreen extends React.Component {
                         transform: [{ scale: this.state.showScaleAnimation }]
                     }]}>
                 <FCMManagerComponent navigation={this.props.navigation} />
-                <ScrollView style={{ flex: 1 }}>
+                <ScrollView contentContainerStyle={{ flex: 1, paddingHorizontal: 6 }}>
                     {
                         this.props.stocks.length > 0 &&
                         this.props.promotionSetting.IsShowStockBanner &&
@@ -164,6 +164,7 @@ class CategoriesScreen extends React.Component {
                         {...this.getFlatListPerformanceProperty()}
                         data={this.categoriesTransform()}
                         renderItem={this.renderItem}
+                        numColumns={2}
                     />
                 </ScrollView>
             </Animated.View>

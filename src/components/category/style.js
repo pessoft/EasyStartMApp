@@ -1,31 +1,36 @@
-import { StyleSheet } from 'react-native'
+import { StyleSheet, Dimensions } from 'react-native'
+let width = Dimensions.get('screen').width / 2 - 15
 
 export default StyleSheet.create({
   bodyItem: {
     alignSelf: 'stretch',
-    justifyContent: 'center',
-    height: 108,
-    flex: 1,
+    justifyContent: 'flex-start',
+    width: width,
+    height: 150,
+    borderRadius: 5,
+    margin: 6,
+    elevation: 4
   },
   captionCatalog: {
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
+    textAlign: 'center',
+    paddingHorizontal: 15
   },
   directionRow: {
-    flexDirection: 'row',
+    flexDirection: 'column',
     alignItems: 'center',
   },
   catalogImage: {
     width: 90,
     height: 90,
     borderRadius: 5,
-    marginHorizontal: 18
+    marginVertical: 18
   },
   captionContainer: {
     flex: 1,
     alignItems: 'stretch',
     justifyContent: 'center',
-    borderBottomWidth: 1,
-    paddingRight: 24,
-    height: 108
+    alignItems: 'center',
+    height: 150
   }
 })

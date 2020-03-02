@@ -11,7 +11,7 @@ export const RedTheme = StyleSheet.create({
         backgroundColor: '#ffffff'
     },
     themeBody: {
-        backgroundColor: '#fafafa'
+        backgroundColor: '#f8f8f8'
     },
     darkPrimaryColor: {
         backgroundColor: '#D32F2F'

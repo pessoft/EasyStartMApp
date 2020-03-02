@@ -11,7 +11,7 @@ export const BlueTheme = StyleSheet.create({
         backgroundColor: '#ffffff'
     },
     themeBody: {
-        backgroundColor: '#fafafa'
+        backgroundColor: '#f8f8f8'
     },
     darkPrimaryColor: {
         backgroundColor: '#1976D2'
