@@ -6,7 +6,7 @@ export default StyleSheet.create({
     alignSelf: 'stretch',
     justifyContent: 'flex-start',
     width: width,
-    height: 150,
+    height: 160,
     borderRadius: 5,
     margin: 5,
     elevation: 4,
