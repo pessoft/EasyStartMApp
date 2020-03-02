@@ -8,7 +8,7 @@ export const LightBlueTheme = StyleSheet.create({
         backgroundColor: '#f8f8f8'
     },
     backdoor: {
-        backgroundColor: '#edeef0'
+        backgroundColor: '#ffffff'
     },
     themeBody: {
         backgroundColor: '#fafafa'
