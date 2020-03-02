@@ -4,7 +4,10 @@ export default StyleSheet.create({
   bodyItem: {
     alignSelf: 'stretch',
     justifyContent: 'center',
-    minHeight: 112
+    minHeight: 110,
+    marginVertical: 5,
+    borderRadius: 6,
+    elevation: 6,
   },
   directionRow: {
     flexDirection: 'row',
@@ -26,13 +29,12 @@ export default StyleSheet.create({
   imageContainer: {
     alignSelf: 'stretch',
     justifyContent: 'center',
-    minHeight: 112
+    minHeight: 110
   },
   productHeader: {
     flex: 1,
     alignSelf: 'stretch',
     justifyContent: 'center',
-    borderBottomWidth: 1,
     minHeight: 102,
     paddingVertical: 5,
     paddingRight: 5

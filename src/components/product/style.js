@@ -4,7 +4,10 @@ export default StyleSheet.create({
   bodyItem: {
     alignSelf: 'stretch',
     justifyContent: 'center',
-    minHeight: 105
+    minHeight: 110,
+    marginVertical: 5,
+    borderRadius: 6,
+    elevation: 6,
   },
   directionRow: {
     flexDirection: 'row',
@@ -45,7 +48,7 @@ export default StyleSheet.create({
     flex: 1,
     alignSelf: 'stretch',
     justifyContent: 'center',
-    borderBottomWidth: 1,
+    // borderBottomWidth: 1,
     minHeight: 102,
     paddingVertical: 5,
     paddingRight: 5

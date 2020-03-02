@@ -174,10 +174,12 @@ class ProductsScreen extends React.Component {
     render() {
         return (
             <Animated.ScrollView
+                contentContainerStyle={{ flex: 1, paddingHorizontal: 12 }}
                 style={[
-                    { marginTop: 5 },
-                    { opacity: this.state.showScaleAnimation },
-                    { transform: [{ scale: this.state.showScaleAnimation }] }]}>
+                    {
+                        opacity: this.state.showScaleAnimation,
+                        transform: [{ scale: this.state.showScaleAnimation }]
+                    }]}>
 
                 <FlatList
                     {...this.getFlatListPerformanceProperty()}

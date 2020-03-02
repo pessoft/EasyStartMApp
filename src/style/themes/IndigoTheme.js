@@ -11,7 +11,7 @@ export const IndigoTheme = StyleSheet.create({
         backgroundColor: '#ffffff'
     },
     themeBody: {
-        backgroundColor: '#f8f8f8'
+        backgroundColor: '#efefef'
     },
     darkPrimaryColor: {
         backgroundColor: '#303F9F'

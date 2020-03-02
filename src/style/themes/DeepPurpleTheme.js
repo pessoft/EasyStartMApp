@@ -11,7 +11,7 @@ export const DeepPurpleTheme = StyleSheet.create({
         backgroundColor: '#ffffff'
     },
     themeBody: {
-        backgroundColor: '#f8f8f8'
+        backgroundColor: '#efefef'
     },
     darkPrimaryColor: {
         backgroundColor: '#512DA8'

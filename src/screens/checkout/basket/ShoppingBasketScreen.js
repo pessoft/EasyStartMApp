@@ -360,7 +360,7 @@ class ShoppingBasketScreen extends React.Component {
             transform: [{ scale: this.state.showScaleAnimation }]
           }
         ]}>
-        <ScrollView Style={Style.basketProducts}>
+        <ScrollView Style={Style.basketProducts} contentContainerStyle={{ flex: 1, paddingHorizontal: 12 }}>
           <FlatList
             windowSize={4}
             removeClippedSubviews={Platform.OS !== 'ios'}
