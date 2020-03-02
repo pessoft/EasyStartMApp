@@ -74,7 +74,7 @@ class CheckoutScreen extends React.Component {
           }
         ]}>
         <ScrollView
-          contentContainerStyle={{ paddingHorizontal: 6 }}
+          contentContainerStyle={{ paddingHorizontal: 10 }}
         >
           <AddressInfo
             style={this.props.style}
