@@ -26,6 +26,7 @@ import { getCoupon } from '../../../store/main/actions'
 import { NavigationEvents } from 'react-navigation';
 import { cleanCoupon } from '../../../store/main/actions'
 import { updateVirtualMoney, updateReferralDiscount } from '../../../store/user/actions'
+import { NumberAppliances } from '../../../components/checkout/number-appliances/NumberAppliances'
 
 class CheckoutScreen extends React.Component {
   static navigationOptions = {
@@ -34,6 +35,7 @@ class CheckoutScreen extends React.Component {
 
   constructor(props) {
     super(props)
+
     this.state = {
       showScaleAnimation: new Animated.Value(0),
       userData: {
@@ -56,12 +58,50 @@ class CheckoutScreen extends React.Component {
         level: '',
         intercomCode: ''
       },
+      numberAppliances: this.isRequestNumberAppliances() ? 1 : 0,
       commentText: '',
       promotion: this.getPromotionLogic(true),
       amountPayCashBack: 0,
       selectedProductsBonus: [],
       limitSelectProductBonus: this.getPromotionLogic(true).getAllowedCountSelectBonusProduct()
     }
+  }
+
+  isRequestNumberAppliances = () => {
+    let isRequest = false
+
+    for (const productId in this.props.basketProducts) {
+      const basketProduct = this.props.basketProducts[productId]
+
+      if (basketProduct.count == 0)
+        continue
+
+      const category = this.getCategoryById(basketProduct.categoryId)
+
+      if (category && category.NumberAppliances) {
+        isRequest = true
+        break
+      }
+    }
+
+    if (!isRequest) {
+      for (const uniqId in this.props.basketConstructorProducts) {
+        const basketConstructorProduct = this.props.basketConstructorProducts[uniqId]
+
+        if (basketConstructorProduct && basketConstructorProduct.category.NumberAppliances) {
+          isRequest = true
+          break
+        }
+      }
+    }
+
+    return isRequest
+  }
+
+  getCategoryById = id => {
+    const category = this.props.categories.find(p => p.Id == id)
+
+    return category
   }
 
   getPromotionLogic = (isDefault = false) => {
@@ -151,6 +191,7 @@ class CheckoutScreen extends React.Component {
   setDeliveryAddress = deliveryAddress => this.setState({ deliveryAddress })
   setCommentText = commentText => this.setState({ commentText })
   setAmountPayCashBack = amountPayCashBack => this.setState({ amountPayCashBack })
+  changeNumberAppliances = numberAppliances => this.setState({ numberAppliances })
 
   getOrderPrice = () => {
     let cost = 0
@@ -310,6 +351,7 @@ class CheckoutScreen extends React.Component {
       productConstructorCountJSON: this.getProductConstructorCountJson(),
       productBonusCountJSON: this.getProductBonusCountJson(),
       amountPayCashBack: this.state.amountPayCashBack,
+      numberAppliances: parseInt(this.state.numberAppliances),
       stockIds: this.state.promotion.getApplyStockIds(),
       couponId: this.state.promotion.getApplyCouponId(),
       referralDiscount: this.state.promotion.getReferralDiscount(),
@@ -369,6 +411,9 @@ class CheckoutScreen extends React.Component {
       && !this.isValidDeliveryAddress()) {
       return false
     }
+
+    if (this.isRequestNumberAppliances() && Number.isNaN(parseInt(this.state.numberAppliances)))
+      return false
 
     return true
   }
@@ -452,6 +497,14 @@ class CheckoutScreen extends React.Component {
               isShow={this.state.deliveryType == DeliveryType.Delivery}
               areaDeliveries={this.props.deliverySettings.AreaDeliveries}
             />
+            {
+              this.isRequestNumberAppliances() &&
+              <NumberAppliances
+                style={this.props.style}
+                numberAppliances={this.state.numberAppliances}
+                changeNumberAppliances={this.changeNumberAppliances}
+              />
+            }
             <OrderComment
               style={this.props.style}
               changeCommentText={this.setCommentText}
@@ -494,6 +547,7 @@ const mapStateToProps = state => {
     basketProducts: state.checkout.basketProducts,
     basketConstructorProducts: state.checkout.basketConstructorProducts,
     products: state.main.products,
+    categories: state.main.categories,
     deliverySettings: state.main.deliverySettings,
     promotionSettings: state.main.promotionSectionSettings,
     promotionCashbackSetting: state.main.promotionCashbackSetting,
