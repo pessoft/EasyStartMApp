@@ -73,7 +73,9 @@ class CheckoutScreen extends React.Component {
             transform: [{ scale: this.state.showScaleAnimation }]
           }
         ]}>
-        <ScrollView>
+        <ScrollView
+          contentContainerStyle={{ paddingHorizontal: 6 }}
+        >
           <AddressInfo
             style={this.props.style}
             city={this.props.organizationSettings.City}

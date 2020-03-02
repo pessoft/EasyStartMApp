@@ -6,11 +6,12 @@ export default StyleSheet.create({
     paddingTop: 17,
     paddingBottom: 17,
     paddingHorizontal: 10,
-    borderTopWidth: 0.5,
-    borderBottomWidth: 0.5,
+    borderWidth: 0.8,
+    marginVertical: 3,
     justifyContent: 'center',
     alignItems: 'stretch',
-    flexDirection: 'row'
+    flexDirection: 'row',
+    borderRadius: 5
   },
   image: {
     flex: 1,
