@@ -8,8 +8,9 @@ export default StyleSheet.create({
     width: width,
     height: 150,
     borderRadius: 5,
-    margin: 6,
-    elevation: 4
+    margin: 5,
+    elevation: 4,
+    paddingVertical: 15
   },
   captionCatalog: {
     flexWrap: 'wrap',
@@ -17,20 +18,19 @@ export default StyleSheet.create({
     paddingHorizontal: 15
   },
   directionRow: {
+    flex: 1,
     flexDirection: 'column',
     alignItems: 'center',
+    justifyContent: 'space-between'
   },
   catalogImage: {
-    width: 90,
-    height: 90,
+    width: 95,
+    height: 95,
     borderRadius: 5,
-    marginVertical: 18
   },
   captionContainer: {
-    flex: 1,
     alignItems: 'stretch',
     justifyContent: 'center',
     alignItems: 'center',
-    height: 150
   }
 })
