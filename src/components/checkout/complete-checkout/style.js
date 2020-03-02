@@ -7,10 +7,10 @@ export default StyleSheet.create({
     paddingBottom: 6,
     paddingHorizontal: 12,
     marginVertical: 3,
-    borderTopWidth: 0.5,
-    borderBottomWidth: 0.5,
+    borderWidth: 0.8,
     justifyContent: 'center',
     alignItems: 'stretch',
+    borderRadius: 5
   },
   header: {
     flex: 1,
