@@ -5,7 +5,7 @@ export const BlueGreyTheme = StyleSheet.create({
         backgroundColor: '#455A64'
     },
     navigationBottom: {
-        backgroundColor: '#f8f8f8'
+        backgroundColor: '#fdfdfd'
     },
     backdoor: {
         backgroundColor: '#ffffff'

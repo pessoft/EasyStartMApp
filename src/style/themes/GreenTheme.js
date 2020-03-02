@@ -5,7 +5,7 @@ export const GreenTheme = StyleSheet.create({
         backgroundColor: '#388E3C'
     },
     navigationBottom: {
-        backgroundColor: '#f8f8f8'
+        backgroundColor: '#fdfdfd'
     },
     backdoor: {
         backgroundColor: '#ffffff'

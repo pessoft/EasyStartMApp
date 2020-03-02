@@ -5,7 +5,7 @@ export const OrangeTheme = StyleSheet.create({
         backgroundColor: '#F57C00'
     },
     navigationBottom: {
-        backgroundColor: '#f8f8f8'
+        backgroundColor: '#fdfdfd'
     },
     backdoor: {
         backgroundColor: '#ffffff'

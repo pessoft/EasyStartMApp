@@ -21,9 +21,6 @@ import IcoUserCog from '../images/font-awesome-svg/home-lg.svg'
 import BasketIcoWithBadge from '../components/badges/basket-badge/BasketIcoWithBadge'
 import { getSVGColor } from '../helpers/color-helper';
 
-// const state = store.getState()
-// const style = state.style
-
 export const mainBottomTab = style => createBottomTabNavigator(
     {
         CatalogTab: {
@@ -84,7 +81,7 @@ export const mainBottomTab = style => createBottomTabNavigator(
             style: {
                 backgroundColor: style.theme.navigationBottom.backgroundColor,
                 borderTopColor: style.theme.dividerColor.borderColor,
-                borderTopWidth: 0.9,
+                borderTopWidth: 0.5,
                 paddingTop: 5,
                 height: 54,
                 alignItems: 'center',

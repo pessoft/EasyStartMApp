@@ -5,7 +5,7 @@ export const LightBlueTheme = StyleSheet.create({
         backgroundColor: '#0288D1'
     },
     navigationBottom: {
-        backgroundColor: '#f8f8f8'
+        backgroundColor: '#fdfdfd'
     },
     backdoor: {
         backgroundColor: '#ffffff'

@@ -5,7 +5,7 @@ export const PurpleTheme = StyleSheet.create({
         backgroundColor: '#7B1FA2'
     },
     navigationBottom: {
-        backgroundColor: '#f8f8f8'
+        backgroundColor: '#fdfdfd'
     },
     backdoor: {
         backgroundColor: '#ffffff'

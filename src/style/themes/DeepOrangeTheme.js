@@ -5,7 +5,7 @@ export const DeepOrangeTheme = StyleSheet.create({
         backgroundColor: '#E64A19'
     },
     navigationBottom: {
-        backgroundColor: '#f8f8f8'
+        backgroundColor: '#fdfdfd'
     },
     backdoor: {
         backgroundColor: '#ffffff'

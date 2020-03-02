@@ -5,7 +5,7 @@ export const DeepPurpleTheme = StyleSheet.create({
         backgroundColor: '#512DA8'
     },
     navigationBottom: {
-        backgroundColor: '#f8f8f8'
+        backgroundColor: '#fdfdfd'
     },
     backdoor: {
         backgroundColor: '#ffffff'
