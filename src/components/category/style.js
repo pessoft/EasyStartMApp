@@ -25,7 +25,7 @@ export default StyleSheet.create({
   catalogImage: {
     width: width,
     height: width,
-    borderRadius: 5,
+    borderRadius: 6,
   },
   captionContainer: {
     width: width,

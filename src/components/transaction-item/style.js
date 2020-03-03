@@ -3,18 +3,20 @@ import { StyleSheet } from 'react-native'
 export default StyleSheet.create({
   container: {
     flex: 1,
-    height: 72,
+    height: 60,
     flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'stretch'
+    alignItems: 'stretch',
+    paddingHorizontal: 14,
+    borderRadius: 6,
+    elevation: 4,
+    marginVertical: 4
   },
   content: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    borderBottomWidth: 0.7,
-    paddingVertical: 12,
-    paddingHorizontal: 14
+    paddingVertical: 10,
   },
   text: {
     marginTop: 3,
@@ -29,7 +31,7 @@ export default StyleSheet.create({
   amountMoneyContainer: {
     flex: 2.5,
     marginTop: 3,
-    height: 72,
+    height: 60,
     justifyContent: 'center',
     alignItems: 'flex-end'
   },

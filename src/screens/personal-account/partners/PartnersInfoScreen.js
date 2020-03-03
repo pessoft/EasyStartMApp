@@ -89,6 +89,7 @@ class PartnersInfoScreen extends React.Component {
         style={[
           Style.container,
           {
+            paddingHorizontal: 12,
             opacity: this.state.showAnimation,
             transform: [{ scale: this.state.showAnimation }]
           }

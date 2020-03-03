@@ -46,7 +46,7 @@ export class TransactionItem extends React.Component {
 
   render() {
     return (
-      <View style={Style.container}>
+      <View style={[Style.container, this.props.style.theme.backdoor]}>
         <View
           style={[
             Style.content,
@@ -74,7 +74,7 @@ export class TransactionItem extends React.Component {
           </View>
 
           <View style={Style.amountMoneyContainer}>
-            <View style={Style.priceRow}> 
+            <View style={Style.priceRow}>
               <Text
                 style={[
                   { color: this.getColorByTransactionType() },

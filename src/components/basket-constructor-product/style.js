@@ -27,7 +27,7 @@ export default StyleSheet.create({
   productImage: {
     width: 80,
     height: 80,
-    borderRadius: 5,
+    borderRadius: 6,
     marginHorizontal: 18
 
   },

@@ -20,7 +20,7 @@ export default StyleSheet.create({
         alignItems: 'center'
     },
     image: {
-        borderRadius: 5,
+        borderRadius: 6,
     },
     productInfoContainer: {
         flexDirection: 'row',
