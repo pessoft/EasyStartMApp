@@ -4,14 +4,15 @@ export default StyleSheet.create({
   bodyItem: {
     alignSelf: 'stretch',
     justifyContent: 'center',
-    minHeight: 110,
+    height: 110,
     marginVertical: 5,
     borderRadius: 6,
-    elevation: 6,
+    elevation: 5,
   },
   directionRow: {
     flexDirection: 'row',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   mt_5: {
     marginTop: 3
@@ -22,7 +23,7 @@ export default StyleSheet.create({
   rowWrap: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
-    marginBottom: 10,
+    // marginBottom: 10,
   },
   productTypeContainer: {
     flexDirection: 'row',
@@ -33,25 +34,28 @@ export default StyleSheet.create({
     marginLeft: 5
   },
   productImage: {
-    width: 80,
-    height: 80,
-    borderRadius: 5,
-    marginHorizontal: 18
+    width: 110,
+    height: 110,
+    borderRadius: 6,
+    borderTopRightRadius: 0,
+    borderBottomRightRadius: 0,
+    marginRight: 10
 
   },
   imageContainer: {
     alignSelf: 'stretch',
     justifyContent: 'center',
-    minHeight: 105
+    minHeight: 110
   },
   productHeader: {
     flex: 1,
     alignSelf: 'stretch',
-    justifyContent: 'center',
-    // borderBottomWidth: 1,
-    minHeight: 102,
+    justifyContent: 'space-between',
+    height: 110,
     paddingVertical: 5,
-    paddingRight: 5
+    paddingRight: 10,
+  },
+  captionBlock: {
   },
   blockShopAction: {
     alignItems: 'center',

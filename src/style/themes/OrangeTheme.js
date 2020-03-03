@@ -11,7 +11,7 @@ export const OrangeTheme = StyleSheet.create({
         backgroundColor: '#ffffff'
     },
     themeBody: {
-        backgroundColor: '#efefef'
+        backgroundColor: '#ededed'
     },
     darkPrimaryColor: {
         backgroundColor: '#F57C00'

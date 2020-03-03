@@ -72,35 +72,40 @@ export class ProductItem extends React.PureComponent {
                     <View style={[
                         Style.productHeader,
                         this.props.style.theme.dividerColor]}>
-                        <Text style={[
-                            Style.textWrap,
-                            this.props.style.fontSize.h8,
-                            this.props.style.theme.primaryTextColor]}>
-                            {this.props.product.caption}
-                        </Text>
-                        <View style={Style.rowWrap}>
-                            <Text style={[
-                                Style.mt_5,
-                                this.props.style.theme.secondaryTextColor,
-                                this.props.style.fontSize.h10]}>
-                                {this.props.product.additionInfo}
+                        <View style={[Style.captionBlock]}>
+                            <Text
+                                numberOfLines={2}
+                                ellipsizeMode={"tail"}
+                                style={[
+                                    Style.textWrap,
+                                    this.props.style.fontSize.h8,
+                                    this.props.style.theme.primaryTextColor]}>
+                                {this.props.product.caption}
                             </Text>
-                            <View style={Style.productTypeContainer}>
-                                {
-                                    getProductTypes(this.props.product.productType, this.props.style.theme).map(p => {
-                                        const Icon = p.icon
-                                        const key = new Date().getTime().toString() + p.type
-                                        const { width, height } = this.getSizeProductType(p.type)
-                                        return (
-                                            <View key={key} style={Style.productType}>
-                                                <Icon
-                                                    color={p.color}
-                                                    width={width}
-                                                    height={height} />
-                                            </View>
-                                        )
-                                    })
-                                }
+                            <View style={Style.rowWrap}>
+                                <Text style={[
+                                    Style.mt_5,
+                                    this.props.style.theme.secondaryTextColor,
+                                    this.props.style.fontSize.h10]}>
+                                    {this.props.product.additionInfo}
+                                </Text>
+                                <View style={Style.productTypeContainer}>
+                                    {
+                                        getProductTypes(this.props.product.productType, this.props.style.theme).map(p => {
+                                            const Icon = p.icon
+                                            const key = new Date().getTime().toString() + p.type
+                                            const { width, height } = this.getSizeProductType(p.type)
+                                            return (
+                                                <View key={key} style={Style.productType}>
+                                                    <Icon
+                                                        color={p.color}
+                                                        width={width}
+                                                        height={height} />
+                                                </View>
+                                            )
+                                        })
+                                    }
+                                </View>
                             </View>
                         </View>
                         <View style={Style.blockShopAction}>

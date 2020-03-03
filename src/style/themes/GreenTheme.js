@@ -11,7 +11,7 @@ export const GreenTheme = StyleSheet.create({
         backgroundColor: '#ffffff'
     },
     themeBody: {
-        backgroundColor: '#efefef'
+        backgroundColor: '#ededed'
     },
     darkPrimaryColor: {
         backgroundColor: '#388E3C'
