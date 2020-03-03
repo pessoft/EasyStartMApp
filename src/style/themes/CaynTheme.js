@@ -19,6 +19,9 @@ export const CaynTheme = StyleSheet.create({
     themeBody: {
         backgroundColor: '#ededed'
     },
+    secondaryThemeBody: {
+        backgroundColor: '#ffffff'
+    },
     darkPrimaryColor: {
         backgroundColor: '#0097A7'
     },

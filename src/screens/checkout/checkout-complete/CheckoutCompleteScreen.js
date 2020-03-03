@@ -162,7 +162,7 @@ class CheckoutCompleteScreen extends React.Component {
     return (
       <View style={[Style.buttonOk]}>
         <Button
-          title='Ок'
+          title='ОK'
           onPress={this.onFinishCheckout}
           color={Platform.OS == 'ios' ?
             this.props.style.theme.accentOther.backgroundColor :
@@ -174,10 +174,9 @@ class CheckoutCompleteScreen extends React.Component {
   render() {
     return (
       <View style={[
-        this.props.style.theme.backdoor,
+        this.props.style.theme.secondaryThemeBody,
         Style.mainContainer,
-        this.props.style.theme.shadowColor,
-      ]}>
+        ]}>
         {this.props.isFetching && this.renderLoader()}
         {!this.props.isFetching && !this.props.isError && this.renderSuccess()}
         {!this.props.isFetching && this.props.isError && this.renderError()}

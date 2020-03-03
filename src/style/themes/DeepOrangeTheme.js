@@ -19,6 +19,9 @@ export const DeepOrangeTheme = StyleSheet.create({
     themeBody: {
         backgroundColor: '#ededed'
     },
+    secondaryThemeBody: {
+        backgroundColor: '#ffffff'
+    },
     darkPrimaryColor: {
         backgroundColor: '#E64A19'
     },

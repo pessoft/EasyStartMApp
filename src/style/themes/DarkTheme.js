@@ -22,6 +22,9 @@ export const DarkTheme = StyleSheet.create({
   darkPrimaryColor: {
     backgroundColor: '#131313'
   },
+  secondaryThemeBody: {
+    backgroundColor: '#141414'
+  },
   defaultPrimaryColor: {
     backgroundColor: '#4a4a4a'
   },
