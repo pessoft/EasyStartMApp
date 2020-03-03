@@ -3,7 +3,7 @@ import { TouchableWithoutFeedback, Dimensions, View } from 'react-native'
 import Image from 'react-native-scalable-image'
 import Carousel from 'react-native-banner-carousel'
 import Style from './style'
-const BannerWidth = Dimensions.get('window').width - 19;
+const BannerWidth = Dimensions.get('window').width - 34;
 
 export class StockBannerCarousel extends React.Component {
   onPress = stock => {
