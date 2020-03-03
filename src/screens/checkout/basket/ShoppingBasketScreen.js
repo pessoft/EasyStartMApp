@@ -385,6 +385,7 @@ class ShoppingBasketScreen extends React.Component {
         style={[
           Style.footer,
           this.props.style.theme.backdoor,
+          this.props.style.theme.shadowColor,
           this.props.style.theme.dividerColor
         ]}>
         <Text
@@ -414,7 +415,8 @@ class ShoppingBasketScreen extends React.Component {
         style={[
           Style.footer,
           this.props.style.theme.backdoor,
-          this.props.style.theme.dividerColor
+          this.props.style.theme.dividerColor,
+          this.props.style.theme.shadowColor,
         ]}>
         <Text
           style={[
@@ -452,7 +454,8 @@ class ShoppingBasketScreen extends React.Component {
         <View style={[
           Style.workTimeInfonAnimationContainer,
           this.props.style.theme.backdoor,
-          this.props.style.theme.dividerColor
+          this.props.style.theme.dividerColor,
+          this.props.style.theme.shadowColor,
         ]}>
           <LottieView
             style={Style.workTimeInfonAnimationSize}

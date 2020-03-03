@@ -39,7 +39,9 @@ export class CategoryItem extends React.PureComponent {
                 style={[
                     Style.bodyItem,
                     this.props.style.theme.backdoor,
-                    this.props.style.theme.dividerColor]}
+                    this.props.style.theme.dividerColor,
+                    this.props.style.theme.shadowColor,
+                ]}
                 onPress={this.onPress}>
                 <Animated.View
                     style={[

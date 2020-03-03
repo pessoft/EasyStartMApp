@@ -176,6 +176,7 @@ class CheckoutCompleteScreen extends React.Component {
       <View style={[
         this.props.style.theme.backdoor,
         Style.mainContainer,
+        this.props.style.theme.shadowColor,
       ]}>
         {this.props.isFetching && this.renderLoader()}
         {!this.props.isFetching && !this.props.isError && this.renderSuccess()}

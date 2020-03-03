@@ -98,7 +98,11 @@ class ProductInfoScreen extends React.Component {
                         width={Dimensions.get('window').width - 24}
                         resizeMode='contain' />
                 </View>
-                <View style={[Style.contentBody, this.props.style.theme.backdoor]}>
+                <View style={[
+                    Style.contentBody,
+                    this.props.style.theme.backdoor,
+                    this.props.style.theme.shadowColor,
+                    ]}>
                     <View style={[
                         Style.productInfoContainer,
                         this.props.style.theme.dividerColor]}>

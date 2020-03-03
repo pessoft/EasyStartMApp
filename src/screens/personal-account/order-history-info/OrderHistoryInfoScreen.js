@@ -297,7 +297,8 @@ class OrderHistoryInfoScreen extends React.Component {
           style={[
             Style.footer,
             this.props.style.theme.dividerColor,
-            this.props.style.theme.backdoor
+            this.props.style.theme.backdoor,
+            this.props.style.theme.shadowColor,
           ]}>
           <Text
             style={[

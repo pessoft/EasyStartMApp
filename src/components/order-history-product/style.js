@@ -9,7 +9,10 @@ export default StyleSheet.create({
     borderRadius: 6,
     marginVertical: 5,
     paddingVertical: 10,
-    elevation: 4
+    elevation: 4,
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.3,
+    shadowRadius: 1,
   },
   textWrap: {
     flexWrap: 'wrap'

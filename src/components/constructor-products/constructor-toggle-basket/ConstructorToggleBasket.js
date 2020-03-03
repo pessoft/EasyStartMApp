@@ -68,7 +68,11 @@ export class ConstructorToggleBasket extends React.Component {
 
     render() {
         return (
-            <View style={[Style.container, this.props.style.theme.backdoor]}>
+            <View style={[
+                Style.container,
+                this.props.style.theme.backdoor,
+                this.props.style.theme.shadowColor,
+                ]}>
                 <View style={Style.blockHeader}>
                     {
                         this.state.isAllowToBasket &&

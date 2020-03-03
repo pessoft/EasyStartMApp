@@ -13,6 +13,9 @@ export const DarkOrangeTheme = StyleSheet.create({
   backdoorTransparent: {
     backgroundColor: '#0000008a',
   },
+  shadowColor: {
+    shadowColor: '#3c3c3c'
+  },
   themeBody: {
     backgroundColor: '#141414'
   },

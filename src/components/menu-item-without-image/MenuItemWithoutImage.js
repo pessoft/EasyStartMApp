@@ -15,7 +15,11 @@ export class MenuItemWithoutImage extends React.Component {
         underlayColor={this.props.style.theme.backdoor.backgroundColor}
         onPress={this.onPress}
       >
-        <View style={[Style.container, this.props.style.theme.backdoor]}>
+        <View style={[
+          Style.container,
+          this.props.style.theme.backdoor,
+          this.props.style.theme.shadowColor,
+          ]}>
           <View
             style={[
               Style.content,

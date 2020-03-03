@@ -109,7 +109,8 @@ export class ConstructorCategory extends React.Component {
         style={[
           Style.container,
           this.props.style.theme.backdoor,
-          this.props.style.theme.dividerColor
+          this.props.style.theme.dividerColor,
+          this.props.style.theme.shadowColor,
         ]}>
         <TouchableWithoutFeedback onPress={this.toggleConstructorCategory}>
           <View style={[Style.header]}>

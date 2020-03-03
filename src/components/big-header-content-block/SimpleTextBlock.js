@@ -8,6 +8,7 @@ export class SimpleTextBlock extends React.Component {
     return (
       <View style={[
         Style.container,
+        this.props.style.theme.shadowColor,
         this.props.style.theme.navigationHeader,
         this.props.style.theme.dividerColor,
       ]}>

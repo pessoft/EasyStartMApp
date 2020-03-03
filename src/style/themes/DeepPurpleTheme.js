@@ -13,6 +13,9 @@ export const DeepPurpleTheme = StyleSheet.create({
     backdoorTransparent: {
         backgroundColor: '#ffffff8a',
     },
+    shadowColor: {
+        shadowColor: '#000'
+    },
     themeBody: {
         backgroundColor: '#ededed'
     },

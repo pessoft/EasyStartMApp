@@ -45,7 +45,9 @@ class StocksInfoScreen extends React.Component {
         <Text style={[
           this.props.style.theme.backdoor,
           this.props.style.theme.primaryTextColor,
-          Style.stockDescription]}
+          Style.stockDescription,
+          this.props.style.theme.shadowColor,
+        ]}
         >
           {this.props.selectedStock.Description}
         </Text>

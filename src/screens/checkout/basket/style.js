@@ -11,7 +11,10 @@ export default StyleSheet.create({
     justifyContent: 'center',
     marginVertical: 10,
     borderRadius: 6,
-    elevation: 4
+    elevation: 4,
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.3,
+    shadowRadius: 1,
   },
   footerText: {
     marginBottom: 15,
@@ -31,7 +34,10 @@ export default StyleSheet.create({
     alignItems: 'center',
     borderRadius: 6,
     marginVertical: 5,
-    elevation: 4
+    elevation: 4,
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.3,
+    shadowRadius: 1,
   },
   workTimeInfonAnimationSize: {
     width: 250,

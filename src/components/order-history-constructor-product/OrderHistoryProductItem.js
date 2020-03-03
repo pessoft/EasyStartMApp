@@ -21,7 +21,11 @@ export class OrderHistoryConstructorProductItem extends React.Component {
 
     render() {
         return (
-            <View style={[Style.directionRow, this.props.style.theme.backdoor]}>
+            <View style={[
+                Style.directionRow,
+                this.props.style.theme.backdoor,
+                this.props.style.theme.shadowColor,
+                ]}>
                 <View style={Style.imageContainer}>
                     <Image
                         source={this.props.product.Image}

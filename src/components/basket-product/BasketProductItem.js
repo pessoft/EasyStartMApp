@@ -67,7 +67,11 @@ export class BasketProductItem extends React.Component {
                 { transform: [{ scale: this.state.showScaleAnimation }] }]}>
                 <TouchableHighlight
                     underlayColor={this.props.style.theme.backdoor.backgroundColor}
-                    style={[Style.bodyItem, this.props.style.theme.backdoor]}
+                    style={[
+                        Style.bodyItem,
+                        this.props.style.theme.backdoor,
+                        this.props.style.theme.shadowColor,
+                    ]}
                     onPress={this.onPress}>
                     <View style={[
                         Style.directionRow

@@ -29,7 +29,8 @@ export class StockBannerCarousel extends React.Component {
       <View
         style={[
           this.props.style.theme.themeBody,
-          Style.bannerContainer
+          Style.bannerContainer,
+          this.props.style.theme.shadowColor,
         ]}>
         <Carousel
           showsPageIndicator={true}

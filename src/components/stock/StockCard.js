@@ -21,7 +21,9 @@ export class StockCard extends React.Component {
       <TouchableWithoutFeedback onPress={this.onPress}>
         <View style={[
           Style.card,
-          this.props.style.theme.backdoor]}>
+          this.props.style.theme.backdoor,
+          this.props.style.theme.shadowColor,
+          ]}>
           <Image
             style={Style.image}
             width={Dimensions.get('screen').width - 24}
