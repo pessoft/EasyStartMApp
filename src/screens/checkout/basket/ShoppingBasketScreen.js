@@ -354,13 +354,14 @@ class ShoppingBasketScreen extends React.Component {
       <Animated.View
         style={[
           {
+            paddingHorizontal: 12,
             marginTop: 5,
             opacity: this.state.showScaleAnimation,
             flex: 1,
             transform: [{ scale: this.state.showScaleAnimation }]
           }
         ]}>
-        <ScrollView Style={Style.basketProducts} contentContainerStyle={{ flex: 1, paddingHorizontal: 12 }}>
+        <ScrollView Style={Style.basketProducts}>
           <FlatList
             windowSize={4}
             removeClippedSubviews={Platform.OS !== 'ios'}
@@ -383,6 +384,7 @@ class ShoppingBasketScreen extends React.Component {
       <View
         style={[
           Style.footer,
+          this.props.style.theme.backdoor,
           this.props.style.theme.dividerColor
         ]}>
         <Text
@@ -411,6 +413,7 @@ class ShoppingBasketScreen extends React.Component {
       <View
         style={[
           Style.footer,
+          this.props.style.theme.backdoor,
           this.props.style.theme.dividerColor
         ]}>
         <Text

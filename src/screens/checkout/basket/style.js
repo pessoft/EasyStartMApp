@@ -9,8 +9,9 @@ export default StyleSheet.create({
     height: 110,
     alignItems: 'center',
     justifyContent: 'center',
-    borderTopWidth: 0.5,
-    marginTop: 10,
+    marginVertical: 10,
+    borderRadius: 5,
+    elevation: 5
   },
   footerText: {
     marginBottom: 15,
