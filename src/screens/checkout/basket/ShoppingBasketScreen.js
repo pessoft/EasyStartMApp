@@ -400,8 +400,8 @@ class ShoppingBasketScreen extends React.Component {
             title='Перейти к оформлению'
             onPress={this.checkoutOrder}
             color={Platform.OS == 'ios' ?
-              this.props.style.theme.accentOther.backgroundColor :
-              this.props.style.theme.defaultPrimaryColor.backgroundColor}
+              this.props.style.theme.accentColor.backgroundColor :
+              this.props.style.theme.accentColor.backgroundColor}
           />
         </View>
       </View>
@@ -430,7 +430,7 @@ class ShoppingBasketScreen extends React.Component {
             onPress={this.goToAuthLoginPage}
             color={Platform.OS == 'ios' ?
               this.props.style.theme.accentOther.backgroundColor :
-              this.props.style.theme.defaultPrimaryColor.backgroundColor}
+              this.props.style.theme.accentOther.backgroundColor}
           />
         </View>
       </View>

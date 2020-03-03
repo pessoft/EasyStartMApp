@@ -60,8 +60,8 @@ export class ConstructorToggleBasket extends React.Component {
                         title='В корзину'
                         disabled={!this.state.isAllowToBasket}
                         color={Platform.OS == 'ios' ?
-                            this.props.style.theme.accentOther.backgroundColor :
-                            this.props.style.theme.defaultPrimaryColor.backgroundColor} />
+                            this.props.style.theme.accentColor.backgroundColor :
+                            this.props.style.theme.accentColor.backgroundColor} />
                 </View>
             )
     }
