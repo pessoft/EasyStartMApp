@@ -79,7 +79,10 @@ class StocksScreen extends React.Component {
     return (
       <Animated.ScrollView
         style={[
-          { flex: 1 },
+          {
+            flex: 1,
+            paddingHorizontal: 12
+          },
           { opacity: this.state.showScaleAnimation },
           { transform: [{ scale: this.state.showScaleAnimation }] }
         ]

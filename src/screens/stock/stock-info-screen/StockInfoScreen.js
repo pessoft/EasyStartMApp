@@ -35,10 +35,12 @@ class StocksInfoScreen extends React.Component {
   render() {
     return (
       <Animated.ScrollView
+        contentContainerStyle={{ paddingHorizontal: 12 }}
         style={[{ transform: [{ scale: this.state.showScaleAnimation }] }]}>
         <Image
+          style={Style.image}
           source={this.props.selectedStock.Image}
-          width={Dimensions.get('window').width}
+          width={Dimensions.get('window').width - 24}
           resizeMode='contain' />
         <Text style={[
           this.props.style.theme.backdoor,

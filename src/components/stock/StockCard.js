@@ -23,7 +23,8 @@ export class StockCard extends React.Component {
           Style.card,
           this.props.style.theme.backdoor]}>
           <Image
-            width={Dimensions.get('screen').width}
+            style={Style.image}
+            width={Dimensions.get('screen').width - 24}
             source={this.props.imageSource}
             resizeMode='contain' />
           <Text style={[
