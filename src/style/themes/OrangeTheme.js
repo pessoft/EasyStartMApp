@@ -10,6 +10,9 @@ export const OrangeTheme = StyleSheet.create({
     backdoor: {
         backgroundColor: '#ffffff'
     },
+    backdoorTransparent: {
+        backgroundColor: '#ffffff8a',
+    },
     themeBody: {
         backgroundColor: '#ededed'
     },
@@ -32,7 +35,7 @@ export const OrangeTheme = StyleSheet.create({
         backgroundColor: '#FF9800'
     },
     primaryTextColor: {
-        color: '#3b3b3b'
+        color: '#202020',
     },
     secondaryTextColor: {
         color: '#757575'

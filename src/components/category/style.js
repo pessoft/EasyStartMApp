@@ -6,11 +6,10 @@ export default StyleSheet.create({
     alignSelf: 'stretch',
     justifyContent: 'flex-start',
     width: width,
-    height: 160,
+    height: width,
     borderRadius: 5,
     margin: 5,
     elevation: 4,
-    paddingVertical: 15
   },
   captionCatalog: {
     flexWrap: 'wrap',
@@ -24,13 +23,19 @@ export default StyleSheet.create({
     justifyContent: 'space-between'
   },
   catalogImage: {
-    width: 95,
-    height: 95,
+    width: width,
+    height: width,
     borderRadius: 5,
   },
   captionContainer: {
+    width: width,
     alignItems: 'stretch',
     justifyContent: 'center',
     alignItems: 'center',
+    position: 'absolute',
+    bottom: 0,
+    height: 45,
+    borderBottomLeftRadius: 5,
+    borderBottomRightRadius: 5,
   }
 })

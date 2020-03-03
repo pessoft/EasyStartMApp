@@ -10,6 +10,9 @@ export const IndigoTheme = StyleSheet.create({
     backdoor: {
         backgroundColor: '#ffffff'
     },
+    backdoorTransparent: {
+        backgroundColor: '#ffffff8a',
+    },
     themeBody: {
         backgroundColor: '#ededed'
     },
@@ -32,7 +35,7 @@ export const IndigoTheme = StyleSheet.create({
         backgroundColor: '#448AFF'
     },
     primaryTextColor: {
-        color: '#3b3b3b'
+        color: '#202020',
     },
     secondaryTextColor: {
         color: '#757575'

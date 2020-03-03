@@ -2,6 +2,7 @@ import React from 'react'
 import {
     TouchableHighlight,
     Image,
+    ImageBackground,
     Text,
     View,
     Animated
@@ -51,7 +52,8 @@ export class CategoryItem extends React.PureComponent {
                     />
                     <View style={[
                         Style.captionContainer,
-                        this.props.style.theme.dividerColor,]}>
+                        this.props.style.theme.dividerColor,
+                        this.props.style.theme.backdoorTransparent]}>
                         <Text
                             numberOfLines={2}
                             ellipsizeMode="tail"
