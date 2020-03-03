@@ -8,12 +8,13 @@ export default StyleSheet.create({
     flex: 2
   },
   footer: {
-    bottom: 0,
+    bottom: 10,
     height: 90,
     alignItems: 'center',
     justifyContent: 'center',
-    borderTopWidth: 0.5,
-    marginTop: 10,
+    marginTop: 15,
+    borderRadius: 6,
+    elevation: 4
   },
   buttonSize: {
     width: 230,
