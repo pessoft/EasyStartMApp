@@ -146,6 +146,7 @@ class CategoriesScreen extends React.Component {
                 style={[
                     {
                         flex: 1,
+                        alignItems: 'center',
                         opacity: this.state.showScaleAnimation,
                         transform: [{ scale: this.state.showScaleAnimation }]
                     }]}>

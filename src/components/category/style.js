@@ -1,5 +1,5 @@
 import { StyleSheet, Dimensions } from 'react-native'
-let width = Dimensions.get('screen').width / 2 - 22
+let width = Dimensions.get('screen').width / 2 - 28
 
 export default StyleSheet.create({
   bodyItem: {
@@ -8,7 +8,7 @@ export default StyleSheet.create({
     width: width,
     height: width,
     borderRadius: 6,
-    margin: 5,
+    margin: 8,
     elevation: 4,
   },
   captionCatalog: {
