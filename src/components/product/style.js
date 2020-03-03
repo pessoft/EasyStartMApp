@@ -9,6 +9,10 @@ export default StyleSheet.create({
     borderRadius: 6,
     elevation: 4,
   },
+  captionBlock: {
+    flex: 1,
+    alignItems: 'flex-start',
+  },
   directionRow: {
     flexDirection: 'row',
     justifyContent: 'center',
@@ -18,12 +22,11 @@ export default StyleSheet.create({
     marginTop: 3
   },
   textWrap: {
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
   },
   rowWrap: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
-    // marginBottom: 10,
   },
   productTypeContainer: {
     flexDirection: 'row',
@@ -51,11 +54,12 @@ export default StyleSheet.create({
     alignSelf: 'stretch',
     justifyContent: 'space-between',
     height: 110,
-    paddingVertical: 5,
+    paddingTop: 4,
+    paddingBottom: 10,
     paddingHorizontal: 5,
   },
   blockShopAction: {
-    alignItems: 'center',
+    alignItems: 'flex-end',
     justifyContent: 'center',
     flexDirection: 'row',
   },

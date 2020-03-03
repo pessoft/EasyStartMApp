@@ -89,7 +89,7 @@ export class BasketProductItem extends React.Component {
                                         Style.textWrap,
                                         this.props.style.fontSize.h8,
                                         this.props.style.theme.primaryTextColor]}>
-                                    {this.props.product.caption}
+                                    {this.props.product.caption.trimStart()}
                                 </Text>
 
                                 <Text style={[

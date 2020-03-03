@@ -80,7 +80,7 @@ export class ProductItem extends React.PureComponent {
                                     Style.textWrap,
                                     this.props.style.fontSize.h8,
                                     this.props.style.theme.primaryTextColor]}>
-                                {this.props.product.caption}
+                                {this.props.product.caption.trimStart()}
                             </Text>
                             <View style={Style.rowWrap}>
                                 <Text style={[
