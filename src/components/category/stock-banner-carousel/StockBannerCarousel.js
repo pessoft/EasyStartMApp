@@ -3,7 +3,7 @@ import { TouchableWithoutFeedback, Dimensions, View } from 'react-native'
 import Image from 'react-native-scalable-image'
 import Carousel from 'react-native-banner-carousel'
 import Style from './style'
-const BannerWidth = Dimensions.get('window').width;
+const BannerWidth = Dimensions.get('window').width - 19;
 
 export class StockBannerCarousel extends React.Component {
   onPress = stock => {
@@ -16,6 +16,7 @@ export class StockBannerCarousel extends React.Component {
     return (
       <TouchableWithoutFeedback key={index} onPress={() => this.onPress(stock)}>
         <Image
+          style={Style.image}
           width={BannerWidth}
           source={stock.Image}
           resizeMode='stretch' />
@@ -31,9 +32,9 @@ export class StockBannerCarousel extends React.Component {
           Style.bannerContainer
         ]}>
         <Carousel
-          showsPageIndicator={false}
+          showsPageIndicator={true}
           autoplay
-          autoplayTimeout={2300}
+          autoplayTimeout={2500}
           loop
           index={0}
           pageSize={BannerWidth}
