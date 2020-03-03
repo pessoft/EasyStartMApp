@@ -11,6 +11,6 @@ export default StyleSheet.create({
     paddingHorizontal: 15,
     paddingVertical: 10,
     borderRadius: 6,
-    elevation: 5
+    elevation: 4
   }
 })

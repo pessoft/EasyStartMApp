@@ -10,8 +10,8 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'stretch',
     flexDirection: 'row',
-    borderRadius: 5,
-    elevation: 6
+    borderRadius: 6,
+    elevation: 4
   },
   image: {
     flex: 1,

@@ -8,13 +8,13 @@ export default StyleSheet.create({
         marginVertical: 10,
         paddingHorizontal: 5,
         paddingVertical: 10,
-        borderRadius: 5,
-        elevation: 5
+        borderRadius: 6,
+        elevation: 4
     },
     imageContainer: {
         marginTop: 10,
-        borderRadius: 5,
-        elevation: 5,
+        borderRadius: 6,
+        elevation: 4,
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center'

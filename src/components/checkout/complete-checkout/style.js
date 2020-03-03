@@ -9,8 +9,8 @@ export default StyleSheet.create({
     marginVertical: 5,
     justifyContent: 'center',
     alignItems: 'stretch',
-    borderRadius: 5,
-    elevation: 6
+    borderRadius: 6,
+    elevation: 4
   },
   header: {
     flex: 1,

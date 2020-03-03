@@ -4,8 +4,8 @@ export default StyleSheet.create({
     container: {
         flex: 1,
         height: 130,
-        borderRadius: 5,
-        elevation: 5
+        borderRadius: 6,
+        elevation: 4
     },
     blockHeader: {
         flex: 1,

@@ -7,7 +7,7 @@ export default StyleSheet.create({
     justifyContent: 'flex-start',
     width: width,
     height: width,
-    borderRadius: 5,
+    borderRadius: 6,
     margin: 5,
     elevation: 4,
   },

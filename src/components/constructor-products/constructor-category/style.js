@@ -5,8 +5,8 @@ export default StyleSheet.create({
     flex: 1,
     marginVertical: 5,
     padding: 5,
-    borderRadius: 5,
-    elevation: 6
+    borderRadius: 6,
+    elevation: 4
   },
   header: {
     margin: 2,

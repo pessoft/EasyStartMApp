@@ -10,8 +10,8 @@ export default StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginVertical: 10,
-    borderRadius: 5,
-    elevation: 5
+    borderRadius: 6,
+    elevation: 4
   },
   footerText: {
     marginBottom: 15,
@@ -29,9 +29,9 @@ export default StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 5,
+    borderRadius: 6,
     marginVertical: 5,
-    elevation: 5
+    elevation: 4
   },
   workTimeInfonAnimationSize: {
     width: 250,

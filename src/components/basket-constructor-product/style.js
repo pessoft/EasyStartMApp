@@ -7,8 +7,8 @@ export default StyleSheet.create({
     minHeight: 124,
     marginVertical: 5,
     paddingVertical: 5,
-    borderRadius: 5,
-    elevation: 6
+    borderRadius: 6,
+    elevation: 4
   },
   directionRow: {
     flexDirection: 'row',

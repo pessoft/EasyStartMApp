@@ -11,7 +11,7 @@ export default StyleSheet.create({
     marginTop: 10,
     marginBottom: 5,
     marginHorizontal: 0,
-    borderRadius: 5,
+    borderRadius: 6,
     elevation: 4
   },
   image: {

@@ -7,8 +7,8 @@ export default StyleSheet.create({
     paddingHorizontal: 15,
     flexDirection: 'row',
     alignItems: 'center',
-    borderRadius: 5,
-    elevation: 5
+    borderRadius: 6,
+    elevation: 4
   },
 
   reviewContainer: {
