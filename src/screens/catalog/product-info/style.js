@@ -5,9 +5,22 @@ export default StyleSheet.create({
         alignItems: 'stretch',
     },
     contentBody: {
-        marginTop: 10,
+        marginVertical: 10,
         paddingHorizontal: 5,
-        paddingBottom: 10
+        paddingVertical: 10,
+        borderRadius: 5,
+        elevation: 5
+    },
+    imageContainer: {
+        marginTop: 10,
+        borderRadius: 5,
+        elevation: 5,
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    image: {
+        borderRadius: 5,
     },
     productInfoContainer: {
         flexDirection: 'row',

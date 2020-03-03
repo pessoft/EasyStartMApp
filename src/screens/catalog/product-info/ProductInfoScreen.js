@@ -86,14 +86,19 @@ class ProductInfoScreen extends React.Component {
 
     render() {
         return (
-            <Animated.ScrollView style={[
-                { opacity: this.state.showScaleAnimation },
-                { transform: [{ scale: this.state.showScaleAnimation }] }]}>
-                <Image
-                    source={this.state.selectedProduct.Image}
-                    width={Dimensions.get('window').width}
-                    resizeMode='contain' />
-                <View style={Style.contentBody}>
+            <Animated.ScrollView
+                contentContainerStyle={{ paddingHorizontal: 12 }}
+                style={[
+                    { opacity: this.state.showScaleAnimation },
+                    { transform: [{ scale: this.state.showScaleAnimation }] }]}>
+                <View style={Style.imageContainer}>
+                    <Image
+                        style={Style.image}
+                        source={this.state.selectedProduct.Image}
+                        width={Dimensions.get('window').width - 24}
+                        resizeMode='contain' />
+                </View>
+                <View style={[Style.contentBody, this.props.style.theme.backdoor]}>
                     <View style={[
                         Style.productInfoContainer,
                         this.props.style.theme.dividerColor]}>
