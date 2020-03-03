@@ -29,8 +29,9 @@ export default StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    borderTopWidth: 0.5,
-    borderBottomWidth: 0.5,
+    borderRadius: 5,
+    marginVertical: 5,
+    elevation: 5
   },
   workTimeInfonAnimationSize: {
     width: 250,

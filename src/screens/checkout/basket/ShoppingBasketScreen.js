@@ -442,6 +442,7 @@ class ShoppingBasketScreen extends React.Component {
       <Animated.View
         style={[
           {
+            paddingHorizontal: 12,
             marginTop: 5,
             opacity: this.state.showScaleAnimationWorkTimeInfo,
             flex: 1,
