@@ -19,10 +19,11 @@ export class MenuItem extends React.Component {
   render() {
     return (
       <TouchableHighlight
+        style={Style.bodyItem}
         underlayColor={this.props.style.theme.backdoor.backgroundColor}
         onPress={this.props.onPress}
       >
-        <View style={Style.container}>
+        <View style={[Style.container, this.props.style.theme.backdoor]}>
           <View style={Style.image}>
             {this.renderIcon()}
           </View>
