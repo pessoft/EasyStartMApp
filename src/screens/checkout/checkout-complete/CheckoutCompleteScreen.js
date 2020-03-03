@@ -114,6 +114,7 @@ class CheckoutCompleteScreen extends React.Component {
           ]}>
           Успешно оформлен
         </Text>
+        {this.renderButtonOk()}
       </Animated.View>
     )
   }
@@ -152,6 +153,7 @@ class CheckoutCompleteScreen extends React.Component {
           ]}>
           При оформлении заказа что-то пошло не так
         </Text>
+        {this.renderButtonOk()}
       </Animated.View>
     )
   }
@@ -160,11 +162,11 @@ class CheckoutCompleteScreen extends React.Component {
     return (
       <View style={[Style.buttonOk]}>
         <Button
-          title='Готово'
+          title='Ок'
           onPress={this.onFinishCheckout}
           color={Platform.OS == 'ios' ?
-            this.props.style.theme.primaryTextColor.color :
-            this.props.style.theme.defaultPrimaryColor.backgroundColor} />
+            this.props.style.theme.accentOther.backgroundColor :
+            this.props.style.theme.accentOther.backgroundColor} />
       </View>
     )
   }
@@ -178,7 +180,6 @@ class CheckoutCompleteScreen extends React.Component {
         {this.props.isFetching && this.renderLoader()}
         {!this.props.isFetching && !this.props.isError && this.renderSuccess()}
         {!this.props.isFetching && this.props.isError && this.renderError()}
-        {!this.props.isFetching && this.renderButtonOk()}
       </View>
     )
   }

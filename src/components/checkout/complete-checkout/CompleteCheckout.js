@@ -66,7 +66,7 @@ export class CompleteCheckout extends React.Component {
               disabled={this.props.disabled}
               color={Platform.OS == 'ios' ?
                 this.props.style.theme.accentOther.backgroundColor :
-                this.props.style.theme.darkPrimaryColor.backgroundColor} />
+                this.props.style.theme.accentOther.backgroundColor} />
           </View>
         </View>
       </View>

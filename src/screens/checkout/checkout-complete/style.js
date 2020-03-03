@@ -35,6 +35,8 @@ export default StyleSheet.create({
     alignItems: 'stretch',
     alignSelf: 'center',
     justifyContent: 'center',
-    paddingVertical: 15
+    paddingVertical: 15,
+    position: 'absolute',
+    bottom: 15
   },
 })
