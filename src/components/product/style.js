@@ -53,7 +53,7 @@ export default StyleSheet.create({
     justifyContent: 'space-between',
     height: 110,
     paddingVertical: 5,
-    paddingRight: 10,
+    paddingHorizontal: 5,
   },
   captionBlock: {
   },
