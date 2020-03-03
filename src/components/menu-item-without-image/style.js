@@ -1,11 +1,18 @@
 import { StyleSheet } from 'react-native'
 
 export default StyleSheet.create({
+  bodyItem: {
+    height: 56,
+    borderRadius: 6,
+    marginVertical: 4,
+    elevation: 4,
+  },
   container: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'stretch'
+    alignItems: 'stretch',
+    borderRadius: 6,
   },
   image: {
     flex: 1,
@@ -16,8 +23,6 @@ export default StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    borderBottomWidth: 0.7,
-    paddingVertical: 12,
     paddingLeft: 20
   },
   text: {

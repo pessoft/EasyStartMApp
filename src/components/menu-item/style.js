@@ -4,7 +4,7 @@ export default StyleSheet.create({
   bodyItem: {
     height: 56,
     borderRadius: 6,
-    marginVertical: 5,
+    marginVertical: 4,
     elevation: 4,
   },
   container: {
