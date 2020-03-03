@@ -38,7 +38,7 @@ class ShoppingBasketScreen extends React.Component {
       return {
         headerTitle: 'Корзина',
         headerTitleStyle: {
-          textAlign: "left",
+          textAlign: Platform.OS == 'ios' ? 'center': 'left',
           flex: 1,
         },
         headerRight: () => <VirtualMoneyButton />

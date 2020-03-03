@@ -27,14 +27,31 @@ import { NavigationEvents } from 'react-navigation';
 import { cleanCoupon } from '../../../store/main/actions'
 import { updateVirtualMoney, updateReferralDiscount } from '../../../store/user/actions'
 import { NumberAppliances } from '../../../components/checkout/number-appliances/NumberAppliances'
+import VirtualMoneyButton from '../../../components/buttons/VirtualMoneyButton/VirtualMoneyButton'
 
 class CheckoutScreen extends React.Component {
-  static navigationOptions = {
-    headerTitle: 'Оформление заказа',
+   static navigationOptions = ({ navigation }) => {
+    const isShowVirtualMoney = navigation.getParam('isShowVirtualMoney', false)
+
+    if (isShowVirtualMoney)
+      return {
+        headerTitle: 'Оформление заказа',
+        headerTitleStyle: {
+          textAlign: Platform.OS == 'ios' ? 'center': 'left',
+          flex: 1,
+        },
+        headerRight: () => <VirtualMoneyButton />
+      }
+
+    return {
+      headerTitle: 'Оформление заказа'
+    }
   }
 
   constructor(props) {
     super(props)
+
+    this.props.navigation.setParams({ isShowVirtualMoney: this.props.promotionCashbackSetting.IsUseCashback })
 
     this.state = {
       showScaleAnimation: new Animated.Value(0),

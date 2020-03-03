@@ -28,7 +28,7 @@ class CategoriesScreen extends React.Component {
             return {
                 headerTitle: 'Категории',
                 headerTitleStyle: {
-                    textAlign: "left",
+                    textAlign: Platform.OS == 'ios' ? 'center': 'left',
                     flex: 1,
                 },
                 headerRight: () => <VirtualMoneyButton onPress={onPress} />

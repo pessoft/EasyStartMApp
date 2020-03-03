@@ -22,7 +22,7 @@ class ProductsScreen extends React.Component {
             return {
                 headerTitle,
                 headerTitleStyle: {
-                    textAlign: "left",
+                    textAlign: Platform.OS == 'ios' ? 'center': 'left',
                     flex: 1,
                 },
                 headerRight: () => <VirtualMoneyButton />
