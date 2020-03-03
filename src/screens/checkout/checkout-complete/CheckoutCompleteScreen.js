@@ -143,7 +143,7 @@ class CheckoutCompleteScreen extends React.Component {
             Style.infoText,
           ]}>
           Заказ не оформлен
-        </Text>
+          </Text>
         <Text
           style={[
             this.props.style.theme.primaryTextColor,
@@ -152,7 +152,7 @@ class CheckoutCompleteScreen extends React.Component {
             { flexWrap: 'wrap' }
           ]}>
           При оформлении заказа что-то пошло не так
-        </Text>
+          </Text>
         {this.renderButtonOk()}
       </Animated.View>
     )
@@ -174,8 +174,8 @@ class CheckoutCompleteScreen extends React.Component {
   render() {
     return (
       <View style={[
-        this.props.style.theme.themeBody,
-        Style.container,
+        this.props.style.theme.backdoor,
+        Style.mainContainer,
       ]}>
         {this.props.isFetching && this.renderLoader()}
         {!this.props.isFetching && !this.props.isError && this.renderSuccess()}

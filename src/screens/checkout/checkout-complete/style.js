@@ -1,10 +1,19 @@
 import { StyleSheet } from 'react-native'
 
 export default StyleSheet.create({
+  mainContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 5,
+    elevation: 5,
+    marginVertical: 10,
+    marginHorizontal: 10,
+  },
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   loader: {
     width: 150,
@@ -37,6 +46,6 @@ export default StyleSheet.create({
     justifyContent: 'center',
     paddingVertical: 15,
     position: 'absolute',
-    bottom: 15
+    bottom: 10,
   },
 })
