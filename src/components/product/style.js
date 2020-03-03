@@ -40,7 +40,6 @@ export default StyleSheet.create({
     borderTopRightRadius: 0,
     borderBottomRightRadius: 0,
     marginRight: 10
-
   },
   imageContainer: {
     alignSelf: 'stretch',
@@ -54,8 +53,6 @@ export default StyleSheet.create({
     height: 110,
     paddingVertical: 5,
     paddingHorizontal: 5,
-  },
-  captionBlock: {
   },
   blockShopAction: {
     alignItems: 'center',

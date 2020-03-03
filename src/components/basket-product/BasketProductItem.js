@@ -81,20 +81,24 @@ export class BasketProductItem extends React.Component {
                         <View style={[
                             Style.productHeader,
                             this.props.style.theme.dividerColor]}>
-                            <Text style={[
-                                Style.textWrap,
-                                this.props.style.fontSize.h8,
-                                this.props.style.theme.primaryTextColor]}>
-                                {this.props.product.caption}
-                            </Text>
+                            <View style={[Style.captionBlock]}>
+                                <Text
+                                    numberOfLines={2}
+                                    ellipsizeMode={"tail"}
+                                    style={[
+                                        Style.textWrap,
+                                        this.props.style.fontSize.h8,
+                                        this.props.style.theme.primaryTextColor]}>
+                                    {this.props.product.caption}
+                                </Text>
 
-                            <Text style={[
-                                Style.mt_5,
-                                this.props.style.theme.secondaryTextColor,
-                                this.props.style.fontSize.h10]}>
-                                {`${this.props.product.price} ${this.props.product.currencyPrefix}`}
-                            </Text>
-
+                                <Text style={[
+                                    Style.mt_5,
+                                    this.props.style.theme.secondaryTextColor,
+                                    this.props.style.fontSize.h10]}>
+                                    {`${this.props.product.price} ${this.props.product.currencyPrefix}`}
+                                </Text>
+                            </View>
                             <View style={Style.blockShopAction}>
                                 <TrashButton
                                     size={20}
@@ -118,7 +122,7 @@ export class BasketProductItem extends React.Component {
                         </View>
                     </View>
                 </TouchableHighlight>
-            </Animated.View >
+            </Animated.View>
         )
     }
 }
