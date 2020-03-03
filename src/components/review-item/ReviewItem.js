@@ -42,6 +42,7 @@ export class ReviewItem extends React.Component {
         return (
             <Animated.View style={[
                 Style.reviewItem,
+                this.props.style.theme.backdoor,
                 this.props.style.theme.dividerColor,
                 { transform: [{ scale: this.state.showScaleAnimation }] }
             ]}>

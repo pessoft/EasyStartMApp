@@ -150,7 +150,7 @@ class CategoriesScreen extends React.Component {
                         transform: [{ scale: this.state.showScaleAnimation }]
                     }]}>
                 <FCMManagerComponent navigation={this.props.navigation} />
-                <ScrollView contentContainerStyle={{ paddingHorizontal: 5 }}>
+                <ScrollView contentContainerStyle={{ paddingHorizontal: 12 }}>
                     {
                         this.props.stocks.length > 0 &&
                         this.props.promotionSetting.IsShowStockBanner &&
