@@ -25,4 +25,12 @@ export default StyleSheet.create({
     flex: 1,
     paddingHorizontal: 10,
   },
+  switch: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    borderTopWidth: 0.5,
+    paddingTop: 10,
+    marginTop: 10
+  },
 })

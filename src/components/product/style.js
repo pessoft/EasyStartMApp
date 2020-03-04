@@ -42,9 +42,8 @@ export default StyleSheet.create({
   productImage: {
     width: 110,
     height: 110,
-    borderRadius: 6,
-    borderTopRightRadius: 0,
-    borderBottomRightRadius: 0,
+    borderTopLeftRadius: 6,
+    borderBottomLeftRadius: 6,
     marginRight: 10
   },
   imageContainer: {

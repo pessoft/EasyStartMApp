@@ -1,11 +1,12 @@
-import { StyleSheet } from 'react-native'
+import { StyleSheet, Dimensions } from 'react-native'
+const min320 = Dimensions.get('window').width <= 320
 
 export default StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 7,
     paddingBottom: 14,
-    paddingHorizontal: 12,
+    paddingHorizontal: min320 ? 3 : 12,
     marginVertical: 5,
     justifyContent: 'center',
     alignItems: 'stretch',

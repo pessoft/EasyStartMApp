@@ -4,8 +4,11 @@ import {
     Image,
     Text,
     View,
+    Dimensions
 } from 'react-native'
 import Style from './style'
+
+const min320 = Dimensions.get('window').width <= 320
 
 export class OrderHistoryProductItem extends React.Component {
 
@@ -34,6 +37,8 @@ export class OrderHistoryProductItem extends React.Component {
                                 ellipsizeMode={"tail"}
                                 style={[
                                     Style.textWrap,
+                                    min320 ?
+                                    this.props.style.fontSize.h9 :
                                     this.props.style.fontSize.h8,
                                     this.props.style.theme.primaryTextColor]}>
                                 {this.props.product.Name.trimStart()}

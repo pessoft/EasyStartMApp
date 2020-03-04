@@ -5,12 +5,15 @@ import {
     Text,
     View,
     Animated,
+    Dimensions
 } from 'react-native'
 import Style from './style'
 import { ShoppingButton } from '../buttons/ShoppingButton/ShoppingButton';
 import { timingAnimation } from '../../animation/timingAnimation'
 import { getProductTypes } from '../../helpers/product';
 import { TypeProduct } from '../../helpers/type-product';
+
+const min320 = Dimensions.get('window').width <= 320
 
 export class ProductItem extends React.PureComponent {
     constructor(props) {
@@ -82,7 +85,10 @@ export class ProductItem extends React.PureComponent {
                                 ellipsizeMode={"tail"}
                                 style={[
                                     Style.textWrap,
-                                    this.props.style.fontSize.h8,
+                                    min320 ?
+                                        this.props.style.fontSize.h9 :
+                                        this.props.style.fontSize.h8
+                                    ,
                                     this.props.style.theme.primaryTextColor]}>
                                 {this.props.product.caption.trimStart()}
                             </Text>

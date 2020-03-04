@@ -4,7 +4,6 @@ import Style from './style'
 import { DeliveryRadioGroup } from './DeliveryRadioGroup'
 import SwitchSelector from "react-native-switch-selector";
 import { DeliveryType } from '../../../logic/promotion/delivery-type'
-import { DeliveryDateType } from '../../../logic/promotion/delivery-date-type'
 import { DeliveryDateSetting } from './DeliveryDateSetting';
 
 export class DeliveryTypeBlock extends React.Component {
@@ -19,8 +18,8 @@ export class DeliveryTypeBlock extends React.Component {
 
   setTypeDeliveryOptions() {
     this.typeDeliveryOptions = [
-      { label: "Доставка на дом", value: DeliveryType.Delivery },
-      { label: "Забрать самому", value: DeliveryType.TakeYourSelf }
+      { label: "Курьером", value: DeliveryType.Delivery },
+      { label: "Самовывоз", value: DeliveryType.TakeYourSelf }
     ]
 
     this.initDeliveryTypeValue = this.typeDeliveryOptions.findIndex(p => p.value == this.props.initValue)
@@ -58,7 +57,7 @@ export class DeliveryTypeBlock extends React.Component {
             borderRadius={3}
             fontSize={this.props.style.fontSize.h8.fontSize}
             textColor={this.props.style.theme.primaryTextColor.color}
-            selectedColor={this.props.style.theme.primaryTextColor.color}
+            selectedColor={this.props.style.theme.textPrimaryColor.color}
             backgroundColor={this.props.style.theme.backdoor.backgroundColor}
             buttonColor={this.props.style.theme.darkPrimaryColor.backgroundColor}
             style={{ marginBottom: 10, borderWidth: 1, borderRadius: 4, borderColor: this.props.style.theme.darkPrimaryColor.backgroundColor }}
@@ -66,6 +65,7 @@ export class DeliveryTypeBlock extends React.Component {
           />
           <DeliveryDateSetting
             style={this.props.style}
+            deliveryType={this.state.deliveryType}
           />
         </View>
       </View>

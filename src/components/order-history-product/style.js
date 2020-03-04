@@ -8,7 +8,6 @@ export default StyleSheet.create({
     height: 90,
     borderRadius: 6,
     marginVertical: 5,
-    paddingVertical: 10,
     elevation: 4,
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.3,
@@ -18,27 +17,31 @@ export default StyleSheet.create({
     flexWrap: 'wrap'
   },
   imageContainer: {
-    flex: 1,
     justifyContent: 'center',
+    alignSelf: 'stretch',
   },
   productImage: {
     width: 90,
     height: 90,
-    borderTopLeftRadius: 5,
-    borderBottomLeftRadius: 5,
+    borderTopLeftRadius: 6,
+    borderBottomLeftRadius: 6,
+    marginRight: 10
   },
   productInfoContainer: {
-    flex: 3,
+    flex: 1,
     alignSelf: 'stretch',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
+    paddingTop: 4,
     paddingBottom: 10,
     paddingHorizontal: 10,
+    height: 90,
   },
   captionContainer: {
-    flex: 1
+    flex: 1,
+    alignItems: 'flex-start',
   },
   priceContainer: {
-    flex: 1,
+    flex: 0.5,
     alignItems: 'flex-end',
     justifyContent: 'flex-end',
   }
