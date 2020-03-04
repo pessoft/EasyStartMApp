@@ -77,15 +77,14 @@ export class PaymentType extends React.Component {
           <SwitchSelector
             options={this.typePaymentOptions}
             initial={this.initValue}
-            hasPadding
             height={34}
-            buttonMargin={2}
+            borderRadius={3}
             fontSize={this.props.style.fontSize.h8.fontSize}
             textColor={this.props.style.theme.primaryTextColor.color}
             selectedColor={this.props.style.theme.textPrimaryColor.color}
             backgroundColor={this.props.style.theme.backdoor.backgroundColor}
             buttonColor={this.props.style.theme.darkPrimaryColor.backgroundColor}
-            borderColor={this.props.style.theme.darkPrimaryColor.backgroundColor}
+            style={{ borderWidth: 1, borderRadius: 4, borderColor: this.props.style.theme.darkPrimaryColor.backgroundColor }}
             onPress={this.onChangePaymentType}
           />
           <CheckoutCashback
