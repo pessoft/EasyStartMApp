@@ -30,14 +30,14 @@ import { NumberAppliances } from '../../../components/checkout/number-appliances
 import VirtualMoneyButton from '../../../components/buttons/VirtualMoneyButton/VirtualMoneyButton'
 
 class CheckoutScreen extends React.Component {
-   static navigationOptions = ({ navigation }) => {
+  static navigationOptions = ({ navigation }) => {
     const isShowVirtualMoney = navigation.getParam('isShowVirtualMoney', false)
 
     if (isShowVirtualMoney)
       return {
         headerTitle: 'Оформление заказа',
         headerTitleStyle: {
-          textAlign: Platform.OS == 'ios' ? 'center': 'left',
+          textAlign: Platform.OS == 'ios' ? 'center' : 'left',
           flex: 1,
         },
         headerRight: () => <VirtualMoneyButton />
@@ -499,6 +499,8 @@ class CheckoutScreen extends React.Component {
             />
             <PaymentType
               style={this.props.style}
+              hasCard={this.props.deliverySettings.PayCard}
+              hasCash={this.props.deliverySettings.PayCash}
               initValue={this.state.paymentData.paymentType}
               changePaymentData={this.changePaymentData}
             />

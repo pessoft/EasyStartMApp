@@ -59,8 +59,8 @@ export class ProductItem extends React.PureComponent {
             <TouchableHighlight
                 underlayColor={this.props.style.theme.backdoor.backgroundColor}
                 style={[
+                    { backgroundColor: this.props.backgroundColor ?? this.props.style.theme.backdoor.backgroundColor },
                     Style.bodyItem,
-                    this.props.style.theme.backdoor,
                     this.props.style.theme.shadowColor,
                 ]}
                 onPress={this.onPress}>
