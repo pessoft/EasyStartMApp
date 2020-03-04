@@ -87,8 +87,7 @@ export class ProductItem extends React.PureComponent {
                                     Style.textWrap,
                                     min320 ?
                                         this.props.style.fontSize.h9 :
-                                        this.props.style.fontSize.h8
-                                    ,
+                                        this.props.style.fontSize.h8,
                                     this.props.style.theme.primaryTextColor]}>
                                 {this.props.product.caption.trimStart()}
                             </Text>

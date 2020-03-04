@@ -1,4 +1,4 @@
-import { StyleSheet, Dimensions } from 'react-native'
+import { StyleSheet, Dimensions, Platform } from 'react-native'
 let width = Dimensions.get('screen').width / 2 - 28
 
 export default StyleSheet.create({
@@ -6,13 +6,11 @@ export default StyleSheet.create({
     alignSelf: 'stretch',
     justifyContent: 'flex-start',
     width: width,
-    height: width,
+    height: width + 40,
     borderRadius: 6,
-    margin: 8,
-    elevation: 4,
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.3,
-    shadowRadius: 1,
+    margin: 6,
+    marginTop: 0,
+    marginBottom: Platform.OS == 'ios' ? 6 : 8
   },
   captionCatalog: {
     flexWrap: 'wrap',
@@ -24,6 +22,12 @@ export default StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'space-between'
+  },
+  imageContainer: {
+    elevation: 4,
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.3,
+    shadowRadius: 1,
   },
   catalogImage: {
     width: width,
@@ -37,7 +41,7 @@ export default StyleSheet.create({
     alignItems: 'center',
     position: 'absolute',
     bottom: 0,
-    height: 45,
+    height: 40,
     borderBottomLeftRadius: 5,
     borderBottomRightRadius: 5,
   }

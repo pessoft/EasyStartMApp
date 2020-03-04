@@ -163,6 +163,7 @@ class CategoriesScreen extends React.Component {
                     }
 
                     <FlatList
+                        style={{marginTop: 12}}
                         {...this.getFlatListPerformanceProperty()}
                         data={this.categoriesTransform()}
                         renderItem={this.renderItem}
