@@ -7,7 +7,7 @@ import {
 } from 'react-native'
 import { ProductItem } from '../../components/product/ProductItem';
 import { setSelectedProduct } from '../../store/catalog/actions'
-import { PRODUCT_INFO } from '../../navigation/pointsNavigate'
+import { PRODUCT_INFO, CASHBACK_PROFILE } from '../../navigation/pointsNavigate'
 import { timingAnimation } from '../../animation/timingAnimation'
 import { toggleProductInBasket, changeTotalCountProductInBasket } from '../../store/checkout/actions'
 import { markFromBasket } from '../../store/navigation/actions'
@@ -17,15 +17,15 @@ class ProductsScreen extends React.Component {
     static navigationOptions = ({ navigation }) => {
         const isShowVirtualMoney = navigation.getParam('isShowVirtualMoney', false)
         const headerTitle = navigation.getParam('categoryName', 'Блюда')
-
+        const onPress = navigation.getParam('onPress', null)
         if (isShowVirtualMoney)
             return {
                 headerTitle,
                 headerTitleStyle: {
-                    textAlign: Platform.OS == 'ios' ? 'center': 'left',
+                    textAlign: Platform.OS == 'ios' ? 'center' : 'left',
                     flex: 1,
                 },
-                headerRight: () => <VirtualMoneyButton />
+                headerRight: () => <VirtualMoneyButton onPress={onPress} />
             }
 
         return {
@@ -37,7 +37,8 @@ class ProductsScreen extends React.Component {
         super(props)
         this.props.navigation.setParams({
             categoryName: this.props.selectedCategory.Name,
-            isShowVirtualMoney: this.props.promotionCashbackSetting.IsUseCashback
+            isShowVirtualMoney: this.props.promotionCashbackSetting.IsUseCashback,
+            onPress: () => this.goToCashbackScreen()
         })
         this.props.setSelectedProduct({})
 
@@ -46,6 +47,8 @@ class ProductsScreen extends React.Component {
             refreshItems: false
         }
     }
+
+    goToCashbackScreen = () => this.props.navigation.navigate(CASHBACK_PROFILE)
 
     componentDidMount = () => {
         timingAnimation(this.state.showScaleAnimation, 1, 300, true)

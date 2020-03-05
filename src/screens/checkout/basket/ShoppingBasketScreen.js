@@ -11,7 +11,7 @@ import {
 } from 'react-native'
 import { BasketProductItem } from '../../../components/basket-product/BasketProductItem';
 import { setSelectedProduct } from '../../../store/catalog/actions'
-import { PRODUCT_INFO_FROM_BASKET, CHECKOUT_ORDER, AUTH_LOGIN } from '../../../navigation/pointsNavigate'
+import { PRODUCT_INFO_FROM_BASKET, CHECKOUT_ORDER, AUTH_LOGIN, CASHBACK_PROFILE } from '../../../navigation/pointsNavigate'
 import { timingAnimation } from '../../../animation/timingAnimation'
 import {
   toggleProductInBasket,
@@ -33,7 +33,7 @@ import { BasketConstructorProductItem } from '../../../components/basket-constru
 class ShoppingBasketScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     const isShowVirtualMoney = navigation.getParam('isShowVirtualMoney', false)
-
+    const onPress = navigation.getParam('onPress', null)
     if (isShowVirtualMoney)
       return {
         headerTitle: 'Корзина',
@@ -41,7 +41,7 @@ class ShoppingBasketScreen extends React.Component {
           textAlign: Platform.OS == 'ios' ? 'center' : 'left',
           flex: 1,
         },
-        headerRight: () => <VirtualMoneyButton />
+        headerRight: () => <VirtualMoneyButton onPress={onPress} />
       }
 
     return {
@@ -52,7 +52,10 @@ class ShoppingBasketScreen extends React.Component {
   constructor(props) {
     super(props)
 
-    this.props.navigation.setParams({ isShowVirtualMoney: this.props.promotionCashbackSetting.IsUseCashback })
+    this.props.navigation.setParams({
+      isShowVirtualMoney: this.props.promotionCashbackSetting.IsUseCashback,
+      onPress: () => this.goToCashbackScreen()
+    })
 
     this.state = {
       showScaleAnimation: new Animated.Value(0),
@@ -64,6 +67,8 @@ class ShoppingBasketScreen extends React.Component {
 
     this.props.setSelectedProduct({})
   }
+
+  goToCashbackScreen = () => this.props.navigation.navigate(CASHBACK_PROFILE)
 
   componentDidMount = () => {
     if (this.isEmptyBasket())

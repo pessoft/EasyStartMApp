@@ -28,7 +28,7 @@ class CategoriesScreen extends React.Component {
             return {
                 headerTitle: 'Категории',
                 headerTitleStyle: {
-                    textAlign: Platform.OS == 'ios' ? 'center': 'left',
+                    textAlign: Platform.OS == 'ios' ? 'center' : 'left',
                     flex: 1,
                 },
                 headerRight: () => <VirtualMoneyButton onPress={onPress} />
@@ -163,7 +163,7 @@ class CategoriesScreen extends React.Component {
                     }
 
                     <FlatList
-                        style={{marginTop: 12}}
+                        style={{ marginTop: 12 }}
                         {...this.getFlatListPerformanceProperty()}
                         data={this.categoriesTransform()}
                         renderItem={this.renderItem}

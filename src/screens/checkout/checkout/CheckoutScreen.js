@@ -15,7 +15,7 @@ import { TypePayment } from '../../../helpers/type-payment'
 import { DeliveryAddressAnimation } from '../../../components/checkout/delivery-address/DeliveryAddressAnimation'
 import { OrderComment } from '../../../components/checkout/order-comment/OrderComment'
 import { CompleteCheckout } from '../../../components/checkout/complete-checkout/CompleteCheckout'
-import { CHECKOUT_COMPLETE, SHOPPING_BASKET } from '../../../navigation/pointsNavigate'
+import { CHECKOUT_COMPLETE, SHOPPING_BASKET, CASHBACK_PROFILE } from '../../../navigation/pointsNavigate'
 import { addNewOrderData } from '../../../store/checkout/actions'
 import { PromotionLogic } from '../../../logic/promotion/promotion-logic'
 import { DiscountType } from '../../../logic/promotion/discount-type'
@@ -32,7 +32,7 @@ import VirtualMoneyButton from '../../../components/buttons/VirtualMoneyButton/V
 class CheckoutScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     const isShowVirtualMoney = navigation.getParam('isShowVirtualMoney', false)
-
+    const onPress = navigation.getParam('onPress', null)
     if (isShowVirtualMoney)
       return {
         headerTitle: 'Оформление заказа',
@@ -40,7 +40,7 @@ class CheckoutScreen extends React.Component {
           textAlign: Platform.OS == 'ios' ? 'center' : 'left',
           flex: 1,
         },
-        headerRight: () => <VirtualMoneyButton />
+        headerRight: () => <VirtualMoneyButton onPress={onPress} />
       }
 
     return {
@@ -51,7 +51,10 @@ class CheckoutScreen extends React.Component {
   constructor(props) {
     super(props)
 
-    this.props.navigation.setParams({ isShowVirtualMoney: this.props.promotionCashbackSetting.IsUseCashback })
+    this.props.navigation.setParams({
+      isShowVirtualMoney: this.props.promotionCashbackSetting.IsUseCashback,
+      onPress: () => this.goToCashbackScreen()
+    })
 
     this.state = {
       showScaleAnimation: new Animated.Value(0),
@@ -84,6 +87,8 @@ class CheckoutScreen extends React.Component {
       limitSelectProductBonus: this.getPromotionLogic(true).getAllowedCountSelectBonusProduct()
     }
   }
+
+  goToCashbackScreen = () => this.props.navigation.navigate(CASHBACK_PROFILE)
 
   isRequestNumberAppliances = () => {
     let isRequest = false
