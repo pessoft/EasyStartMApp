@@ -326,7 +326,8 @@ class OrderHistoryInfoScreen extends React.Component {
   render() {
     if (this.props.isFetchingProductsHistory)
       return this.renderLoader()
-    else if (this.props.productsHistory.length > 0)
+    else if (this.props.productsHistory.length > 0 ||
+      this.props.constructorProductsHistory.length > 0)
       return this.renderHistoryOrders()
     else
       return this.renderWrong()
