@@ -1,4 +1,6 @@
-import { StyleSheet, Platform } from 'react-native'
+import { StyleSheet, Platform, Dimensions } from 'react-native'
+
+const min320 = Dimensions.get('window').width <= 320
 
 export default StyleSheet.create({
   contacts: {
@@ -26,19 +28,27 @@ export default StyleSheet.create({
     alignSelf: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
-    paddingHorizontal: 10
+    borderWidth: 1,
+    borderRadius: 5,
+    height: 40,
+    maxHeight: 40,
   },
   itemContainer: {
     flex: 1,
+    minHeight:39,
+    height: 39,
+    maxHeight: 39,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+  },
+  borderRight: {
+    borderRightWidth: 1
   },
   inputText: {
-    width: 160,
+    width: min320 ? 130 : 160,
     textAlign: 'center',
-    borderWidth: 1,
-    borderRadius: 3,
+    borderWidth: 0,
     padding: Platform.OS == 'ios' ? 8 : 3,
-    marginHorizontal: 5
+    maxHeight: 40,
   }
 })

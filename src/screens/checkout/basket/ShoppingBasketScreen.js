@@ -29,6 +29,7 @@ import VirtualMoneyButton from '../../../components/buttons/VirtualMoneyButton/V
 import { priceValid } from '../../../helpers/utils'
 import { CategoryType } from '../../../helpers/type-category'
 import { BasketConstructorProductItem } from '../../../components/basket-constructor-product/BasketConstructorProductItem';
+import { cleanCoupon } from '../../../store/main/actions'
 
 class ShoppingBasketScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -93,11 +94,15 @@ class ShoppingBasketScreen extends React.Component {
       this.props.navigation.navigate(PRODUCT_INFO_FROM_BASKET)
     } else if (this.state.showScaleAnimationEmptyBasket && this.isEmptyBasket()) {
       timingAnimation(this.state.showScaleAnimationEmptyBasket, 1, 300, true)
+      this.props.cleanCoupon()
     } else if (this.state.showScaleAnimation && !this.isEmptyBasket()) {
       if (isWorkTime(this.props.deliverySettings.TimeDelivery))
         timingAnimation(this.state.showScaleAnimation, 1, 300, true)
-      else
+      else {
+        this.props.cleanCoupon()
         timingAnimation(this.state.showScaleAnimationWorkTimeInfo, 1, 300, true)
+      }
+        
     }
 
     this.changeTotalCountProductInBasket()
@@ -509,7 +514,8 @@ const mapActionToProps = {
   toggleProductInBasket,
   toggleConstructorProductInBasket,
   markFromBasket,
-  changeTotalCountProductInBasket
+  changeTotalCountProductInBasket,
+  cleanCoupon
 }
 
 export default connect(mapStateToProps, mapActionToProps)(ShoppingBasketScreen)

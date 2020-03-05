@@ -7,7 +7,7 @@ export default StyleSheet.create({
     alignItems: 'center',
   },
   mainContainer: {
-    flex: 0.70,
+    flex: 0.60,
     justifyContent: 'flex-end',
     alignItems: 'center'
   },
@@ -33,9 +33,6 @@ export default StyleSheet.create({
   },
   inputSize: {
     width: 280,
-  },
-  buttonMargin: {
-    margin: 5
   },
   buttonsSecondary: {
     justifyContent: 'center',

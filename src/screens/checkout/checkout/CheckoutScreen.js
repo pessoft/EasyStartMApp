@@ -158,6 +158,7 @@ class CheckoutScreen extends React.Component {
   componentDidUpdate = (prevProps, prevSate) => {
     if (this.isEmptyBasket() && !this.isEmptyCoupon()) {
       this.props.cleanCoupon()
+      alert('empty')
     }
 
     const promotionData = this.getPromotionDataForEquals()

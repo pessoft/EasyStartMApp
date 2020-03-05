@@ -5,11 +5,14 @@ import {
   TextInput,
   Button,
   ActivityIndicator,
-  Platform
+  Platform,
+  Dimensions
 } from 'react-native'
 import Style from './style'
 import LottieView from 'lottie-react-native';
 import { SimpleTextButton } from '../../../components/buttons/SimpleTextButton/SimpleTextButton'
+
+const min320 = Dimensions.get('window').width <= 320
 
 export class Coupon extends React.Component {
   constructor(props) {
@@ -58,18 +61,27 @@ export class Coupon extends React.Component {
           </Text>
         </View>
         <View
-          style={Style.content}
+          style={[
+            Style.content,
+            this.props.style.theme.dividerColor
+          ]}
         >
-          <View style={Style.itemContainer}>
+          <View style={[
+            Style.itemContainer,
+            Style.borderRight,
+            this.props.style.theme.dividerColor
+          ]}>
             <TextInput
               placeholder='Промокод'
               value={this.state.promotionCode}
               placeholderTextColor={this.props.style.theme.secondaryTextColor.color}
               style={[
                 Style.inputText,
-                this.props.style.fontSize.h8,
-                this.props.style.theme.primaryTextColor,
-                this.props.style.theme.dividerColor]}
+                min320 ?
+                  this.props.style.fontSize.h10 :
+                  this.props.style.fontSize.h8,
+                this.props.style.theme.primaryTextColor
+              ]}
               onChangeText={this.onPromotionCodeChange}
             />
           </View>
@@ -81,7 +93,9 @@ export class Coupon extends React.Component {
                 text='Активировать'
                 onPress={this.activateCoupon}
                 disabled={this.isDisabled()}
-                sizeText={this.props.style.fontSize.h8.fontSize}
+                sizeText={min320 ?
+                  this.props.style.fontSize.h10.fontSize :
+                  this.props.style.fontSize.h8.fontSize}
                 color={this.props.style.theme.primaryTextColor.color}
                 disabledColor={this.props.style.theme.secondaryTextColor.color}
               />
@@ -91,15 +105,15 @@ export class Coupon extends React.Component {
             this.props.isProcessingActivation &&
             !this.props.isActivated &&
             <View style={Style.itemContainer}>
-              <ActivityIndicator size={30} color={this.props.style.theme.lightPrimaryColor.backgroundColor} />
+              <ActivityIndicator size='small' color={this.props.style.theme.lightPrimaryColor.backgroundColor} />
             </View>
           }
           {
             this.props.isActivated &&
-            <View style={{ flex: 0.5 }}>
+            <View style={{ flex: 0.3 }}>
               <LottieView
                 style={Style.loader}
-                source={require('../../../animation/src/success.json')}
+                source={require('../../../animation/src/check-success.json')}
                 autoPlay
                 loop={false}
                 resizeMode='contain'

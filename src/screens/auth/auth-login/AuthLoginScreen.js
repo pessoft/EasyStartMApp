@@ -200,7 +200,6 @@ class AuthLoginScreen extends React.Component {
               />
               <View style={[
                 Style.inputSize,
-                Style.buttonMargin
               ]}>
                 <ButtonWithoutFeedback
                   text='Войти'
@@ -209,12 +208,6 @@ class AuthLoginScreen extends React.Component {
                   borderRadius={5}
                   onPress={this.login}
                 />
-              </View>
-
-              <View style={[
-                Style.inputSize,
-                Style.buttonMargin
-              ]}>
                 <SimpleTextButton
                   text='Зарегистрироваться'
                   onPress={this.goToRegistrationPage}
