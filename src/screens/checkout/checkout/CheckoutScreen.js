@@ -76,6 +76,7 @@ class CheckoutScreen extends React.Component {
         intercomCode: ''
       },
       numberAppliances: this.isRequestNumberAppliances() ? 1 : 0,
+      dateDelivery: null,
       commentText: '',
       promotion: this.getPromotionLogic(true),
       amountPayCashBack: 0,
@@ -204,6 +205,7 @@ class CheckoutScreen extends React.Component {
 
   setContactsData = userData => this.setState({ userData })
   changeDeliveryType = deliveryType => this.setState({ deliveryType, deliveryAddress: { areaDeliveryId: -1 } })
+  changeDeliveryDate = dateDelivery => { this.setState({ dateDelivery }) }
   changePaymentData = paymentData => this.setState({ paymentData })
   setDeliveryAddress = deliveryAddress => this.setState({ deliveryAddress })
   setCommentText = commentText => this.setState({ commentText })
@@ -372,6 +374,7 @@ class CheckoutScreen extends React.Component {
       stockIds: this.state.promotion.getApplyStockIds(),
       couponId: this.state.promotion.getApplyCouponId(),
       referralDiscount: this.state.promotion.getReferralDiscount(),
+      dateDelivery: this.state.dateDelivery
     }
   }
 
@@ -507,7 +510,10 @@ class CheckoutScreen extends React.Component {
             <DeliveryTypeBlock
               style={this.props.style}
               initValue={this.state.deliveryType}
+              dateDelivery={this.state.dateDelivery}
+              deliverySettings={this.props.deliverySettings}
               changeDeliveryType={this.changeDeliveryType}
+              changeDeliveryDate={this.changeDeliveryDate}
             />
             <DeliveryAddressAnimation
               cityId={this.state.deliveryAddress.cityId}

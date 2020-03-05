@@ -5,16 +5,19 @@ import { DeliveryDateType } from '../../../logic/promotion/delivery-date-type'
 import { DeliveryType } from '../../../logic/promotion/delivery-type'
 import DatePicker from 'react-native-date-picker'
 import { timingAnimation } from '../../../animation/timingAnimation'
+import { showMessage } from "react-native-flash-message"
+import { isValidDay, isValidTime, isWorkTime, toStringDate, getTimePeriodByDayFromDate } from '../../../helpers/work-time'
 
 export class DeliveryDateSetting extends React.Component {
   constructor(props) {
     super(props)
 
+    this.maxDate = this.getMaxDate()
     this.state = {
-      showScaleAnimation: new Animated.Value(0),
-      isDeliveryToDate: false,
-      showDateTimePicker: false,
-      date: null
+      showScaleAnimation: this.props.dateDelivery ? new Animated.Value(1) : new Animated.Value(0),
+      isDeliveryToDate: !!this.props.dateDelivery,
+      showDateTimePicker: !!this.props.dateDelivery,
+      date: this.props.dateDelivery
     }
 
     this.setTypeDeliveryDateOptions()
@@ -34,6 +37,14 @@ export class DeliveryDateSetting extends React.Component {
       })
     )
 
+  }
+
+  showInfoMessage = message => {
+    showMessage({
+      message: message,
+      type: 'info',
+      duration: 5000
+    });
   }
 
   onToggleSwitch = () => this.setState({ isDeliveryToDate: !this.state.isDeliveryToDate })
@@ -58,11 +69,61 @@ export class DeliveryDateSetting extends React.Component {
     this.initDeliveryDateTypeValue = 0
   }
 
-  changeDate = date => this.setState({ date })
+  onChangeDate = () => {
+    if (this.props.changeDeliveryDate)
+      this.props.changeDeliveryDate(this.state.date)
+  }
+
+  changeDate = date => {
+    let isWorkTimeForDelivery = isWorkTime(this.props.deliverySettings.TimeDelivery, date)
+    let isValidDayForDelivery = isWorkTimeForDelivery || isValidDay(date, this.props.deliverySettings.TimeDelivery)
+
+    if (isWorkTimeForDelivery)
+      this.setState({ date }, this.onChangeDate)
+    else if (!isValidDayForDelivery) {
+      this.invalidDayMessage(date)
+      this.setState({ date: this.getMinDate() }, this.onChangeDate)
+    } else {
+      this.invalidTimeMessage(date)
+      this.setState({ date: this.getMinDate() }, this.onChangeDate)
+    }
+  }
+
+  invalidDayMessage = date => {
+    this.showInfoMessage(`${toStringDate(date)} выходной день`)
+  }
+
+  invalidTimeMessage = date => {
+    const timeWorkPeriod = getTimePeriodByDayFromDate(this.props.deliverySettings.TimeDelivery, date)
+
+    if (timeWorkPeriod.isHoliday)
+      this.invalidDayMessage(date)
+    else {
+      const msg = `Режим работы ${toStringDate(date)} c ${timeWorkPeriod.periodStart} до ${timeWorkPeriod.periodEnd}`
+      this.showInfoMessage(msg)
+    }
+  }
 
   getMinDate = () => {
     let date = new Date()
-    date.setHours(date.getHours() + 1)
+    let minTimeProcessingOrder = this.props.deliverySettings ? this.props.deliverySettings.MinTimeProcessingOrder.split(':').map(p => parseInt(p)) : [1, 0]
+    const shiftHours = minTimeProcessingOrder[0]
+    const shiftMinutes = minTimeProcessingOrder[1]
+
+    date.setHours(date.getHours() + shiftHours)
+    date.setMinutes(date.getMinutes() + shiftMinutes)
+
+    return date
+  }
+
+  getMaxDate = () => {
+    let shiftDay = this.props.deliverySettings ? this.props.deliverySettings.MaxPreorderPeriod : 0;
+    let date = new Date()
+
+    date.setHours(23, 59, 0, 0)
+
+    if (shiftDay != 0)
+      date.setDate(date.getDate() + shiftDay)
 
     return date
   }
@@ -131,6 +192,7 @@ export class DeliveryDateSetting extends React.Component {
               fadeToColor={this.props.style.theme.backdoor.backgroundColor}
               date={this.state.date}
               minimumDate={this.getMinDate()}
+              maximumDate={this.maxDate}
               onDateChange={this.changeDate}
             />
           </Animated.View>

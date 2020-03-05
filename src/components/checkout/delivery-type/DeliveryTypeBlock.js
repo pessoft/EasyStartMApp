@@ -65,7 +65,10 @@ export class DeliveryTypeBlock extends React.Component {
           />
           <DeliveryDateSetting
             style={this.props.style}
+            dateDelivery={this.props.dateDelivery}
             deliveryType={this.state.deliveryType}
+            deliverySettings={this.props.deliverySettings}
+            changeDeliveryDate={this.props.changeDeliveryDate}
           />
         </View>
       </View>

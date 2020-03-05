@@ -44,8 +44,8 @@ export const getWorkTime = timeDelivery => {
   return daysStr;
 }
 
-export const isWorkTime = operationMode => {
-  const currentDate = new Date()
+export const isWorkTime = (operationMode, date) => {
+  const currentDate = date ?? new Date()
   const currentDay = currentDate.getDay() == 0 ? 7 : currentDate.getDay()
   const currentHours = currentDate.getHours()
   const currentMinutes = currentDate.getMinutes()
@@ -79,4 +79,55 @@ export const isWorkTime = operationMode => {
   }
 
   return false
+}
+
+export const isValidDay = (dateCheck, timeDeliveryFromSettings) => {
+  const day = dateCheck.getDay() == 0 ? 7 : dateCheck.getDay()
+  const workPeriod = timeDeliveryFromSettings[day]
+
+  return workPeriod && workPeriod.length == 2
+}
+
+export const toStringDateAndTime = date => {
+  let day = date.getDate().toString()
+  day = day.length == 1 ? "0" + day : day
+  let month = (date.getMonth() + 1).toString()
+  month = month.length == 1 ? "0" + month : month
+  let hours = date.getHours().toString()
+  hours = hours.length == 1 ? "0" + hours : hours
+  let minutes = date.getMinutes().toString()
+  minutes = minutes.length == 1 ? "0" + minutes : minutes
+  let dateStr = `${hours}:${minutes} ${day}.${month}.${date.getFullYear()}`
+  return dateStr;
+}
+
+export const toStringDate = date => {
+  let day = date.getDate().toString()
+  day = day.length == 1 ? "0" + day : day
+  let month = (date.getMonth() + 1).toString()
+  month = month.length == 1 ? "0" + month : month
+  let hours = date.getHours().toString()
+
+  let dateStr = `${day}.${month}.${date.getFullYear()}`
+  return dateStr;
+}
+
+export const getTimePeriodByDayFromDate = (timeDeliveryFromSettings, date) => {
+  const currentDate = date
+  const currentDay = currentDate.getDay() == 0 ? 7 : currentDate.getDay()
+
+  const currentWorkPeriod = timeDeliveryFromSettings[currentDay]
+  let result = {
+    isHoliday: true,
+    periodStart: '',
+    periodEnd: '',
+  }
+
+  if (currentWorkPeriod && currentWorkPeriod.length == 2) {
+    result.isHoliday = false
+    result.periodStart = currentWorkPeriod[0]
+    result.periodEnd = currentWorkPeriod[1]
+  }
+
+  return result
 }
