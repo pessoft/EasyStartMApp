@@ -218,30 +218,35 @@ class AuthLoginScreen extends React.Component {
                 <SimpleTextButton
                   text='Зарегистрироваться'
                   onPress={this.goToRegistrationPage}
-                  sizeText={this.props.style.fontSize.h8.fontSize}
+                  sizeText={this.props.style.fontSize.h9.fontSize}
                   color={this.props.style.theme.primaryTextColor.color}
-                  margin={8}
+                  margin={10}
                 />
               </View>
             </View>
             <View style={Style.buttonsSecondary}>
 
-              <View style={Style.buttonMargin}>
+              <View style={[
+                Style.inputSize,
+              ]}>
                 <SimpleTextButton
                   text='Восстановить пароль'
                   onPress={this.goToRestorePasswordPage}
-                  sizeText={this.props.style.fontSize.h8.fontSize}
+                  sizeText={this.props.style.fontSize.h9.fontSize}
                   color={this.props.style.theme.primaryTextColor.color}
-                  margin={5}
+                  margin={2}
                 />
               </View>
-              <View style={Style.buttonMargin}>
+
+              <View style={[
+                Style.inputSize,
+              ]}>
                 <SimpleTextButton
                   text='Продолжить без входа'
                   onPress={this.goToStartPage}
-                  sizeText={this.props.style.fontSize.h8.fontSize}
+                  sizeText={this.props.style.fontSize.h9.fontSize}
                   color={this.props.style.theme.primaryTextColor.color}
-                  margin={5}
+                  margin={2}
                 />
               </View>
             </View>

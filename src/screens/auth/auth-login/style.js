@@ -7,7 +7,7 @@ export default StyleSheet.create({
     alignItems: 'center',
   },
   mainContainer: {
-    flex: 0.75,
+    flex: 0.70,
     justifyContent: 'flex-end',
     alignItems: 'center'
   },

@@ -4,6 +4,7 @@ export default StyleSheet.create({
   moneyBody: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginRight: 10
+    marginRight: 10,
+    flex: 1
   }
 })

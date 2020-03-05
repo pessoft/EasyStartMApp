@@ -24,8 +24,14 @@ export default StyleSheet.create({
   content: {
     flex: 1,
     alignSelf: 'center',
+    justifyContent: 'center',
     flexDirection: 'row',
     paddingHorizontal: 10
+  },
+  itemContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   inputText: {
     width: 160,

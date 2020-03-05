@@ -9,6 +9,7 @@ import {
 } from 'react-native'
 import Style from './style'
 import LottieView from 'lottie-react-native';
+import { SimpleTextButton } from '../../../components/buttons/SimpleTextButton/SimpleTextButton'
 
 export class Coupon extends React.Component {
   constructor(props) {
@@ -59,34 +60,38 @@ export class Coupon extends React.Component {
         <View
           style={Style.content}
         >
-          <TextInput
-            placeholder='Промокод'
-            value={this.state.promotionCode}
-            placeholderTextColor={this.props.style.theme.secondaryTextColor.color}
-            style={[
-              Style.inputText,
-              this.props.style.fontSize.h8,
-              this.props.style.theme.primaryTextColor,
-              this.props.style.theme.dividerColor]}
-            onChangeText={this.onPromotionCodeChange}
-          />
+          <View style={Style.itemContainer}>
+            <TextInput
+              placeholder='Промокод'
+              value={this.state.promotionCode}
+              placeholderTextColor={this.props.style.theme.secondaryTextColor.color}
+              style={[
+                Style.inputText,
+                this.props.style.fontSize.h8,
+                this.props.style.theme.primaryTextColor,
+                this.props.style.theme.dividerColor]}
+              onChangeText={this.onPromotionCodeChange}
+            />
+          </View>
           {
             !this.props.isProcessingActivation &&
             !this.props.isActivated &&
-            <Button
-              title='Активировать'
-              onPress={this.activateCoupon}
-              disabled={this.isDisabled()}
-              color={Platform.OS == 'ios' ?
-                this.props.style.theme.primaryTextColor.color :
-                this.props.style.theme.defaultPrimaryColor.backgroundColor}
-            />
+            <View style={Style.itemContainer}>
+              <SimpleTextButton
+                text='Активировать'
+                onPress={this.activateCoupon}
+                disabled={this.isDisabled()}
+                sizeText={this.props.style.fontSize.h8.fontSize}
+                color={this.props.style.theme.primaryTextColor.color}
+                disabledColor={this.props.style.theme.secondaryTextColor.color}
+              />
+            </View>
           }
           {
             this.props.isProcessingActivation &&
             !this.props.isActivated &&
-            <View style={{ flex: 0.5 }}>
-              <ActivityIndicator size="large" color={this.props.style.theme.defaultPrimaryColor.backgroundColor} />
+            <View style={Style.itemContainer}>
+              <ActivityIndicator size={30} color={this.props.style.theme.lightPrimaryColor.backgroundColor} />
             </View>
           }
           {

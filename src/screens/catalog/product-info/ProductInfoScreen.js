@@ -102,7 +102,7 @@ class ProductInfoScreen extends React.Component {
                     Style.contentBody,
                     this.props.style.theme.backdoor,
                     this.props.style.theme.shadowColor,
-                    ]}>
+                ]}>
                     <View style={[
                         Style.productInfoContainer,
                         this.props.style.theme.dividerColor]}>
@@ -121,12 +121,15 @@ class ProductInfoScreen extends React.Component {
                                 this.props.style.theme.secondaryTextColor]}>{this.getRatingText()}
                             </Text>
                             <View style={Style.reviewsButtonWithIcon}>
-                                <SimpleTextButton
-                                    text={'Отзывы'}
-                                    onPress={this.onPressReviews}
-                                    sizeText={this.props.style.fontSize.h6.fontSize}
-                                    color={this.props.style.theme.accentOther.backgroundColor}
-                                />
+                                <View style={Style.buttonContainer}>
+                                    <SimpleTextButton
+                                        text={'Отзывы'}
+                                        onPress={this.onPressReviews}
+                                        sizeText={this.props.style.fontSize.h6.fontSize}
+                                        color={this.props.style.theme.accentOther.backgroundColor}
+                                        textAlign={'left'}
+                                    />
+                                </View>
                                 <CommentLinesIcon
                                     width={20}
                                     height={20}

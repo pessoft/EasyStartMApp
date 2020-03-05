@@ -57,6 +57,9 @@ export default StyleSheet.create({
         lineHeight: 24,
         paddingHorizontal: 10,
     },
+    buttonContainer: {
+        width: 80,
+    },
     reviewsButtonWithIcon: {
         flexDirection: 'row',
         justifyContent: 'space-between',
