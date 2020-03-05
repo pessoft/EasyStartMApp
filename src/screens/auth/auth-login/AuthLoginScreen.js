@@ -23,6 +23,8 @@ import { getMainData, resetMainData } from '../../../store/main/actions'
 import { resetCheckoutData } from '../../../store/checkout/actions'
 import { getLocation } from '../../../store/location/actions'
 import { showMessage } from "react-native-flash-message"
+import { SimpleTextButton } from '../../../components/buttons/SimpleTextButton/SimpleTextButton'
+import { ButtonWithoutFeedback } from '../../../components/buttons/ButtonWithoutFeedback/ButtonWithoutFeedback'
 
 const { width } = Dimensions.get('window')
 
@@ -154,86 +156,93 @@ class AuthLoginScreen extends React.Component {
               opacity: this.state.showScaleAnimation,
               transform: [{ scale: this.state.showScaleAnimation }]
             }]}>
-            <UserPhotoDefaultIcon
-              width={90} height={90}
-              style={Style.loginIcon}
-              color={getSVGColor(this.props.style.theme.primaryTextColor.color)}
-            />
-            <TextInputMask
-              keyboardType={'phone-pad'}
-              placeholder={'Номер телефона: +7...'}
-              placeholderTextColor={this.props.style.theme.secondaryTextColor.color}
-              type={'custom'}
-              options={{ mask: '+7(999)999-99-99' }}
-              value={this.state.phoneNumber}
-              style={[
-                Style.inputText,
+            <View style={Style.mainContainer}>
+              <UserPhotoDefaultIcon
+                width={90} height={90}
+                style={Style.loginIcon}
+                color={getSVGColor(this.props.style.theme.primaryTextColor.color)}
+              />
+              <TextInputMask
+                keyboardType={'phone-pad'}
+                placeholder={'Номер телефона: +7...'}
+                placeholderTextColor={this.props.style.theme.secondaryTextColor.color}
+                type={'custom'}
+                options={{ mask: '+7(999)999-99-99' }}
+                value={this.state.phoneNumber}
+                style={[
+                  Style.inputText,
+                  Style.firstInput,
+                  Style.inputSize,
+                  this.props.style.fontSize.h8,
+                  this.props.style.theme.primaryTextColor,
+                  this.props.style.theme.dividerColor]}
+                onChangeText={this.onPhoneChange}
+                returnKeyType={'next'}
+                onSubmitEditing={() => { this.secondTextInput.focus() }}
+                blurOnSubmit={false}
+              />
+              <TextInput
+                ref={(input) => { this.secondTextInput = input; }}
+                secureTextEntry={true}
+                placeholder='Пароль'
+                value={this.state.password}
+                placeholderTextColor={this.props.style.theme.secondaryTextColor.color}
+                style={[
+                  Style.inputText,
+                  Style.secondInput,
+                  Style.inputSize,
+                  this.props.style.fontSize.h8,
+                  this.props.style.theme.primaryTextColor,
+                  this.props.style.theme.dividerColor]}
+                onChangeText={this.onPasswordChange}
+                onSubmitEditing={() => Keyboard.dismiss()}
+                blurOnSubmit={false}
+              />
+              <View style={[
                 Style.inputSize,
-                this.props.style.fontSize.h7,
-                this.props.style.theme.primaryTextColor,
-                this.props.style.theme.dividerColor]}
-              onChangeText={this.onPhoneChange}
-              returnKeyType={'next'}
-              onSubmitEditing={() => { this.secondTextInput.focus() }}
-              blurOnSubmit={false}
-            />
-            <TextInput
-              ref={(input) => { this.secondTextInput = input; }}
-              secureTextEntry={true}
-              placeholder='Пароль'
-              value={this.state.password}
-              placeholderTextColor={this.props.style.theme.secondaryTextColor.color}
-              style={[
-                Style.inputText,
-                Style.inputSize,
-                this.props.style.fontSize.h7,
-                this.props.style.theme.primaryTextColor,
-                this.props.style.theme.dividerColor]}
-              onChangeText={this.onPasswordChange}
-              onSubmitEditing={() => Keyboard.dismiss()}
-              blurOnSubmit={false}
-            />
-            <View style={[
-              Style.inputSize,
-            ]}>
-              <View style={Style.buttonMargin}>
-                <Button
-                  title='Войти'
-                  onPress={this.login}
+                Style.buttonMargin
+              ]}>
+                <ButtonWithoutFeedback
+                  text='Войти'
+                  style={this.props.style}
                   disabled={!this.isValidData()}
-                  color={Platform.OS == 'ios' ?
-                    this.props.style.theme.primaryTextColor.color :
-                    this.props.style.theme.defaultPrimaryColor.backgroundColor}
+                  borderRadius={5}
+                  onPress={this.login}
                 />
               </View>
-              <View style={Style.buttonsSecondary}>
-                <View style={Style.buttonMargin}>
-                  <Button
-                    title='Регистрация'
-                    onPress={this.goToRegistrationPage}
-                    color={Platform.OS == 'ios' ?
-                      this.props.style.theme.primaryTextColor.color :
-                      this.props.style.theme.defaultPrimaryColor.backgroundColor}
-                  />
-                </View>
-                <View style={Style.buttonMargin}>
-                  <Button
-                    title='Восстановить пароль'
-                    onPress={this.goToRestorePasswordPage}
-                    color={Platform.OS == 'ios' ?
-                      this.props.style.theme.primaryTextColor.color :
-                      this.props.style.theme.defaultPrimaryColor.backgroundColor}
-                  />
-                </View>
-                <View style={Style.buttonMargin}>
-                  <Button
-                    title='Продолжить без входа'
-                    onPress={this.goToStartPage}
-                    color={Platform.OS == 'ios' ?
-                      this.props.style.theme.primaryTextColor.color :
-                      this.props.style.theme.defaultPrimaryColor.backgroundColor}
-                  />
-                </View>
+
+              <View style={[
+                Style.inputSize,
+                Style.buttonMargin
+              ]}>
+                <SimpleTextButton
+                  text='Зарегистрироваться'
+                  onPress={this.goToRegistrationPage}
+                  sizeText={this.props.style.fontSize.h8.fontSize}
+                  color={this.props.style.theme.primaryTextColor.color}
+                  margin={8}
+                />
+              </View>
+            </View>
+            <View style={Style.buttonsSecondary}>
+
+              <View style={Style.buttonMargin}>
+                <SimpleTextButton
+                  text='Восстановить пароль'
+                  onPress={this.goToRestorePasswordPage}
+                  sizeText={this.props.style.fontSize.h8.fontSize}
+                  color={this.props.style.theme.primaryTextColor.color}
+                  margin={5}
+                />
+              </View>
+              <View style={Style.buttonMargin}>
+                <SimpleTextButton
+                  text='Продолжить без входа'
+                  onPress={this.goToStartPage}
+                  sizeText={this.props.style.fontSize.h8.fontSize}
+                  color={this.props.style.theme.primaryTextColor.color}
+                  margin={5}
+                />
               </View>
             </View>
           </Animated.View>

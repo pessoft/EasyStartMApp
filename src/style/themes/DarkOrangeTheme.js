@@ -26,10 +26,10 @@ export const DarkOrangeTheme = StyleSheet.create({
     backgroundColor: '#131313'
   },
   defaultPrimaryColor: {
-    backgroundColor: '#4a4a4a'
+    backgroundColor: '#37373d'
   },
   lightPrimaryColor: {
-    backgroundColor: '#37373d'
+    backgroundColor: '#4a4a4a'
   },
   textPrimaryColor: {
     color: '#FFFFFF'
