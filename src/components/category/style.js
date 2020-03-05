@@ -24,6 +24,7 @@ export default StyleSheet.create({
     justifyContent: 'space-between'
   },
   imageContainer: {
+    borderRadius: 6,
     elevation: 4,
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.3,
