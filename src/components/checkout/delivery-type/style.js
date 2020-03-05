@@ -33,4 +33,13 @@ export default StyleSheet.create({
     paddingTop: 10,
     marginTop: 10
   },
+  datePickerContainer: {
+    borderWidth: 0.7,
+    borderRadius: 3,
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 10,
+    marginBottom: 5,
+  }
 })

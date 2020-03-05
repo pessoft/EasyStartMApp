@@ -117,21 +117,14 @@ export class DeliveryDateSetting extends React.Component {
         {
           this.state.showDateTimePicker &&
           <Animated.View
-            style={
+            style={[
+              this.props.style.theme.backdoor.backgroundColor,
+              this.props.style.theme.dividerColor.borderColor,
               {
-                backgroundColor: this.props.style.theme.backdoor.backgroundColor,
-                borderWidth: 0.7,
-                borderColor: this.props.style.theme.dividerColor.borderColor,
-                borderRadius: 3,
-                flex: 1,
-                justifyContent: 'center',
-                alignItems: 'center',
-                marginTop: 10,
-                marginBottom: 5,
                 opacity: this.state.showScaleAnimation,
                 transform: [{ scale: this.state.showScaleAnimation }]
               }
-            }>
+            ]}>
             <DatePicker
               mode={'datetime'}
               textColor={this.props.style.theme.primaryTextColor.color}
