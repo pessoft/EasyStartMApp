@@ -41,7 +41,7 @@ export const DeepPurpleTheme = StyleSheet.create({
         backgroundColor: '#7C4DFF'
     },
     primaryTextColor: {
-        color: '#202020',
+        color: '#1e1e1e',
     },
     secondaryTextColor: {
         color: '#757575'

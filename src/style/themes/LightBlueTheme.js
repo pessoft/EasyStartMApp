@@ -41,7 +41,7 @@ export const LightBlueTheme = StyleSheet.create({
         backgroundColor: '#607D8B'
     },
     primaryTextColor: {
-        color: '#202020',
+        color: '#1e1e1e',
     },
     secondaryTextColor: {
         color: '#757575'

@@ -41,7 +41,7 @@ export const CaynTheme = StyleSheet.create({
         backgroundColor: '#00BCD4'
     },
     primaryTextColor: {
-        color: '#202020',
+        color: '#1e1e1e',
     },
     secondaryTextColor: {
         color: '#757575'

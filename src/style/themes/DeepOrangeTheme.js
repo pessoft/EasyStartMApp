@@ -41,7 +41,7 @@ export const DeepOrangeTheme = StyleSheet.create({
         backgroundColor: '#FF5722'
     },
     primaryTextColor: {
-        color: '#202020',
+        color: '#1e1e1e',
     },
     secondaryTextColor: {
         color: '#757575'

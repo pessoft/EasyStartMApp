@@ -41,7 +41,7 @@ export const OrangeTheme = StyleSheet.create({
         backgroundColor: '#FF9800'
     },
     primaryTextColor: {
-        color: '#202020',
+        color: '#1e1e1e',
     },
     secondaryTextColor: {
         color: '#757575'

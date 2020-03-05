@@ -41,7 +41,7 @@ export const BlueTheme = StyleSheet.create({
         backgroundColor: '#448AFF'
     },
     primaryTextColor: {
-        color: '#202020',
+        color: '#1e1e1e',
     },
     secondaryTextColor: {
         color: '#757575'

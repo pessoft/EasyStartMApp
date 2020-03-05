@@ -41,7 +41,7 @@ export const GreenTheme = StyleSheet.create({
         backgroundColor: '#4CAF50'
     },
     primaryTextColor: {
-        color: '#202020',
+        color: '#1e1e1e',
     },
     secondaryTextColor: {
         color: '#757575'

@@ -81,7 +81,7 @@ export const mainBottomTab = style => createBottomTabNavigator(
             style: {
                 backgroundColor: style.theme.navigationBottom.backgroundColor,
                 borderTopColor: style.theme.dividerColor.borderColor,
-                borderTopWidth: 0.5,
+                borderTopWidth: 0.55,
                 paddingTop: 5,
                 height: 54,
                 alignItems: 'center',
