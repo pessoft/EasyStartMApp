@@ -35,7 +35,7 @@ export const DarkTheme = StyleSheet.create({
     color: '#FFFFFF'
   },
   accentColor: {
-    backgroundColor: '#1976D2'
+    backgroundColor: '#4CAF50'
   },
   accentOther: {
     backgroundColor: '#1976D2'
