@@ -2,8 +2,20 @@ import React from 'react'
 import { View, Text } from 'react-native'
 import Style from './style'
 import { SimpleTextButton } from '../../../components/buttons/SimpleTextButton/SimpleTextButton'
+import { PartnersCode } from '../../raw-bottom-sheets/partners-code/PartnersCode'
 
 export class PartnersHeaderBlock extends React.Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      togglePartnerCodeSheet: false
+    }
+  }
+
+  showPartnerCodeSheet = () => this.setState({ togglePartnerCodeSheet: true })
+
+  closePartnerCodeSheet = () => this.setState({ togglePartnerCodeSheet: false })
 
   render() {
     return (
@@ -19,7 +31,7 @@ export class PartnersHeaderBlock extends React.Component {
         ]}>
           <SimpleTextButton
             text='Ввести реферальный код'
-            // onPress={this.goToRegistrationPage}
+            onPress={this.showPartnerCodeSheet}
             alignItems='flex-start'
             sizeText={this.props.style.fontSize.h9.fontSize}
             color={this.props.style.theme.primaryTextColor.color}
@@ -48,6 +60,11 @@ export class PartnersHeaderBlock extends React.Component {
             {this.props.secondText}
           </Text>
         </View>
+        <PartnersCode
+          style={this.props.style}
+          toggle={this.state.togglePartnerCodeSheet}
+          onClose={this.closePartnerCodeSheet}
+        />
       </View>
     )
   }

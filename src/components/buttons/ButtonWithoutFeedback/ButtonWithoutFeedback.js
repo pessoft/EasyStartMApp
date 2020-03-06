@@ -24,7 +24,10 @@ export class ButtonWithoutFeedback extends React.Component {
                         numberOfLines={1}
                         ellipsizeMode={"tail"}
                         style={[
-                            this.props.style.fontSize.h8,
+                            {
+                                fontSize: this.props.fontSize ||
+                                    this.props.style.fontSize.h8.fontSize
+                            },
                             this.props.style.theme.textPrimaryColor,
                             Style.text
                         ]}
