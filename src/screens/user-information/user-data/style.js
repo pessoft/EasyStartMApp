@@ -15,6 +15,7 @@ export default StyleSheet.create({
   },
   inputSize: {
     width: 280,
+    minHeight: 35
   },
   buttonNext: {
     marginTop: 10

@@ -173,7 +173,6 @@ class UserDataScreen extends React.Component {
                 disabled={!this.isValidData()}
                 style={this.props.style}
                 borderRadius={5}
-
               />
             </View>
           </Animated.View>
