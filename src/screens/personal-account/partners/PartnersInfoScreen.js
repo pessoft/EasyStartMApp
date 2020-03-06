@@ -4,7 +4,7 @@ import LottieView from 'lottie-react-native';
 import { Animated, FlatList, Text, ActivityIndicator, View } from 'react-native'
 import Style from './style'
 import { timingAnimation } from '../../../animation/timingAnimation'
-import { SimpleTextBlock } from '../../../components/big-header-content-block/SimpleTextBlock';
+import { PartnersHeaderBlock } from '../../../components/big-header-content-block/partners-header-block/PartnersHeaderBlock';
 import { getPartnersTransaction } from '../../../store/promotion-transaction/actions'
 import { priceValid, dateFormatted } from '../../../helpers/utils'
 import { TransactionItem } from '../../../components/transaction-item/TransactionItem'
@@ -94,7 +94,7 @@ class PartnersInfoScreen extends React.Component {
             transform: [{ scale: this.state.showAnimation }]
           }
         ]}>
-        <SimpleTextBlock
+        <PartnersHeaderBlock
           style={this.props.style}
           mainText={this.props.referralCode}
           secondText={this.secondText}

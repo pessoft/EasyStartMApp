@@ -14,6 +14,7 @@ export class SimpleTextButton extends React.Component {
                     Style.button,
                     {
                         margin: this.props.margin || 0,
+                        alignItems: this.props.alignItems || 'center'
                     }]}>
                     <Text
                         numberOfLines={1}
