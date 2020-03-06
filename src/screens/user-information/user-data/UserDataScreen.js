@@ -18,7 +18,7 @@ import { setUserEmail, setUserName, setParentReferralCode, dropSuccessClientUpda
 import Style from './style'
 import { timingAnimation } from '../../../animation/timingAnimation'
 import { showMessage } from "react-native-flash-message"
-
+import { ButtonWithoutFeedback } from '../../../components/buttons/ButtonWithoutFeedback/ButtonWithoutFeedback'
 const { width } = Dimensions.get('window')
 
 class UserDataScreen extends React.Component {
@@ -120,6 +120,10 @@ class UserDataScreen extends React.Component {
               placeholderTextColor={this.props.style.theme.secondaryTextColor.color}
               style={[
                 Style.inputText,
+                Style.mr_bt_0,
+                Style.b_bt_w_0,
+                Style.b_bt_l_r_0,
+                Style.b_bt_r_r_0,
                 Style.inputSize,
                 this.props.style.fontSize.h7,
                 this.props.style.theme.primaryTextColor,
@@ -136,6 +140,9 @@ class UserDataScreen extends React.Component {
               placeholderTextColor={this.props.style.theme.secondaryTextColor.color}
               style={[
                 Style.inputText,
+                Style.mr_tp_0,
+                Style.b_tp_l_r_0,
+                Style.b_tp_r_r_0,
                 Style.inputSize,
                 this.props.style.fontSize.h7,
                 this.props.style.theme.primaryTextColor,
@@ -160,13 +167,13 @@ class UserDataScreen extends React.Component {
             <View style={[
               Style.inputSize,
               Style.buttonNext]}>
-              <Button
-                title='Далее'
+              <ButtonWithoutFeedback
+                text='Далее'
                 onPress={this.onUpdateUserData}
                 disabled={!this.isValidData()}
-                color={Platform.OS == 'ios' ?
-                  this.props.style.theme.primaryTextColor.color :
-                  this.props.style.theme.defaultPrimaryColor.backgroundColor}
+                style={this.props.style}
+                borderRadius={5}
+
               />
             </View>
           </Animated.View>
