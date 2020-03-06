@@ -2,7 +2,7 @@ import React from 'react'
 import {
   View,
   TextInput,
-  TouchableOpacity
+  ActivityIndicator
 
 } from 'react-native'
 import Style from './style'
@@ -14,7 +14,7 @@ export class PartnersCode extends React.Component {
     super(props)
 
     this.state = {
-      code: null
+      code: null,
     }
   }
 
@@ -34,7 +34,21 @@ export class PartnersCode extends React.Component {
 
   changeCode = code => this.setState({ code })
 
-  done = () => this.Input.close()
+  done = () => {
+    if (this.props.setParentReferral)
+      this.props.setParentReferral(this.state.code)
+  }
+
+  renderLoad = () => {
+    return (
+      <View style={[
+        Style.loader,
+        this.props.style.theme.defaultPrimaryColor
+      ]}>
+        <ActivityIndicator size='small' color={this.props.style.theme.textPrimaryColor.color} />
+      </View>
+    )
+  }
 
   render() {
     return (
@@ -57,27 +71,41 @@ export class PartnersCode extends React.Component {
           this.props.style.theme.dividerColor,
           this.props.style.theme.navigationBottom,
         ]}>
-          <TextInput style={[
-            Style.input,
-            this.props.style.fontSize.h9,
-            this.props.style.theme.primaryTextColor,
-            this.props.style.theme.dividerColor,
-            this.props.style.theme.navigationBottom
-          ]}
-            value={this.state.code}
-            autoFocus
-            placeholder="Введите реферальный код ..."
-            placeholderTextColor={this.props.style.theme.secondaryTextColor.color}
-            onChangeText={this.changeCode}
-          />
-          <ButtonWithoutFeedback
-            text='Готово'
-            style={this.props.style}
-            disabled={!this.isValidData()}
-            borderRadius={5}
-            fontSize={this.props.style.fontSize.h9.fontSize}
-            onPress={this.done}
-          />
+          <View style={[
+            Style.container,
+            {
+              borderColor: this.props.style.theme.darkPrimaryColor.backgroundColor
+            }
+          ]}>
+            <TextInput style={[
+              Style.input,
+              this.props.style.fontSize.h9,
+              this.props.style.theme.primaryTextColor,
+              this.props.style.theme.navigationBottom
+            ]}
+              value={this.state.code}
+              autoFocus
+              placeholder="Введите реферальный код ..."
+              placeholderTextColor={this.props.style.theme.secondaryTextColor.color}
+              onChangeText={this.changeCode}
+            />
+            {
+              !this.props.isFetching &&
+              <ButtonWithoutFeedback
+                text='Готово'
+                style={this.props.style}
+                disabled={!this.isValidData()}
+                borderRadius={4}
+                borderLeftRadius={0}
+                fontSize={this.props.style.fontSize.h9.fontSize}
+                onPress={this.done}
+              />
+            }
+            {
+              this.props.isFetching &&
+              this.renderLoad()
+            }
+          </View>
         </View>
       </RBSheet>
     )

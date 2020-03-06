@@ -9,6 +9,8 @@ import { getPartnersTransaction } from '../../../store/promotion-transaction/act
 import { priceValid, dateFormatted } from '../../../helpers/utils'
 import { TransactionItem } from '../../../components/transaction-item/TransactionItem'
 import { PromotionTransactionType } from '../../../logic/promotion/promotion-transaction-type';
+import { updatePerentReferral, dropFetchFlag } from '../../../store/user/actions'
+import { showMessage } from "react-native-flash-message"
 
 class PartnersInfoScreen extends React.Component {
   static navigationOptions = {
@@ -17,7 +19,6 @@ class PartnersInfoScreen extends React.Component {
 
   constructor(props) {
     super(props)
-
     this.secondText = 'Ваш реферальный код'
     this.state = {
       showAnimation: new Animated.Value(0),
@@ -25,14 +26,40 @@ class PartnersInfoScreen extends React.Component {
     }
   }
 
+  showErrMessage = () => {
+    if (!this.props.isFetchingReferalCodeError)
+      return
+
+    showMessage({
+      message: this.props.errorMessageReferalCode,
+      type: 'danger',
+    });
+    this.props.dropFetchFlag()
+  }
+
+  successSetParentReferral = () => {
+    showMessage({
+      message: 'Реферальный код успешно установлен',
+      type: 'success',
+    });
+  }
+
   componentDidMount = () => {
     timingAnimation(this.state.showAnimationLoader, 1, 300, true)
     this.props.getPartnersTransaction(this.props.clientId)
   }
 
-  componentDidUpdate = () => {
+  componentDidUpdate = (prevProps) => {
     if (!this.props.isFetching)
       timingAnimation(this.state.showAnimation, 1, 300, true)
+
+    if (prevProps.parentReferralClientId <= 0 &&
+      this.props.parentReferralClientId > 0)
+      this.successSetParentReferral()
+
+    if (this.props.isFetchingReferalCodeError &&
+      !this.props.isFetchingReferalCode)
+      this.showErrMessage()
   }
 
   renderLoader = () => {
@@ -73,6 +100,16 @@ class PartnersInfoScreen extends React.Component {
     return `Реф. ${referralPhone}`
   }
 
+  setParentReferral = code => {
+    const data = {
+      parentReferralCode: code,
+      phoneNumber: this.props.user.phoneNumber,
+      password: this.props.user.password,
+    }
+
+    this.props.updatePerentReferral(data)
+  }
+
   renderTransactions = () => {
     return (
       <FlatList
@@ -86,7 +123,7 @@ class PartnersInfoScreen extends React.Component {
   renderContent = () => {
     return (
       <Animated.ScrollView
-      keyboardShouldPersistTaps={'handle'}
+        keyboardShouldPersistTaps={'handle'}
         style={[
           Style.container,
           {
@@ -99,6 +136,9 @@ class PartnersInfoScreen extends React.Component {
           style={this.props.style}
           mainText={this.props.referralCode}
           secondText={this.secondText}
+          parentReferralClientId={this.props.parentReferralClientId}
+          isFetching={this.props.isFetchingReferalCode}
+          setParentReferral={this.setParentReferral}
         />
         {this.renderContentAdditionalBlock()}
       </Animated.ScrollView>
@@ -107,7 +147,7 @@ class PartnersInfoScreen extends React.Component {
 
   renderEmpty = () => {
     return (
-      <View style={[Style.centerScreen, , Style.emptyContainer]}>
+      <View style={[Style.centerScreen, Style.emptyContainer]}>
         <LottieView
           style={Style.loader}
           source={require('../../../animation/src/search-empty.json')}
@@ -142,12 +182,21 @@ const mapStateToProps = state => {
     clientId: state.user.clientId,
     referralCode: state.user.referralCode,
     isFetching: state.promotionTransaction.isFetching,
-    partnerTransactions: state.promotionTransaction.partnerTransactions
+    partnerTransactions: state.promotionTransaction.partnerTransactions,
+
+    user: state.user,
+    isFetchingReferalCode: state.user.isFetching,
+    isFetchingReferalCodeError: state.user.isFetchError,
+    errorMessageReferalCode: state.user.errorMessage,
+    parentReferralCode: state.user.parentReferralCode,
+    parentReferralClientId: state.user.parentReferralClientId
   }
 }
 
 const mapDispatchToProps = {
-  getPartnersTransaction
+  getPartnersTransaction,
+  updatePerentReferral,
+  dropFetchFlag
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(PartnersInfoScreen)

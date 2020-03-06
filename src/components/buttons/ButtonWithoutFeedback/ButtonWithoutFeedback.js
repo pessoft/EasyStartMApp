@@ -4,6 +4,20 @@ import Style from './style'
 
 export class ButtonWithoutFeedback extends React.Component {
 
+    getBorderLeftRadius = () => {
+        if (this.props.borderLeftRadius == 0)
+            return 0
+        else
+            return this.props.borderLeftRadius || this.props.borderRadius
+    }
+
+    getBorderRightRadius = () => {
+        if (this.props.borderRightRadius == 0)
+            return 0
+        else
+            return this.props.borderRightRadius || this.props.borderRadius
+    }
+
     render() {
         return (
             <TouchableWithoutFeedback
@@ -17,7 +31,11 @@ export class ButtonWithoutFeedback extends React.Component {
                             this.props.style.theme.lightPrimaryColor.backgroundColor :
                             this.props.style.theme.defaultPrimaryColor.backgroundColor,
                         margin: this.props.margin || 0,
-                        borderRadius: this.props.borderRadius
+                        borderRadius: this.props.borderRadius,
+                        borderTopLeftRadius: this.getBorderLeftRadius(),
+                        borderBottomLeftRadius: this.getBorderLeftRadius(),
+                        borderTopRightRadius: this.getBorderRightRadius(),
+                        borderBottomRightRadius: this.getBorderRightRadius()
                     }
                 ]}>
                     <Text

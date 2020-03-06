@@ -2,7 +2,7 @@ import React from 'react'
 import { View, Text } from 'react-native'
 import Style from './style'
 import { SimpleTextButton } from '../../../components/buttons/SimpleTextButton/SimpleTextButton'
-import { PartnersCode } from '../../raw-bottom-sheets/partners-code/PartnersCode'
+import {PartnersCode} from '../../raw-bottom-sheets/partners-code/PartnersCode'
 
 export class PartnersHeaderBlock extends React.Component {
   constructor(props) {
@@ -13,9 +13,14 @@ export class PartnersHeaderBlock extends React.Component {
     }
   }
 
-  showPartnerCodeSheet = () => this.setState({ togglePartnerCodeSheet: true })
+  componentDidUpdate(prevProps) {
+    if (prevProps.parentReferralClientId <= 0 &&
+      this.props.parentReferralClientId > 0)
+      this.closePartnerCodeSheet()
+  }
 
-  closePartnerCodeSheet = () => this.setState({ togglePartnerCodeSheet: false })
+  showPartnerCodeSheet = () => !this.state.togglePartnerCodeShee && this.setState({ togglePartnerCodeSheet: true })
+  closePartnerCodeSheet = () => this.state.togglePartnerCodeSheet && this.setState({ togglePartnerCodeSheet: false })
 
   render() {
     return (
@@ -29,13 +34,16 @@ export class PartnersHeaderBlock extends React.Component {
           Style.itemRow,
           Style.buttonRefCodeContainer
         ]}>
-          <SimpleTextButton
+          {
+            this.props.parentReferralClientId <= 0 &&
+            <SimpleTextButton
             text='Ввести реферальный код'
             onPress={this.showPartnerCodeSheet}
             alignItems='flex-start'
             sizeText={this.props.style.fontSize.h9.fontSize}
             color={this.props.style.theme.primaryTextColor.color}
           />
+          }
         </View>
         <View style={Style.itemRow}>
           <Text
@@ -64,6 +72,8 @@ export class PartnersHeaderBlock extends React.Component {
           style={this.props.style}
           toggle={this.state.togglePartnerCodeSheet}
           onClose={this.closePartnerCodeSheet}
+          isFetching={this.props.isFetching}
+          setParentReferral={this.props.setParentReferral}
         />
       </View>
     )

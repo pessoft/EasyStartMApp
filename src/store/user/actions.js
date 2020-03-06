@@ -2,7 +2,8 @@ import {
   loginFetch,
   updateUserFetch,
   registrationClientFetch,
-  restorePasswordClientFetch
+  restorePasswordClientFetch,
+  updatePerentReferralFetch
 } from '../../api/requests'
 
 export const SET_USER_PHONE_NUMBER = 'SET_USER_PHONE_NUMBER'
@@ -38,6 +39,20 @@ export const FETCH_RESTORE_PASSWORD_FAILURE = 'FETCH_RESTORE_PASSWORD_FAILURE'
 export const CLEAR_FLAG_NOTIFY_RESTORE_PASSWORD = 'CLEAR_FLAG_NOTIFY_RESTORE_PASSWORD'
 
 export const LOGOUT = 'LOGOUT'
+
+export const FETCH_UPDATE_PARENT_REFERRAL_REQUEST = 'FETCH_UPDATE_PARENT_REFERRAL_REQUEST'
+export const FETCH_UPDATE_PARENT_REFERRAL_SUCCESS = 'FETCH_UPDATE_PARENT_REFERRAL_SUCCESS'
+export const FETCH_UPDATE_PARENT_REFERRAL_FAILURE = 'FETCH_UPDATE_PARENT_REFERRAL_FAILURE'
+
+export const updatePerentReferral = data => async dispatch => {
+  dispatch(requestUpdateParentReferral())
+  try {
+    const parentReferral = await updatePerentReferralFetch(data)
+    dispatch(successUpdateParentReferral(parentReferral))
+  } catch (err) {
+    dispatch(failureUpdateParentReferral(err.message))
+  }
+}
 
 export const clearFlagNotifyRestoryPassword = () => {
   return {
@@ -255,6 +270,26 @@ const successPostsRestorePassword = () => {
 const failurePostsRestorePassword = errMessage => {
   return {
     type: FETCH_REGISTRATION_USER_FAILURE,
+    payload: errMessage
+  }
+}
+
+const requestUpdateParentReferral = () => {
+  return {
+    type: FETCH_UPDATE_PARENT_REFERRAL_REQUEST
+  }
+}
+
+const successUpdateParentReferral = referralData => {
+  return {
+    type: FETCH_UPDATE_PARENT_REFERRAL_SUCCESS,
+    payload: referralData
+  }
+}
+
+const failureUpdateParentReferral = errMessage => {
+  return {
+    type: FETCH_UPDATE_PARENT_REFERRAL_FAILURE,
     payload: errMessage
   }
 }

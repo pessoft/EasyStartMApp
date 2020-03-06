@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native'
+import { StyleSheet, Platform } from 'react-native'
 
 export default StyleSheet.create({
   inputContainer: {
@@ -9,11 +9,27 @@ export default StyleSheet.create({
   },
   input: {
     flex: 1.5,
-    height: 36,
-    borderWidth: 1,
-    borderRadius: 5,
-    paddingHorizontal: 10,
+    height: 32,
+    paddingVertical: 0,
     marginHorizontal: 10,
-    paddingVertical: Platform.OS == 'ios' ? 10 : 5
   },
+  container: {
+    flex: 1,
+    minHeight: 37,
+    height: 37,
+    borderRadius: 6,
+    borderWidth: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  loader: {
+    flex: 1,
+    borderRadius: 5,
+    borderTopLeftRadius: 0,
+    borderBottomLeftRadius: 0,
+    minHeight: 35,
+    justifyContent: 'center',
+    alignItems: 'center'
+  }
 })

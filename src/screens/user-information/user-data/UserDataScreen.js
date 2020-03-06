@@ -5,21 +5,16 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
   TextInput,
-  Button,
   View,
   Animated,
-  Dimensions,
-  Platform,
   ActivityIndicator
 } from 'react-native'
-import { TextInputMask } from 'react-native-masked-text'
 import { SET_CITY } from '../../../navigation/pointsNavigate'
-import { setUserEmail, setUserName, setParentReferralCode, dropSuccessClientUpdateDataFlag, updateUser, dropFetchFlag } from '../../../store/user/actions'
+import { setUserEmail, setUserName, dropSuccessClientUpdateDataFlag, updateUser, dropFetchFlag } from '../../../store/user/actions'
 import Style from './style'
 import { timingAnimation } from '../../../animation/timingAnimation'
 import { showMessage } from "react-native-flash-message"
 import { ButtonWithoutFeedback } from '../../../components/buttons/ButtonWithoutFeedback/ButtonWithoutFeedback'
-const { width } = Dimensions.get('window')
 
 class UserDataScreen extends React.Component {
   static navigationOptions = {
@@ -61,7 +56,6 @@ class UserDataScreen extends React.Component {
   }
 
   onUserNameChange = userName => this.props.setUserName(userName)
-  onParentReferralCodeChange = referralCode => this.props.setParentReferralCode(referralCode)
   onEmailChange = email => this.props.setUserEmail(email)
 
   onNextPage = () => this.props.navigation.navigate(SET_CITY)
@@ -75,8 +69,6 @@ class UserDataScreen extends React.Component {
       branchId: this.props.user.branchId,
       email: this.props.user.email,
       userName: this.props.user.userName,
-      parentReferralClientId: this.props.user.parentReferralClientId,
-      parentReferralCode: this.props.user.parentReferralCode,
     }
 
     this.props.updateUser(userData)
@@ -151,19 +143,6 @@ class UserDataScreen extends React.Component {
               onSubmitEditing={() => { this.referralCodeInput.focus() }}
               blurOnSubmit={false}
             />
-            <TextInput
-              ref={(input) => { this.referralCodeInput = input; }}
-              placeholder='Реферальный код'
-              value={this.props.parentReferralCode}
-              placeholderTextColor={this.props.style.theme.secondaryTextColor.color}
-              style={[
-                Style.inputText,
-                Style.inputSize,
-                this.props.style.fontSize.h7,
-                this.props.style.theme.primaryTextColor,
-                this.props.style.theme.dividerColor]}
-              onChangeText={this.onParentReferralCodeChange}
-            />
             <View style={[
               Style.inputSize,
               Style.buttonNext]}>
@@ -195,8 +174,6 @@ const mapStateToProps = state => {
     email: state.user.email,
     userName: state.user.userName,
     user: state.user,
-    parentReferralClientId: state.user.parentReferralClientId,
-    parentReferralCode: state.user.parentReferralCode,
     style: state.style,
     isFetchingUser: state.user.isFetching,
     isFetchUserError: state.user.isFetchError,
@@ -208,7 +185,6 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
   setUserEmail,
   setUserName,
-  setParentReferralCode,
   dropSuccessClientUpdateDataFlag,
   updateUser,
   dropFetchFlag

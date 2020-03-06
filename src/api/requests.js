@@ -14,11 +14,15 @@ import {
   getCouponQuery,
   getPartnersTransactionQuery,
   getCashbackTransactionQuery,
-  registerDeviceQuery
+  registerDeviceQuery,
+  updatePerentReferralQuery
 } from './request-strings'
 import { fetchAPI } from './helper-api'
 
 export const updateUserFetch = async (userData) => await fetchAPI(updateUserQuery, userData)
+
+export const updatePerentReferralFetch = async (data) => await fetchAPI(updatePerentReferralQuery, data)
+
 export const loginFetch = async (userData) => fetchAPI(loginQuery, userData)
 export const registrationClientFetch = async (userData) => await fetchAPI(registrationClientQuery, userData)
 export const restorePasswordClientFetch = async (email) => await fetchAPI(restorePasswordClientQuery, email)

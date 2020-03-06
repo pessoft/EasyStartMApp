@@ -7,15 +7,13 @@ const defaultState = {
     fontSize: GlobalFontSize
 }
 
-const isKeyEquals = theme => Object.keys(theme).length == Object.keys(defaultState.theme).length
-
 export const styleReducer = (state = defaultState, action) => {
 
     switch (action.type) {
         case CHANGE_COLOR_THEME:
             return {
                 ...state,
-                theme: isDefaultKeyEquals(action.payload) ? action.payload : defaultState.theme
+                theme: action.payload
             }
     }
 
