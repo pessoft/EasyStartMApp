@@ -26,6 +26,11 @@ export default StyleSheet.create({
     alignSelf: 'center',
     paddingHorizontal: 10
   },
+  counterContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   inputText: {
     textAlign: 'center',
     marginTop: 10,
@@ -35,5 +40,6 @@ export default StyleSheet.create({
   },
   inputSize: {
     width: 280,
+    height: 30
   },
 })

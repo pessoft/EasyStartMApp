@@ -160,6 +160,11 @@ class CheckoutScreen extends React.Component {
       this.props.cleanCoupon()
     }
 
+    if (this.state.numberAppliances > 0 && !this.isRequestNumberAppliances())
+      this.setState({ numberAppliances: 0 })
+    else if (this.state.numberAppliances == 0 && this.isRequestNumberAppliances())
+      this.setState({ numberAppliances: 1 })
+
     const promotionData = this.getPromotionDataForEquals()
     if (!this.state.promotion.equalsPromotionData(promotionData)) {
       const promotion = this.getPromotionLogic()
