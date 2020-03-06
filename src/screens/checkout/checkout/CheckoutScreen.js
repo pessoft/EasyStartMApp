@@ -482,10 +482,12 @@ class CheckoutScreen extends React.Component {
         <KeyboardAwareScrollView
           style={{ flex: 1 }}
           behavior='padding'
-          enabled>
+          enabled
+          keyboardShouldPersistTaps='handled'
+          >
           <ScrollView
             contentContainerStyle={{ flex: 1, paddingHorizontal: 10 }}
-            keyboardShouldPersistTaps="always">
+            keyboardShouldPersistTaps='always'>
             <Coupon
               style={this.props.style}
               isProcessingActivation={this.props.isFetchingCoupon}

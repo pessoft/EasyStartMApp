@@ -86,6 +86,7 @@ class PartnersInfoScreen extends React.Component {
   renderContent = () => {
     return (
       <Animated.ScrollView
+      keyboardShouldPersistTaps={'handle'}
         style={[
           Style.container,
           {

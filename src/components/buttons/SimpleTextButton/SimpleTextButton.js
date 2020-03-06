@@ -1,14 +1,20 @@
 import React from 'react'
-import { TouchableWithoutFeedback, Text, View } from 'react-native'
+import { TouchableWithoutFeedback, Text, View, Keyboard } from 'react-native'
 import Style from './style'
 
 export class SimpleTextButton extends React.Component {
+    onPress = () => {
+        if(this.props.onPress){
+            Keyboard.dismiss()
+            this.props.onPress()
+        }
+    }
 
     render() {
         return (
             <TouchableWithoutFeedback
                 disabled={this.props.disabled}
-                onPress={this.props.onPress}
+                onPress={this.onPress}
             >
                 <View style={[
                     Style.button,
