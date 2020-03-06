@@ -30,10 +30,21 @@ export default StyleSheet.create({
     textAlign: 'center',
     marginTop: 10,
     borderWidth: 1,
-    borderRadius: 3,
-    padding: Platform.OS == 'ios' ? 8 : 3
+    borderRadius: 5,
+    paddingVertical: Platform.OS == 'ios' ? 10 : 5
   },
   inputSize: {
     width: 280,
   },
+  name: {
+    borderBottomWidth: 0,
+    borderBottomLeftRadius: 0,
+    borderBottomRightRadius: 0,
+    marginBottom: 0
+  },
+  phone: {
+    borderTopLeftRadius: 0,
+    borderTopRightRadius: 0,
+    marginTop: 0
+  }
 })

@@ -30,14 +30,15 @@ export default StyleSheet.create({
     flexDirection: 'row',
     borderWidth: 1,
     borderRadius: 5,
-    height: 40,
-    maxHeight: 40,
+    height: 38,
+    maxHeight: 38,
+    marginHorizontal: 5
   },
   itemContainer: {
     flex: 1,
-    minHeight:39,
-    height: 39,
-    maxHeight: 39,
+    minHeight: 37,
+    height: 37,
+    maxHeight: 37,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -49,6 +50,6 @@ export default StyleSheet.create({
     textAlign: 'center',
     borderWidth: 0,
     padding: Platform.OS == 'ios' ? 8 : 3,
-    maxHeight: 40,
+    maxHeight: 38,
   }
 })

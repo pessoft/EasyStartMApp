@@ -60,7 +60,7 @@ export class DeliveryTypeBlock extends React.Component {
             selectedColor={this.props.style.theme.textPrimaryColor.color}
             backgroundColor={this.props.style.theme.backdoor.backgroundColor}
             buttonColor={this.props.style.theme.darkPrimaryColor.backgroundColor}
-            style={{ marginBottom: 10, borderWidth: 1, borderRadius: 4, borderColor: this.props.style.theme.darkPrimaryColor.backgroundColor }}
+            style={{ marginBottom: 5, borderWidth: 1, borderRadius: 4, borderColor: this.props.style.theme.darkPrimaryColor.backgroundColor }}
             onPress={this.onChangeDeliveryType}
           />
           <DeliveryDateSetting

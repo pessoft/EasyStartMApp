@@ -32,7 +32,7 @@ export default StyleSheet.create({
     minHeight: 60,
     marginTop: 10,
     borderWidth: 1,
-    borderRadius: 3,
+    borderRadius: 5,
     padding: 6,
   },
   inputSize: {
