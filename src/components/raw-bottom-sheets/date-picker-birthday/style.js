@@ -2,26 +2,18 @@ import { StyleSheet } from 'react-native'
 
 export default StyleSheet.create({
   dateHeaderContainer: {
-    height: 45,
-    borderBottomWidth: 1,
-    borderColor: "#ccc",
+    height: 50,
+    borderBottomWidth: 0.8,
     flexDirection: "row",
     justifyContent: "space-between"
   },
-  dateHeaderButtonCancel: {
-    fontSize: 18,
-    color: "#666",
-    fontWeight: "400"
+  button: {
+    width: 100
   },
   dateHeaderButton: {
-    height: "100%",
+    flex: 1,
     paddingHorizontal: 20,
     alignItems: "center",
     justifyContent: "center"
-  },
-  dateHeaderButtonDone: {
-    fontSize: 18,
-    color: "#006BFF",
-    fontWeight: "500"
   },
 })

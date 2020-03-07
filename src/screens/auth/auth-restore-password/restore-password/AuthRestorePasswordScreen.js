@@ -106,7 +106,7 @@ class AuthRestorePasswordScreen extends React.Component {
                 style={[
                   Style.inputText,
                   Style.inputSize,
-                  this.props.style.fontSize.h7,
+                  this.props.style.fontSize.h8,
                   this.props.style.theme.primaryTextColor,
                   this.props.style.theme.dividerColor]}
                 onChangeText={this.onEmailChange}

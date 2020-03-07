@@ -6,7 +6,9 @@ import {
   updatePerentReferralFetch
 } from '../../api/requests'
 
+import { jsonToDate } from '../../helpers/work-time'
 export const SET_USER_PHONE_NUMBER = 'SET_USER_PHONE_NUMBER'
+export const SET_DATE_BIRTH = 'SET_DATE_BIRTH'
 export const SET_USER_PASSWORD = 'SET_USER_PASSWORD'
 export const SET_USER_EMAIL = 'SET_USER_EMAIL'
 export const SET_USER_NAME = 'SET_USER_NAME'
@@ -120,6 +122,13 @@ export const setUserName = userName => {
   }
 }
 
+export const setDateBirth = dateBirth => {
+  return {
+    type: SET_DATE_BIRTH,
+    payload: dateBirth
+  }
+}
+
 export const setCityId = cityId => {
   return {
     type: SET_CITY_ID,
@@ -159,7 +168,8 @@ export const login = userData => async dispatch => {
   dispatch(requestPostsLogin())
   try {
     const resultChecking = await loginFetch(userData)
-    dispatch(successPostsLogin(resultChecking))
+    const data = processingUpdateClientData(resultChecking)
+    dispatch(successPostsLogin(data))
   } catch (err) {
     dispatch(failurePostsLogin(err.message))
   }
@@ -169,7 +179,8 @@ export const updateUser = userData => async dispatch => {
   dispatch(requestPostsUpdateUser())
   try {
     const newUserData = await updateUserFetch(userData)
-    dispatch(successPostsUpdateUser(newUserData))
+    const newData = processingUpdateClientData(newUserData)
+    dispatch(successPostsUpdateUser(newData))
   } catch (err) {
     dispatch(failurePostsUpdateUser(err.message))
   }
@@ -292,5 +303,14 @@ const failureUpdateParentReferral = errMessage => {
     type: FETCH_UPDATE_PARENT_REFERRAL_FAILURE,
     payload: errMessage
   }
+}
+
+const processingUpdateClientData = data => {
+  const newData = {
+    ...data,
+    dateBirth: data.dateBirth ? jsonToDate(data.dateBirth) : null
+  }
+
+  return newData
 }
 

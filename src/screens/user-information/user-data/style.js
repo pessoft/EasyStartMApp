@@ -64,4 +64,19 @@ export default StyleSheet.create({
   b_bt_r_r_0: {
     borderBottomRightRadius: 0,
   },
+  dateBirth: {
+    borderWidth: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: Platform.OS == 'ios' ? 10 : 5,
+  },
+  mainContainer: {
+    flex: 1,
+    marginTop: 50,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  secondaryContainer: {
+    flex: 0.15,
+  }
 })

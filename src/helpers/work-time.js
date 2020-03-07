@@ -88,7 +88,8 @@ export const isValidDay = (dateCheck, timeDeliveryFromSettings) => {
   return workPeriod && workPeriod.length == 2
 }
 
-export const toStringDateAndTime = date => {
+export const toStringDateAndTime = dateToStr => {
+  let date = new Date(dateToStr)
   let day = date.getDate().toString()
   day = day.length == 1 ? "0" + day : day
   let month = (date.getMonth() + 1).toString()
@@ -101,7 +102,8 @@ export const toStringDateAndTime = date => {
   return dateStr;
 }
 
-export const toStringDate = date => {
+export const toStringDate = dateToStr => {
+  let date = new Date(dateToStr)
   let day = date.getDate().toString()
   day = day.length == 1 ? "0" + day : day
   let month = (date.getMonth() + 1).toString()
@@ -130,4 +132,15 @@ export const getTimePeriodByDayFromDate = (timeDeliveryFromSettings, date) => {
   }
 
   return result
+}
+
+export const jsonToDate = value => {
+  let date;
+  if (value.includes("/Date")) {
+      date = new Date(parseInt(value.replace("/Date(", "").replace(")/", ""), 10));
+  } else {
+      date = new Date(value);
+  }
+
+  return date;
 }

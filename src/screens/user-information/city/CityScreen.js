@@ -72,6 +72,7 @@ class CityScreen extends React.Component {
       branchId: this.props.user.branchId,
       email: this.props.user.email,
       userName: this.props.user.userName,
+      dateBirth: this.props.user.dateBirth,
       parentReferralClientId: this.props.user.parentReferralClientId,
       parentReferralCode: this.props.user.parentReferralCode,
     }
