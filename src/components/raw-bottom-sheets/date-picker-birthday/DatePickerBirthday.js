@@ -31,8 +31,11 @@ export class DatePickerBirthday extends React.Component {
   }
 
   onDone = () => {
-    if (this.props.onDone)
-      this.props.onDone(this.state.date)
+    if (this.props.onDone) {
+      let date = new Date(this.state.date)
+      date.setHours(6)
+      this.props.onDone(date)
+    }
   }
 
   render() {
