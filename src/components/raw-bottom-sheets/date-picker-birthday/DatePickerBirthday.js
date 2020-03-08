@@ -43,9 +43,9 @@ export class DatePickerBirthday extends React.Component {
         duration={200}
         customStyles={{
           container: {
-            borderTopLeftRadius: 10, 
+            borderTopLeftRadius: 10,
             borderTopRightRadius: 10,
-            backgroundColor: this.props.style.theme.navigationBottom.backgroundColor
+            backgroundColor: this.props.style.theme.navigationBottom.backgroundColor,
           }
         }}
         ref={ref => {
@@ -55,7 +55,7 @@ export class DatePickerBirthday extends React.Component {
         <View style={[
           Style.dateHeaderContainer,
           this.props.style.theme.dividerColor
-          ]}>
+        ]}>
           <View style={Style.button}>
             <SimpleTextButton
               text='Отмена'
@@ -75,13 +75,15 @@ export class DatePickerBirthday extends React.Component {
             />
           </View>
         </View>
-        <DatePicker
-          mode={'date'}
-          textColor={this.props.style.theme.primaryTextColor.color}
-          fadeToColor={this.props.style.theme.backdoor.backgroundColor}
-          date={this.state.date}
-          onDateChange={this.changeDate}
-        />
+        <View style={Style.datePickerContainer}>
+          <DatePicker
+            mode={'date'}
+            textColor={this.props.style.theme.primaryTextColor.color}
+            fadeToColor={this.props.style.theme.backdoor.backgroundColor}
+            date={this.state.date}
+            onDateChange={this.changeDate}
+          />
+        </View>
       </RBSheet>
     )
   }

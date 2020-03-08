@@ -10,10 +10,9 @@ export default StyleSheet.create({
   button: {
     width: 100
   },
-  dateHeaderButton: {
+  datePickerContainer: {
     flex: 1,
-    paddingHorizontal: 20,
-    alignItems: "center",
-    justifyContent: "center"
-  },
+    justifyContent: 'center',
+    alignItems: 'center'
+  }
 })

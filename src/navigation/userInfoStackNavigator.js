@@ -11,5 +11,8 @@ export const userInfoStackNavigator = style => createStackNavigator(
   },
   {
     ...defaultStyleNavigationStackOptions(style),
+    cardStyle: {
+      backgroundColor: style.theme.secondaryThemeBody.backgroundColor,
+    },
     initialRouteName: SET_USER_DATA
   })
