@@ -401,7 +401,7 @@ class CheckoutScreen extends React.Component {
 
   updateStocksAfterOrder() {
     const params = {
-      clientId: this.props.userData.id,
+      clientId: this.props.userData.clientId,
       branchId: this.props.userData.branchId
     }
 
