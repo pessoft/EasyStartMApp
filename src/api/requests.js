@@ -15,7 +15,8 @@ import {
   getPartnersTransactionQuery,
   getCashbackTransactionQuery,
   registerDeviceQuery,
-  updatePerentReferralQuery
+  updatePerentReferralQuery,
+  getStocksQuery
 } from './request-strings'
 import { fetchAPI } from './helper-api'
 
@@ -29,6 +30,7 @@ export const restorePasswordClientFetch = async (email) => await fetchAPI(restor
 
 export const getLocationFetch = async () => await fetchAPI(getLocationQuery)
 export const getMainDataFetch = async (params) => fetchAPI(getMainDataQuery, params)
+export const getStocksFetch = async (params) => fetchAPI(getStocksQuery, params)
 
 export const getProductReviewsFetch = async (productId) => fetchAPI(getProductReviewsQuery, productId)
 export const setProductReviewsFetch = async (review) => fetchAPI(setProductReviewsQuery, review)

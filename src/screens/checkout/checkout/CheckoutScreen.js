@@ -22,7 +22,7 @@ import { DiscountType } from '../../../logic/promotion/discount-type'
 import { BonusProducts } from '../../../components/checkout/bonus-products/BonusProducts'
 import { Coupon } from '../../../components/checkout/coupon/Coupon'
 import { PayVirtualMoney } from '../../../components/checkout/pay-virtual-money/PayVirtualMoney'
-import { getCoupon } from '../../../store/main/actions'
+import { getCoupon, getStocks } from '../../../store/main/actions'
 import { NavigationEvents } from 'react-navigation';
 import { cleanCoupon } from '../../../store/main/actions'
 import { updateVirtualMoney, updateReferralDiscount } from '../../../store/user/actions'
@@ -391,11 +391,21 @@ class CheckoutScreen extends React.Component {
   completeCheckout = () => {
     const newOrderData = this.getOrderData()
     this.props.addNewOrderData(newOrderData)
+    this.updateStocksAfterOrder()
     this.props.cleanCoupon()
     this.updateVirtualMoney()
     this.updateClientReferralDiscount(newOrderData.referralDiscount)
 
     this.props.navigation.navigate(CHECKOUT_COMPLETE)
+  }
+
+  updateStocksAfterOrder() {
+    const params = {
+      clientId: this.props.userData.id,
+      branchId: this.props.userData.branchId
+    }
+
+    this.props.getStocks(params)
   }
 
   updateVirtualMoney = () => {
@@ -484,7 +494,7 @@ class CheckoutScreen extends React.Component {
           behavior='padding'
           enabled
           keyboardShouldPersistTaps='handled'
-          >
+        >
           <ScrollView
             contentContainerStyle={{ flex: 1, paddingHorizontal: 10 }}
             keyboardShouldPersistTaps='always'>
@@ -600,7 +610,8 @@ const mapDispatchToProps = {
   getCoupon,
   cleanCoupon,
   updateVirtualMoney,
-  updateReferralDiscount
+  updateReferralDiscount,
+  getStocks
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CheckoutScreen)

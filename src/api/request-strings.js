@@ -8,6 +8,7 @@ export const restorePasswordClientQuery = `${SERVER_DOMAIN}/api/AdminApp/restore
 
 export const getLocationQuery = `${SERVER_DOMAIN}/api/AdminApp/getlocation`
 export const getMainDataQuery = `${SERVER_DOMAIN}/api/AdminApp/getmaindata`
+export const getStocksQuery = `${SERVER_DOMAIN}/api/AdminApp/getstocks`
 
 export const getProductReviewsQuery = `${SERVER_DOMAIN}/api/AdminApp/getproductreviews`
 export const setProductReviewsQuery = `${SERVER_DOMAIN}/api/AdminApp/setProductReviews`

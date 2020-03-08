@@ -7,7 +7,10 @@ import {
   FETCH_COUPON_REQUEST,
   FETCH_COUPON_FAILURE,
   CLEAN_COUPON,
-  RESET_DATA
+  RESET_DATA,
+  FETCH_STOCKS_SUCCESS,
+  FETCH_STOCKS_REQUEST,
+  FETCH_STOCKS_FAILURE
 } from './actions'
 
 const defaultState = {
@@ -35,18 +38,21 @@ export const mainReducer = (state = defaultState, action) => {
     case RESET_DATA:
       return { ...defaultState }
     case FETCH_MAIN_DATA_REQUEST:
+    case FETCH_STOCKS_REQUEST:
       return {
         ...state,
         isFetching: true,
         isFetchError: false
       }
     case FETCH_MAIN_DATA_SUCCESS:
+    case FETCH_STOCKS_SUCCESS:
       return {
         ...state,
         ...action.payload,
         isFetching: false
       }
     case FETCH_MAIN_DATA_FAILURE:
+    case FETCH_STOCKS_FAILURE:
       return {
         ...state,
         isFetching: false,
