@@ -23,6 +23,7 @@ const defaultState = {
   deliverySettings: {},
   organizationSettings: {},
   stocks: [],
+  news: [],
   promotionCashbackSetting: {},
   promotionPartnersSetting: {},
   promotionSectionSettings: [],

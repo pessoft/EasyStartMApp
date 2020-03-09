@@ -28,6 +28,7 @@ export const PROFILE_TAB = 'ProfileTab'
 
 export const STOCKS = 'Stocks'
 export const STOCK_INFO = 'StockInfo'
+export const NEWS_INFO = 'NewsInfo'
 
 export const INFO_ORGANIZATION = 'InfoOrganization'
 export const ORGANIZATION_REVIEWS = 'OrganizationReviews'

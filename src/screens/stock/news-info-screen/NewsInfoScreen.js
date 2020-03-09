@@ -5,17 +5,17 @@ import { timingAnimation } from '../../../animation/timingAnimation'
 import Image from 'react-native-scalable-image'
 import Style from './style'
 
-class StocksInfoScreen extends React.Component {
+class NewsInfoScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      headerTitle: navigation.getParam('StockName', 'Акция'),
+      headerTitle: navigation.getParam('NewsTitle', 'Новости'),
     }
   }
 
   constructor(props) {
     super(props)
 
-    this.props.navigation.setParams({ StockName: this.props.selectedStock.Name })
+    this.props.navigation.setParams({ NewsTitle: this.props.selectedNews.Title })
     this.state = {
       showScaleAnimation: new Animated.Value(0)
     }
@@ -26,8 +26,8 @@ class StocksInfoScreen extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.selectedStock != prevProps.selectedStock) {
-      this.props.navigation.setParams({ StockName: this.props.selectedStock.Name })
+    if (this.props.selectedNews != prevProps.selectedNews) {
+      this.props.navigation.setParams({ NewsTitle: this.props.selectedNews.Title })
     }
   }
 
@@ -38,7 +38,7 @@ class StocksInfoScreen extends React.Component {
         style={[{ transform: [{ scale: this.state.showScaleAnimation }] }]}>
         <Image
           style={Style.image}
-          source={this.props.selectedStock.Image}
+          source={this.props.selectedNews.Image}
           width={Dimensions.get('window').width - 24}
           resizeMode='contain' />
         <Text style={[
@@ -48,7 +48,7 @@ class StocksInfoScreen extends React.Component {
           this.props.style.theme.shadowColor,
         ]}
         >
-          {this.props.selectedStock.Description}
+          {this.props.selectedNews.Description}
         </Text>
       </Animated.ScrollView>
     )
@@ -57,10 +57,10 @@ class StocksInfoScreen extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    selectedStock: state.stock.selectedStock,
+    selectedNews: state.news.selectedNews,
     serverDomain: state.appSetting.serverDomain,
     style: state.style
   }
 }
 
-export default connect(mapStateToProps)(StocksInfoScreen)
+export default connect(mapStateToProps)(NewsInfoScreen)

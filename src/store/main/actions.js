@@ -124,6 +124,12 @@ const processingStocks = data => {
 const processingMainData = mainData => {
     processingStocks(mainData)
 
+    if (mainData && mainData.news && mainData.news.length > 0) {
+        for (const news of mainData.news) {
+            news.Image = getImageSource(news.Image)
+        }
+    }
+
     if (mainData && mainData.categories && mainData.categories.length > 0) {
         for (const category of mainData.categories) {
             category.Image = getImageSource(category.Image)
