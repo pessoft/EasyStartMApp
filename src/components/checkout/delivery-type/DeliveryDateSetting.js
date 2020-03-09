@@ -6,7 +6,7 @@ import { DeliveryType } from '../../../logic/promotion/delivery-type'
 import DatePicker from 'react-native-date-picker'
 import { timingAnimation } from '../../../animation/timingAnimation'
 import { showMessage } from "react-native-flash-message"
-import { isValidDay, isValidTime, isWorkTime, toStringDate, getTimePeriodByDayFromDate } from '../../../helpers/work-time'
+import { isValidDay, isValidTime, isWorkTime, toStringDate, getTimePeriodByDayFromDate, nearestWorkingDate } from '../../../helpers/work-time'
 
 export class DeliveryDateSetting extends React.Component {
   constructor(props) {
@@ -106,12 +106,23 @@ export class DeliveryDateSetting extends React.Component {
 
   getMinDate = () => {
     let date = new Date()
-    let minTimeProcessingOrder = this.props.deliverySettings ? this.props.deliverySettings.MinTimeProcessingOrder.split(':').map(p => parseInt(p)) : [1, 0]
+    let minTimeProcessingOrder = this.props.deliverySettings ?
+    this.props.deliverySettings.MinTimeProcessingOrder.split(':').map(p => parseInt(p)) : [1, 0]
     const shiftHours = minTimeProcessingOrder[0]
     const shiftMinutes = minTimeProcessingOrder[1]
+    const setShift = dateForShift => {
+      dateForShift.setHours(dateForShift.getHours() + shiftHours)
+      dateForShift.setMinutes(dateForShift.getMinutes() + shiftMinutes)
+    }
+    
+    setShift(date)
 
-    date.setHours(date.getHours() + shiftHours)
-    date.setMinutes(date.getMinutes() + shiftMinutes)
+    let isWorkTimeForDelivery = isWorkTime(this.props.deliverySettings.TimeDelivery, date)
+
+    if(!isWorkTimeForDelivery) {
+      date = nearestWorkingDate(this.props.deliverySettings.TimeDelivery, new Date())
+      setShift(date)
+    }
 
     return date
   }

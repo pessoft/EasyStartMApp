@@ -88,6 +88,34 @@ export const isValidDay = (dateCheck, timeDeliveryFromSettings) => {
   return workPeriod && workPeriod.length == 2
 }
 
+export const nearestWorkingDate = (timeDeliveryFromSettings, currentDate) => {
+  let day = currentDate.getDay() == 0 ? 7 : currentDate.getDay()
+  let counterDay = 0
+  
+
+  let workDate = null
+  while(!workDate)
+  {
+    ++counterDay
+    ++day
+
+    if(day > 7)
+    day = 1
+
+    const workPeriod = timeDeliveryFromSettings[day]
+    
+    if(workPeriod && workPeriod.length == 2)
+    workDate = workPeriod[0]
+  }  
+  
+  let date = new Date()
+  const workPeriod = workDate.split(':')
+  date.setDate(date.getDate() + counterDay)
+  date.setHours(workPeriod[0], workPeriod[1])
+
+  return date
+}
+
 export const toStringDateAndTime = dateToStr => {
   let date = new Date(dateToStr)
   let day = date.getDate().toString()
