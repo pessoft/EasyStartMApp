@@ -12,7 +12,7 @@ import { organizationReviewsStackNavigator } from './organizationReviewsStackNav
 import { profileStackNavigator } from './profileStackNavigator'
 
 import IcoMenu from '../images/font-awesome-svg/soup.svg'
-import IcoStock from '../images/font-awesome-svg/badge-percent.svg'
+import IcoNews from '../images/font-awesome-svg/newspaper.svg'
 import IcoShoppingBasket from '../images/font-awesome-svg/shopping-basket.svg'
 import IcoInfo from '../images/font-awesome-svg/info.svg'
 import IcoReviews from '../images/font-awesome-svg/comment-lines.svg'
@@ -35,9 +35,9 @@ export const mainBottomTab = style => createBottomTabNavigator(
         StockTab: {
             screen: stockStackNavigator(style),
             navigationOptions: {
-                tabBarLabel: 'Акции',
+                tabBarLabel: 'Новости',
                 tabBarIcon: ({ focused, horizontal, tintColor }) => {
-                    return <IcoStock width={20} height={20} color={getSVGColor(tintColor)} />
+                    return <IcoNews width={20} height={20} color={getSVGColor(tintColor)} />
                 }
             }
         },

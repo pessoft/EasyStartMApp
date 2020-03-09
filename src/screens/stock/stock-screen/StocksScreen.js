@@ -10,7 +10,7 @@ import { timingAnimation } from '../../../animation/timingAnimation'
 import { setSelectedStock } from '../../../store/stock/actions'
 import { setSelectedNews } from '../../../store/news/actions'
 import Image from 'react-native-scalable-image'
-import SmileWink from '../../../images/font-awesome-svg/smile-wink.svg'
+import NewspaperIcon from '../../../images/font-awesome-svg/newspaper.svg'
 import Style from './style'
 import { StockCard } from '../../../components/stock/StockCard'
 import { STOCK_INFO, NEWS_INFO } from '../../../navigation/pointsNavigate'
@@ -83,13 +83,13 @@ class StocksScreen extends React.Component {
         Style.centerScreen,
         { opacity: this.state.showScaleAnimation },
         { transform: [{ scale: this.state.showScaleAnimation }] }]} >
-        <SmileWink
+        <NewspaperIcon
           width={90}
           height={90}
           color={getSVGColor(this.props.style.theme.secondaryTextColor.color)}
         />
         <View style={Style.textInfo}>
-          <Text style={[this.props.style.fontSize.h7, this.props.style.theme.secondaryTextColor]}>У нас</Text>
+          <Text style={[this.props.style.fontSize.h7, this.props.style.theme.secondaryTextColor]}>У нас пока</Text>
           <Text style={[this.props.style.fontSize.h7, this.props.style.theme.secondaryTextColor]}>нет новостей</Text>
         </View>
 
