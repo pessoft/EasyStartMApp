@@ -182,6 +182,9 @@ export class DeliveryDateSetting extends React.Component {
               this.props.style.theme.backdoor.backgroundColor,
               this.props.style.theme.dividerColor.borderColor,
               {
+                flex: 1,
+                alignItems: 'center',
+                justifyContent: 'center',
                 opacity: this.state.showScaleAnimation,
                 transform: [{ scale: this.state.showScaleAnimation }]
               }
