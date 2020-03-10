@@ -24,7 +24,8 @@ export class DeliveryDateSetting extends React.Component {
   }
 
   showDateTimePicker = () => {
-    timingAnimation(this.state.showScaleAnimation, 1, 200, true)
+    timingAnimation(this.state.showScaleAnimation, 1, 200, true,
+      () => this.onChangeDate())
   }
   hideDateTimePicker = () => {
     timingAnimation(this.state.showScaleAnimation,
@@ -34,7 +35,9 @@ export class DeliveryDateSetting extends React.Component {
       () => this.setState({
         showDateTimePicker: false,
         date: null,
-      })
+      },
+      () => this.onChangeDate()
+      )
     )
 
   }
