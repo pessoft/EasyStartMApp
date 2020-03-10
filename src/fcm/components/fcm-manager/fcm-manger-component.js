@@ -43,12 +43,12 @@ class FCMManagerComponent extends React.Component {
   }
 
   componentDidMount() {
-    // if (Platform.OS == 'ios')
-    //   this.settingFCMForIOS()
-    // else {
-    //   this.registerToken()
-    //   this.subscribeForegroundMessage()
-    // }
+    if (Platform.OS == 'ios')
+      this.settingFCMForIOS()
+    else {
+      this.registerToken()
+      this.subscribeForegroundMessage()
+    }
   }
 
   subscribeForegroundMessage = async () => {
