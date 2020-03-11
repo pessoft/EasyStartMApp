@@ -12,6 +12,7 @@ import { timingAnimation } from '../../animation/timingAnimation'
 import { toggleProductInBasket, changeTotalCountProductInBasket } from '../../store/checkout/actions'
 import { markFromBasket } from '../../store/navigation/actions'
 import VirtualMoneyButton from '../../components/buttons/VirtualMoneyButton/VirtualMoneyButton'
+import ViewContainerProductsChanger from '../../components/view-container-changer/ViewContainerProductsChanger'
 
 class ProductsScreen extends React.Component {
     static navigationOptions = ({ navigation }) => {
@@ -25,11 +26,13 @@ class ProductsScreen extends React.Component {
                     textAlign: Platform.OS == 'ios' ? 'center' : 'left',
                     flex: 1,
                 },
-                headerRight: () => <VirtualMoneyButton onPress={onPress} />
+                // headerRight: () => <VirtualMoneyButton onPress={onPress} />,
+                headerRight: () => <ViewContainerProductsChanger/>
             }
 
         return {
-            headerTitle
+            headerTitle,
+            headerRight: () => <ViewContainerProductsChanger/>
         }
     }
 
@@ -208,6 +211,7 @@ const mapStateToProps = state => {
         totalCountProducts: state.checkout.totalCountProducts,
         style: state.style,
         promotionCashbackSetting: state.main.promotionCashbackSetting,
+        selectedProductsViewType: state.appSetting.selectedProductsViewType,
     }
 }
 

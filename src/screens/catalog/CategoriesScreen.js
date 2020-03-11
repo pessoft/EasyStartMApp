@@ -21,6 +21,7 @@ import { CategoryType } from '../../helpers/type-category'
 import { notificationActionDone } from '../../store/FCM/actions'
 import FCMManagerComponent from '../../fcm/components/fcm-manager/fcm-manger-component'
 import { NewsType } from '../../helpers/news-type'
+import ViewContainerCategoryChanger from '../../components/view-container-changer/ViewContainerCategoryChanger'
 
 class CategoriesScreen extends React.Component {
     static navigationOptions = ({ navigation }) => {
@@ -30,14 +31,16 @@ class CategoriesScreen extends React.Component {
             return {
                 headerTitle: 'Категории',
                 headerTitleStyle: {
-                    textAlign: Platform.OS == 'ios' ? 'center' : 'left',
+                    textAlign: 'center' ,
                     flex: 1,
                 },
-                headerRight: () => <VirtualMoneyButton onPress={onPress} />
+                headerRight: () => <VirtualMoneyButton onPress={onPress} />,
+                headerLeft: () => <ViewContainerCategoryChanger/>
             }
 
         return {
-            headerTitle: 'Категории'
+            headerTitle: 'Категории',
+            headerLeft: () => <ViewContainerCategoryChanger/>
         }
     }
 
@@ -62,12 +65,20 @@ class CategoriesScreen extends React.Component {
     goToCashbackScreen = () => this.props.navigation.navigate(CASHBACK_PROFILE)
 
     componentDidMount = () => {
+        this.focusListener = this.props.navigation.addListener('didFocus', () => {
+            this.props.setSelectedCategory({})
+        });
+
         if (this.props.fcmNotificationAction) {
             this.props.fcmNotificationAction()
             this.props.notificationActionDone()
         }
 
         timingAnimation(this.state.showScaleAnimation, 1, 300, true)
+    }
+
+    componentWillUnmount() {
+        this.focusListener.remove();
     }
 
     componentDidUpdate = () => {
@@ -239,7 +250,8 @@ const mapStateToProps = state => {
         style: state.style,
         stocks: state.main.stocks,
         news: state.main.news,
-        fcmNotificationAction: state.fcm.notificationAction
+        fcmNotificationAction: state.fcm.notificationAction,
+        selectedCategoryViewType: state.appSetting.selectedCategoryViewType,
     }
 }
 

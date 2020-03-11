@@ -349,7 +349,7 @@ class CheckoutScreen extends React.Component {
       constructorProducts.push({
         CategoryId: constructorItem.category.Id,
         Count: constructorItem.count,
-        IngrdientCount: ingredientsCount
+        IngredientCount: ingredientsCount
       })
     }
 
