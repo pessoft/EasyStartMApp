@@ -1,9 +1,12 @@
-import { StyleSheet } from 'react-native'
+import { StyleSheet, Dimensions } from 'react-native'
+
+let width = Dimensions.get('screen').width - 36
 
 export default StyleSheet.create({
   bodyItem: {
     alignSelf: 'stretch',
     justifyContent: 'center',
+    width: width,
     height: 110,
     marginVertical: 5,
     borderRadius: 6,

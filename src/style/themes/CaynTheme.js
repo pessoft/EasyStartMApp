@@ -11,7 +11,7 @@ export const CaynTheme = StyleSheet.create({
         backgroundColor: '#ffffff'
     },
     backdoorTransparent: {
-        backgroundColor: '#ffffff8a',
+        backgroundColor: '#eaeaea8a',
     },
     shadowColor: {
         shadowColor: '#000'

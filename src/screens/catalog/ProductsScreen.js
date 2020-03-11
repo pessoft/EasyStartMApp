@@ -5,7 +5,8 @@ import {
     Animated,
     Platform
 } from 'react-native'
-import { ProductItem } from '../../components/product/ProductItem';
+import { ProductItem } from '../../components/product/ProductItem'
+import { ProductItemGrid } from '../../components/product/ProductItemGrid'
 import { setSelectedProduct } from '../../store/catalog/actions'
 import { PRODUCT_INFO, CASHBACK_PROFILE } from '../../navigation/pointsNavigate'
 import { timingAnimation } from '../../animation/timingAnimation'
@@ -13,6 +14,7 @@ import { toggleProductInBasket, changeTotalCountProductInBasket } from '../../st
 import { markFromBasket } from '../../store/navigation/actions'
 import VirtualMoneyButton from '../../components/buttons/VirtualMoneyButton/VirtualMoneyButton'
 import ViewContainerProductsChanger from '../../components/view-container-changer/ViewContainerProductsChanger'
+import { ViewContainerType } from '../../helpers/view-container-type'
 
 class ProductsScreen extends React.Component {
     static navigationOptions = ({ navigation }) => {
@@ -27,12 +29,12 @@ class ProductsScreen extends React.Component {
                     flex: 1,
                 },
                 // headerRight: () => <VirtualMoneyButton onPress={onPress} />,
-                headerRight: () => <ViewContainerProductsChanger/>
+                headerRight: () => <ViewContainerProductsChanger />
             }
 
         return {
             headerTitle,
-            headerRight: () => <ViewContainerProductsChanger/>
+            headerRight: () => <ViewContainerProductsChanger />
         }
     }
 
@@ -145,7 +147,19 @@ class ProductsScreen extends React.Component {
         this.props.toggleProductInBasket(basketProductModify)
     }
 
-    renderItem = ({ item, index }) => {
+    renderGridItem = ({ item, index }) => {
+        let itemTransform = this.productTransform(item, index)
+        return <ProductItemGrid
+            style={this.props.style}
+            animation={itemTransform.animation}
+            id={itemTransform.id}
+            product={itemTransform.product}
+            onPress={this.onSelectedProduct}
+            onToggleProduct={this.toggleProductInBasket}
+        />
+    }
+
+    renderListItem = ({ item, index }) => {
         let itemTransform = this.productTransform(item, index)
         return <ProductItem
             style={this.props.style}
@@ -177,23 +191,63 @@ class ProductsScreen extends React.Component {
             }
     }
 
+    renderListView = () => {
+        return (
+            <FlatList
+                contentContainerStyle={{
+                    marginTop: 6,
+                }}
+                key={ViewContainerType.list.toString()}
+                {...this.getFlatListPerformanceProperty()}
+                renderItem={this.renderListItem}
+                keyExtractor={this.keyExtractor}
+                extraData={this.props.basketProducts}
+                data={this.props.products[this.props.selectedCategory.Id]}
+            />
+        )
+    }
+
+    renderGridView = () => {
+        return (
+            <FlatList
+                contentContainerStyle={{
+                    marginTop: 6,
+                }}
+                key={ViewContainerType.grid.toString()}
+                {...this.getFlatListPerformanceProperty()}
+                renderItem={this.renderGridItem}
+                keyExtractor={this.keyExtractor}
+                extraData={this.props.basketProducts}
+                numColumns={2}
+                data={this.props.products[this.props.selectedCategory.Id]}
+            />
+        )
+    }
+
+    renderContent() {
+        switch (this.props.selectedProductsViewType) {
+            case ViewContainerType.list:
+                return this.renderListView()
+            case ViewContainerType.grid:
+                return this.renderGridView()
+        }
+    }
+
     render() {
         return (
             <Animated.ScrollView
-                contentContainerStyle={{ flex: 1, paddingHorizontal: 12 }}
+                contentContainerStyle={{
+                    flex: 1,
+                    paddingHorizontal: 12,
+                    alignItems: 'center',
+                }}
                 style={[
                     {
                         opacity: this.state.showScaleAnimation,
                         transform: [{ scale: this.state.showScaleAnimation }]
                     }]}>
 
-                <FlatList
-                    {...this.getFlatListPerformanceProperty()}
-                    renderItem={this.renderItem}
-                    keyExtractor={this.keyExtractor}
-                    extraData={this.props.basketProducts}
-                    data={this.props.products[this.props.selectedCategory.Id]}
-                />
+                {this.renderContent()}
             </Animated.ScrollView>
         )
     }
