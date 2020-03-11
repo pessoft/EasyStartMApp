@@ -8,9 +8,10 @@ import {
     Platform
 } from 'react-native'
 import Image from 'react-native-scalable-image'
-import { CategoryItem } from '../../components/category/CategoryItem';
+import { CategoryItem } from '../../components/category/CategoryItem'
+import { CategoryListItem } from '../../components/category/CategoryListItem'
 import { setSelectedCategory, setSelectedProduct } from '../../store/catalog/actions'
-import { PRODUCTS, STOCK_INFO, NEWS_INFO, CONSTRUCTOR_PRODUCTS, CASHBACK_PROFILE } from '../../navigation/pointsNavigate';
+import { PRODUCTS, STOCK_INFO, NEWS_INFO, CONSTRUCTOR_PRODUCTS, CASHBACK_PROFILE } from '../../navigation/pointsNavigate'
 import { timingAnimation } from '../../animation/timingAnimation'
 import { Text } from 'react-native'
 import VirtualMoneyButton from '../../components/buttons/VirtualMoneyButton/VirtualMoneyButton'
@@ -159,7 +160,17 @@ class CategoriesScreen extends React.Component {
         }
     }
 
-    renderItem = ({ item }) => {
+    renderListItem = ({ item }) => {
+        return <CategoryListItem
+            style={this.props.style}
+            id={item.key}
+            caption={item.caption}
+            imageSource={item.imageSource}
+            onPress={this.onSelectedCategory}
+        />
+    }
+
+    renderGridItem = ({ item }) => {
         return <CategoryItem
             style={this.props.style}
             id={item.key}
@@ -212,7 +223,7 @@ class CategoriesScreen extends React.Component {
             style={{ marginTop: 12 }}
             {...this.getFlatListPerformanceProperty()}
             data={this.categoriesTransform()}
-            renderItem={this.renderItem}
+            renderItem={this.renderListItem}
         />
         )
     }
@@ -224,7 +235,7 @@ class CategoriesScreen extends React.Component {
             style={{ marginTop: 12 }}
             {...this.getFlatListPerformanceProperty()}
             data={this.categoriesTransform()}
-            renderItem={this.renderItem}
+            renderItem={this.renderGridItem}
             numColumns={2}
         />
         )
@@ -250,7 +261,7 @@ class CategoriesScreen extends React.Component {
                         transform: [{ scale: this.state.showScaleAnimation }]
                     }]}>
                 <FCMManagerComponent navigation={this.props.navigation} />
-                <ScrollView contentContainerStyle={{ paddingHorizontal: 12 }}>
+                <ScrollView contentContainerStyle={{ paddingHorizontal: 1 }}>
                     {
                         this.isShowBanner() &&
                         <MainBannerCarousel

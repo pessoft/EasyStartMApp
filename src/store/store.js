@@ -28,7 +28,7 @@ const persistConfig = {
   key: 'root',
   storage,
   version: 7,
-  whitelist: ['user', 'style'],
+  whitelist: ['user', 'style', 'appSetting'],
   migrate: createMigrate(migrations, { debug: true }),
 }
 const persistedReducer = persistReducer(persistConfig, rootReducer)
