@@ -5,9 +5,28 @@ export default StyleSheet.create({
         alignItems: 'stretch',
     },
     contentBody: {
-        marginTop: 10,
+        marginVertical: 10,
         paddingHorizontal: 5,
-        paddingBottom: 10
+        paddingVertical: 10,
+        borderRadius: 6,
+        elevation: 4,
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.3,
+        shadowRadius: 1,
+    },
+    imageContainer: {
+        marginTop: 10,
+        borderRadius: 6,
+        elevation: 4,
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.3,
+        shadowRadius: 1,
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    image: {
+        borderRadius: 6,
     },
     productInfoContainer: {
         flexDirection: 'row',
@@ -37,6 +56,9 @@ export default StyleSheet.create({
         flexWrap: 'wrap',
         lineHeight: 24,
         paddingHorizontal: 10,
+    },
+    buttonContainer: {
+        width: 80,
     },
     reviewsButtonWithIcon: {
         flexDirection: 'row',

@@ -1,4 +1,4 @@
-import { getMainDataFetch, updateProductRatingFetch, getCouponFetch } from '../../api/requests'
+import { getMainDataFetch, updateProductRatingFetch, getCouponFetch, getStocksFetch } from '../../api/requests'
 import { getImageSource } from '../../helpers/utils'
 
 export const FETCH_MAIN_DATA_SUCCESS = 'FETCH_MAIN_DATA_SUCCESS'
@@ -15,6 +15,10 @@ export const FETCH_COUPON_FAILURE = 'FETCH_COUPON_FAILURE'
 export const CLEAN_COUPON = 'CLEAN_COUPON'
 export const RESET_DATA = 'RESET_DATA'
 
+export const FETCH_STOCKS_SUCCESS = 'FETCH_STOCKS_SUCCESS'
+export const FETCH_STOCKS_REQUEST = 'FETCH_STOCKS_REQUEST'
+export const FETCH_STOCKS_FAILURE = 'FETCH_STOCKS_FAILURE'
+
 export const resetMainData = () => {
     return {
         type: RESET_DATA
@@ -29,6 +33,19 @@ export const getMainData = params => async (dispatch) => {
         dispatch(successMainDataPosts(mainData))
     } catch {
         dispatch(failureMainDataPosts())
+    }
+}
+
+export const getStocks = params => async (dispatch) => {
+    dispatch(requestStocksPosts())
+
+    try {
+        const stocks = await getStocksFetch(params)
+        processingStocks(stocks)
+
+        dispatch(successStocksPosts(stocks))
+    } catch {
+        dispatch(failureStocksPosts())
     }
 }
 
@@ -95,12 +112,21 @@ const successMainDataPosts = mainData => {
     }
 }
 
-const processingMainData = mainData => {
-
-    if (mainData && mainData.stocks && mainData.stocks.length > 0) {
-        for (const stock of mainData.stocks) {
+const processingStocks = data => {
+    if (data && data.stocks && data.stocks.length > 0) {
+        for (const stock of data.stocks) {
             stock.ConditionCountProducts = JSON.parse(stock.ConditionCountProductsJSON)
             stock.Image = getImageSource(stock.Image)
+        }
+    }
+}
+
+const processingMainData = mainData => {
+    processingStocks(mainData)
+
+    if (mainData && mainData.news && mainData.news.length > 0) {
+        for (const news of mainData.news) {
+            news.Image = getImageSource(news.Image)
         }
     }
 
@@ -158,6 +184,26 @@ const successCouponPosts = coupon => {
 const failureCouponPosts = () => {
     return {
         type: FETCH_COUPON_FAILURE,
+        payload: true
+    }
+}
+
+const requestStocksPosts = () => {
+    return {
+        type: FETCH_STOCKS_REQUEST
+    }
+}
+
+const successStocksPosts = stocks => {
+    return {
+        type: FETCH_STOCKS_SUCCESS,
+        payload: stocks
+    }
+}
+
+const failureStocksPosts = () => {
+    return {
+        type: FETCH_STOCKS_FAILURE,
         payload: true
     }
 }

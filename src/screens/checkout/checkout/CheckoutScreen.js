@@ -15,26 +15,46 @@ import { TypePayment } from '../../../helpers/type-payment'
 import { DeliveryAddressAnimation } from '../../../components/checkout/delivery-address/DeliveryAddressAnimation'
 import { OrderComment } from '../../../components/checkout/order-comment/OrderComment'
 import { CompleteCheckout } from '../../../components/checkout/complete-checkout/CompleteCheckout'
-import { CHECKOUT_COMPLETE, SHOPPING_BASKET } from '../../../navigation/pointsNavigate'
+import { CHECKOUT_COMPLETE, SHOPPING_BASKET, CASHBACK_PROFILE } from '../../../navigation/pointsNavigate'
 import { addNewOrderData } from '../../../store/checkout/actions'
 import { PromotionLogic } from '../../../logic/promotion/promotion-logic'
 import { DiscountType } from '../../../logic/promotion/discount-type'
 import { BonusProducts } from '../../../components/checkout/bonus-products/BonusProducts'
 import { Coupon } from '../../../components/checkout/coupon/Coupon'
 import { PayVirtualMoney } from '../../../components/checkout/pay-virtual-money/PayVirtualMoney'
-import { getCoupon } from '../../../store/main/actions'
+import { getCoupon, getStocks } from '../../../store/main/actions'
 import { NavigationEvents } from 'react-navigation';
 import { cleanCoupon } from '../../../store/main/actions'
 import { updateVirtualMoney, updateReferralDiscount } from '../../../store/user/actions'
 import { NumberAppliances } from '../../../components/checkout/number-appliances/NumberAppliances'
+import VirtualMoneyButton from '../../../components/buttons/VirtualMoneyButton/VirtualMoneyButton'
 
 class CheckoutScreen extends React.Component {
-  static navigationOptions = {
-    headerTitle: 'Оформление заказа',
+  static navigationOptions = ({ navigation }) => {
+    const isShowVirtualMoney = navigation.getParam('isShowVirtualMoney', false)
+    const onPress = navigation.getParam('onPress', null)
+    if (isShowVirtualMoney)
+      return {
+        headerTitle: 'Оформление заказа',
+        headerTitleStyle: {
+          textAlign: Platform.OS == 'ios' ? 'center' : 'left',
+          flex: 1,
+        },
+        headerRight: () => <VirtualMoneyButton onPress={onPress} />
+      }
+
+    return {
+      headerTitle: 'Оформление заказа'
+    }
   }
 
   constructor(props) {
     super(props)
+
+    this.props.navigation.setParams({
+      isShowVirtualMoney: this.props.promotionCashbackSetting.IsUseCashback,
+      onPress: () => this.goToCashbackScreen()
+    })
 
     this.state = {
       showScaleAnimation: new Animated.Value(0),
@@ -59,6 +79,7 @@ class CheckoutScreen extends React.Component {
         intercomCode: ''
       },
       numberAppliances: this.isRequestNumberAppliances() ? 1 : 0,
+      dateDelivery: null,
       commentText: '',
       promotion: this.getPromotionLogic(true),
       amountPayCashBack: 0,
@@ -66,6 +87,8 @@ class CheckoutScreen extends React.Component {
       limitSelectProductBonus: this.getPromotionLogic(true).getAllowedCountSelectBonusProduct()
     }
   }
+
+  goToCashbackScreen = () => this.props.navigation.navigate(CASHBACK_PROFILE)
 
   isRequestNumberAppliances = () => {
     let isRequest = false
@@ -137,6 +160,11 @@ class CheckoutScreen extends React.Component {
       this.props.cleanCoupon()
     }
 
+    if (this.state.numberAppliances > 0 && !this.isRequestNumberAppliances())
+      this.setState({ numberAppliances: 0 })
+    else if (this.state.numberAppliances == 0 && this.isRequestNumberAppliances())
+      this.setState({ numberAppliances: 1 })
+
     const promotionData = this.getPromotionDataForEquals()
     if (!this.state.promotion.equalsPromotionData(promotionData)) {
       const promotion = this.getPromotionLogic()
@@ -187,6 +215,7 @@ class CheckoutScreen extends React.Component {
 
   setContactsData = userData => this.setState({ userData })
   changeDeliveryType = deliveryType => this.setState({ deliveryType, deliveryAddress: { areaDeliveryId: -1 } })
+  changeDeliveryDate = dateDelivery => { this.setState({ dateDelivery }) }
   changePaymentData = paymentData => this.setState({ paymentData })
   setDeliveryAddress = deliveryAddress => this.setState({ deliveryAddress })
   setCommentText = commentText => this.setState({ commentText })
@@ -355,17 +384,28 @@ class CheckoutScreen extends React.Component {
       stockIds: this.state.promotion.getApplyStockIds(),
       couponId: this.state.promotion.getApplyCouponId(),
       referralDiscount: this.state.promotion.getReferralDiscount(),
+      dateDelivery: this.state.dateDelivery
     }
   }
 
   completeCheckout = () => {
     const newOrderData = this.getOrderData()
     this.props.addNewOrderData(newOrderData)
+    this.updateStocksAfterOrder()
     this.props.cleanCoupon()
     this.updateVirtualMoney()
     this.updateClientReferralDiscount(newOrderData.referralDiscount)
 
     this.props.navigation.navigate(CHECKOUT_COMPLETE)
+  }
+
+  updateStocksAfterOrder() {
+    const params = {
+      clientId: this.props.userData.clientId,
+      branchId: this.props.userData.branchId
+    }
+
+    this.props.getStocks(params)
   }
 
   updateVirtualMoney = () => {
@@ -452,10 +492,12 @@ class CheckoutScreen extends React.Component {
         <KeyboardAwareScrollView
           style={{ flex: 1 }}
           behavior='padding'
-          enabled>
+          enabled
+          keyboardShouldPersistTaps='handled'
+        >
           <ScrollView
-            contentContainerStyle={{ flex: 1 }}
-            keyboardShouldPersistTaps="always">
+            contentContainerStyle={{ flex: 1, paddingHorizontal: 10 }}
+            keyboardShouldPersistTaps='always'>
             <Coupon
               style={this.props.style}
               isProcessingActivation={this.props.isFetchingCoupon}
@@ -482,13 +524,18 @@ class CheckoutScreen extends React.Component {
             />
             <PaymentType
               style={this.props.style}
+              hasCard={this.props.deliverySettings.PayCard}
+              hasCash={this.props.deliverySettings.PayCash}
               initValue={this.state.paymentData.paymentType}
               changePaymentData={this.changePaymentData}
             />
             <DeliveryTypeBlock
               style={this.props.style}
               initValue={this.state.deliveryType}
+              dateDelivery={this.state.dateDelivery}
+              deliverySettings={this.props.deliverySettings}
               changeDeliveryType={this.changeDeliveryType}
+              changeDeliveryDate={this.changeDeliveryDate}
             />
             <DeliveryAddressAnimation
               cityId={this.state.deliveryAddress.cityId}
@@ -563,7 +610,8 @@ const mapDispatchToProps = {
   getCoupon,
   cleanCoupon,
   updateVirtualMoney,
-  updateReferralDiscount
+  updateReferralDiscount,
+  getStocks
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CheckoutScreen)

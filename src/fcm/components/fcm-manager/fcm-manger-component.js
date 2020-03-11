@@ -54,7 +54,7 @@ class FCMManagerComponent extends React.Component {
   subscribeForegroundMessage = async () => {
     messaging().onMessage(async remoteMessage => {
       let data = null
-     
+
       try {
         data = JSON.parse(remoteMessage.data.payload)
       } catch{ }

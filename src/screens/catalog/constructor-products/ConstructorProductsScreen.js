@@ -187,7 +187,7 @@ class ConstructorProductsScreen extends React.Component {
 
     render() {
         return (
-            <View style={{ flex: 1 }}>
+            <View style={{ flex: 1, paddingHorizontal: 12 }}>
                 {
                     this.state.showSuccessAnimation &&
                     <View style={Style.successContainer}>

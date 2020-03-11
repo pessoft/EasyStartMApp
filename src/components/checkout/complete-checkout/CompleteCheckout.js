@@ -11,8 +11,8 @@ import { priceValid } from '../../../helpers/utils'
 export class CompleteCheckout extends React.Component {
   getDiscountText = () => {
     const percent = this.props.discountPercent > 0 ? `${this.props.discountPercent}%` : ''
-    const ruble = this.props.discountRuble > 0 ? `${this.props.discountRuble} руб.` : ''
-    let text = percent && ruble ? `${percent} и ${priceValid(ruble)}` : percent || priceValid(ruble)
+    const ruble = this.props.discountRuble > 0 ? `${priceValid(this.props.discountRuble)} руб.` : ''
+    let text = percent && ruble ? `${percent} и ${ruble}` : percent || ruble
 
     return text
   }
@@ -22,7 +22,8 @@ export class CompleteCheckout extends React.Component {
       <View style={[
         Style.container,
         this.props.style.theme.backdoor,
-        this.props.style.theme.dividerColor
+        this.props.style.theme.dividerColor,
+        this.props.style.theme.shadowColor,
       ]}>
         <View style={Style.content}>
           <Text
@@ -66,7 +67,7 @@ export class CompleteCheckout extends React.Component {
               disabled={this.props.disabled}
               color={Platform.OS == 'ios' ?
                 this.props.style.theme.accentOther.backgroundColor :
-                this.props.style.theme.darkPrimaryColor.backgroundColor} />
+                this.props.style.theme.accentOther.backgroundColor} />
           </View>
         </View>
       </View>

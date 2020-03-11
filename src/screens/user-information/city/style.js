@@ -32,6 +32,7 @@ export default StyleSheet.create({
   },
   inputSize: {
     width: 280,
+    maxHeight: 35,
   },
   centerScreen: {
     flex: 1,

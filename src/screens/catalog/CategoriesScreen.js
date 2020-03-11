@@ -10,15 +10,17 @@ import {
 import Image from 'react-native-scalable-image'
 import { CategoryItem } from '../../components/category/CategoryItem';
 import { setSelectedCategory, setSelectedProduct } from '../../store/catalog/actions'
-import { PRODUCTS, STOCK_INFO, CONSTRUCTOR_PRODUCTS, CASHBACK_PROFILE } from '../../navigation/pointsNavigate';
+import { PRODUCTS, STOCK_INFO, NEWS_INFO, CONSTRUCTOR_PRODUCTS, CASHBACK_PROFILE } from '../../navigation/pointsNavigate';
 import { timingAnimation } from '../../animation/timingAnimation'
 import { Text } from 'react-native'
 import VirtualMoneyButton from '../../components/buttons/VirtualMoneyButton/VirtualMoneyButton'
-import { StockBannerCarousel } from '../../components/category/stock-banner-carousel/StockBannerCarousel';
+import { MainBannerCarousel } from '../../components/category/main-banner-carousel/MainBannerCarousel';
 import { setSelectedStock } from '../../store/stock/actions'
+import { setSelectedNews } from '../../store/news/actions'
 import { CategoryType } from '../../helpers/type-category'
 import { notificationActionDone } from '../../store/FCM/actions'
 import FCMManagerComponent from '../../fcm/components/fcm-manager/fcm-manger-component'
+import { NewsType } from '../../helpers/news-type'
 
 class CategoriesScreen extends React.Component {
     static navigationOptions = ({ navigation }) => {
@@ -28,7 +30,7 @@ class CategoriesScreen extends React.Component {
             return {
                 headerTitle: 'Категории',
                 headerTitleStyle: {
-                    textAlign: "left",
+                    textAlign: Platform.OS == 'ios' ? 'center' : 'left',
                     flex: 1,
                 },
                 headerRight: () => <VirtualMoneyButton onPress={onPress} />
@@ -52,7 +54,8 @@ class CategoriesScreen extends React.Component {
 
         this.state = {
             showScaleAnimation: new Animated.Value(0),
-            goToStock: false
+            goToStock: false,
+            goToNews: false,
         }
     }
 
@@ -82,6 +85,10 @@ class CategoriesScreen extends React.Component {
             && this.state.goToStock) {
             this.setState({ goToStock: false },
                 () => this.props.navigation.navigate(STOCK_INFO))
+        } else if (this.props.selectedNews.Id > 0
+            && this.state.goToNews) {
+            this.setState({ goToNews: false },
+                () => this.props.navigation.navigate(NEWS_INFO))
         }
     }
 
@@ -114,9 +121,30 @@ class CategoriesScreen extends React.Component {
 
     onSelectedStock = stock => {
         this.props.setSelectedCategory({})
+        this.props.setSelectedNews({})
         this.props.setSelectedStock({})
         this.props.setSelectedStock(stock)
         this.setState({ goToStock: true })
+    }
+
+    onSelectedNews = news => {
+        this.props.setSelectedCategory({})
+        this.props.setSelectedStock({})
+        this.props.setSelectedNews({})
+        this.props.setSelectedNews(news)
+        this.setState({ goToNews: true })
+    }
+
+    onPressBunner = (type, data) => {
+        const newsType = parseInt(type)
+        switch (newsType) {
+            case NewsType.stock:
+                this.onSelectedStock(data)
+                break
+            case NewsType.news:
+                this.onSelectedNews(data)
+                break
+        }
     }
 
     renderItem = ({ item }) => {
@@ -140,30 +168,58 @@ class CategoriesScreen extends React.Component {
             }
     }
 
+    isShowBanner = () => {
+        let isShow = (this.props.stocks.length > 0 &&
+            this.props.promotionSetting.IsShowStockBanner) ||
+            (this.props.news.length > 0 &&
+                this.props.promotionSetting.IsShowNewsBanner)
+
+        return isShow
+    }
+
+    getDataForBanner = () => {
+        let items = {}
+
+        if (this.props.stocks.length > 0 &&
+            this.props.promotionSetting.IsShowStockBanner) {
+            items[NewsType.stock] = this.props.stocks
+        }
+
+        if (this.props.news.length > 0 &&
+            this.props.promotionSetting.IsShowNewsBanner) {
+            items[NewsType.news] = this.props.news
+        }
+
+        return items
+    }
+
     render() {
         return (
             <Animated.View
                 style={[
                     {
                         flex: 1,
+                        alignItems: 'center',
                         opacity: this.state.showScaleAnimation,
                         transform: [{ scale: this.state.showScaleAnimation }]
                     }]}>
                 <FCMManagerComponent navigation={this.props.navigation} />
-                <ScrollView style={{ flex: 1 }}>
+                <ScrollView contentContainerStyle={{ paddingHorizontal: 12 }}>
                     {
-                        this.props.stocks.length > 0 &&
-                        this.props.promotionSetting.IsShowStockBanner &&
-                        <StockBannerCarousel
+                        this.isShowBanner() &&
+                        <MainBannerCarousel
                             style={this.props.style}
-                            stocks={this.props.stocks}
-                            onPress={this.onSelectedStock}
+                            items={this.getDataForBanner()}
+                            onPress={this.onPressBunner}
                         />
                     }
+
                     <FlatList
+                        style={{ marginTop: 12 }}
                         {...this.getFlatListPerformanceProperty()}
                         data={this.categoriesTransform()}
                         renderItem={this.renderItem}
+                        numColumns={2}
                     />
                 </ScrollView>
             </Animated.View>
@@ -179,8 +235,10 @@ const mapStateToProps = state => {
         categories: state.main.categories,
         selectedCategory: state.catalog.selectedCategory,
         selectedStock: state.stock.selectedStock,
+        selectedNews: state.news.selectedNews,
         style: state.style,
         stocks: state.main.stocks,
+        news: state.main.news,
         fcmNotificationAction: state.fcm.notificationAction
     }
 }
@@ -189,6 +247,7 @@ const mapActionToProps = {
     setSelectedCategory,
     setSelectedProduct,
     setSelectedStock,
+    setSelectedNews,
     notificationActionDone
 }
 

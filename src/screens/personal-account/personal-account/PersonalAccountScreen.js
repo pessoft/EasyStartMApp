@@ -52,6 +52,7 @@ class PersonalAccountScreen extends React.Component {
       <Animated.ScrollView
         style={[
           {
+            paddingHorizontal: 12,
             opacity: this.state.showScaleAnimation,
             transform: [{ scale: this.state.showScaleAnimation }]
           }

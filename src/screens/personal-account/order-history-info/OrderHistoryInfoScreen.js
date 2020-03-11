@@ -276,6 +276,7 @@ class OrderHistoryInfoScreen extends React.Component {
         style={[
           {
             marginTop: 5,
+            paddingHorizontal: 12,
             opacity: this.state.showScaleAnimation,
             flex: 1,
             transform: [{ scale: this.state.showScaleAnimation }]
@@ -295,7 +296,9 @@ class OrderHistoryInfoScreen extends React.Component {
         <View
           style={[
             Style.footer,
-            this.props.style.theme.dividerColor
+            this.props.style.theme.dividerColor,
+            this.props.style.theme.backdoor,
+            this.props.style.theme.shadowColor,
           ]}>
           <Text
             style={[
@@ -312,7 +315,7 @@ class OrderHistoryInfoScreen extends React.Component {
               onPress={this.repeatOrder}
               color={Platform.OS == 'ios' ?
                 this.props.style.theme.accentOther.backgroundColor :
-                this.props.style.theme.defaultPrimaryColor.backgroundColor}
+                this.props.style.theme.accentOther.backgroundColor}
             />
           </View>
         </View>
@@ -323,7 +326,8 @@ class OrderHistoryInfoScreen extends React.Component {
   render() {
     if (this.props.isFetchingProductsHistory)
       return this.renderLoader()
-    else if (this.props.productsHistory.length > 0)
+    else if (this.props.productsHistory.length > 0 ||
+      this.props.constructorProductsHistory.length > 0)
       return this.renderHistoryOrders()
     else
       return this.renderWrong()

@@ -79,6 +79,7 @@ class OrdersHistoryScreen extends React.Component {
         style={[
           Style.container,
           {
+            paddingHorizontal: 12,
             opacity: this.state.showHistoryScaleAnimation,
             transform: [{ scale: this.state.showHistoryScaleAnimation }]
           }

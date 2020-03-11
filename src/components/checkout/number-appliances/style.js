@@ -6,11 +6,14 @@ export default StyleSheet.create({
     paddingTop: 7,
     paddingBottom: 14,
     paddingHorizontal: 12,
-    marginVertical: 3,
-    borderTopWidth: 0.5,
-    borderBottomWidth: 0.5,
+    marginVertical: 5,
     justifyContent: 'center',
     alignItems: 'stretch',
+    borderRadius: 6,
+    elevation: 4,
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.3,
+    shadowRadius: 1,
   },
   header: {
     flex: 1,
@@ -23,14 +26,20 @@ export default StyleSheet.create({
     alignSelf: 'center',
     paddingHorizontal: 10
   },
+  counterContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   inputText: {
     textAlign: 'center',
     marginTop: 10,
     borderWidth: 1,
-    borderRadius: 3,
+    borderRadius: 5,
     padding: Platform.OS == 'ios' ? 8 : 3
   },
   inputSize: {
     width: 280,
+    height: 30
   },
 })

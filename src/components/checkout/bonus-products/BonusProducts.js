@@ -83,6 +83,7 @@ export class BonusProducts extends React.Component {
 
   renderItem = ({ item }) => {
     return <ProductItem
+      backgroundColor={this.props.style.theme.themeBody.backgroundColor}
       style={this.props.style}
       animation={item.animation}
       id={item.id}
@@ -120,7 +121,8 @@ export class BonusProducts extends React.Component {
       <View style={[
         Style.container,
         this.props.style.theme.backdoor,
-        this.props.style.theme.dividerColor
+        this.props.style.theme.dividerColor,
+        this.props.style.theme.shadowColor,
       ]}>
         <View style={Style.header}>
           <Text style={[

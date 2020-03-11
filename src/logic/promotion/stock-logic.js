@@ -32,11 +32,13 @@ export class StockLogic {
         const discountTriggerDeliveryType = this.getDiscountTriggerDeliveryType(discountType)
         const discountTriggerOrderSum = this.getDiscountTriggerOrderSum(discountType)
         const discountTriggerProducts = this.getDiscountTriggerProducts(discountType)
+        const discountTriggerBirthday = this.getDiscountTriggerBirthday(discountType)
 
         return [
             discountTriggerDeliveryType,
             discountTriggerOrderSum,
-            discountTriggerProducts]
+            discountTriggerProducts,
+            discountTriggerBirthday]
     }
 
     getDiscountTriggerDeliveryType(discountType) {
@@ -87,16 +89,25 @@ export class StockLogic {
         return discountItem
     }
 
+    getDiscountTriggerBirthday(discountType) {
+        const stocks = this.stocks.filter(p => p.ConditionType == TriggerType.HappyBirthday
+            && p.RewardType == RewardType.Discount
+            && p.DiscountType == discountType)
+        const discountItem = this.transformDiscount(stocks)
+
+        return discountItem
+    }
+
     transformDiscount(stocks) {
         const discountItem = {
             ids: [],
             discount: 0
         }
-
+        
         if (stocks.length > 0) {
             for (const stock of stocks) {
                 discountItem.ids.push(stock.Id)
-                discountItem.discount += stock.DiscountValue
+                discountItem.discount +=  stock.DiscountValue
             }
         }
 
@@ -121,11 +132,13 @@ export class StockLogic {
         const productsTriggerDeliveryType = this.getProductsTriggerDeliveryType()
         const productsTriggerOrderSum = this.getProductsTriggerOrderSum()
         const productsTriggerProducts = this.getProductsTriggerProducts()
+        const productsTriggerBirthday = this.getProductsTriggerBirthday()
 
         return [
             productsTriggerDeliveryType,
             productsTriggerOrderSum,
-            productsTriggerProducts]
+            productsTriggerProducts,
+            productsTriggerBirthday]
     }
 
     getStocksTriggerDeliveryType() {
@@ -151,8 +164,22 @@ export class StockLogic {
         return stocks
     }
 
+    getStocksTriggerBirthday() {
+        let stocks = this.stocks.filter(p => p.ConditionType == TriggerType.HappyBirthday
+            && p.RewardType == RewardType.Products)
+
+        return stocks
+    }
+
     getProductsTriggerOrderSum() {
         const stocks = this.getStocksTriggerOrderSum()
+        const productItem = this.transformStockProducts(stocks)
+
+        return productItem
+    }
+
+    getProductsTriggerBirthday() {
+        const stocks = this.getStocksTriggerBirthday()
         const productItem = this.transformStockProducts(stocks)
 
         return productItem
@@ -243,7 +270,8 @@ export class StockLogic {
         const counts = [
             getMaxOfArray(this.getStocksTriggerDeliveryType().map(p => p.CountBonusProducts)),
             getMaxOfArray(this.getStocksTriggerOrderSum().map(p => p.CountBonusProducts)),
-            getMaxOfArray(this.getStocksTriggerProducts().map(p => p.CountBonusProducts))
+            getMaxOfArray(this.getStocksTriggerProducts().map(p => p.CountBonusProducts)),
+            getMaxOfArray(this.getStocksTriggerBirthday().map(p => p.CountBonusProducts)),
         ]
 
         return getMaxOfArray(counts)

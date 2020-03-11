@@ -114,6 +114,7 @@ class CheckoutCompleteScreen extends React.Component {
           ]}>
           Успешно оформлен
         </Text>
+        {this.renderButtonOk()}
       </Animated.View>
     )
   }
@@ -142,7 +143,7 @@ class CheckoutCompleteScreen extends React.Component {
             Style.infoText,
           ]}>
           Заказ не оформлен
-        </Text>
+          </Text>
         <Text
           style={[
             this.props.style.theme.primaryTextColor,
@@ -151,7 +152,8 @@ class CheckoutCompleteScreen extends React.Component {
             { flexWrap: 'wrap' }
           ]}>
           При оформлении заказа что-то пошло не так
-        </Text>
+          </Text>
+        {this.renderButtonOk()}
       </Animated.View>
     )
   }
@@ -160,11 +162,11 @@ class CheckoutCompleteScreen extends React.Component {
     return (
       <View style={[Style.buttonOk]}>
         <Button
-          title='Готово'
+          title='ОK'
           onPress={this.onFinishCheckout}
           color={Platform.OS == 'ios' ?
-            this.props.style.theme.primaryTextColor.color :
-            this.props.style.theme.defaultPrimaryColor.backgroundColor} />
+            this.props.style.theme.accentOther.backgroundColor :
+            this.props.style.theme.accentOther.backgroundColor} />
       </View>
     )
   }
@@ -172,13 +174,12 @@ class CheckoutCompleteScreen extends React.Component {
   render() {
     return (
       <View style={[
-        this.props.style.theme.themeBody,
-        Style.container,
-      ]}>
+        this.props.style.theme.secondaryThemeBody,
+        Style.mainContainer,
+        ]}>
         {this.props.isFetching && this.renderLoader()}
         {!this.props.isFetching && !this.props.isError && this.renderSuccess()}
         {!this.props.isFetching && this.props.isError && this.renderError()}
-        {!this.props.isFetching && this.renderButtonOk()}
       </View>
     )
   }

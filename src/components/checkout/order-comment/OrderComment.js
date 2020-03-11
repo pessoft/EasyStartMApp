@@ -28,7 +28,8 @@ export class OrderComment extends React.Component {
       <View style={[
         Style.container,
         this.props.style.theme.backdoor,
-        this.props.style.theme.dividerColor
+        this.props.style.theme.dividerColor,
+        this.props.style.theme.shadowColor,
       ]}>
         <View style={Style.header}>
           <Text style={[

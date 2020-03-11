@@ -5,13 +5,22 @@ export const OrangeTheme = StyleSheet.create({
         backgroundColor: '#F57C00'
     },
     navigationBottom: {
-        backgroundColor: '#f8f8f8'
+        backgroundColor: '#fdfdfd'
     },
     backdoor: {
-        backgroundColor: '#edeef0'
+        backgroundColor: '#ffffff'
+    },
+    backdoorTransparent: {
+        backgroundColor: '#ffffff8a',
+    },
+    shadowColor: {
+        shadowColor: '#000'
     },
     themeBody: {
-        backgroundColor: '#fafafa'
+        backgroundColor: '#ededed'
+    },
+    secondaryThemeBody: {
+        backgroundColor: '#ffffff'
     },
     darkPrimaryColor: {
         backgroundColor: '#F57C00'
@@ -32,7 +41,7 @@ export const OrangeTheme = StyleSheet.create({
         backgroundColor: '#FF9800'
     },
     primaryTextColor: {
-        color: '#3b3b3b'
+        color: '#1e1e1e',
     },
     secondaryTextColor: {
         color: '#757575'

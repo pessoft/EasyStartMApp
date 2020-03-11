@@ -4,8 +4,11 @@ import {
     Image,
     Text,
     View,
+    Dimensions
 } from 'react-native'
 import Style from './style'
+
+const min320 = Dimensions.get('window').width <= 320
 
 export class OrderHistoryProductItem extends React.Component {
 
@@ -14,7 +17,11 @@ export class OrderHistoryProductItem extends React.Component {
             <TouchableHighlight
                 underlayColor={this.props.style.theme.backdoor.backgroundColor}
             >
-                <View style={[Style.directionRow]}>
+                <View style={[
+                    Style.directionRow,
+                    this.props.style.theme.backdoor,
+                    this.props.style.theme.shadowColor,
+                    ]}>
                     <View style={Style.imageContainer}>
                         <Image
                             source={this.props.product.Image}
@@ -25,11 +32,16 @@ export class OrderHistoryProductItem extends React.Component {
                         Style.productInfoContainer,
                         this.props.style.theme.dividerColor]}>
                         <View style={Style.captionContainer}>
-                            <Text style={[
-                                Style.textWrap,
-                                this.props.style.fontSize.h8,
-                                this.props.style.theme.primaryTextColor]}>
-                                {this.props.product.Name}
+                            <Text
+                                numberOfLines={2}
+                                ellipsizeMode={"tail"}
+                                style={[
+                                    Style.textWrap,
+                                    min320 ?
+                                    this.props.style.fontSize.h9 :
+                                    this.props.style.fontSize.h8,
+                                    this.props.style.theme.primaryTextColor]}>
+                                {this.props.product.Name.trimStart()}
                             </Text>
                             <Text style={[
                                 this.props.style.fontSize.h10,

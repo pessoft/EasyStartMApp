@@ -19,6 +19,7 @@ import { SimpleListItem } from '../../../components/simple-list-item/SimpleListI
 import { timingAnimation } from '../../../animation/timingAnimation'
 import LottieView from 'lottie-react-native';
 import { showMessage } from "react-native-flash-message"
+import { ButtonWithoutFeedback } from '../../../components/buttons/ButtonWithoutFeedback/ButtonWithoutFeedback'
 
 const { width } = Dimensions.get('window')
 
@@ -72,6 +73,7 @@ class CityScreen extends React.Component {
       branchId: this.props.user.branchId,
       email: this.props.user.email,
       userName: this.props.user.userName,
+      dateBirth: this.props.user.dateBirth,
       parentReferralClientId: this.props.user.parentReferralClientId,
       parentReferralCode: this.props.user.parentReferralCode,
     }
@@ -171,14 +173,18 @@ class CityScreen extends React.Component {
           </View>
           {this.renderCities()}
         </View>
-        <View style={[Style.inputSize, Style.footerContainer, Style.pv_20]}>
-          <Button
-            title='Далее'
-            onPress={this.onFinishSetUserData}
-            disabled={this.props.cityId < 1}
-            color={Platform.OS == 'ios' ?
-              this.props.style.theme.primaryTextColor.color :
-              this.props.style.theme.defaultPrimaryColor.backgroundColor} />
+        <View style={[Style.footerContainer, Style.pv_20]}>
+          <View style={[
+            Style.inputSize
+          ]}>
+            <ButtonWithoutFeedback
+              text='Далее'
+              onPress={this.onFinishSetUserData}
+              disabled={this.props.cityId < 1}
+              style={this.props.style}
+              borderRadius={5}
+            />
+          </View>
         </View>
       </Animated.View>
     )

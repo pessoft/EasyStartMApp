@@ -5,13 +5,22 @@ export const RedTheme = StyleSheet.create({
         backgroundColor: '#D32F2F'
     },
     navigationBottom: {
-        backgroundColor: '#f8f8f8'
+        backgroundColor: '#fdfdfd'
     },
     backdoor: {
-        backgroundColor: '#edeef0'
+        backgroundColor: '#ffffff'
+    },
+    backdoorTransparent: {
+        backgroundColor: '#ffffff8a',
+    },
+    shadowColor: {
+        shadowColor: '#000'
     },
     themeBody: {
-        backgroundColor: '#fafafa'
+        backgroundColor: '#ededed'
+    },
+    secondaryThemeBody: {
+        backgroundColor: '#ffffff'
     },
     darkPrimaryColor: {
         backgroundColor: '#D32F2F'
@@ -32,7 +41,7 @@ export const RedTheme = StyleSheet.create({
         backgroundColor: '#FF5252'
     },
     primaryTextColor: {
-        color: '#3b3b3b'
+        color: '#1e1e1e',
     },
     secondaryTextColor: {
         color: '#757575'

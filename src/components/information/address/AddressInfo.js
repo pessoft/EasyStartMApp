@@ -11,7 +11,9 @@ export class AddressInfo extends React.Component {
       <View style={[
         Style.container,
         this.props.style.theme.backdoor,
-        this.props.style.theme.dividerColor]}>
+        this.props.style.theme.dividerColor,
+        this.props.style.theme.shadowColor,
+        ]}>
         <View style={Style.image}>
           <MapMarkerIcon
             width={45}

@@ -43,7 +43,8 @@ export class DeliveryAddress extends React.Component {
       <View style={[
         Style.container,
         this.props.style.theme.backdoor,
-        this.props.style.theme.dividerColor
+        this.props.style.theme.dividerColor,
+        this.props.style.theme.shadowColor,
       ]}>
 
         <View style={Style.header}>
@@ -80,6 +81,9 @@ export class DeliveryAddress extends React.Component {
             placeholderTextColor={this.props.style.theme.secondaryTextColor.color}
             style={[
               Style.inputText,
+              Style.mr_bt_0,
+              Style.b_bt_l_r_0,
+              Style.b_bt_r_r_0,
               Style.inputBigSize,
               this.props.style.fontSize.h8,
               this.props.style.theme.primaryTextColor,
@@ -97,6 +101,10 @@ export class DeliveryAddress extends React.Component {
               placeholderTextColor={this.props.style.theme.secondaryTextColor.color}
               style={[
                 Style.inputText,
+                Style.b_r_0,
+                Style.mr_tp_0,
+                Style.b_tp_w_0,
+                Style.b_r_w_0,
                 Style.inputSmallSize,
                 this.props.style.fontSize.h8,
                 this.props.style.theme.primaryTextColor,
@@ -113,6 +121,9 @@ export class DeliveryAddress extends React.Component {
               placeholderTextColor={this.props.style.theme.secondaryTextColor.color}
               style={[
                 Style.inputText,
+                Style.b_r_0,
+                Style.mr_tp_0,
+                Style.b_tp_w_0,
                 Style.inputSmallSize,
                 this.props.style.fontSize.h8,
                 this.props.style.theme.primaryTextColor,
@@ -125,12 +136,17 @@ export class DeliveryAddress extends React.Component {
           </View>
           <View style={Style.wrapperRow}>
             <TextInput
-              placeholder='Квартира (офис)'
+              placeholder='№ кв-ры/офиса'
               ref={(input) => { this.apartmentNumberTextInput = input; }}
               value={this.state.apartmentNumber}
               placeholderTextColor={this.props.style.theme.secondaryTextColor.color}
               style={[
                 Style.inputText,
+                Style.b_r_0,
+                Style.mr_tp_0,
+                Style.b_tp_w_0,
+                Style.b_bt_w_0,
+                Style.b_r_w_0,
                 Style.inputSmallSize,
                 this.props.style.fontSize.h8,
                 this.props.style.theme.primaryTextColor,
@@ -147,6 +163,10 @@ export class DeliveryAddress extends React.Component {
               placeholderTextColor={this.props.style.theme.secondaryTextColor.color}
               style={[
                 Style.inputText,
+                Style.b_r_0,
+                Style.mr_tp_0,
+                Style.b_tp_w_0,
+                Style.b_bt_w_0,
                 Style.inputSmallSize,
                 this.props.style.fontSize.h8,
                 this.props.style.theme.primaryTextColor,
@@ -157,31 +177,22 @@ export class DeliveryAddress extends React.Component {
               blurOnSubmit={false}
             />
           </View>
-          <View style={Style.wrapperRow}>
-            <TextInput
-              placeholder='Код домофона'
-              ref={(input) => { this.intercomCodeTextInput = input; }}
-              value={this.state.intercomCode}
-              placeholderTextColor={this.props.style.theme.secondaryTextColor.color}
-              style={[
-                Style.inputText,
-                Style.inputSmallSize,
-                this.props.style.fontSize.h8,
-                this.props.style.theme.primaryTextColor,
-                this.props.style.theme.dividerColor]}
-              onChangeText={this.onChangeIntercomCode}
-            />
-            <View
-              style={[
-                Style.inputSmallSize,
-                Style.icoDeliveryAddress
-              ]}>
-              <IcoDeliveryAddress
-                width={32}
-                height={32}
-                color={getSVGColor(this.props.style.theme.secondaryTextColor.color)} />
-            </View>
-          </View>
+          <TextInput
+            placeholder='Код домофона'
+            ref={(input) => { this.intercomCodeTextInput = input; }}
+            value={this.state.intercomCode}
+            placeholderTextColor={this.props.style.theme.secondaryTextColor.color}
+            style={[
+              Style.inputText,
+              Style.mr_tp_0,
+              Style.b_tp_l_r_0,
+              Style.b_tp_r_r_0,
+              Style.inputBigSize,
+              this.props.style.fontSize.h8,
+              this.props.style.theme.primaryTextColor,
+              this.props.style.theme.dividerColor]}
+            onChangeText={this.onChangeIntercomCode}
+          />
 
         </View>
       </View>

@@ -47,7 +47,7 @@ export class ConstructorCategory extends React.Component {
 
   isAllowAddIngredient = () => {
     let allCount = this.getAllCountIngredients()
-    
+
     const result = this.props.constructorCategory.MaxCountIngredient == 0 ||
       allCount < this.props.constructorCategory.MaxCountIngredient
 
@@ -92,7 +92,7 @@ export class ConstructorCategory extends React.Component {
   }
 
   getCountDescription = () => {
-    if(this.props.constructorCategory.MinCountIngredient == 0)
+    if (this.props.constructorCategory.MinCountIngredient == 0)
       return ''
 
     return `(${this.getAllCountIngredients()} из ${this.props.constructorCategory.MaxCountIngredient})`
@@ -109,24 +109,25 @@ export class ConstructorCategory extends React.Component {
         style={[
           Style.container,
           this.props.style.theme.backdoor,
-          this.props.style.theme.dividerColor
+          this.props.style.theme.dividerColor,
+          this.props.style.theme.shadowColor,
         ]}>
         <TouchableWithoutFeedback onPress={this.toggleConstructorCategory}>
           <View style={[Style.header]}>
             <Text
               style={[
-                {flex: 0.9},
+                { flex: 0.9 },
                 this.props.style.fontSize.h5,
                 this.props.style.theme.primaryTextColor,
               ]}>
-              {this.props.constructorCategory.Name} 
+              {this.props.constructorCategory.Name}
               <Text
-              style={[
-                this.props.style.fontSize.h7,
-                this.props.style.theme.primaryTextColor,
-              ]}>
+                style={[
+                  this.props.style.fontSize.h7,
+                  this.props.style.theme.primaryTextColor,
+                ]}>
                 {" " + this.getCountDescription()}
-                </Text>
+              </Text>
             </Text>
             <Animated.View
               style={[{ transform: [{ rotate: spin }] }]}>

@@ -28,7 +28,13 @@ import {
 
   LOGOUT,
   CLEAR_FLAG_NOTIFY_RESTORE_PASSWORD,
-  DROP_SUCCESS_CLIENT_UPDATE_DATA_FLAG
+  DROP_SUCCESS_CLIENT_UPDATE_DATA_FLAG,
+
+  FETCH_UPDATE_PARENT_REFERRAL_REQUEST,
+  FETCH_UPDATE_PARENT_REFERRAL_SUCCESS,
+  FETCH_UPDATE_PARENT_REFERRAL_FAILURE,
+  SET_DATE_BIRTH
+
 } from './actions'
 
 const defaultState = {
@@ -42,6 +48,7 @@ const defaultState = {
   password: '',
   email: '',
   userName: '',
+  dateBirth: null,
   cityId: -1,
   branchId: -1,
   clientId: -1,
@@ -97,6 +104,11 @@ export const userReducer = (state = defaultState, action) => {
       return {
         ...state,
         password: action.payload
+      }
+    case SET_DATE_BIRTH:
+      return {
+        ...state,
+        dateBirth: action.payload
       }
     case SET_USER_PHONE_NUMBER:
       return {
@@ -186,6 +198,26 @@ export const userReducer = (state = defaultState, action) => {
         isFetching: false,
         errorMessage: action.payload,
         isSuccessClientUpdateData: false
+      }
+    case FETCH_UPDATE_PARENT_REFERRAL_REQUEST:
+      return {
+        ...state,
+        isFetching: true,
+        isFetchError: false,
+        errorMessage: '',
+      }
+    case FETCH_UPDATE_PARENT_REFERRAL_SUCCESS:
+      return {
+        ...state,
+        ...action.payload,
+        isFetching: false,
+      }
+    case FETCH_UPDATE_PARENT_REFERRAL_FAILURE:
+      return {
+        ...state,
+        isFetchError: true,
+        isFetching: false,
+        errorMessage: action.payload,
       }
   }
 

@@ -5,13 +5,22 @@ export const LightBlueTheme = StyleSheet.create({
         backgroundColor: '#0288D1'
     },
     navigationBottom: {
-        backgroundColor: '#f8f8f8'
+        backgroundColor: '#fdfdfd'
     },
     backdoor: {
-        backgroundColor: '#edeef0'
+        backgroundColor: '#ffffff'
+    },
+    backdoorTransparent: {
+        backgroundColor: '#ffffff8a',
+    },
+    shadowColor: {
+        shadowColor: '#000'
     },
     themeBody: {
-        backgroundColor: '#fafafa'
+        backgroundColor: '#ededed'
+    },
+    secondaryThemeBody: {
+        backgroundColor: '#ffffff'
     },
     darkPrimaryColor: {
         backgroundColor: '#0288D1'
@@ -32,7 +41,7 @@ export const LightBlueTheme = StyleSheet.create({
         backgroundColor: '#607D8B'
     },
     primaryTextColor: {
-        color: '#3b3b3b'
+        color: '#1e1e1e',
     },
     secondaryTextColor: {
         color: '#757575'

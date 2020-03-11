@@ -4,7 +4,14 @@ export default StyleSheet.create({
   bodyItem: {
     alignSelf: 'stretch',
     justifyContent: 'center',
-    minHeight: 120
+    minHeight: 124,
+    marginVertical: 5,
+    paddingVertical: 5,
+    borderRadius: 6,
+    elevation: 4,
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.3,
+    shadowRadius: 1,
   },
   directionRow: {
     flexDirection: 'row',
@@ -23,7 +30,7 @@ export default StyleSheet.create({
   productImage: {
     width: 80,
     height: 80,
-    borderRadius: 5,
+    borderRadius: 6,
     marginHorizontal: 18
 
   },
@@ -36,7 +43,6 @@ export default StyleSheet.create({
     flex: 1,
     alignSelf: 'stretch',
     justifyContent: 'center',
-    borderBottomWidth: 1,
     minHeight: 102,
     paddingVertical: 5,
     paddingRight: 5
