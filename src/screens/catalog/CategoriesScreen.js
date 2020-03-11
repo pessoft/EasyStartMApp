@@ -22,6 +22,7 @@ import { notificationActionDone } from '../../store/FCM/actions'
 import FCMManagerComponent from '../../fcm/components/fcm-manager/fcm-manger-component'
 import { NewsType } from '../../helpers/news-type'
 import ViewContainerCategoryChanger from '../../components/view-container-changer/ViewContainerCategoryChanger'
+import { ViewContainerType } from '../../helpers/view-container-type'
 
 class CategoriesScreen extends React.Component {
     static navigationOptions = ({ navigation }) => {
@@ -31,16 +32,16 @@ class CategoriesScreen extends React.Component {
             return {
                 headerTitle: 'Категории',
                 headerTitleStyle: {
-                    textAlign: 'center' ,
+                    textAlign: 'center',
                     flex: 1,
                 },
                 headerRight: () => <VirtualMoneyButton onPress={onPress} />,
-                headerLeft: () => <ViewContainerCategoryChanger/>
+                headerLeft: () => <ViewContainerCategoryChanger />
             }
 
         return {
             headerTitle: 'Категории',
-            headerLeft: () => <ViewContainerCategoryChanger/>
+            headerLeft: () => <ViewContainerCategoryChanger />
         }
     }
 
@@ -204,6 +205,40 @@ class CategoriesScreen extends React.Component {
         return items
     }
 
+    renderListView = () => {
+        return (
+            <FlatList
+            key={ViewContainerType.list.toString()}
+            style={{ marginTop: 12 }}
+            {...this.getFlatListPerformanceProperty()}
+            data={this.categoriesTransform()}
+            renderItem={this.renderItem}
+        />
+        )
+    }
+
+    renderGridView = () => {
+        return (
+            <FlatList
+            key={ViewContainerType.grid.toString()}
+            style={{ marginTop: 12 }}
+            {...this.getFlatListPerformanceProperty()}
+            data={this.categoriesTransform()}
+            renderItem={this.renderItem}
+            numColumns={2}
+        />
+        )
+    }
+
+    renderContent = () => {
+        switch (this.props.selectedCategoryViewType) {
+            case ViewContainerType.list:
+                return this.renderListView()
+            case ViewContainerType.grid:
+                return this.renderGridView()
+        }
+    }
+
     render() {
         return (
             <Animated.View
@@ -225,13 +260,7 @@ class CategoriesScreen extends React.Component {
                         />
                     }
 
-                    <FlatList
-                        style={{ marginTop: 12 }}
-                        {...this.getFlatListPerformanceProperty()}
-                        data={this.categoriesTransform()}
-                        renderItem={this.renderItem}
-                        numColumns={2}
-                    />
+                    {this.renderContent()}
                 </ScrollView>
             </Animated.View>
         )

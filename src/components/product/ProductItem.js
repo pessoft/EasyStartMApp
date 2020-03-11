@@ -91,7 +91,9 @@ export class ProductItem extends React.PureComponent {
                                     this.props.style.theme.primaryTextColor]}>
                                 {this.props.product.caption.trimStart()}
                             </Text>
-                            <View style={Style.rowWrap}>
+                            <View style={[
+                                Style.rowWrap
+                            ]}>
                                 <Text style={[
                                     Style.mt_5,
                                     this.props.style.theme.secondaryTextColor,
@@ -115,6 +117,7 @@ export class ProductItem extends React.PureComponent {
                                         })
                                     }
                                 </View>
+
                             </View>
                         </View>
                         <View style={Style.blockShopAction}>
