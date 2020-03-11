@@ -11,7 +11,14 @@ import {
   Platform,
   Picker
 } from 'react-native'
-import { setCityId, setBranchId, updateUser, dropFetchFlag, dropSuccessClientUpdateDataFlag } from '../../../store/user/actions'
+import { 
+  setCityId,
+  setBranchId,
+  updateUser,
+  dropFetchFlag,
+  dropSuccessClientUpdateDataFlag,
+  setDeliveryAddress 
+} from '../../../store/user/actions'
 import { getMainData } from '../../../store/main/actions'
 import Style from './style'
 import { MAIN } from '../../../navigation/pointsNavigate'
@@ -41,9 +48,21 @@ class CityScreen extends React.Component {
   componentDidMount() {
     this.props.dropSuccessClientUpdateDataFlag()
     this.props.setCityId(-1)
+    this.resetDeliveryAddress()
     timingAnimation(this.state.showScaleAnimation, 1, 300, true)
   }
 
+  resetDeliveryAddress = () => {
+    this.props.setDeliveryAddress({
+      areaDeliveryId: -1,
+      street: '',
+      houseNumber: '',
+      entrance: '',
+      apartmentNumber: '',
+      level: '',
+      intercomCode: ''
+    })
+  }
 
   showErrMessage = () => {
     if (!this.props.isFetchUserError)
@@ -235,6 +254,7 @@ const mapDispatchToProps = {
   updateUser,
   dropFetchFlag,
   dropSuccessClientUpdateDataFlag,
+  setDeliveryAddress
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CityScreen)

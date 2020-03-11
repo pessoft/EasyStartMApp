@@ -46,6 +46,8 @@ export const FETCH_UPDATE_PARENT_REFERRAL_REQUEST = 'FETCH_UPDATE_PARENT_REFERRA
 export const FETCH_UPDATE_PARENT_REFERRAL_SUCCESS = 'FETCH_UPDATE_PARENT_REFERRAL_SUCCESS'
 export const FETCH_UPDATE_PARENT_REFERRAL_FAILURE = 'FETCH_UPDATE_PARENT_REFERRAL_FAILURE'
 
+export const SET_DELIVERY_ADDRESS = 'SET_DELIVERY_ADDRESS'
+
 export const updatePerentReferral = data => async dispatch => {
   dispatch(requestUpdateParentReferral())
   try {
@@ -59,6 +61,13 @@ export const updatePerentReferral = data => async dispatch => {
 export const clearFlagNotifyRestoryPassword = () => {
   return {
     type: CLEAR_FLAG_NOTIFY_RESTORE_PASSWORD,
+  }
+}
+
+export const setDeliveryAddress = address => {
+  return {
+    type: SET_DELIVERY_ADDRESS,
+    payload: address
   }
 }
 

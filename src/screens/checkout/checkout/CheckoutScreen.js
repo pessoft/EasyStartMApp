@@ -28,6 +28,8 @@ import { cleanCoupon } from '../../../store/main/actions'
 import { updateVirtualMoney, updateReferralDiscount } from '../../../store/user/actions'
 import { NumberAppliances } from '../../../components/checkout/number-appliances/NumberAppliances'
 import VirtualMoneyButton from '../../../components/buttons/VirtualMoneyButton/VirtualMoneyButton'
+import { setDeliveryAddress } from '../../../store/user/actions'
+import { showMessage } from "react-native-flash-message"
 
 class CheckoutScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -70,13 +72,13 @@ class CheckoutScreen extends React.Component {
       },
       deliveryAddress: {
         cityId: props.userData.cityId,
-        areaDeliveryId: -1,
-        street: '',
-        houseNumber: '',
-        entrance: '',
-        apartmentNumber: '',
-        level: '',
-        intercomCode: ''
+        areaDeliveryId: props.userData.areaDeliveryId,
+        street: props.userData.street,
+        houseNumber: props.userData.houseNumber,
+        entrance: props.userData.entrance,
+        apartmentNumber: props.userData.apartmentNumber,
+        level: props.userData.level,
+        intercomCode: props.userData.intercomCode,
       },
       numberAppliances: this.isRequestNumberAppliances() ? 1 : 0,
       dateDelivery: null,
@@ -221,6 +223,17 @@ class CheckoutScreen extends React.Component {
   setCommentText = commentText => this.setState({ commentText })
   setAmountPayCashBack = amountPayCashBack => this.setState({ amountPayCashBack })
   changeNumberAppliances = numberAppliances => this.setState({ numberAppliances })
+  saveDeliveryAddress = () => {
+    this.props.setDeliveryAddress(this.state.deliveryAddress)
+    this.showSuccessMessage('Адрес доставки сохранен')
+  }
+
+  showSuccessMessage = msg => {
+    showMessage({
+      message: msg,
+      type: 'success',
+    });
+  }
 
   getOrderPrice = () => {
     let cost = 0
@@ -538,11 +551,12 @@ class CheckoutScreen extends React.Component {
               changeDeliveryDate={this.changeDeliveryDate}
             />
             <DeliveryAddressAnimation
-              cityId={this.state.deliveryAddress.cityId}
+              address={this.state.deliveryAddress}
               style={this.props.style}
               changeDeliveryAddress={this.setDeliveryAddress}
               isShow={this.state.deliveryType == DeliveryType.Delivery}
               areaDeliveries={this.props.deliverySettings.AreaDeliveries}
+              saveDeliveryAddress={this.saveDeliveryAddress}
             />
             {
               this.isRequestNumberAppliances() &&
@@ -611,7 +625,8 @@ const mapDispatchToProps = {
   cleanCoupon,
   updateVirtualMoney,
   updateReferralDiscount,
-  getStocks
+  getStocks,
+  setDeliveryAddress
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CheckoutScreen)

@@ -33,11 +33,12 @@ import {
   FETCH_UPDATE_PARENT_REFERRAL_REQUEST,
   FETCH_UPDATE_PARENT_REFERRAL_SUCCESS,
   FETCH_UPDATE_PARENT_REFERRAL_FAILURE,
-  SET_DATE_BIRTH
+  SET_DATE_BIRTH,
+  SET_DELIVERY_ADDRESS
 
 } from './actions'
 
-const defaultState = {
+export const defaultState = {
   isFetching: false,
   isFetchError: false,
   isSuccessClientUpdateData: false,
@@ -57,11 +58,24 @@ const defaultState = {
   parentReferralCode: '',
   virtualMoney: 0,
   referralDiscount: 0,
+  
+  areaDeliveryId: -1,
+  street: '',
+  houseNumber: '',
+  entrance: '',
+  apartmentNumber: '',
+  level: '',
+  intercomCode: ''
 }
 
 export const userReducer = (state = defaultState, action) => {
 
   switch (action.type) {
+    case SET_DELIVERY_ADDRESS:
+      return {
+        ...state,
+        ...action.payload,
+      }
     case DROP_SUCCESS_CLIENT_UPDATE_DATA_FLAG:
       return {
         ...state,

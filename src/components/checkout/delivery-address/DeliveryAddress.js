@@ -8,26 +8,40 @@ import {
 import Style from './style'
 import { getSVGColor } from '../../../helpers/color-helper'
 import IcoDeliveryAddress from '../../../images/font-awesome-svg/truck-loading.svg'
+import { SimpleTextButton } from '../../../components/buttons/SimpleTextButton/SimpleTextButton'
 
 export class DeliveryAddress extends React.Component {
   constructor(props) {
     super(props)
 
     this.state = {
-      cityId: props.cityId,
-      areaDeliveryId: -1,
-      street: '',
-      houseNumber: '',
-      entrance: '',
-      apartmentNumber: '',
-      level: '',
-      intercomCode: ''
+      cityId: props.address.cityId,
+      areaDeliveryId: props.address.areaDeliveryId,
+      street: props.address.street,
+      houseNumber: props.address.houseNumber,
+      entrance: props.address.entrance,
+      apartmentNumber: props.address.apartmentNumber,
+      level: props.address.level,
+      intercomCode: props.address.intercomCode,
+      isShowSaveButton: false
     }
   }
 
   onChangeDeliveryAddress = () => {
-    if (this.props.changeDeliveryAddress)
-      this.props.changeDeliveryAddress({ ...this.state })
+    if (this.props.changeDeliveryAddress) {
+      this.props.changeDeliveryAddress({
+        cityId: this.state.cityId,
+        areaDeliveryId: this.state.areaDeliveryId,
+        street: this.state.street,
+        houseNumber: this.state.houseNumber,
+        entrance: this.state.entrance,
+        apartmentNumber: this.state.apartmentNumber,
+        level: this.state.level,
+        intercomCode: this.state.intercomCode,
+      })
+
+      this.setState({ isShowSaveButton: true })
+    }
   }
 
   onChangeStreet = street => this.setState({ street }, () => this.onChangeDeliveryAddress())
@@ -37,6 +51,13 @@ export class DeliveryAddress extends React.Component {
   onChangeLevel = level => this.setState({ level }, () => this.onChangeDeliveryAddress())
   onChangeIntercomCode = intercomCode => this.setState({ intercomCode }, () => this.onChangeDeliveryAddress())
   onChangeDeliveryArea = areaDeliveryId => this.setState({ areaDeliveryId }, () => this.onChangeDeliveryAddress())
+  onSaveDeliveryAddress = () => {
+    if (this.props.saveDeliveryAddress) {
+      this.props.saveDeliveryAddress()
+      this.setState({ isShowSaveButton: false })
+    }
+      
+  }
 
   render() {
     return (
@@ -70,7 +91,7 @@ export class DeliveryAddress extends React.Component {
               this.props.style.fontSize.h8]}
             onValueChange={(this.onChangeDeliveryArea)
             }>
-            <Picker.Item label="Выберите район доставки" value="-1" />
+            <Picker.Item label="Выберите район доставки" value={this.state.areaDeliveryId} />
             {this.props.areaDeliveries &&
               this.props.areaDeliveries.map(p => <Picker.Item key={p.UniqId.toString()} label={p.NameArea} value={p.UniqId} />)}
 
@@ -193,8 +214,17 @@ export class DeliveryAddress extends React.Component {
               this.props.style.theme.dividerColor]}
             onChangeText={this.onChangeIntercomCode}
           />
-
         </View>
+        {
+          this.state.isShowSaveButton &&
+          <SimpleTextButton
+            text='Запомнить адрес'
+            onPress={this.onSaveDeliveryAddress}
+            sizeText={this.props.style.fontSize.h9.fontSize}
+            color={this.props.style.theme.primaryTextColor.color}
+            alignItems={'flex-end'}
+          />
+        }
       </View>
     )
   }
