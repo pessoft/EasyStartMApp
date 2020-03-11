@@ -5,7 +5,7 @@ import { DeliveryDateType } from '../../../logic/promotion/delivery-date-type'
 import { DeliveryType } from '../../../logic/promotion/delivery-type'
 import DatePicker from 'react-native-date-picker'
 import { timingAnimation } from '../../../animation/timingAnimation'
-import { showMessage } from "react-native-flash-message"
+import { showMessage } from 'react-native-flash-message'
 import { isValidDay, isValidTime, isWorkTime, toStringDate, getTimePeriodByDayFromDate, nearestWorkingDate } from '../../../helpers/work-time'
 
 export class DeliveryDateSetting extends React.Component {
@@ -36,7 +36,7 @@ export class DeliveryDateSetting extends React.Component {
         showDateTimePicker: false,
         date: null,
       },
-      () => this.onChangeDate()
+        () => this.onChangeDate()
       )
     )
 
@@ -50,7 +50,22 @@ export class DeliveryDateSetting extends React.Component {
     });
   }
 
-  onToggleSwitch = () => this.setState({ isDeliveryToDate: !this.state.isDeliveryToDate })
+  onToggleSwitch = () => {
+    if ((!this.state.isDeliveryToDate && this.isAllowPreorderCheckout()) ||
+      this.state.isDeliveryToDate)
+      this.setState({ isDeliveryToDate: !this.state.isDeliveryToDate })
+    else if (!this.isAllowPreorderCheckout()) {
+      const msg = 'Сегодня заказы ко времени больше не принимаются. Оформите обычный заказ или попробуйте завта.'
+      this.showInfoMessage(msg)
+    }
+  }
+
+  isAllowPreorderCheckout = () => {
+    const minDate = this.getMinDate()
+    const maxDate = this.getMaxDate()
+
+    return minDate < maxDate
+  }
 
   componentDidUpdate(prevProps, prevState) {
     if (!prevState.isDeliveryToDate &&
@@ -110,19 +125,19 @@ export class DeliveryDateSetting extends React.Component {
   getMinDate = () => {
     let date = new Date()
     let minTimeProcessingOrder = this.props.deliverySettings ?
-    this.props.deliverySettings.MinTimeProcessingOrder.split(':').map(p => parseInt(p)) : [1, 0]
+      this.props.deliverySettings.MinTimeProcessingOrder.split(':').map(p => parseInt(p)) : [1, 0]
     const shiftHours = minTimeProcessingOrder[0]
     const shiftMinutes = minTimeProcessingOrder[1]
     const setShift = dateForShift => {
       dateForShift.setHours(dateForShift.getHours() + shiftHours)
       dateForShift.setMinutes(dateForShift.getMinutes() + shiftMinutes)
     }
-    
+
     setShift(date)
 
     let isWorkTimeForDelivery = isWorkTime(this.props.deliverySettings.TimeDelivery, date)
 
-    if(!isWorkTimeForDelivery) {
+    if (!isWorkTimeForDelivery) {
       date = nearestWorkingDate(this.props.deliverySettings.TimeDelivery, new Date())
       setShift(date)
     }

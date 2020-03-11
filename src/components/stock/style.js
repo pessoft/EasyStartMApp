@@ -11,8 +11,8 @@ export default StyleSheet.create({
     shadowRadius: 1,
   },
   image: {
-    borderTopLeftRadius: 5,
-    borderTopRightRadius: 5,
+    borderTopLeftRadius: 6,
+    borderTopRightRadius: 6,
   },
   cardName: {
     paddingVertical: 12,

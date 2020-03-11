@@ -55,7 +55,12 @@ export const isWorkTime = (operationMode, date) => {
   if (currentWorkPeriod && currentWorkPeriod.length == 2) {
     const splitStartPeriod = currentWorkPeriod[0].split(':').map(p => parseInt(p))
     const splitEndPeriod = currentWorkPeriod[1].split(':').map(p => parseInt(p))
-    splitEndPeriod[0] = splitEndPeriod[0] == 0 ? 24 : splitEndPeriod[0]
+
+    if (splitStartPeriod[0] > splitEndPeriod[0] &&
+      splitEndPeriod[0] == 0) {
+      splitEndPeriod[0] = 24
+      splitEndPeriod[1] = 0
+    }
 
     if (splitStartPeriod[0] > splitEndPeriod[0]) {
       if (currentHours < splitEndPeriod[0])
@@ -91,23 +96,21 @@ export const isValidDay = (dateCheck, timeDeliveryFromSettings) => {
 export const nearestWorkingDate = (timeDeliveryFromSettings, currentDate) => {
   let day = currentDate.getDay() == 0 ? 7 : currentDate.getDay()
   let counterDay = 0
-  
 
   let workDate = null
-  while(!workDate)
-  {
+  while (!workDate) {
     ++counterDay
     ++day
 
-    if(day > 7)
-    day = 1
+    if (day > 7)
+      day = 1
 
     const workPeriod = timeDeliveryFromSettings[day]
-    
-    if(workPeriod && workPeriod.length == 2)
-    workDate = workPeriod[0]
-  }  
-  
+
+    if (workPeriod && workPeriod.length == 2)
+      workDate = workPeriod[0]
+  }
+
   let date = new Date()
   const workPeriod = workDate.split(':')
   date.setDate(date.getDate() + counterDay)
@@ -165,9 +168,9 @@ export const getTimePeriodByDayFromDate = (timeDeliveryFromSettings, date) => {
 export const jsonToDate = value => {
   let date;
   if (value.includes("/Date")) {
-      date = new Date(parseInt(value.replace("/Date(", "").replace(")/", ""), 10));
+    date = new Date(parseInt(value.replace("/Date(", "").replace(")/", ""), 10));
   } else {
-      date = new Date(value);
+    date = new Date(value);
   }
 
   return date;

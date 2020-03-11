@@ -11,6 +11,7 @@ import {
 import Style from './style'
 import LottieView from 'lottie-react-native';
 import { SimpleTextButton } from '../../../components/buttons/SimpleTextButton/SimpleTextButton'
+import { showMessage } from 'react-native-flash-message'
 
 const min320 = Dimensions.get('window').width <= 320
 
@@ -23,8 +24,14 @@ export class Coupon extends React.Component {
     }
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
+    if (prevProps.isProcessingActivation &&
+      !this.props.isProcessingActivation &&
+      !this.props.isActivated) {
+      const msg = 'Промокод не верен или недействителен'
 
+      this.showErrorMessage(msg)
+    }
   }
 
   onPromotionCodeChange = promotionCode => this.setState({ promotionCode })
@@ -37,6 +44,14 @@ export class Coupon extends React.Component {
     }
 
     return false
+  }
+
+  showErrorMessage = message => {
+    showMessage({
+      message: message,
+      type: 'danger',
+      duration: 3000
+    });
   }
 
   activateCoupon = () => {
