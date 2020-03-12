@@ -11,7 +11,7 @@ export const DarkTheme = StyleSheet.create({
     backgroundColor: '#3a3a3a'
   },
   backdoorTransparent: {
-    backgroundColor: '#0000008a',
+    backgroundColor: '#000000bc',
   },
   shadowColor: {
     shadowColor: '#3c3c3c'

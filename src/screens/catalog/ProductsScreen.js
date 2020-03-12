@@ -203,6 +203,7 @@ class ProductsScreen extends React.Component {
         return (
             <FlatList
                 contentContainerStyle={{
+
                     paddingVertical: 6,
                 }}
                 key={ViewContainerType.grid.toString()}
@@ -231,7 +232,7 @@ class ProductsScreen extends React.Component {
                 contentContainerStyle={{
                     flex: 1,
                     paddingHorizontal: 12,
-                    alignItems: 'center',
+                    alignContent: 'space-between'
                 }}
                 style={[
                     {
