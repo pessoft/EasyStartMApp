@@ -9,7 +9,7 @@ import {
   Animated,
   Platform
 } from 'react-native'
-import { BasketProductItem } from '../../../components/basket-product/BasketProductItem';
+import { BasketProductItem } from '../../../components/basket-product/BasketProductItem'
 import { setSelectedProduct } from '../../../store/catalog/actions'
 import { PRODUCT_INFO_FROM_BASKET, CHECKOUT_ORDER, AUTH_LOGIN, CASHBACK_PROFILE } from '../../../navigation/pointsNavigate'
 import { timingAnimation } from '../../../animation/timingAnimation'
@@ -22,13 +22,13 @@ import ShoppingBasketIcon from '../../../images/font-awesome-svg/shopping-basket
 import Style from './style'
 import { getSVGColor } from '../../../helpers/color-helper';
 import { markFromBasket } from '../../../store/navigation/actions'
-import { isWorkTime, getWorkTime } from '../../../helpers/work-time';
+import { isWorkTime, getWorkTime } from '../../../helpers/work-time'
 import { WorkTimeInfo } from '../../../components/information/work-time/WorkTimeInfo'
 import LottieView from 'lottie-react-native';
 import VirtualMoneyButton from '../../../components/buttons/VirtualMoneyButton/VirtualMoneyButton'
 import { priceValid } from '../../../helpers/utils'
 import { CategoryType } from '../../../helpers/type-category'
-import { BasketConstructorProductItem } from '../../../components/basket-constructor-product/BasketConstructorProductItem';
+import { BasketConstructorProductItem } from '../../../components/basket-constructor-product/BasketConstructorProductItem'
 import { cleanCoupon } from '../../../store/main/actions'
 
 class ShoppingBasketScreen extends React.Component {
@@ -102,7 +102,7 @@ class ShoppingBasketScreen extends React.Component {
         this.props.cleanCoupon()
         timingAnimation(this.state.showScaleAnimationWorkTimeInfo, 1, 300, true)
       }
-        
+
     }
 
     this.changeTotalCountProductInBasket()
@@ -483,13 +483,12 @@ class ShoppingBasketScreen extends React.Component {
     )
   }
 
+  //isWorkTime(this.props.deliverySettings.TimeDelivery)
   render() {
     if (this.isEmptyBasket())
       return this.renderEmptyBasket()
-    else if (isWorkTime(this.props.deliverySettings.TimeDelivery))
-      return this.renderBasketContents()
     else
-      return this.renderWorkTimeInfo()
+      return this.renderBasketContents()
   }
 }
 

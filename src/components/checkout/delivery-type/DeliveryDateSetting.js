@@ -6,7 +6,15 @@ import { DeliveryType } from '../../../logic/promotion/delivery-type'
 import DatePicker from 'react-native-date-picker'
 import { timingAnimation } from '../../../animation/timingAnimation'
 import { showMessage } from 'react-native-flash-message'
-import { isValidDay, isValidTime, isWorkTime, toStringDate, getTimePeriodByDayFromDate, nearestWorkingDate } from '../../../helpers/work-time'
+import {
+  isValidDay,
+  isValidTime,
+  isWorkTime,
+  toStringDate,
+  getTimePeriodByDayFromDate,
+  nearestWorkingStartDate,
+  nearestWorkingEndDate
+} from '../../../helpers/work-time'
 
 export class DeliveryDateSetting extends React.Component {
   constructor(props) {
@@ -21,6 +29,12 @@ export class DeliveryDateSetting extends React.Component {
     }
 
     this.setTypeDeliveryDateOptions()
+  }
+
+  componentDidMount() {
+    if (!this.props.isWorkTime)
+      this.setState({ date: this.getMinDate() },
+        () => this.onChangeDate())
   }
 
   showDateTimePicker = () => {
@@ -51,20 +65,14 @@ export class DeliveryDateSetting extends React.Component {
   }
 
   onToggleSwitch = () => {
-    if ((!this.state.isDeliveryToDate && this.isAllowPreorderCheckout()) ||
-      this.state.isDeliveryToDate)
-      this.setState({ isDeliveryToDate: !this.state.isDeliveryToDate })
-    else if (!this.isAllowPreorderCheckout()) {
-      const msg = 'Сегодня заказы ко времени больше не принимаются. Оформите обычный заказ или попробуйте завта.'
-      this.showInfoMessage(msg)
-    }
+    this.setState({ isDeliveryToDate: !this.state.isDeliveryToDate })
   }
 
   isAllowPreorderCheckout = () => {
     const minDate = this.getMinDate()
     const maxDate = this.getMaxDate()
 
-    return minDate < maxDate
+    return true
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -138,7 +146,7 @@ export class DeliveryDateSetting extends React.Component {
     let isWorkTimeForDelivery = isWorkTime(this.props.deliverySettings.TimeDelivery, date)
 
     if (!isWorkTimeForDelivery) {
-      date = nearestWorkingDate(this.props.deliverySettings.TimeDelivery, new Date())
+      date = nearestWorkingStartDate(this.props.deliverySettings.TimeDelivery, new Date())
       setShift(date)
     }
 
@@ -153,6 +161,9 @@ export class DeliveryDateSetting extends React.Component {
 
     if (shiftDay != 0)
       date.setDate(date.getDate() + shiftDay)
+    else if (!this.props.isWorkTime) {
+      date = nearestWorkingEndDate(this.props.deliverySettings.TimeDelivery, new Date())
+    }
 
     return date
   }
@@ -184,6 +195,7 @@ export class DeliveryDateSetting extends React.Component {
             backgroundColor={this.props.style.theme.backdoor.backgroundColor}
             onValueChange={this.onToggleSwitch}
             value={this.state.isDeliveryToDate}
+            disabled={!this.props.isWorkTime}
             trackColor={{
               true: Platform.OS == 'ios' ?
                 this.props.style.theme.applyPrimaryColor.color :

@@ -30,6 +30,7 @@ import { NumberAppliances } from '../../../components/checkout/number-appliances
 import VirtualMoneyButton from '../../../components/buttons/VirtualMoneyButton/VirtualMoneyButton'
 import { setDeliveryAddress } from '../../../store/user/actions'
 import { showMessage } from "react-native-flash-message"
+import { isWorkTime, getWorkTime } from '../../../helpers/work-time'
 
 class CheckoutScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -57,8 +58,9 @@ class CheckoutScreen extends React.Component {
       isShowVirtualMoney: this.props.promotionCashbackSetting.IsUseCashback,
       onPress: () => this.goToCashbackScreen()
     })
-
+    const isWorkTimeCurrent = isWorkTime(this.props.deliverySettings.TimeDelivery)
     this.state = {
+      isWorkTime: isWorkTimeCurrent,
       showScaleAnimation: new Animated.Value(0),
       userData: {
         userName: props.userData.userName,
@@ -81,7 +83,7 @@ class CheckoutScreen extends React.Component {
         intercomCode: props.userData.intercomCode,
       },
       numberAppliances: this.isRequestNumberAppliances() ? 1 : 0,
-      dateDelivery: null,
+      dateDelivery: isWorkTimeCurrent ? null : new Date(),
       commentText: '',
       promotion: this.getPromotionLogic(true),
       amountPayCashBack: 0,
@@ -549,6 +551,7 @@ class CheckoutScreen extends React.Component {
               deliverySettings={this.props.deliverySettings}
               changeDeliveryType={this.changeDeliveryType}
               changeDeliveryDate={this.changeDeliveryDate}
+              isWorkTime={this.state.isWorkTime}
             />
             <DeliveryAddressAnimation
               address={this.state.deliveryAddress}

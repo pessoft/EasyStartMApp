@@ -93,12 +93,34 @@ export const isValidDay = (dateCheck, timeDeliveryFromSettings) => {
   return workPeriod && workPeriod.length == 2
 }
 
+export const nearestWorkingStartDate = (timeDeliveryFromSettings, currentDate) => {
+  let periodData = nearestWorkingDate(timeDeliveryFromSettings, currentDate)
+  let workStartDate = periodData.workDatePeriod[0]
+  let date = new Date()
+  const workPeriod = workStartDate.split(':')
+  date.setDate(date.getDate() + periodData.shiftDay)
+  date.setHours(workPeriod[0], workPeriod[1])
+
+  return date
+}
+
+export const nearestWorkingEndDate = (timeDeliveryFromSettings, currentDate) => {
+  let periodData = nearestWorkingDate(timeDeliveryFromSettings, currentDate)
+  let workStartDate = periodData.workDatePeriod[1]
+  let date = new Date()
+  const workPeriod = workStartDate.split(':')
+  date.setDate(date.getDate() + periodData.shiftDay)
+  date.setHours(workPeriod[0], workPeriod[1])
+
+  return date
+}
+
 export const nearestWorkingDate = (timeDeliveryFromSettings, currentDate) => {
   let day = currentDate.getDay() == 0 ? 7 : currentDate.getDay()
   let counterDay = 0
 
-  let workDate = null
-  while (!workDate) {
+  let workDatePeriod = null
+  while (!workDatePeriod) {
     ++counterDay
     ++day
 
@@ -108,15 +130,13 @@ export const nearestWorkingDate = (timeDeliveryFromSettings, currentDate) => {
     const workPeriod = timeDeliveryFromSettings[day]
 
     if (workPeriod && workPeriod.length == 2)
-      workDate = workPeriod[0]
+      workDatePeriod = workPeriod
   }
 
-  let date = new Date()
-  const workPeriod = workDate.split(':')
-  date.setDate(date.getDate() + counterDay)
-  date.setHours(workPeriod[0], workPeriod[1])
-
-  return date
+  return {
+    workDatePeriod,
+    shiftDay: counterDay
+  }
 }
 
 export const toStringDateAndTime = dateToStr => {

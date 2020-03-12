@@ -187,7 +187,7 @@ class ProductsScreen extends React.Component {
         return (
             <FlatList
                 contentContainerStyle={{
-                    marginTop: 6,
+                    paddingVertical: 6,
                 }}
                 key={ViewContainerType.list.toString()}
                 {...this.getFlatListPerformanceProperty()}
@@ -203,7 +203,7 @@ class ProductsScreen extends React.Component {
         return (
             <FlatList
                 contentContainerStyle={{
-                    marginTop: 6,
+                    paddingVertical: 6,
                 }}
                 key={ViewContainerType.grid.toString()}
                 {...this.getFlatListPerformanceProperty()}
