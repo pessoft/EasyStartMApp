@@ -41,8 +41,8 @@ export class ProductItemGrid extends React.PureComponent {
         this.setState({ showBottomPrice: true },
             () => {
                 Animated.parallel([
-                    timingAnimationParallel(this.state.toggleBottomPriceAnimation, 1),
-                    timingAnimationParallel(this.state.width, 1)
+                    timingAnimationParallel(this.state.toggleBottomPriceAnimation, 1, 200),
+                    timingAnimationParallel(this.state.width, 1, 200)
                 ]).start(action)
             }
         )
@@ -51,8 +51,8 @@ export class ProductItemGrid extends React.PureComponent {
 
     hidePriceBottom = (action) => {
         Animated.parallel([
-            timingAnimationParallel(this.state.toggleBottomPriceAnimation, 0),
-            timingAnimationParallel(this.state.width, 0),
+            timingAnimationParallel(this.state.toggleBottomPriceAnimation, 0, 200),
+            timingAnimationParallel(this.state.width, 0, 200),
         ]).start(
             () => this.setState({ showBottomPrice: false }, action)
         )
