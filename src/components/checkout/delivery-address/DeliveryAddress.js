@@ -56,7 +56,7 @@ export class DeliveryAddress extends React.Component {
       this.props.saveDeliveryAddress()
       this.setState({ isShowSaveButton: false })
     }
-      
+
   }
 
   render() {
@@ -97,7 +97,7 @@ export class DeliveryAddress extends React.Component {
 
           </Picker>
           <TextInput
-            placeholder='Улица'
+            placeholder='Улица*'
             value={this.state.street}
             placeholderTextColor={this.props.style.theme.secondaryTextColor.color}
             style={[
@@ -116,7 +116,7 @@ export class DeliveryAddress extends React.Component {
           />
           <View style={Style.wrapperRow}>
             <TextInput
-              placeholder='Дом, корпус'
+              placeholder='Дом, корпус*'
               ref={(input) => { this.houseNumberTextInput = input; }}
               value={this.state.houseNumber}
               placeholderTextColor={this.props.style.theme.secondaryTextColor.color}

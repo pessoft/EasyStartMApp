@@ -439,9 +439,6 @@ class CheckoutScreen extends React.Component {
   isValidDeliveryAddress = () => {
     if (this.state.deliveryAddress.street
       && this.state.deliveryAddress.houseNumber
-      && this.state.deliveryAddress.entrance
-      && this.state.deliveryAddress.apartmentNumber
-      && this.state.deliveryAddress.level
       && this.state.deliveryAddress.areaDeliveryId != -1) {
       return true
     }
