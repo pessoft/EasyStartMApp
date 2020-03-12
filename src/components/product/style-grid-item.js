@@ -72,19 +72,19 @@ export default StyleSheet.create({
     alignContent: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
+    padding: 0,
+    height: 30,
+    maxHeight: 30,
+    maxWidth: width
   },
   blockShopButtons: {
-    flex: 1,
     flexDirection: 'row',
     justifyContent: 'flex-end',
     alignItems: 'center',
     alignContent: 'center',
-    // marginRight: 5
   },
-  buttonCenter: {
-    justifyContent: 'center',
-  },
-  precieInImage: {
+
+  priceInImage: {
     justifyContent: 'center',
     alignItems: 'center',
     position: 'absolute',
@@ -93,5 +93,5 @@ export default StyleSheet.create({
     padding: 5,
     borderTopRightRadius: 6,
     borderBottomLeftRadius: 6,
-  }
+  },
 })

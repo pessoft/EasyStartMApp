@@ -9,17 +9,23 @@ import {
 } from 'react-native'
 import Style from './style-grid-item'
 import { ShoppingButton } from '../buttons/ShoppingButton/ShoppingButton';
-import { timingAnimation } from '../../animation/timingAnimation'
+import { timingAnimation, timingAnimationParallel } from '../../animation/timingAnimation'
+import { springAnimationParallel } from '../../animation/springAnimation'
 import { getProductTypes } from '../../helpers/product';
 import { TypeProduct } from '../../helpers/type-product';
 
 const min320 = Dimensions.get('window').width <= 320
+let width = Dimensions.get('screen').width / 2 - 75
 
 export class ProductItemGrid extends React.PureComponent {
     constructor(props) {
         super(props)
         this.state = {
-            showScaleAnimation: new Animated.Value(0)
+            showScaleAnimation: new Animated.Value(0),
+            toggleBottomPriceAnimation: this.props.product.startCount == 0 ? new Animated.Value(1) : new Animated.Value(0),
+            showBottomPrice: this.props.product.startCount == 0,
+            // width: this.props.product.startCount == 0 ? new Animated.Value(width) : new Animated.Value(0),
+            width: this.props.product.startCount == 0 ? new Animated.Value(1) : new Animated.Value(0),
         }
     }
 
@@ -29,6 +35,28 @@ export class ProductItemGrid extends React.PureComponent {
             timingAnimation(this.state.showScaleAnimation, 1, this.props.animation.duration, true)
         else
             this.setState({ showScaleAnimation: 1 })
+    }
+
+    showPriceBottom = (action) => {
+        this.setState({ showBottomPrice: true },
+            () => {
+                Animated.parallel([
+                    timingAnimationParallel(this.state.toggleBottomPriceAnimation, 1, 50, false),
+                    timingAnimationParallel(this.state.width, 1, 150)
+                ]).start(action)
+            }
+        )
+
+    }
+
+    hidePriceBottom = (action) => {
+        Animated.parallel([
+            timingAnimationParallel(this.state.toggleBottomPriceAnimation, 0, 50),
+            timingAnimationParallel(this.state.width, 0, 150),
+        ]).start(
+            () => this.setState({ showBottomPrice: false }, action)
+        )
+
     }
 
     onPress = () => {
@@ -44,7 +72,13 @@ export class ProductItemGrid extends React.PureComponent {
         }
 
         if (this.props.onToggleProduct) {
-            this.props.onToggleProduct(basketProduct)
+            const action = () => this.props.onToggleProduct(basketProduct)
+            if (countProduct == 0)
+                this.showPriceBottom(action)
+            else if (countProduct == 1)
+                this.hidePriceBottom(action)
+            else
+                action()
         }
     }
 
@@ -79,7 +113,7 @@ export class ProductItemGrid extends React.PureComponent {
                             this.props.product.startCount > 0 &&
                             <View
                                 style={[
-                                    Style.precieInImage,
+                                    Style.priceInImage,
                                     this.props.style.theme.backdoorTransparent
                                 ]}>
                                 <Text style={[
@@ -149,18 +183,30 @@ export class ProductItemGrid extends React.PureComponent {
                         </View>
                         <View style={Style.blockShopAction}>
                             {
-                                this.props.product.startCount == 0 &&
-                                <Text style={[
-                                    Style.textWrap,
-                                    this.props.style.fontSize.h8,
-                                    this.props.style.theme.primaryTextColor]}>
-                                    {`${this.props.product.price} ${this.props.product.currencyPrefix}`}
-                                </Text>
+
+                                this.state.showBottomPrice &&
+                                <Animated.View
+                                    style={[
+                                        {
+                                            opacity: this.state.toggleBottomPriceAnimation,
+                                            flex: this.state.width,
+                                            transform: [{ scale: this.state.toggleBottomPriceAnimation }]
+                                        },
+                                    ]}>
+                                    <Text
+                                        numberOfLines={1}
+                                        ellipsizeMode={"tail"}
+                                        style={[
+                                            Style.textWrap,
+                                            this.props.style.fontSize.h8,
+                                            this.props.style.theme.primaryTextColor]}>
+                                        {`${this.props.product.price} ${this.props.product.currencyPrefix}`}
+                                    </Text>
+                                </Animated.View>
                             }
 
                             <View style={[
                                 Style.blockShopButtons,
-                                this.props.product.startCount > 0 ? Style.buttonCenter : {}
                             ]}>
                                 <ShoppingButton
                                     startCount={this.props.product.startCount}

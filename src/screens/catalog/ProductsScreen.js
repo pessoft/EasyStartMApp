@@ -18,33 +18,25 @@ import { ViewContainerType } from '../../helpers/view-container-type'
 
 class ProductsScreen extends React.Component {
     static navigationOptions = ({ navigation }) => {
-        const isShowVirtualMoney = navigation.getParam('isShowVirtualMoney', false)
         const headerTitle = navigation.getParam('categoryName', 'Блюда')
-        const onPress = navigation.getParam('onPress', null)
-        if (isShowVirtualMoney)
-            return {
-                headerTitle,
-                headerTitleStyle: {
-                    textAlign: Platform.OS == 'ios' ? 'center' : 'left',
-                    flex: 1,
-                },
-                // headerRight: () => <VirtualMoneyButton onPress={onPress} />,
-                headerRight: () => <ViewContainerProductsChanger />
-            }
 
         return {
             headerTitle,
+            headerTitleStyle: {
+                textAlign: 'center',
+                flex: 1,
+            },
             headerRight: () => <ViewContainerProductsChanger />
         }
     }
 
     constructor(props) {
         super(props)
+
         this.props.navigation.setParams({
             categoryName: this.props.selectedCategory.Name,
-            isShowVirtualMoney: this.props.promotionCashbackSetting.IsUseCashback,
-            onPress: () => this.goToCashbackScreen()
         })
+
         this.props.setSelectedProduct({})
 
         this.state = {

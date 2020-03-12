@@ -46,7 +46,7 @@ export class IconButton extends React.Component {
                     if (!this.unmount) {
                         this.setState({ showIndicator: false })
                     }
-                }, 250))
+                }, 270))
     }
 
     render() {
