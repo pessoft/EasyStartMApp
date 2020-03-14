@@ -110,7 +110,7 @@ class AuthLoginScreen extends React.Component {
     return true
   }
 
-  onPhoneChange = phoneNumber => this.setState({ phoneNumber })
+  onPhoneChange = phoneNumber => this.setState({ phoneNumber: phoneNumber.trim() })
   onPasswordChange = password => this.setState({ password })
 
   login = () => {

@@ -68,7 +68,7 @@ class UserDataScreen extends React.Component {
   }
 
   onUserNameChange = userName => this.props.setUserName(userName)
-  onEmailChange = email => this.props.setUserEmail(email)
+  onEmailChange = email => this.props.setUserEmail(email.trim())
 
   onNextPage = () => this.props.navigation.navigate(SET_CITY)
 

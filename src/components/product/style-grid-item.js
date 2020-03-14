@@ -6,7 +6,7 @@ export default StyleSheet.create({
     alignSelf: 'stretch',
     justifyContent: 'flex-start',
     width: width,
-    height: width + 90,
+    height: width + 100,
     margin: 6,
     borderRadius: 6,
     elevation: 4,
@@ -60,7 +60,7 @@ export default StyleSheet.create({
   productHeader: {
     justifyContent: 'space-between',
     width: width,
-    height: 90,
+    height: 100,
     paddingTop: 4,
     paddingBottom: 5,
     paddingHorizontal: 10,

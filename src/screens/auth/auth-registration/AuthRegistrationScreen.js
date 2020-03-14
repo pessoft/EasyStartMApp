@@ -105,7 +105,7 @@ class AuthRegistrationScreen extends React.Component {
     return true
   }
 
-  onPhoneChange = phoneNumber => this.setState({ phoneNumber })
+  onPhoneChange = phoneNumber => this.setState({ phoneNumber: phoneNumber.trim() })
   onPasswordChange = password => this.setState({ password })
   onConfirmPasswordChange = confirmPassword => this.setState({ confirmPassword })
   goToSetUserInfoPage = () => this.props.navigation.navigate(USER_INFO)

@@ -64,7 +64,7 @@ class AuthRestorePasswordScreen extends React.Component {
   }
 
   goToRestorePasswordSuccessPage = () => this.props.navigation.navigate(AUTH_RESTORE_PASSWORD_SUCCESS)
-  onEmailChange = email => this.setState({ email })
+  onEmailChange = email => this.setState({ email: email.trim() })
 
   restoreUserPassword = () => this.props.restoreUserPassword(this.state.email)
 
