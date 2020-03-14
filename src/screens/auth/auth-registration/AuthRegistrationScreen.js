@@ -23,6 +23,7 @@ import { getMainData } from '../../../store/main/actions'
 import { getLocation } from '../../../store/location/actions'
 import { showMessage } from "react-native-flash-message"
 import { ButtonWithoutFeedback } from '../../../components/buttons/ButtonWithoutFeedback/ButtonWithoutFeedback'
+import { Confirm } from '../../../components/raw-bottom-sheets/confirm/Confirm'
 
 const { width } = Dimensions.get('window')
 
@@ -38,7 +39,8 @@ class AuthRegistrationScreen extends React.Component {
       showScaleAnimation: new Animated.Value(0),
       phoneNumber: '',
       password: '',
-      confirmPassword: ''
+      confirmPassword: '',
+      toggleConfirm: false
     }
   }
 
@@ -115,6 +117,13 @@ class AuthRegistrationScreen extends React.Component {
     Password: this.state.password
   })
 
+  confirmPhoneNumber = () => this.setState({ toggleConfirm: true })
+  confirmCancel = () => this.setState({ toggleConfirm: false })
+  confirmSuccess = () => {
+    this.setState({ toggleConfirm: false })
+    this.registration()
+  }
+
   isValidData = () => {
     const regexp = /\+7[(]\d{3}\)\d{3}-\d{2}-\d{2}$/
 
@@ -125,6 +134,12 @@ class AuthRegistrationScreen extends React.Component {
       return true
 
     return false
+  }
+
+  getMessageForConfirm = () => {
+    const message = `Номер телефона ${this.state.phoneNumber} указан верно?`
+
+    return message
   }
 
   renderLoader = () => {
@@ -215,11 +230,19 @@ class AuthRegistrationScreen extends React.Component {
                     style={this.props.style}
                     disabled={!this.isValidData()}
                     borderRadius={5}
-                    onPress={this.registration}
+                    onPress={this.confirmPhoneNumber}
                   />
                 </View>
               </View>
             </View>
+            <Confirm
+              title={'Подтвердите номер телефона'}
+              message={this.getMessageForConfirm()}
+              style={this.props.style}
+              toggle={this.state.toggleConfirm}
+              confirm={this.confirmSuccess}
+              cancel={this.confirmCancel}
+            />
           </Animated.View>
         </KeyboardAvoidingView>
       </TouchableWithoutFeedback>

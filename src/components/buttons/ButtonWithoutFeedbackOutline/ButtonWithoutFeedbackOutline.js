@@ -2,7 +2,7 @@ import React from 'react'
 import { TouchableWithoutFeedback, Text, View } from 'react-native'
 import Style from './style'
 
-export class ButtonWithoutFeedback extends React.Component {
+export class ButtonWithoutFeedbackOutline extends React.Component {
 
     getBorderLeftRadius = () => {
         if (this.props.borderLeftRadius == 0)
@@ -27,7 +27,7 @@ export class ButtonWithoutFeedback extends React.Component {
                 <View style={[
                     Style.button,
                     {
-                        backgroundColor: this.props.disabled ?
+                        borderColor: this.props.disabled ?
                             this.props.style.theme.lightPrimaryColor.backgroundColor :
                             this.props.style.theme.defaultPrimaryColor.backgroundColor,
                         margin: this.props.margin || 0,
@@ -45,9 +45,11 @@ export class ButtonWithoutFeedback extends React.Component {
                         style={[
                             {
                                 fontSize: this.props.fontSize ||
-                                    this.props.style.fontSize.h8.fontSize
+                                    this.props.style.fontSize.h8.fontSize,
+                                color: this.props.disabled ?
+                                this.props.style.theme.lightPrimaryColor.backgroundColor :
+                                this.props.style.theme.defaultPrimaryColor.backgroundColor
                             },
-                            this.props.style.theme.textPrimaryColor,
                             Style.text
                         ]}
                     >
