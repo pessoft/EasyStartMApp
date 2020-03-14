@@ -28,7 +28,6 @@ export class SocialInfo extends React.Component {
       else
         Linking.openURL(this.props.href)
     } catch{ }
-
   }
 
   render() {

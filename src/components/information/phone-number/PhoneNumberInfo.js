@@ -1,10 +1,17 @@
 import React from 'react'
-import { View, Text } from 'react-native'
+import { View, Text, Linking } from 'react-native'
 import { getSVGColor } from '../../../helpers/color-helper'
 import Style from './style'
 import PhoneIcon from '../../../images/font-awesome-svg/phone.svg'
 
 export class PhoneNumberInfo extends React.Component {
+
+  onOpenLink = phoneNumber => {
+    try {
+      const phone = phoneNumber.replace(/[(,),-]/g, '')
+      Linking.openURL(`tel:${phone}`)
+    } catch{ }
+  }
 
   render() {
     return (
@@ -13,7 +20,7 @@ export class PhoneNumberInfo extends React.Component {
         this.props.style.theme.backdoor,
         this.props.style.theme.dividerColor,
         this.props.style.theme.shadowColor,
-        ]}>
+      ]}>
         <View style={Style.image}>
           <PhoneIcon
             width={45}
@@ -26,25 +33,29 @@ export class PhoneNumberInfo extends React.Component {
             <Text
               style={[
                 this.props.style.theme.primaryTextColor,
-                this.props.style.fontSize.h6              ]}>
+                this.props.style.fontSize.h6]}>
               Наш телефон
           </Text>
           </View>
           <View style={Style.content}>
-            <Text style={[
-              this.props.style.theme.secondaryTextColor,
-              this.props.style.fontSize.h9,
-              Style.paddingBottomText
-            ]}>
-              {this.props.phoneNumberMain}
-            </Text>
-            {
-              this.props.phoneNumberSecond &&
-              <Text style={[
+            <Text
+              onPress={() => this.onOpenLink(this.props.phoneNumberMain)}
+              style={[
                 this.props.style.theme.secondaryTextColor,
                 this.props.style.fontSize.h9,
                 Style.paddingBottomText
               ]}>
+              {this.props.phoneNumberMain}
+            </Text>
+            {
+              this.props.phoneNumberSecond &&
+              <Text
+                onPress={() => this.onOpenLink(this.props.phoneNumberSecond)}
+                style={[
+                  this.props.style.theme.secondaryTextColor,
+                  this.props.style.fontSize.h9,
+                  Style.paddingBottomText
+                ]}>
                 {this.props.phoneNumberSecond}
               </Text>
             }
