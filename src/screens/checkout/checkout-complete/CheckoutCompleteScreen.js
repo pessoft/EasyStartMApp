@@ -6,6 +6,7 @@ import Style from './style'
 import { timingAnimation } from '../../../animation/timingAnimation'
 import { sendNewOrder } from '../../../store/checkout/actions'
 import { MAIN } from '../../../navigation/pointsNavigate'
+import { getStocks } from '../../../store/main/actions'
 import {
   toggleProductInBasket,
   changeTotalCountProductInBasket,
@@ -31,9 +32,20 @@ class CheckoutCompleteScreen extends React.Component {
   componentDidUpdate = () => {
     if (!this.props.isFetching && !this.props.isError) {
       timingAnimation(this.state.showScaleAnimationSuccess, 1, 200, true)
+      this.updateStocksAfterOrder()
     } else if (!this.props.isFetching && this.props.isError) {
       timingAnimation(this.state.showScaleAnimationError, 1, 200, true)
+      this.updateStocksAfterOrder()
     }
+  }
+
+  updateStocksAfterOrder() {
+    const params = {
+      clientId: this.props.userData.clientId,
+      branchId: this.props.userData.branchId
+    }
+
+    this.props.getStocks(params)
   }
 
   onFinishCheckout = () => {
@@ -192,6 +204,7 @@ const mapStateToProps = state => {
     isFetching: state.checkout.isFetching,
     isError: state.checkout.isError,
     orderNumber: state.checkout.lastOrderNumber,
+    userData: state.user,
   }
 }
 
@@ -199,7 +212,8 @@ const mapActionToProps = {
   sendNewOrder,
   toggleProductInBasket,
   toggleConstructorProductInBasket,
-  changeTotalCountProductInBasket
+  changeTotalCountProductInBasket,
+  getStocks
 }
 
 export default connect(mapStateToProps, mapActionToProps)(CheckoutCompleteScreen)
