@@ -1,5 +1,5 @@
 import { StyleSheet, Dimensions, Platform } from 'react-native'
-let width = Dimensions.get('screen').width - 36
+let width = Dimensions.get('screen').width - 24
 const size = 94
 
 export default StyleSheet.create({
@@ -10,7 +10,7 @@ export default StyleSheet.create({
     height: size,
     borderRadius: 6,
     marginTop: 0,
-    marginBottom: 12,
+    marginBottom: 10,
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.3,
     shadowRadius: 1,

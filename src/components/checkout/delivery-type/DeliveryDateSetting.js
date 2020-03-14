@@ -161,7 +161,7 @@ export class DeliveryDateSetting extends React.Component {
 
     if (shiftDay != 0)
       date.setDate(date.getDate() + shiftDay)
-    else if (!this.props.isWorkTime) {
+    else if (!this.props.isWorkTime || date < this.getMinDate()) {
       date = nearestWorkingEndDate(this.props.deliverySettings.TimeDelivery, new Date())
     }
 

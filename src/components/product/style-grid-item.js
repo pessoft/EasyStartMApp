@@ -1,12 +1,12 @@
 import { StyleSheet, Dimensions } from 'react-native'
-let width = Dimensions.get('screen').width / 2 - 28
+let width = Dimensions.get('screen').width / 2 - 18
 
 export default StyleSheet.create({
   bodyItem: {
     alignSelf: 'stretch',
     justifyContent: 'flex-start',
     width: width,
-    height: width + 100,
+    height: width + 90,
     margin: 6,
     borderRadius: 6,
     elevation: 4,
@@ -60,7 +60,7 @@ export default StyleSheet.create({
   productHeader: {
     justifyContent: 'space-between',
     width: width,
-    height: 100,
+    height: 90,
     paddingTop: 4,
     paddingBottom: 5,
     paddingHorizontal: 10,

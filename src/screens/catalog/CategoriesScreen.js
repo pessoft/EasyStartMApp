@@ -261,7 +261,7 @@ class CategoriesScreen extends React.Component {
                         transform: [{ scale: this.state.showScaleAnimation }]
                     }]}>
                 <FCMManagerComponent navigation={this.props.navigation} />
-                <ScrollView contentContainerStyle={{ paddingHorizontal: 1 }}>
+                <ScrollView contentContainerStyle={{ paddingHorizontal: 1, alignItems:'center' }}>
                     {
                         this.isShowBanner() &&
                         <MainBannerCarousel

@@ -1,5 +1,5 @@
 import { StyleSheet, Dimensions, Platform } from 'react-native'
-let width = Dimensions.get('screen').width / 2 - 28
+let width = Dimensions.get('screen').width / 2 - 18
 
 export default StyleSheet.create({
   bodyItem: {
@@ -8,7 +8,7 @@ export default StyleSheet.create({
     width: width,
     height: width + 40,
     borderRadius: 6,
-    margin: 6,
+    margin: 5, // тут пофиксил
     marginTop: 0,
     marginBottom: Platform.OS == 'ios' ? 6 : 8
   },

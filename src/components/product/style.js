@@ -1,6 +1,6 @@
 import { StyleSheet, Dimensions } from 'react-native'
 
-let width = Dimensions.get('screen').width - 36
+let width = Dimensions.get('screen').width - 24
 
 export default StyleSheet.create({
   bodyItem: {

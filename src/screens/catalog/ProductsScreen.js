@@ -232,7 +232,7 @@ class ProductsScreen extends React.Component {
             <Animated.ScrollView
                 contentContainerStyle={{
                     flex: 1,
-                    paddingHorizontal: 12,
+                    paddingHorizontal: 1,
                     alignContent: 'space-between'
                 }}
                 style={[

@@ -5,7 +5,7 @@ import Carousel from 'react-native-banner-carousel'
 import Style from './style'
 import { NewsType } from '../../../helpers/news-type'
 
-const BannerWidth = Dimensions.get('window').width - 36;
+const BannerWidth = Dimensions.get('window').width - 24
 
 export class MainBannerCarousel extends React.Component {
   onPress = (newsType, data) => {
