@@ -118,8 +118,19 @@ export const nearestWorkingEndDate = (timeDeliveryFromSettings, currentDate) => 
 export const nearestWorkingDate = (timeDeliveryFromSettings, currentDate) => {
   let day = currentDate.getDay() == 0 ? 7 : currentDate.getDay()
   let counterDay = 0
-
   let workDatePeriod = null
+  let currentDayWorkPeriod = timeDeliveryFromSettings[day]
+
+  if (currentDayWorkPeriod && currentDayWorkPeriod.length == 2) {
+    const timeEndDay = currentDayWorkPeriod[1].split(':')
+    let dateEndDay = new Date(currentDate)
+    dateEndDay.setHours(timeEndDay[0], timeEndDay[1])
+    
+    if(currentDate < dateEndDay) {
+      workDatePeriod = currentDayWorkPeriod
+    }
+  }
+  
   while (!workDatePeriod) {
     ++counterDay
     ++day
