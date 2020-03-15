@@ -74,7 +74,7 @@ class CheckoutScreen extends React.Component {
       },
       deliveryAddress: {
         cityId: props.userData.cityId,
-        areaDeliveryId: props.userData.areaDeliveryId,
+        areaDeliveryId: this.getIdAreaDelivery(props.userData.areaDeliveryId),
         street: props.userData.street,
         houseNumber: props.userData.houseNumber,
         entrance: props.userData.entrance,
@@ -268,6 +268,15 @@ class CheckoutScreen extends React.Component {
       return null
   }
 
+  getIdAreaDelivery = uniqId => {
+    const findResults = this.props.deliverySettings.AreaDeliveries.filter(p => p.UniqId == uniqId)
+
+    if (findResults && findResults.length > 0)
+      return uniqId
+    else
+      return -1
+  }
+
   getCurrentAreaDeliveryPrice = () => {
     let deliveryPrice = 0
 
@@ -284,10 +293,18 @@ class CheckoutScreen extends React.Component {
   }
 
   isFreeDelivery = () => {
-    if (this.state.deliveryAddress.areaDeliveryId == -1)
+    if (!this.state.deliveryAddress.areaDeliveryId ||
+      this.state.deliveryAddress.areaDeliveryId == -1)
       return false
-    else
-      return this.getOrderPrice() >= this.getCurrentAreaDelivery().MinPrice
+    else {
+      const areaDelivery = this.getCurrentAreaDelivery()
+
+      if (areaDelivery)
+        return this.getOrderPrice() >= areaDelivery.MinPrice
+      else
+        return false
+    }
+
   }
 
   getDeliveryPrice = () => {
