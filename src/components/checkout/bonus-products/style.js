@@ -6,7 +6,7 @@ export default StyleSheet.create({
     flex: 1,
     paddingTop: 7,
     paddingBottom: 14,
-    paddingHorizontal: min320 ? 3 : 12,
+    paddingHorizontal: 12,
     marginVertical: 5,
     justifyContent: 'center',
     alignItems: 'stretch',
@@ -24,7 +24,7 @@ export default StyleSheet.create({
   },
   content: {
     flex: 1,
-    paddingHorizontal: 10
+    paddingHorizontal: 6
   },
   inputText: {
     textAlign: 'left',

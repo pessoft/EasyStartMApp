@@ -6,7 +6,7 @@ import {
 } from 'react-native'
 import Style from './style'
 import { endingStrByNumber } from '../../../helpers/utils'
-import { ProductItem } from '../../product/ProductItem';
+import { ProductBonusItem } from '../../product/ProductBonusItem';
 
 export class BonusProducts extends React.Component {
   constructor(props) {
@@ -82,7 +82,7 @@ export class BonusProducts extends React.Component {
   }
 
   renderItem = ({ item }) => {
-    return <ProductItem
+    return <ProductBonusItem
       backgroundColor={this.props.style.theme.themeBody.backgroundColor}
       style={this.props.style}
       animation={item.animation}
