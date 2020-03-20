@@ -81,7 +81,7 @@ export class ProductBonusItem extends React.PureComponent {
                         this.props.style.theme.dividerColor]}>
                         <View style={[Style.captionBlock]}>
                             <Text
-                                numberOfLines={2}
+                                numberOfLines={1}
                                 ellipsizeMode={"tail"}
                                 style={[
                                     Style.textWrap,

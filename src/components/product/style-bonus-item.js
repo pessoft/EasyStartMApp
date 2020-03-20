@@ -7,7 +7,7 @@ export default StyleSheet.create({
     alignSelf: 'stretch',
     justifyContent: 'center',
     width: width,
-    height: 100,
+    height: 85,
     marginVertical: 5,
     borderRadius: 6,
     elevation: 4,
@@ -43,8 +43,8 @@ export default StyleSheet.create({
     marginLeft: 5
   },
   productImage: {
-    width: 100,
-    height: 100,
+    width: 85,
+    height: 85,
     borderTopLeftRadius: 6,
     borderBottomLeftRadius: 6,
     marginRight: 10
@@ -52,13 +52,13 @@ export default StyleSheet.create({
   imageContainer: {
     alignSelf: 'stretch',
     justifyContent: 'center',
-    minHeight: 100
+    minHeight: 85
   },
   productHeader: {
     flex: 1,
     alignSelf: 'stretch',
     justifyContent: 'space-between',
-    height: 100,
+    height: 85,
     paddingTop: 4,
     paddingBottom: 10,
     paddingHorizontal: 5,
