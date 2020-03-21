@@ -7,6 +7,7 @@ import {
 } from 'react-native'
 import Style from './style'
 import { generateRandomString } from '../../helpers/utils'
+import FastImage from 'react-native-fast-image'
 
 export class OrderHistoryConstructorProductItem extends React.Component {
     getIngredients = () => {
@@ -27,7 +28,7 @@ export class OrderHistoryConstructorProductItem extends React.Component {
                 this.props.style.theme.shadowColor,
                 ]}>
                 <View style={Style.imageContainer}>
-                    <Image
+                    <FastImage
                         source={this.props.product.Image}
                         style={Style.productImage}
                     />

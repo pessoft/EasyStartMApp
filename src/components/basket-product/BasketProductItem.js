@@ -11,6 +11,7 @@ import Style from './style'
 import { ShoppingButton } from '../buttons/ShoppingButton/ShoppingButton';
 import { timingAnimation } from '../../animation/timingAnimation'
 import { TrashButton } from '../buttons/Square/TrashButton'
+import FastImage from 'react-native-fast-image'
 
 export class BasketProductItem extends React.Component {
     constructor(props) {
@@ -77,7 +78,7 @@ export class BasketProductItem extends React.Component {
                         Style.directionRow
                     ]}>
                         <View style={Style.imageContainer}>
-                            <Image
+                            <FastImage
                                 source={this.props.product.imageSource}
                                 style={Style.productImage}
                             />

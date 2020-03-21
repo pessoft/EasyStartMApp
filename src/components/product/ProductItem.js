@@ -12,6 +12,7 @@ import { ShoppingButton } from '../buttons/ShoppingButton/ShoppingButton';
 import { timingAnimation } from '../../animation/timingAnimation'
 import { getProductTypes } from '../../helpers/product';
 import { TypeProduct } from '../../helpers/type-product';
+import FastImage from 'react-native-fast-image'
 
 const min320 = Dimensions.get('window').width <= 320
 
@@ -71,7 +72,7 @@ export class ProductItem extends React.PureComponent {
                     Style.directionRow,
                     { transform: [{ scale: this.state.showScaleAnimation }] }]}>
                     <View style={Style.imageContainer}>
-                        <Image
+                        <FastImage
                             source={this.props.product.imageSource}
                             style={Style.productImage}
                         />

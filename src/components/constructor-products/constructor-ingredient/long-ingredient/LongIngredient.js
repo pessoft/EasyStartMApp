@@ -3,6 +3,7 @@ import Style from './style'
 import { TouchableWithoutFeedback, Text, View, Image } from 'react-native'
 import { priceValid } from '../../../../helpers/utils'
 import { IngredientCounter } from '../ingredient-counter/IngredientCounter'
+import FastImage from 'react-native-fast-image'
 
 export class LongIngredient extends React.Component {
   constructor(props) {
@@ -45,7 +46,7 @@ export class LongIngredient extends React.Component {
             onResetToZero={this.ingredientResetToZero}
           />
           <View style={Style.imageContainer}>
-            <Image
+            <FastImage
               style={Style.image}
               source={this.props.ingredient.Image} />
           </View>

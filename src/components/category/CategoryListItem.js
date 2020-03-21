@@ -11,6 +11,7 @@ import {
 } from 'react-native'
 import Style from './style-list-item'
 import { timingAnimation } from '../../animation/timingAnimation'
+import FastImage from 'react-native-fast-image'
 
 const min320 = Dimensions.get('window').width <= 320
 
@@ -55,7 +56,7 @@ export class CategoryListItem extends React.PureComponent {
                             Style.imageContainer,
 
                         ]}>
-                            <Image
+                            <FastImage
                                 source={this.props.imageSource}
                                 style={[Style.catalogImage]}
                             />
