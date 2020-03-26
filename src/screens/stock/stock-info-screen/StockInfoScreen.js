@@ -2,8 +2,8 @@ import React from 'react'
 import { Animated, Dimensions, Text } from 'react-native'
 import { connect } from 'react-redux'
 import { timingAnimation } from '../../../animation/timingAnimation'
-import Image from 'react-native-scalable-image'
 import Style from './style'
+import FastImage from 'react-native-fast-image'
 
 class StocksInfoScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -35,12 +35,14 @@ class StocksInfoScreen extends React.Component {
     return (
       <Animated.ScrollView
         contentContainerStyle={{ paddingHorizontal: 12 }}
-        style={[{ transform: [{ scale: this.state.showScaleAnimation }] }]}>
-        <Image
+        style={[{
+          opacity: this.state.showScaleAnimation,
+          transform: [{ scale: this.state.showScaleAnimation }]
+        }]}>
+        <FastImage
           style={Style.image}
           source={this.props.selectedStock.Image}
-          width={Dimensions.get('window').width - 24}
-          resizeMode='contain' />
+        />
         <Text style={[
           this.props.style.theme.backdoor,
           this.props.style.theme.primaryTextColor,

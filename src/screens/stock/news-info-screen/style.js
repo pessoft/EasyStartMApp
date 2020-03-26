@@ -4,6 +4,9 @@ export default StyleSheet.create({
   image: {
     borderRadius: 6,
     marginTop: 10,
+    aspectRatio: 115 / 37,
+    resizeMode: 'contain',
+    minWidth: '100%',
   },
   stockDescription: {
     marginTop: 10,

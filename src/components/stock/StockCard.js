@@ -3,10 +3,9 @@ import {
   Text,
   View,
   TouchableWithoutFeedback,
-  Dimensions,
 } from 'react-native'
-import Image from 'react-native-scalable-image'
 import Style from './style'
+import FastImage from 'react-native-fast-image'
 
 export class StockCard extends React.Component {
 
@@ -23,12 +22,11 @@ export class StockCard extends React.Component {
           Style.card,
           this.props.style.theme.backdoor,
           this.props.style.theme.shadowColor,
-          ]}>
-          <Image
+        ]}>
+          <FastImage
             style={Style.image}
-            width={Dimensions.get('screen').width - 24}
             source={this.props.imageSource}
-            resizeMode='contain' />
+          />
           <Text style={[
             this.props.style.fontSize.h9,
             this.props.style.theme.primaryTextColor,

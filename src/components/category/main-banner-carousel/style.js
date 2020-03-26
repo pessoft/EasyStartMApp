@@ -17,6 +17,8 @@ export default StyleSheet.create({
     shadowRadius: 1,
   },
   image: {
-    borderRadius: 5,
+    borderRadius: 6,
+    aspectRatio: 115 / 37,
+    resizeMode: 'stretch',
   }
 })

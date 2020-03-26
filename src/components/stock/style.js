@@ -13,6 +13,8 @@ export default StyleSheet.create({
   image: {
     borderTopLeftRadius: 6,
     borderTopRightRadius: 6,
+    aspectRatio: 115 / 37,
+    resizeMode: 'stretch',
   },
   cardName: {
     paddingVertical: 12,

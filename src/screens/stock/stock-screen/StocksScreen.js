@@ -9,12 +9,12 @@ import { connect } from 'react-redux'
 import { timingAnimation } from '../../../animation/timingAnimation'
 import { setSelectedStock } from '../../../store/stock/actions'
 import { setSelectedNews } from '../../../store/news/actions'
-import Image from 'react-native-scalable-image'
 import NewspaperIcon from '../../../images/font-awesome-svg/newspaper.svg'
 import Style from './style'
 import { StockCard } from '../../../components/stock/StockCard'
 import { STOCK_INFO, NEWS_INFO } from '../../../navigation/pointsNavigate'
 import { getSVGColor } from '../../../helpers/color-helper'
+import {NewsType} from '../../../helpers/news-type'
 
 class StocksScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -107,6 +107,7 @@ class StocksScreen extends React.Component {
           name: p.Name,
           description: p.Description,
           image: p.Image,
+          type: NewsType.stock,
           onPress: this.onSelectedStock
         })
       })
@@ -119,6 +120,7 @@ class StocksScreen extends React.Component {
           name: p.Title,
           description: p.Description,
           image: p.Image,
+          type: NewsType.news,
           onPress: this.onSelectedNews
         })
       })
@@ -141,7 +143,7 @@ class StocksScreen extends React.Component {
         }>
         <FlatList
           data={this.getData()}
-          keyExtractor={(item => item.id.toString())}
+          keyExtractor={(item => `${item.id}_${item.type}`)}
           renderItem={({ item }) => {
             return (
               <StockCard

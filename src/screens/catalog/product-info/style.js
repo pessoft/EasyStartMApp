@@ -14,19 +14,17 @@ export default StyleSheet.create({
         shadowOpacity: 0.3,
         shadowRadius: 1,
     },
-    imageContainer: {
+    image: {
+        minWidth: '100%',
+        flex: 1,
         marginTop: 10,
-        borderRadius: 6,
         elevation: 4,
         shadowOffset: { width: 0, height: 1 },
         shadowOpacity: 0.3,
         shadowRadius: 1,
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    image: {
         borderRadius: 6,
+        resizeMode: 'contain',
+        aspectRatio: 1
     },
     productInfoContainer: {
         flexDirection: 'row',
