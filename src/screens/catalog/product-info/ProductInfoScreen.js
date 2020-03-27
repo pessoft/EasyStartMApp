@@ -3,10 +3,9 @@ import { connect } from 'react-redux'
 import {
     View,
     Text,
-    Dimensions,
     Animated,
+    Image
 } from 'react-native'
-import Image from 'react-native-scalable-image'
 import { SimpleTextButton } from '../../../components/buttons/SimpleTextButton/SimpleTextButton'
 import { AirbnbRating } from 'react-native-ratings';
 import { PRODUCT_REVIEW, PRODUCT_REVIEW_FROM_BASKET, PRODUCTS } from '../../../navigation/pointsNavigate'
@@ -16,7 +15,7 @@ import { timingAnimation } from '../../../animation/timingAnimation'
 import { setSelectedProduct } from '../../../store/catalog/actions'
 import { getSVGColor } from '../../../helpers/color-helper'
 import { updateRating } from '../../../store/main/actions'
-import FastImage from 'react-native-fast-image'
+
 
 class ProductInfoScreen extends React.Component {
     static navigationOptions = ({ navigation }) => {
@@ -94,7 +93,7 @@ class ProductInfoScreen extends React.Component {
                 style={[
                     { opacity: this.state.showScaleAnimation },
                     { transform: [{ scale: this.state.showScaleAnimation }] }]}>
-                <FastImage
+                <Image
                     style={Style.image}
                     source={this.state.selectedProduct.Image}
                 />

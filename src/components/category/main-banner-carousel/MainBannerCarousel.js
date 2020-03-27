@@ -1,8 +1,8 @@
 import React from 'react'
-import { TouchableWithoutFeedback, Dimensions, View } from 'react-native'
+import { TouchableWithoutFeedback, Dimensions, View, Image } from 'react-native'
 import Carousel from 'react-native-banner-carousel'
 import Style from './style'
-import FastImage from 'react-native-fast-image'
+
 
 const BannerWidth = Dimensions.get('window').width - 24
 
@@ -18,7 +18,7 @@ export class MainBannerCarousel extends React.Component {
       <TouchableWithoutFeedback
         key={key}
         onPress={() => this.onPress(newsType, data)}>
-        <FastImage
+        <Image
           style={Style.image}
           source={data.Image}
         />

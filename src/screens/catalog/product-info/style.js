@@ -18,12 +18,8 @@ export default StyleSheet.create({
         minWidth: '100%',
         flex: 1,
         marginTop: 10,
-        elevation: 4,
-        shadowOffset: { width: 0, height: 1 },
-        shadowOpacity: 0.3,
-        shadowRadius: 1,
         borderRadius: 6,
-        resizeMode: 'contain',
+        resizeMode: 'stretch',
         aspectRatio: 1
     },
     productInfoContainer: {

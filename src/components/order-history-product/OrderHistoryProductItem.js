@@ -7,7 +7,7 @@ import {
     Dimensions
 } from 'react-native'
 import Style from './style'
-import FastImage from 'react-native-fast-image'
+
 
 const min320 = Dimensions.get('window').width <= 320
 
@@ -24,7 +24,7 @@ export class OrderHistoryProductItem extends React.Component {
                     this.props.style.theme.shadowColor,
                     ]}>
                     <View style={Style.imageContainer}>
-                        <FastImage
+                        <Image
                             source={this.props.product.Image}
                             style={Style.productImage}
                         />

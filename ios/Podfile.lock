@@ -84,15 +84,6 @@ PODS:
     - GoogleUtilities/Logger
   - GoogleUtilities/UserDefaults (6.5.1):
     - GoogleUtilities/Logger
-  - libwebp (1.1.0):
-    - libwebp/demux (= 1.1.0)
-    - libwebp/mux (= 1.1.0)
-    - libwebp/webp (= 1.1.0)
-  - libwebp/demux (1.1.0):
-    - libwebp/webp
-  - libwebp/mux (1.1.0):
-    - libwebp/demux
-  - libwebp/webp (1.1.0)
   - lottie-ios (3.1.3)
   - lottie-react-native (3.2.1):
     - lottie-ios (~> 3.1.3)
@@ -179,10 +170,6 @@ PODS:
     - React
   - RNCPushNotificationIOS (1.0.6):
     - React
-  - RNFastImage (8.1.5):
-    - React
-    - SDWebImage (~> 5.0)
-    - SDWebImageWebPCoder (~> 0.4.1)
   - RNFBAnalytics (6.3.2):
     - Firebase/Core (~> 6.13.0)
     - React
@@ -200,12 +187,6 @@ PODS:
     - React
   - RNSVG (9.9.9):
     - React
-  - SDWebImage (5.6.1):
-    - SDWebImage/Core (= 5.6.1)
-  - SDWebImage/Core (5.6.1)
-  - SDWebImageWebPCoder (0.4.1):
-    - libwebp (~> 1.0)
-    - SDWebImage/Core (~> 5.5)
   - yoga (0.60.5.React)
 
 DEPENDENCIES:
@@ -237,7 +218,6 @@ DEPENDENCIES:
   - React-RCTWebSocket (from `../node_modules/react-native/Libraries/WebSocket`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
   - "RNCPushNotificationIOS (from `../node_modules/@react-native-community/push-notification-ios`)"
-  - RNFastImage (from `../node_modules/react-native-fast-image`)
   - "RNFBAnalytics (from `../node_modules/@react-native-firebase/analytics`)"
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - "RNFBMessaging (from `../node_modules/@react-native-firebase/messaging`)"
@@ -261,11 +241,8 @@ SPEC REPOS:
     - GoogleDataTransport
     - GoogleDataTransportCCTSupport
     - GoogleUtilities
-    - libwebp
     - nanopb
     - Protobuf
-    - SDWebImage
-    - SDWebImageWebPCoder
 
 EXTERNAL SOURCES:
   DoubleConversion:
@@ -320,8 +297,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/async-storage"
   RNCPushNotificationIOS:
     :path: "../node_modules/@react-native-community/push-notification-ios"
-  RNFastImage:
-    :path: "../node_modules/react-native-fast-image"
   RNFBAnalytics:
     :path: "../node_modules/@react-native-firebase/analytics"
   RNFBApp:
@@ -354,7 +329,6 @@ SPEC CHECKSUMS:
   GoogleDataTransport: 47fe3b8e1673e5187dfd615656a3c5034f150d69
   GoogleDataTransportCCTSupport: 36f69887fd212db6d7ef4dd45ba44523717a434e
   GoogleUtilities: 06eb53bb579efe7099152735900dd04bf09e7275
-  libwebp: 946cb3063cea9236285f7e9a8505d806d30e07f3
   lottie-ios: 496ac5cea1bbf1a7bd1f1f472f3232eb1b8d744b
   lottie-react-native: b123a79529cc732201091f585c62c89bb4747252
   nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
@@ -380,15 +354,12 @@ SPEC CHECKSUMS:
   React-RCTWebSocket: cd932a16b7214898b6b7f788c8bddb3637246ac4
   RNCAsyncStorage: 5ae4d57458804e99f73d427214442a6b10a53856
   RNCPushNotificationIOS: aebf40b34047cf24642f68a79efd8d3347795ec8
-  RNFastImage: 35ae972d6727c84ee3f5c6897e07f84d0a3445e9
   RNFBAnalytics: 0d4afe7f6fc4dd601f6b5df98f8226354dbc859f
   RNFBApp: 279ec5c4bb43b8fc7b8031eed90ad7d2bea7a048
   RNFBMessaging: 29971efd7fd939ff2053f30f5c337d6ca78fd215
   RNGestureHandler: 4cb47a93019c1a201df2644413a0a1569a51c8aa
   RNReanimated: 6abbbae2e5e72609d85aabd92a982a94566885f1
   RNSVG: b7e8745a87c046386569eecb437b3040cc6a7954
-  SDWebImage: 7edb9c3ea661e77a66661f7f044de8c1b55d1120
-  SDWebImageWebPCoder: 36f8f47bd9879a8aea6044765c1351120fd8e3a8
   yoga: 312528f5bbbba37b4dcea5ef00e8b4033fdd9411
 
 PODFILE CHECKSUM: 9eed90a9e2ab962e8c8d79b58254dd3150fb0b8d

@@ -5,7 +5,7 @@ export default StyleSheet.create({
     borderRadius: 6,
     marginTop: 10,
     aspectRatio: 115 / 37,
-    resizeMode: 'contain',
+    resizeMode: 'stretch',
     minWidth: '100%',
   },
   stockDescription: {

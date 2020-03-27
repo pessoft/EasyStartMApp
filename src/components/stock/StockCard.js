@@ -3,9 +3,10 @@ import {
   Text,
   View,
   TouchableWithoutFeedback,
+  Image
 } from 'react-native'
 import Style from './style'
-import FastImage from 'react-native-fast-image'
+
 
 export class StockCard extends React.Component {
 
@@ -23,7 +24,7 @@ export class StockCard extends React.Component {
           this.props.style.theme.backdoor,
           this.props.style.theme.shadowColor,
         ]}>
-          <FastImage
+          <Image
             style={Style.image}
             source={this.props.imageSource}
           />

@@ -1,9 +1,9 @@
 import React from 'react'
-import { Animated, Dimensions, Text } from 'react-native'
+import { Animated, Text, Image } from 'react-native'
 import { connect } from 'react-redux'
 import { timingAnimation } from '../../../animation/timingAnimation'
 import Style from './style'
-import FastImage from 'react-native-fast-image'
+
 
 class NewsInfoScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -39,7 +39,7 @@ class NewsInfoScreen extends React.Component {
           opacity: this.state.showScaleAnimation,
           transform: [{ scale: this.state.showScaleAnimation }]
         }]}>
-        <FastImage
+        <Image
           style={Style.image}
           source={this.props.selectedNews.Image}
         />
