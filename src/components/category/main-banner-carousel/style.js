@@ -10,14 +10,14 @@ export default StyleSheet.create({
     marginTop: 12,
     marginBottom: 0,
     marginHorizontal: 0,
-    borderRadius: 6,
+    borderRadius: 5,
     elevation: 4,
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.3,
     shadowRadius: 1,
   },
   image: {
-    borderRadius: 6,
+    borderRadius: 5,
     aspectRatio: 115 / 37,
     resizeMode: 'stretch',
   }
