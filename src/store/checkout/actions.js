@@ -8,10 +8,17 @@ export const FETCH_CHECKOUT_COMPLETE_REQUEST = 'FETCH_CHECKOUT_COMPLETE_REQUEST'
 export const FETCH_CHECKOUT_COMPLETE_FAILURE = 'FETCH_CHECKOUT_COMPLETE_FAILURE'
 export const ADD_NEW_ORDER_DATA = 'ADD_NEW_ORDER_DATA'
 export const RESET_DATA = 'RESET_DATA'
+export const DROP_FETCH_FLAG = 'DROP_FETCH_FLAG'
 
 export const resetCheckoutData = () => {
   return {
     type: RESET_DATA,
+  }
+}
+
+export const dropFetchFlag = () => {
+  return {
+    type: DROP_FETCH_FLAG,
   }
 }
 
@@ -49,8 +56,8 @@ export const sendNewOrder = newOrder => async (dispatch) => {
   try {
     const requestData = await sendNewOrderFetch(newOrder)
     dispatch(successPosts(requestData))
-  } catch {
-    dispatch(failurePosts())
+  } catch(err){
+    dispatch(failurePosts(err.message))
   }
 }
 
@@ -67,9 +74,9 @@ const successPosts = orderNumber => {
   }
 }
 
-const failurePosts = () => {
+const failurePosts = errMessage => {
   return {
     type: FETCH_CHECKOUT_COMPLETE_FAILURE,
-    payload: true
+    payload: errMessage
   }
 }

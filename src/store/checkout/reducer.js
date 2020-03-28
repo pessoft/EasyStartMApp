@@ -6,7 +6,8 @@ import {
   FETCH_CHECKOUT_COMPLETE_REQUEST,
   FETCH_CHECKOUT_COMPLETE_FAILURE,
   ADD_NEW_ORDER_DATA,
-  RESET_DATA
+  RESET_DATA,
+  DROP_FETCH_FLAG
 } from './actions'
 
 const defaultState = {
@@ -15,12 +16,19 @@ const defaultState = {
   totalCountProducts: 0,
   isFetching: false,
   isError: false,
+  errorMessage: '',
   lastOrderNumber: 0,
   lastOrder: {}
 }
 
 export const checkoutReducer = (state = defaultState, action) => {
   switch (action.type) {
+    case DROP_FETCH_FLAG: 
+    return {
+      ...state,
+      isFetching: false,
+      isError: false,
+    }
     case RESET_DATA:
       return { ...defaultState }
     case ADD_NEW_ORDER_DATA:
@@ -47,7 +55,8 @@ export const checkoutReducer = (state = defaultState, action) => {
       return {
         ...state,
         isFetching: true,
-        isError: false
+        isError: false,
+        errorMessage: '',
       }
     case FETCH_CHECKOUT_COMPLETE_SUCCESS:
       return {
@@ -59,7 +68,8 @@ export const checkoutReducer = (state = defaultState, action) => {
       return {
         ...state,
         isFetching: false,
-        isError: true
+        isError: true,
+        errorMessage: action.payload,
       }
   }
 

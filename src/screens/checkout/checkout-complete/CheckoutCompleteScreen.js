@@ -12,6 +12,8 @@ import {
   changeTotalCountProductInBasket,
   toggleConstructorProductInBasket
 } from '../../../store/checkout/actions'
+import { showMessage } from "react-native-flash-message"
+import { dropFetchFlag } from '../../../store/checkout/actions'
 
 class CheckoutCompleteScreen extends React.Component {
   constructor(props) {
@@ -35,8 +37,20 @@ class CheckoutCompleteScreen extends React.Component {
       this.updateStocksAfterOrder()
     } else if (!this.props.isFetching && this.props.isError) {
       timingAnimation(this.state.showScaleAnimationError, 1, 200, true)
+      this.showErrMessage()
       this.updateStocksAfterOrder()
     }
+  }
+
+  showErrMessage = () => {
+    if (!this.props.isError)
+      return
+
+    showMessage({
+      message: this.props.errorMessage,
+      type: "danger",
+      duration: 10000
+    });
   }
 
   updateStocksAfterOrder() {
@@ -188,7 +202,7 @@ class CheckoutCompleteScreen extends React.Component {
       <View style={[
         this.props.style.theme.secondaryThemeBody,
         Style.mainContainer,
-        ]}>
+      ]}>
         {this.props.isFetching && this.renderLoader()}
         {!this.props.isFetching && !this.props.isError && this.renderSuccess()}
         {!this.props.isFetching && this.props.isError && this.renderError()}
@@ -203,6 +217,7 @@ const mapStateToProps = state => {
     order: state.checkout.lastOrder,
     isFetching: state.checkout.isFetching,
     isError: state.checkout.isError,
+    errorMessage: state.checkout.errorMessage,
     orderNumber: state.checkout.lastOrderNumber,
     userData: state.user,
   }
@@ -213,7 +228,8 @@ const mapActionToProps = {
   toggleProductInBasket,
   toggleConstructorProductInBasket,
   changeTotalCountProductInBasket,
-  getStocks
+  getStocks,
+  dropFetchFlag
 }
 
 export default connect(mapStateToProps, mapActionToProps)(CheckoutCompleteScreen)
