@@ -66,7 +66,7 @@ class CheckoutScreen extends React.Component {
         userName: props.userData.userName,
         phoneNumber: props.userData.phoneNumber
       },
-      deliveryType: DeliveryType.Delivery,
+      deliveryType: this.props.deliverySettings.IsDelivery ? DeliveryType.Delivery : DeliveryType.TakeYourSelf,
       paymentData: {
         paymentType: TypePayment.Cash,
         needCashBack: false,

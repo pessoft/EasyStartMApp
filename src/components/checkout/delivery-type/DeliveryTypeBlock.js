@@ -51,6 +51,7 @@ export class DeliveryTypeBlock extends React.Component {
         </View>
         <View style={Style.content}>
           <SwitchSelector
+            disabled={!(this.props.deliverySettings.IsDelivery && this.props.deliverySettings.IsTakeYourSelf)}
             options={this.typeDeliveryOptions}
             initial={this.initDeliveryTypeValue}
             height={34}

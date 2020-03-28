@@ -97,8 +97,8 @@ class CheckoutScreen extends React.Component {
           />
           <DeliveryTypeInfo
             style={this.props.style}
-            takeYourSelf={true}
-            delivery={true}
+            takeYourSelf={this.props.deliverySettings.IsTakeYourSelf}
+            delivery={this.props.deliverySettings.IsDelivery}
           />
           <PaymentTypeInfo
             style={this.props.style}
