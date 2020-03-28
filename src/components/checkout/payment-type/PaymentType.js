@@ -20,15 +20,12 @@ export class PaymentType extends React.Component {
   }
 
   setTypePaymentOptions() {
-    this.typePaymentOptions = []
-
-    if (this.props.hasCash)
-      this.typePaymentOptions.push({ label: "Наличыми", value: TypePayment.Cash })
-    if (this.props.hasCard)
-      this.typePaymentOptions.push({ label: "Картой", value: TypePayment.Card })
+    this.typePaymentOptions = [
+      { label: "Наличыми", value: TypePayment.Cash },
+      { label: "Картой", value: TypePayment.Card }
+    ]
 
     this.initValue = this.typePaymentOptions.findIndex(p => p.value == this.props.initValue)
-
   }
 
   onChangePaymentType = paymentType => {
@@ -55,9 +52,9 @@ export class PaymentType extends React.Component {
     }, () => this.changePaymentData())
   }
 
+  isAllAllowTypes = () => this.props.hasCash && this.props.hasCard
+
   render() {
-
-
     return (
       <View style={[
         Style.container,
@@ -75,12 +72,13 @@ export class PaymentType extends React.Component {
         </View>
         <View style={Style.content}>
           <SwitchSelector
+            disabled={!this.isAllAllowTypes()}
             options={this.typePaymentOptions}
             initial={this.initValue}
             height={34}
             borderRadius={3}
             fontSize={this.props.style.fontSize.h8.fontSize}
-            textColor={this.props.style.theme.primaryTextColor.color}
+            textColor={this.isAllAllowTypes() ? this.props.style.theme.primaryTextColor.color : this.props.style.theme.secondaryTextColor.color}
             selectedColor={this.props.style.theme.textPrimaryColor.color}
             backgroundColor={this.props.style.theme.backdoor.backgroundColor}
             buttonColor={this.props.style.theme.darkPrimaryColor.backgroundColor}

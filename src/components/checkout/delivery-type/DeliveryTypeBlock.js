@@ -33,6 +33,8 @@ export class DeliveryTypeBlock extends React.Component {
       })
   }
 
+  isAllAllowTypes =() => this.props.deliverySettings.IsDelivery && this.props.deliverySettings.IsTakeYourSelf
+
   render() {
     return (
       <View style={[
@@ -51,13 +53,13 @@ export class DeliveryTypeBlock extends React.Component {
         </View>
         <View style={Style.content}>
           <SwitchSelector
-            disabled={!(this.props.deliverySettings.IsDelivery && this.props.deliverySettings.IsTakeYourSelf)}
+            disabled={!this.isAllAllowTypes()}
             options={this.typeDeliveryOptions}
             initial={this.initDeliveryTypeValue}
             height={34}
             borderRadius={3}
             fontSize={this.props.style.fontSize.h8.fontSize}
-            textColor={this.props.style.theme.primaryTextColor.color}
+            textColor={this.isAllAllowTypes() ? this.props.style.theme.primaryTextColor.color : this.props.style.theme.secondaryTextColor.color}
             selectedColor={this.props.style.theme.textPrimaryColor.color}
             backgroundColor={this.props.style.theme.backdoor.backgroundColor}
             buttonColor={this.props.style.theme.darkPrimaryColor.backgroundColor}
