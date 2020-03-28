@@ -10,12 +10,14 @@ import {
   openCategory,
   openPartners,
   openProductInfo,
-  openStock
+  openStock,
+  openNews
 } from '../../logic/notification-open-actions/actions'
 import PushNotificationIOS from '@react-native-community/push-notification-ios'
 
 import { setSelectedCategory, setSelectedProduct } from '../../../store/catalog/actions'
 import { setSelectedStock } from '../../../store/stock/actions'
+import { setSelectedNews } from '../../../store/news/actions'
 
 const PlatformType = {
   'android': 0,
@@ -109,16 +111,22 @@ class FCMManagerComponent extends React.Component {
       case NotificationActionType.OpenStock:
         options.targetItems = this.props.stocks
         options.setSelectedStock = this.props.setSelectedStock
+        options.setSelectedNews = this.props.setSelectedNews
 
         openStock(options)
         break
+      case NotificationActionType.OpenNews:
+        options.targetItems = this.props.news
+        options.setSelectedStock = this.props.setSelectedStock
+        options.setSelectedNews = this.props.setSelectedNews
 
+        openNews(options)
+        break
       case NotificationActionType.OpenPartners:
         if (this.props.isLogin &&
           this.props.promotionPartnersSetting.IsUsePartners)
           openPartners(options)
         break
-
       case NotificationActionType.OpenCashback:
         if (this.props.isLogin &&
           this.props.promotionCashbackSetting.IsUseCashback)
@@ -147,6 +155,7 @@ const mapStateToProps = state => {
     categories: state.main.categories,
     products: state.main.products,
     stocks: state.main.stocks,
+    news: state.main.news,
     appPackageName: state.appSetting.appPackageName,
     isLogin: state.user.isLogin,
     user: state.user,
@@ -162,6 +171,7 @@ const mapDispatchToProps = {
   setSelectedCategory,
   setSelectedProduct,
   setSelectedStock,
+  setSelectedNews,
   setNotificationActionExecution,
   registerDevice
 }

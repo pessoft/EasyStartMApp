@@ -3,6 +3,7 @@ import {
   CONSTRUCTOR_PRODUCTS,
   PRODUCT_INFO,
   STOCK_INFO,
+  NEWS_INFO,
   PARTNERS_PROFILE,
   CASHBACK_PROFILE,
 } from '../../../navigation/pointsNavigate'
@@ -14,7 +15,8 @@ export const NotificationActionType = {
   OpenProductInfo: 2,
   OpenStock: 3,
   OpenPartners: 4,
-  OpenCashback: 5
+  OpenCashback: 5,
+  OpenNews: 6,
 }
 
 export const openCategory = options => {
@@ -66,9 +68,22 @@ export const openStock = options => {
   if (stocks.length == 0)
     return
 
+  options.setSelectedNews({})
   options.setSelectedStock(stocks[0])
 
   options.navigate(STOCK_INFO)
+}
+
+export const openNews = options => {
+  const news = options.targetItems.filter(p => p.Id == options.targetId)
+
+  if (news.length == 0)
+    return
+
+  options.setSelectedStock({})
+  options.setSelectedNews(news[0])
+
+  options.navigate(NEWS_INFO)
 }
 
 export const openPartners = options => {
