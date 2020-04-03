@@ -1,10 +1,11 @@
 import React from 'react'
-import { View, Text } from 'react-native'
+import { View, Text, Dimensions } from 'react-native'
 import Style from './style'
 import { PaymentRadioGroup } from './PaymentRadioGroup'
 import { CheckoutCashback } from '../checkout-cashback/CheckoutCashback'
 import { TypePayment } from '../../../helpers/type-payment'
 import SwitchSelector from "react-native-switch-selector";
+const min320 = Dimensions.get('window').width <= 320
 
 export class PaymentType extends React.Component {
   constructor(props) {
@@ -22,7 +23,8 @@ export class PaymentType extends React.Component {
   setTypePaymentOptions() {
     this.typePaymentOptions = [
       { label: "Наличыми", value: TypePayment.Cash },
-      { label: "Картой", value: TypePayment.Card }
+      { label: "Картой", value: TypePayment.Card },
+      { label: "Онлайн", value: TypePayment.OnlinePay }
     ]
 
     this.initValue = this.typePaymentOptions.findIndex(p => p.value == this.props.initValue)
@@ -77,7 +79,9 @@ export class PaymentType extends React.Component {
             initial={this.initValue}
             height={34}
             borderRadius={3}
-            fontSize={this.props.style.fontSize.h8.fontSize}
+            fontSize={min320 ?
+              this.props.style.fontSize.h10.fontSize :
+              this.props.style.fontSize.h9.fontSize}
             textColor={this.isAllAllowTypes() ? this.props.style.theme.primaryTextColor.color : this.props.style.theme.secondaryTextColor.color}
             selectedColor={this.props.style.theme.textPrimaryColor.color}
             backgroundColor={this.props.style.theme.backdoor.backgroundColor}
@@ -90,7 +94,7 @@ export class PaymentType extends React.Component {
             needCashBackInit={this.state.needCashBack}
             animation={true}
             changeCashBack={this.onChangeCashBack}
-            disabled={this.state.paymentType == TypePayment.Card}
+            disabled={this.state.paymentType != TypePayment.Cash}
           />
         </View>
       </View>

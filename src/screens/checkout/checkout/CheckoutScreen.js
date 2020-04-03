@@ -15,7 +15,7 @@ import { TypePayment } from '../../../helpers/type-payment'
 import { DeliveryAddressAnimation } from '../../../components/checkout/delivery-address/DeliveryAddressAnimation'
 import { OrderComment } from '../../../components/checkout/order-comment/OrderComment'
 import { CompleteCheckout } from '../../../components/checkout/complete-checkout/CompleteCheckout'
-import { CHECKOUT_COMPLETE, SHOPPING_BASKET, CASHBACK_PROFILE } from '../../../navigation/pointsNavigate'
+import { CHECKOUT_COMPLETE, SHOPPING_BASKET, CASHBACK_PROFILE, CHECKOUT_ONLINE_PAY } from '../../../navigation/pointsNavigate'
 import { addNewOrderData } from '../../../store/checkout/actions'
 import { PromotionLogic } from '../../../logic/promotion/promotion-logic'
 import { DiscountType } from '../../../logic/promotion/discount-type'
@@ -421,13 +421,17 @@ class CheckoutScreen extends React.Component {
   }
 
   completeCheckout = () => {
-    const newOrderData = this.getOrderData()
-    this.props.addNewOrderData(newOrderData)
-    this.props.cleanCoupon()
-    this.updateVirtualMoney()
-    this.updateClientReferralDiscount(newOrderData.referralDiscount)
+    if (this.state.paymentData.paymentType == TypePayment.OnlinePay) {
+      this.props.navigation.navigate(CHECKOUT_ONLINE_PAY)
+    } else {
+      const newOrderData = this.getOrderData()
+      this.props.addNewOrderData(newOrderData)
+      this.props.cleanCoupon()
+      this.updateVirtualMoney()
+      this.updateClientReferralDiscount(newOrderData.referralDiscount)
 
-    this.props.navigation.navigate(CHECKOUT_COMPLETE)
+      this.props.navigation.navigate(CHECKOUT_COMPLETE)
+    }
   }
 
   updateVirtualMoney = () => {
