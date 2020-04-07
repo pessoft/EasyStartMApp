@@ -69,7 +69,7 @@ export class DeliveryPriceInfo extends React.Component {
                   Style.paddingBottomText,
                   Style.AreaDeliveryInfo
                 ]}>
-                Бесплатная доставка осуществляется при заказа на минимальную
+                Бесплатная доставка осуществляется при заказе на минимальную
                 сумму, которая зависит от вашего местонахождения
               </Text>
             }
