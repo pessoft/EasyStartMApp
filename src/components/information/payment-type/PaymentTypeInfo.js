@@ -51,6 +51,16 @@ export class PaymentTypeInfo extends React.Component {
                 Оплата наличными курьеру или в кафе при получении заказа.
               </Text>
             }
+             {
+              this.props.payOnline &&
+              <Text style={[
+                this.props.style.theme.secondaryTextColor,
+                this.props.style.fontSize.h9,
+                Style.paddingBottomText
+              ]}>
+                Онлайн оплата при оформлении заказа
+              </Text>
+            }
           </View>
         </View>
       </View>
