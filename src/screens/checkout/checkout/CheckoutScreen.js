@@ -549,6 +549,7 @@ class CheckoutScreen extends React.Component {
               style={this.props.style}
               hasCard={this.props.deliverySettings.PayCard}
               hasCash={this.props.deliverySettings.PayCash}
+              hasOnlinePay={this.props.deliverySettings.PayOnline}
               initValue={this.state.paymentData.paymentType}
               changePaymentData={this.changePaymentData}
             />

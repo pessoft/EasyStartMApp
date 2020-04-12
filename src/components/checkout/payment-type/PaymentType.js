@@ -24,8 +24,11 @@ export class PaymentType extends React.Component {
     this.typePaymentOptions = [
       { label: "Наличыми", value: TypePayment.Cash },
       { label: "Картой", value: TypePayment.Card },
-      { label: "Онлайн", value: TypePayment.OnlinePay }
     ]
+
+    if (this.props.hasOnlinePay) {
+      this.typePaymentOptions.push({ label: "Онлайн", value: TypePayment.OnlinePay })
+    }
 
     this.initValue = this.typePaymentOptions.findIndex(p => p.value == this.props.initValue)
   }
@@ -56,6 +59,18 @@ export class PaymentType extends React.Component {
 
   isAllAllowTypes = () => this.props.hasCash && this.props.hasCard
 
+  getFontSize = () => {
+    if (this.props.hasCard &&
+      this.props.hasCash &&
+      this.hasOnlinePay) {
+        if (min320)
+          return this.props.style.fontSize.h10.fontSize
+        else
+          return this.props.style.fontSize.h9.fontSize
+    } else
+      return this.props.style.fontSize.h8.fontSize
+  }
+
   render() {
     return (
       <View style={[
@@ -79,9 +94,7 @@ export class PaymentType extends React.Component {
             initial={this.initValue}
             height={34}
             borderRadius={3}
-            fontSize={min320 ?
-              this.props.style.fontSize.h10.fontSize :
-              this.props.style.fontSize.h9.fontSize}
+            fontSize={this.getFontSize()}
             textColor={this.isAllAllowTypes() ? this.props.style.theme.primaryTextColor.color : this.props.style.theme.secondaryTextColor.color}
             selectedColor={this.props.style.theme.textPrimaryColor.color}
             backgroundColor={this.props.style.theme.backdoor.backgroundColor}
