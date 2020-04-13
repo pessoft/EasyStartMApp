@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native'
 export default StyleSheet.create({
     screen: {
         flex: 1,
-        justifyContent: 'center'
+        justifyContent: 'center',
     },
     body: {
         flex: 1,
@@ -66,6 +66,34 @@ export default StyleSheet.create({
         margin: 0,
         borderWidth: 1,
         borderBottomRightRadius: 5,
-        paddingVertical: Platform.OS == 'ios' ? 10 : 5 
-    }
+        paddingVertical: Platform.OS == 'ios' ? 10 : 5
+    },
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    loader: {
+        width: 150,
+        height: 150
+    },
+    infoText: {
+        marginTop: 5,
+        textAlign: 'center',
+        width: 300
+    },
+    mainContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+      },
+      buttonOk: {
+        width: 280,
+        alignItems: 'stretch',
+        alignSelf: 'center',
+        justifyContent: 'center',
+        paddingVertical: 15,
+        position: 'absolute',
+        bottom: 10,
+      },
 })

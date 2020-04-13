@@ -1,5 +1,16 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import LottieView from 'lottie-react-native'
+import { sendNewOrder } from '../../../store/checkout/actions'
+import { MAIN } from '../../../navigation/pointsNavigate'
+import { getStocks } from '../../../store/main/actions'
+import { timingAnimation } from '../../../animation/timingAnimation'
+import {
+  toggleProductInBasket,
+  changeTotalCountProductInBasket,
+  toggleConstructorProductInBasket
+} from '../../../store/checkout/actions'
+import { dropFetchFlag } from '../../../store/checkout/actions'
 import {
   Animated,
   ScrollView,
@@ -13,7 +24,8 @@ import {
   SafeAreaView,
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
-  Keyboard
+  Keyboard,
+  ActivityIndicator
 } from 'react-native'
 
 import {
@@ -36,6 +48,8 @@ import {
 import Style from './style'
 import { SimpleTextButton } from '../../../components/buttons/SimpleTextButton/SimpleTextButton'
 import { showMessage } from 'react-native-flash-message'
+import { convertRubToKopeks } from '../../../helpers/utils'
+import { FondyPayResponseType } from '../../../helpers/fondy-pay-response-type'
 
 class CheckoutOnlinePay extends React.Component {
   static navigationOptions = {
@@ -44,16 +58,47 @@ class CheckoutOnlinePay extends React.Component {
 
   constructor(props) {
     super(props)
-
     this.state = {
       showScaleAnimation: new Animated.Value(0),
-      merchant: '1441352',
-      amount: '10000',
+      showScaleAnimationLoader: new Animated.Value(0),
+      showScaleAnimationError: new Animated.Value(0),
+      merchant: this.props.deliverySettings.MerchantId,
+      amount: convertRubToKopeks(this.props.order.amountPayDiscountDelivery),
       ccy: 'RUB',
-      email: 'maxell-07@mail.ru',
-      description: 'test payment :)',
+      email: this.props.userData.email,
+      description: this.props.orderNumber.toString(),
       mode: 'flexible',
+      isError: false,
+      isClickPay: false
     }
+  }
+
+  componentDidMount = () => {
+    this.props.sendNewOrder(this.props.order)
+    timingAnimation(this.state.showScaleAnimationLoader, 1, 200, true)
+  }
+
+  componentDidUpdate(prevProps) {
+    if ((prevProps.isFetching && !this.props.isFetching)
+      || this.state.isError
+    ) {
+      this.resetBasketData()
+    }
+
+    if ((prevProps.isFetching && !this.props.isFetching && this.props.isError)
+      || this.state.isError) {
+      timingAnimation(this.state.showScaleAnimationError, 1, 200, true)
+
+      if (!this.state.isError)
+        this.showErrMessage(this.props.errorMessage)
+      //this.updateStocksAfterOrder()
+    }
+  }
+
+  resetBasketData = () => {
+    this.props.toggleProductInBasket({})
+    this.props.toggleConstructorProductInBasket({})
+    this.props.changeTotalCountProductInBasket(0)
   }
 
   cloudipsp = () => {
@@ -67,7 +112,7 @@ class CheckoutOnlinePay extends React.Component {
     showMessage({
       message: message,
       type: 'danger',
-      duration: 50000
+      duration: 10000
     })
   }
 
@@ -75,7 +120,7 @@ class CheckoutOnlinePay extends React.Component {
     return new Order(
       Number(this.state.amount),
       this.state.ccy,
-      'es3',
+      this.props.orderNumber,
       this.state.description,
       this.state.email
     );
@@ -85,30 +130,39 @@ class CheckoutOnlinePay extends React.Component {
     const order = this.getOrder()
     const card = this.cardForm.getCard()
     if (!card.isValidCardNumber()) {
-      this.showErrMessage('Некорректный номер карты')
+      this.errorCardDataInvalid('Некорректный номер карты')
     } else if (!card.isValidExpireMonth() ||
       !card.isValidExpireYear() ||
       !card.isValidExpireDate()) {
-      this.showErrMessage('Cрок действия карты недействителен')
+      this.errorCardDataInvalid('Cрок действия карты недействителен')
     } else if (!card.isValidCvv()) {
-      this.showErrMessage('CVV не действителен')
+      this.errorCardDataInvalid('CVV не действителен')
     } else {
       const cloudipsp = this.cloudipsp()
       cloudipsp.pay(card, order)
         .then((receipt) => {
           this.setState({ webView: undefined })
-          let s = ""
-          for(const key in receipt) {
-            s += `${key}:${receipt[key]}; `
+          if (FondyPayResponseType.Approve == receipt.status) {
+
+          } else {
+            this.error('Платеж откланён')
           }
-          alert(s)
-          this.showErrMessage(`Transaction Completed; Result: ${receipt.status} PaymentId: ${receipt.paymentId}`)
-          console.log('Receipt: ', receipt)
         })
         .catch((error) => {
-          this.showErrMessage(error.message)
+          this.error(error.message)
         })
     }
+  }
+
+  errorCardDataInvalid = errMessage => {
+    this.setState({isClickPay: false})
+    this.showErrMessage(errMessage)
+  }
+
+  error = message => {
+    const actionShowMessage = message ? () => this.showErrMessage(message) : () => { }
+
+    this.setState({ isError: true }, actionShowMessage)
   }
 
   renderScreen() {
@@ -122,19 +176,25 @@ class CheckoutOnlinePay extends React.Component {
               this.props.style.theme.primaryTextColor,
               Style.amountLabel
             ]}>
-              Сумма к оплате: {this.state.amount} {this.props.currencyPrefix}
+              Сумма к оплате: {this.props.order.amountPayDiscountDelivery} {this.props.currencyPrefix}
             </Text>
             <View style={Style.cardFrom}>
               {this.renderCardForm()}
             </View>
             <View style={Style.payButtonContainer}>
               <View style={Style.payButtonWrap}>
-                <SimpleTextButton
-                  text='Оплатить'
-                  onPress={this.pay}
-                  sizeText={this.props.style.fontSize.h6.fontSize}
-                  color={this.props.style.theme.accentOther.backgroundColor}
-                />
+                {
+                  this.state.isClickPay && <ActivityIndicator size='large' color={this.props.style.theme.defaultPrimaryColor.backgroundColor} />
+                }
+                {
+                  !this.state.isClickPay &&
+                  <SimpleTextButton
+                    text='Оплатить'
+                    onPress={this.onPressPay}
+                    sizeText={this.props.style.fontSize.h6.fontSize}
+                    color={this.props.style.theme.accentOther.backgroundColor}
+                  />
+                }
               </View>
             </View>
           </View>
@@ -142,6 +202,8 @@ class CheckoutOnlinePay extends React.Component {
       </TouchableWithoutFeedback>
     )
   }
+
+  onPressPay = () => this.setState({isClickPay: true}, this.pay)
 
   renderCardForm() {
     return (
@@ -218,22 +280,129 @@ class CheckoutOnlinePay extends React.Component {
       </CardLayout>)
   }
 
+  renderLoader = () => {
+    return (
+      <Animated.View
+        style={[
+          Style.container,
+          {
+            opacity: this.state.showScaleAnimationLoader,
+            transform: [{ scale: this.state.showScaleAnimationLoader }]
+          }]}>
+        <LottieView
+          style={Style.loader}
+          source={require('../../../animation/src/food-loader.json')}
+          autoPlay
+          resizeMode='cover'
+          autoSize={true}
+          speed={1.5} />
+        <Text
+          style={[
+            this.props.style.theme.primaryTextColor,
+            this.props.style.fontSize.h8,
+            Style.infoText,
+          ]}>
+          Пожалуйста подождите...
+        </Text>
+      </Animated.View>
+    )
+  }
+
+  renderOnlinePayScreen = () => {
+    return (
+      <View style={[
+        Style.screen,
+        this.props.style.theme.secondaryThemeBody
+      ]}>
+        {this.state.webView === undefined
+          ? this.renderScreen()
+          : <CloudipspWebView
+            ref={(ref) => {
+              this.cloudipspWebView = ref
+            }}
+            decelerationRate='normal'
+            onError={(error) => {
+              this.error()
+            }}
+            style={{ flex: 1 }}
+          />
+        }
+      </View>
+    )
+  }
+
+  renderError = () => {
+    return (
+      <Animated.View
+        style={[
+          Style.container,
+          {
+            opacity: this.state.showScaleAnimationError,
+            transform: [{ scale: this.state.showScaleAnimationError }]
+          }]}>
+        <LottieView
+          style={Style.error}
+          source={require('../../../animation/src/error.json')}
+          autoPlay
+          loop={false}
+          resizeMode='cover'
+          autoSize={true}
+          speed={1} />
+        <Text
+          style={[
+            this.props.style.theme.primaryTextColor,
+            this.props.style.fontSize.h8,
+            Style.infoText,
+          ]}>
+          Заказ не оформлен
+          </Text>
+        <Text
+          style={[
+            this.props.style.theme.primaryTextColor,
+            this.props.style.fontSize.h8,
+            Style.infoText,
+            { flexWrap: 'wrap' }
+          ]}>
+          При оформлении заказа что-то пошло не так
+          </Text>
+        {this.renderButtonOk()}
+      </Animated.View>
+    )
+  }
+
+  goToMain = () => this.props.navigation.navigate(MAIN)
+
+  renderButtonOk = () => {
+    return (
+      <View style={[Style.buttonOk]}>
+        <Button
+          title='ОK'
+          onPress={this.goToMain}
+          color={Platform.OS == 'ios' ?
+            this.props.style.theme.accentOther.backgroundColor :
+            this.props.style.theme.accentOther.backgroundColor} />
+      </View>
+    )
+  }
+
   render() {
-    return <View style={Style.screen}>
-      {this.state.webView === undefined
-        ? this.renderScreen()
-        : <CloudipspWebView
-          ref={(ref) => {
-            this.cloudipspWebView = ref
-          }}
-          decelerationRate='normal'
-          onError={(error) => {
-            console.log('webViewError:' + JSON.stringify(error))
-          }}
-          style={{ flex: 1 }}
-        />
-      }
-    </View>
+    if (this.props.isFetching ||
+      (!this.props.isFetching && this.props.isError) ||
+      this.state.isError)
+      return (
+        <View style={[
+          this.props.style.theme.secondaryThemeBody,
+          Style.mainContainer,
+        ]}>
+          {this.props.isFetching && this.renderLoader()}
+          {((!this.props.isFetching && this.props.isError) ||
+            this.state.isError) && 
+          this.renderError()}
+        </View>
+      )
+
+    if (!this.props.isFetching && !this.props.isError)
+      return this.renderOnlinePayScreen()
   }
 }
 
@@ -241,11 +410,23 @@ const mapStateToProps = state => {
   return {
     style: state.style,
     currencyPrefix: state.appSetting.currencyPrefix,
+    order: state.checkout.lastOrder,
+    isFetching: state.checkout.isFetching,
+    isError: state.checkout.isError,
+    errorMessage: state.checkout.errorMessage,
+    orderNumber: state.checkout.lastOrderNumber,
+    userData: state.user,
+    deliverySettings: state.main.deliverySettings
   }
 }
 
 const mapDispatchToProps = {
-
+  sendNewOrder,
+  toggleProductInBasket,
+  toggleConstructorProductInBasket,
+  changeTotalCountProductInBasket,
+  getStocks,
+  dropFetchFlag
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CheckoutOnlinePay)

@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Animated, View, Text, Dimensions, Button } from 'react-native'
-import LottieView from 'lottie-react-native';
+import LottieView from 'lottie-react-native'
 import Style from './style'
 import { timingAnimation } from '../../../animation/timingAnimation'
 import { sendNewOrder } from '../../../store/checkout/actions'

@@ -31,6 +31,7 @@ import VirtualMoneyButton from '../../../components/buttons/VirtualMoneyButton/V
 import { setDeliveryAddress } from '../../../store/user/actions'
 import { showMessage } from "react-native-flash-message"
 import { isWorkTime, getWorkTime } from '../../../helpers/work-time'
+import { OrderStatus } from '../../../helpers/order-status'
 
 class CheckoutScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -416,22 +417,22 @@ class CheckoutScreen extends React.Component {
       stockIds: this.state.promotion.getApplyStockIds(),
       couponId: this.state.promotion.getApplyCouponId(),
       referralDiscount: this.state.promotion.getReferralDiscount(),
-      dateDelivery: this.state.dateDelivery
+      dateDelivery: this.state.dateDelivery,
+      OrderStatus: this.state.paymentData.paymentType == TypePayment.OnlinePay ? OrderStatus.PendingPay : OrderStatus.Processing
     }
   }
 
   completeCheckout = () => {
-    if (this.state.paymentData.paymentType == TypePayment.OnlinePay) {
-      this.props.navigation.navigate(CHECKOUT_ONLINE_PAY)
-    } else {
-      const newOrderData = this.getOrderData()
-      this.props.addNewOrderData(newOrderData)
-      this.props.cleanCoupon()
-      this.updateVirtualMoney()
-      this.updateClientReferralDiscount(newOrderData.referralDiscount)
+    const newOrderData = this.getOrderData()
+    this.props.addNewOrderData(newOrderData)
+    this.props.cleanCoupon()
+    this.updateVirtualMoney()
+    this.updateClientReferralDiscount(newOrderData.referralDiscount)
 
+    if (this.state.paymentData.paymentType == TypePayment.OnlinePay)
+      this.props.navigation.navigate(CHECKOUT_ONLINE_PAY)
+    else
       this.props.navigation.navigate(CHECKOUT_COMPLETE)
-    }
   }
 
   updateVirtualMoney = () => {

@@ -2,7 +2,6 @@ import { createStackNavigator } from 'react-navigation-stack'
 import { SHOPPING_BASKET } from './pointsNavigate'
 import ShoppingBasketScreen from '../screens/checkout/basket/ShoppingBasketScreen'
 import CheckoutScreen from '../screens/checkout/checkout/CheckoutScreen'
-import CheckoutOnlinePay from '../screens/checkout/checkout-online-pay/CheckoutOnlinePay'
 import { defaultStyleNavigationStackOptions } from './defaultStyleStackNavOption'
 import { ProductInfoScreen, ProductReviewScreen } from '../screens/catalog'
 
@@ -14,7 +13,6 @@ const checkoutStackNavigator = style => {
             ProductInfoFomBasket: ProductInfoScreen,
             ProductReviewFromBasket: ProductReviewScreen,
             CheckoutScreen: CheckoutScreen,
-            CheckoutOnlinePay: CheckoutOnlinePay
         },
         {
             ...defaultStyleNavigationStackOptions(style),

@@ -65,3 +65,9 @@ export const cloneObject = obj => {
 
   return JSON.parse(json)
 }
+
+export const convertRubToKopeks = rub => {
+  const kopeks = parseInt(parseFloat(priceValid(rub)) * 100)
+
+  return kopeks
+}
