@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import LottieView from 'lottie-react-native'
-import { sendNewOrder } from '../../../store/checkout/actions'
+import { sendNewOrder, checkOnlinePayNewOrder } from '../../../store/checkout/actions'
 import { MAIN } from '../../../navigation/pointsNavigate'
 import { getStocks } from '../../../store/main/actions'
 import { timingAnimation } from '../../../animation/timingAnimation'
@@ -61,6 +61,7 @@ class CheckoutOnlinePay extends React.Component {
     this.state = {
       showScaleAnimation: new Animated.Value(0),
       showScaleAnimationLoader: new Animated.Value(0),
+      showScaleAnimationSuccess: new Animated.Value(0),
       showScaleAnimationError: new Animated.Value(0),
       merchant: this.props.deliverySettings.MerchantId,
       amount: convertRubToKopeks(this.props.order.amountPayDiscountDelivery),
@@ -69,7 +70,8 @@ class CheckoutOnlinePay extends React.Component {
       description: this.props.orderNumber.toString(),
       mode: 'flexible',
       isError: false,
-      isClickPay: false
+      isClickPay: false,
+      success: false
     }
   }
 
@@ -79,8 +81,8 @@ class CheckoutOnlinePay extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if ((prevProps.isFetching && !this.props.isFetching)
-      || this.state.isError
+    if ((prevProps.isFetching && !this.props.isFetching) ||
+      this.state.isError
     ) {
       this.resetBasketData()
     }
@@ -91,8 +93,35 @@ class CheckoutOnlinePay extends React.Component {
 
       if (!this.state.isError)
         this.showErrMessage(this.props.errorMessage)
-      //this.updateStocksAfterOrder()
+
     }
+
+    if (this.props.isFetchingCheckOnlinePay)
+      timingAnimation(this.state.showScaleAnimationLoader, 1, 200, true)
+
+    if (prevProps.isFetchingCheckOnlinePay &&
+      !this.props.isFetchingCheckOnlinePay &&
+      !this.props.isErrorCheckOnlinePay) {
+      this.setState({ success: true },
+        () => timingAnimation(this.state.showScaleAnimationSuccess, 1, 200, true)
+      )
+
+      this.updateStocksAfterOrder()
+    } else if (prevProps.isFetchingCheckOnlinePay &&
+      !this.props.isFetchingCheckOnlinePay &&
+      this.props.isErrorCheckOnlinePay) {
+      timingAnimation(this.state.showScaleAnimationError, 1, 200, true)
+      this.showErrMessage(this.props.errorMessageCheckOnlinePay)
+    }
+  }
+
+  updateStocksAfterOrder() {
+    const params = {
+      clientId: this.props.userData.clientId,
+      branchId: this.props.userData.branchId
+    }
+
+    this.props.getStocks(params)
   }
 
   resetBasketData = () => {
@@ -142,8 +171,9 @@ class CheckoutOnlinePay extends React.Component {
       cloudipsp.pay(card, order)
         .then((receipt) => {
           this.setState({ webView: undefined })
-          if (FondyPayResponseType.Approve == receipt.status) {
 
+          if (FondyPayResponseType.Approved == receipt.status) {
+            this.props.checkOnlinePayNewOrder(this.props.orderNumber)
           } else {
             this.error('Платеж откланён')
           }
@@ -155,7 +185,7 @@ class CheckoutOnlinePay extends React.Component {
   }
 
   errorCardDataInvalid = errMessage => {
-    this.setState({isClickPay: false})
+    this.setState({ isClickPay: false })
     this.showErrMessage(errMessage)
   }
 
@@ -203,7 +233,7 @@ class CheckoutOnlinePay extends React.Component {
     )
   }
 
-  onPressPay = () => this.setState({isClickPay: true}, this.pay)
+  onPressPay = () => this.setState({ isClickPay: true }, this.pay)
 
   renderCardForm() {
     return (
@@ -331,6 +361,45 @@ class CheckoutOnlinePay extends React.Component {
     )
   }
 
+  renderSuccess = () => {
+    return (
+      <Animated.View
+        style={[
+          Style.container,
+          {
+            opacity: this.state.showScaleAnimationSuccess,
+            transform: [{ scale: this.state.showScaleAnimationSuccess }]
+          }]}>
+        <LottieView
+          style={Style.success}
+          source={require('../../../animation/src/success.json')}
+          autoPlay
+          loop={false}
+          resizeMode='cover'
+          autoSize={true}
+          speed={1} />
+
+        <Text
+          style={[
+            this.props.style.theme.primaryTextColor,
+            this.props.style.fontSize.h8,
+            Style.infoText,
+          ]}>
+          Заказ #{this.props.orderNumber}
+        </Text>
+        <Text
+          style={[
+            this.props.style.theme.primaryTextColor,
+            this.props.style.fontSize.h8,
+            Style.infoText
+          ]}>
+          Успешно оформлен
+        </Text>
+        {this.renderButtonOk()}
+      </Animated.View>
+    )
+  }
+
   renderError = () => {
     return (
       <Animated.View
@@ -385,19 +454,34 @@ class CheckoutOnlinePay extends React.Component {
     )
   }
 
+  renderDynamicPage = () => {
+    if (this.props.isFetching || this.props.isFetchingCheckOnlinePay)
+      return this.renderLoader()
+
+    if ((!this.props.isFetching && this.props.isError) ||
+      (!this.props.isFetchingCheckOnlinePay && this.props.isErrorCheckOnlinePay) ||
+      this.state.isError)
+      return this.renderError()
+
+    if (this.state.success)
+      return this.renderSuccess()
+  }
+
   render() {
-    if (this.props.isFetching ||
+    if (this.state.success ||
+      this.props.isFetching ||
       (!this.props.isFetching && this.props.isError) ||
+      this.props.isFetchingCheckOnlinePay ||
+      (!this.props.isFetchingCheckOnlinePay && this.props.isErrorCheckOnlinePay) ||
       this.state.isError)
       return (
         <View style={[
           this.props.style.theme.secondaryThemeBody,
           Style.mainContainer,
         ]}>
-          {this.props.isFetching && this.renderLoader()}
-          {((!this.props.isFetching && this.props.isError) ||
-            this.state.isError) && 
-          this.renderError()}
+          {
+            this.renderDynamicPage()
+          }
         </View>
       )
 
@@ -416,12 +500,16 @@ const mapStateToProps = state => {
     errorMessage: state.checkout.errorMessage,
     orderNumber: state.checkout.lastOrderNumber,
     userData: state.user,
-    deliverySettings: state.main.deliverySettings
+    deliverySettings: state.main.deliverySettings,
+    isFetchingCheckOnlinePay: state.checkout.isFetchingCheckOnlinePay,
+    isErrorCheckOnlinePay: state.checkout.isErrorCheckOnlinePay,
+    errorMessageCheckOnlinePay: state.checkout.errorMessageCheckOnlinePay,
   }
 }
 
 const mapDispatchToProps = {
   sendNewOrder,
+  checkOnlinePayNewOrder,
   toggleProductInBasket,
   toggleConstructorProductInBasket,
   changeTotalCountProductInBasket,

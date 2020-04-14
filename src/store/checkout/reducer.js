@@ -7,7 +7,11 @@ import {
   FETCH_CHECKOUT_COMPLETE_FAILURE,
   ADD_NEW_ORDER_DATA,
   RESET_DATA,
-  DROP_FETCH_FLAG
+  DROP_FETCH_FLAG,
+
+  FETCH_CHECKOUT_ONLINE_PAY_SUCCESS,
+  FETCH_CHECKOUT_ONLINE_PAY_REQUEST,
+  FETCH_CHECKOUT_ONLINE_PAY_FAILURE
 } from './actions'
 
 const defaultState = {
@@ -17,6 +21,9 @@ const defaultState = {
   isFetching: false,
   isError: false,
   errorMessage: '',
+  isFetchingCheckOnlinePay: false,
+  isErrorCheckOnlinePay: false,
+  errorMessageCheckOnlinePay: '',
   lastOrderNumber: 0,
   lastOrder: {}
 }
@@ -71,6 +78,26 @@ export const checkoutReducer = (state = defaultState, action) => {
         isError: true,
         errorMessage: action.payload,
       }
+      case FETCH_CHECKOUT_ONLINE_PAY_REQUEST:
+        return {
+          ...state,
+          isFetchingCheckOnlinePay: true,
+          isErrorCheckOnlinePay: false,
+          errorMessageCheckOnlinePay: '',
+        }
+      case FETCH_CHECKOUT_ONLINE_PAY_SUCCESS:
+        return {
+          ...state,
+          isFetchingCheckOnlinePay: false,
+          lastOrderNumber: action.payload
+        }
+      case FETCH_CHECKOUT_ONLINE_PAY_FAILURE:
+        return {
+          ...state,
+          isFetchingCheckOnlinePay: false,
+          isErrorCheckOnlinePay: true,
+          errorMessageCheckOnlinePay: action.payload,
+        }
   }
 
   return state

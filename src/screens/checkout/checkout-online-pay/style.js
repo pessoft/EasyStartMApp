@@ -86,8 +86,8 @@ export default StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-      },
-      buttonOk: {
+    },
+    buttonOk: {
         width: 280,
         alignItems: 'stretch',
         alignSelf: 'center',
@@ -95,5 +95,9 @@ export default StyleSheet.create({
         paddingVertical: 15,
         position: 'absolute',
         bottom: 10,
-      },
+    },
+    success: {
+        width: 150,
+        height: 150
+    },
 })

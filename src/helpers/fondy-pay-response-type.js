@@ -1,4 +1,4 @@
 export const FondyPayResponseType  = {
-    Approve: 'approve',
+    Approved: 'approved',
     Decline: 'decline'
 }
