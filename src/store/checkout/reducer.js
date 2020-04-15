@@ -35,6 +35,9 @@ export const checkoutReducer = (state = defaultState, action) => {
       ...state,
       isFetching: false,
       isError: false,
+      isFetchingCheckOnlinePay: false,
+      isErrorCheckOnlinePay: false
+
     }
     case RESET_DATA:
       return { ...defaultState }

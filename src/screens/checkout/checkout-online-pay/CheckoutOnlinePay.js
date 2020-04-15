@@ -439,14 +439,17 @@ class CheckoutOnlinePay extends React.Component {
     )
   }
 
-  goToMain = () => this.props.navigation.navigate(MAIN)
+  exitPageOnlinePay = () => {
+    this.props.dropFetchFlag()
+    this.props.navigation.navigate(MAIN)
+  }
 
   renderButtonOk = () => {
     return (
       <View style={[Style.buttonOk]}>
         <Button
           title='ОK'
-          onPress={this.goToMain}
+          onPress={this.exitPageOnlinePay}
           color={Platform.OS == 'ios' ?
             this.props.style.theme.accentOther.backgroundColor :
             this.props.style.theme.accentOther.backgroundColor} />
