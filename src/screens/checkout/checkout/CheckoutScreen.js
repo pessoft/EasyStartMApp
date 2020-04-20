@@ -219,7 +219,7 @@ class CheckoutScreen extends React.Component {
   }
 
   setContactsData = userData => this.setState({ userData })
-  changeDeliveryType = deliveryType => this.setState({ deliveryType, deliveryAddress: { areaDeliveryId: -1 } })
+  changeDeliveryType = deliveryType => this.setState({ deliveryType })
   changeDeliveryDate = dateDelivery => { this.setState({ dateDelivery }) }
   changePaymentData = paymentData => this.setState({ paymentData })
   setDeliveryAddress = deliveryAddress => this.setState({ deliveryAddress })
@@ -293,7 +293,16 @@ class CheckoutScreen extends React.Component {
     return deliveryPrice
   }
 
+  isFreeDeliveryAnyArea = () => {
+    const paidDeliveryAreas = this.props.deliverySettings.AreaDeliveries.filter(p => p.MinPrice > this.getOrderPrice())
+
+    return paidDeliveryAreas.length == 0
+  }
+
   isFreeDelivery = () => {
+    if (this.isFreeDeliveryAnyArea())
+      return true
+
     if (!this.state.deliveryAddress.areaDeliveryId ||
       this.state.deliveryAddress.areaDeliveryId == -1)
       return false
@@ -451,7 +460,7 @@ class CheckoutScreen extends React.Component {
   isValidDeliveryAddress = () => {
     if (this.state.deliveryAddress.street
       && this.state.deliveryAddress.houseNumber
-      && this.state.deliveryAddress.areaDeliveryId != -1) {
+      && (this.state.deliveryAddress.areaDeliveryId != -1 || this.isFreeDeliveryAnyArea())) {
       return true
     }
 
@@ -568,6 +577,7 @@ class CheckoutScreen extends React.Component {
               style={this.props.style}
               changeDeliveryAddress={this.setDeliveryAddress}
               isShow={this.state.deliveryType == DeliveryType.Delivery}
+              isHideArea={this.isFreeDeliveryAnyArea()}
               areaDeliveries={this.props.deliverySettings.AreaDeliveries}
               saveDeliveryAddress={this.saveDeliveryAddress}
             />

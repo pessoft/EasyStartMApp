@@ -13,7 +13,7 @@ import { SimpleTextButton } from '../../../components/buttons/SimpleTextButton/S
 export class DeliveryAddress extends React.Component {
   constructor(props) {
     super(props)
-
+    
     this.state = {
       cityId: props.address.cityId,
       areaDeliveryId: props.address.areaDeliveryId,
@@ -23,8 +23,23 @@ export class DeliveryAddress extends React.Component {
       apartmentNumber: props.address.apartmentNumber,
       level: props.address.level,
       intercomCode: props.address.intercomCode,
-      isShowSaveButton: false
+      isShowSaveButton: false,
+      isHideArea: this.isOneArea()
     }
+  }
+
+  componentDidMount() {
+    if (this.isOneArea()) {
+      const areaDelivery = this.props.areaDeliveries[0]
+
+      if(areaDelivery.UniqId != this.state.areaDeliveryId)
+        this.onChangeDeliveryArea(areaDelivery.UniqId)
+    }
+      
+  }
+
+  isOneArea = () => {
+    return this.props.areaDeliveries.length == 1
   }
 
   onChangeDeliveryAddress = () => {
@@ -77,25 +92,28 @@ export class DeliveryAddress extends React.Component {
           </Text>
         </View>
         <View style={Style.content}>
+          {
+            !(this.props.isHideArea || this.state.isHideArea) &&
+            <Picker
+              selectedValue={this.state.areaDeliveryId}
+              style={[
+                this.props.style.theme.secondaryTextColor,
+                this.props.style.fontSize.h8,
 
-          <Picker
-            selectedValue={this.state.areaDeliveryId}
-            style={[
-              this.props.style.theme.secondaryTextColor,
-              this.props.style.fontSize.h8,
+              ]}
+              itemStyle={[
+                { height: 100 },
+                this.props.style.theme.secondaryTextColor,
+                this.props.style.fontSize.h8]}
+              onValueChange={(this.onChangeDeliveryArea)
+              }>
+              <Picker.Item label="Выберите район доставки" value={-1} />
+              {this.props.areaDeliveries &&
+                this.props.areaDeliveries.map(p => <Picker.Item key={p.UniqId.toString()} label={p.NameArea} value={p.UniqId} />)}
 
-            ]}
-            itemStyle={[
-              { height: 100 },
-              this.props.style.theme.secondaryTextColor,
-              this.props.style.fontSize.h8]}
-            onValueChange={(this.onChangeDeliveryArea)
-            }>
-            <Picker.Item label="Выберите район доставки" value={this.state.areaDeliveryId} />
-            {this.props.areaDeliveries &&
-              this.props.areaDeliveries.map(p => <Picker.Item key={p.UniqId.toString()} label={p.NameArea} value={p.UniqId} />)}
+            </Picker>
+          }
 
-          </Picker>
           <TextInput
             placeholder='Улица*'
             value={this.state.street}
