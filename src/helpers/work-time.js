@@ -131,14 +131,14 @@ export const nearestWorkingDate = (timeDeliveryFromSettings, currentDate) => {
 
   if (currentDayWorkPeriod && currentDayWorkPeriod.length == 2) {
     const timeEndDay = currentDayWorkPeriod[1].split(':')
-    let dateEndDay = new Date(currentDate)
+    let dateEndDay = new Date()
     dateEndDay.setHours(timeEndDay[0], timeEndDay[1])
 
     if (currentDate < dateEndDay) {
       workDatePeriod = currentDayWorkPeriod
     }
   }
-
+  
   while (!workDatePeriod) {
     ++counterDay
     ++day
@@ -184,7 +184,7 @@ export const toStringDate = dateToStr => {
   return dateStr;
 }
 
-export const getTimePeriodByDayFromDate = (timeDeliveryFromSettings, date) => {
+export const getTimePeriodByDayFromDate = (timeDeliveryFromSettings, date, dateShift) => {
   const currentDate = date
   const currentDay = currentDate.getDay() == 0 ? 7 : currentDate.getDay()
 
@@ -193,11 +193,20 @@ export const getTimePeriodByDayFromDate = (timeDeliveryFromSettings, date) => {
     isHoliday: true,
     periodStart: '',
     periodEnd: '',
-  }
+  }  
 
   if (currentWorkPeriod && currentWorkPeriod.length == 2) {
+    let periodStart = currentWorkPeriod[0]
+    if(dateShift && dateShift.length == 2) {
+      const splitPeriod = periodStart.split(':').map(p => parseInt(p))
+      splitPeriod[0] +=dateShift[0]
+      splitPeriod[1] +=dateShift[1]
+
+      periodStart = splitPeriod.join(':')
+    }
+
     result.isHoliday = false
-    result.periodStart = currentWorkPeriod[0]
+    result.periodStart = periodStart
     result.periodEnd = currentWorkPeriod[1]
   }
 
