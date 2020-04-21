@@ -11,13 +11,13 @@ import {
   Platform,
   Picker
 } from 'react-native'
-import { 
+import {
   setCityId,
   setBranchId,
   updateUser,
   dropFetchFlag,
   dropSuccessClientUpdateDataFlag,
-  setDeliveryAddress 
+  setDeliveryAddress
 } from '../../../store/user/actions'
 import { getMainData } from '../../../store/main/actions'
 import Style from './style'
@@ -41,15 +41,22 @@ class CityScreen extends React.Component {
     this.state = {
       onFinishedButton: false,
       showScaleAnimation: new Animated.Value(0),
-      nextPage: false
+      nextPage: false,
+      isFastSetCity: this.citiesToArray().length == 1
     }
   }
 
   componentDidMount() {
     this.props.dropSuccessClientUpdateDataFlag()
-    this.props.setCityId(-1)
     this.resetDeliveryAddress()
-    timingAnimation(this.state.showScaleAnimation, 1, 300, true)
+
+    const cities = this.citiesToArray()
+    if (cities.length == 1) {
+      this.props.setCityId(cities[0].key)
+    } else {
+      this.props.setCityId(-1)
+      timingAnimation(this.state.showScaleAnimation, 1, 300, true)
+    }
   }
 
   resetDeliveryAddress = () => {
@@ -115,6 +122,15 @@ class CityScreen extends React.Component {
   }
 
   componentDidUpdate() {
+    if (this.state.isFastSetCity &&
+      this.props.cityId > 0) {
+      this.setState({ isFastSetCity: false },
+        this.onFinishSetUserData
+      )
+
+      return
+    }
+
     if (this.props.isFetchUserError) {
       this.showErrMessage()
       this.setState({ onFinishedButton: false, nextPage: false })
