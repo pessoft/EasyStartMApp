@@ -107,8 +107,8 @@ export class DeliveryDateSetting extends React.Component {
     let isWorkTimeForDelivery = isWorkTime(this.props.deliverySettings.TimeDelivery, date)
     let isWorkTimeForDeliveryWithShift = isWorkTime(this.props.deliverySettings.TimeDelivery, dateWithShift)
     let isValidDayForDelivery = isWorkTimeForDelivery && isWorkTimeForDeliveryWithShift || isValidDay(dateWithShift, this.props.deliverySettings.TimeDelivery)
-
-    if (isWorkTimeForDelivery)
+    
+    if (isWorkTimeForDelivery && isWorkTimeForDeliveryWithShift)
       this.setState({ date }, this.onChangeDate)
     else if (!isValidDayForDelivery) {
       this.invalidDayMessage(date)
@@ -151,7 +151,7 @@ export class DeliveryDateSetting extends React.Component {
     let date = new Date()
 
     this.setTimeDateShift(date)
-
+    
     let isWorkTimeForDelivery = isWorkTime(this.props.deliverySettings.TimeDelivery, date)
 
     if (isWorkTimeForDelivery) {
@@ -160,13 +160,14 @@ export class DeliveryDateSetting extends React.Component {
 
       isWorkTimeForDelivery = minWorkDate < date
     }
-
+    
 
     if (!isWorkTimeForDelivery) {
       date = nearestWorkingStartDate(this.props.deliverySettings.TimeDelivery, date)
+
       this.setTimeDateShift(date)
     }
-
+    
     return date
   }
 

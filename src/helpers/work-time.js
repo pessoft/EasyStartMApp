@@ -133,9 +133,11 @@ export const nearestWorkingDate = (timeDeliveryFromSettings, currentDate) => {
     const timeEndDay = currentDayWorkPeriod[1].split(':')
     let dateEndDay = new Date()
     dateEndDay.setHours(timeEndDay[0], timeEndDay[1])
-
+    
     if (currentDate < dateEndDay) {
       workDatePeriod = currentDayWorkPeriod
+    } else if(dateEndDay.getDay() !=day) {
+      --day
     }
   }
   
