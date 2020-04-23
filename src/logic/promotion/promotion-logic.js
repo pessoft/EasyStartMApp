@@ -10,11 +10,11 @@ export class PromotionLogic {
     /***
      * stockOption = {stocks, deliveryType, orderSum, basketProducts}
      */
-    constructor(stockOption, coupon, referralDiscount, promotionSettings) {
+    constructor(stockOption, coupon, referralDiscount, promotionSectionSettings) {
         this.stockLogic = new StockLogic(stockOption)
         this.couponLogic = new CouponLogic(coupon)
         this.referralLogic = new ReferralLogic(referralDiscount)
-        this.promotionSettings = promotionSettings
+        this.promotionSectionSettings = promotionSectionSettings
         this.applySectionForDiscount = PromotionSection.Unknown
         this.applySectionForProduct = PromotionSection.Unknown
         this.allowedSection = this.initAllowedSection()
@@ -122,7 +122,7 @@ export class PromotionLogic {
         let applySection = PromotionSection.Unknown
 
         if (sections) {
-            for (const setting of this.promotionSettings) {
+            for (const setting of this.promotionSectionSettings) {
                 if (sections.indexOf(setting.PromotionSection) == -1)
                     continue
 

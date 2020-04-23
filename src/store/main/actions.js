@@ -137,9 +137,11 @@ const processingMainData = mainData => {
     }
 
     if (mainData && mainData.products && Object.keys(mainData.products).length > 0) {
+        mainData.productDictionary = {}
         for (const categoryId in mainData.products) {
             for (const product of mainData.products[categoryId]) {
                 product.Image = getImageSource(product.Image)
+                mainData.productDictionary[product.Id] = product
             }
         }
     }

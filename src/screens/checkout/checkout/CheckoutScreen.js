@@ -137,7 +137,7 @@ class CheckoutScreen extends React.Component {
       this.getStockOption(isDefault),
       this.getCoupon(),
       this.props.userData.referralDiscount,
-      this.props.promotionSettings)
+      this.props.promotionSectionSettings)
   }
 
   getCoupon = () => {
@@ -152,7 +152,9 @@ class CheckoutScreen extends React.Component {
       stocks: this.props.stocks,
       deliveryType: isDefault ? DeliveryType.Delivery : this.state.deliveryType,
       orderSum: this.getOrderPrice(),
-      basketProducts: this.props.basketProducts
+      basketProducts: this.props.basketProducts,
+      stockInteractionType: this.props.promotionSetting.StockInteractionType,
+      productDictionary: this.props.productDictionary
     }
   }
 
@@ -631,9 +633,11 @@ const mapStateToProps = state => {
     basketProducts: state.checkout.basketProducts,
     basketConstructorProducts: state.checkout.basketConstructorProducts,
     products: state.main.products,
+    productDictionary: state.main.productDictionary,
     categories: state.main.categories,
     deliverySettings: state.main.deliverySettings,
-    promotionSettings: state.main.promotionSectionSettings,
+    promotionSetting: state.main.promotionSetting,
+    promotionSectionSettings: state.main.promotionSectionSettings,
     promotionCashbackSetting: state.main.promotionCashbackSetting,
     stocks: state.main.stocks,
     coupon: state.main.coupon,

@@ -1,4 +1,4 @@
 // export const SERVER_DOMAIN = 'https://easy-start-test.site'
 // export const SERVER_DOMAIN = 'https://easystart.conveyor.cloud'
-export const SERVER_DOMAIN = 'https://3e77011c.ngrok.io'
+export const SERVER_DOMAIN = 'https://5bae1480.ngrok.io'
 // export const SERVER_DOMAIN = 'https://95f7da52.ngrok.io'
