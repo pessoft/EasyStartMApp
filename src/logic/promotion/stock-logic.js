@@ -63,7 +63,7 @@ export class StockLogic {
 
         if (productsWithPaxPrice.length)
             return 0
-        else 
+        else
             return this.getDiscountByPartialJoin(discountType)
     }
 
@@ -91,10 +91,11 @@ export class StockLogic {
     }
 
     getDiscountTriggerOrderSum(discountType) {
-        const stocks = this.stocks.filter(p => p.ConditionType == TriggerType.SummOrder
+        let stocks = this.stocks.filter(p => p.ConditionType == TriggerType.SummOrder
             && p.RewardType == RewardType.Discount
             && p.DiscountType == discountType
             && p.ConditionOrderSum <= this.orderSum)
+        stocks = this.filterStockByExcludeProductTriggerOrderSum(stocks)
         const discountItem = this.transformDiscount(stocks)
 
         return discountItem
@@ -202,7 +203,7 @@ export class StockLogic {
         if (stockIdProductsWithPrice.length) {
             const maxProductPrice = getMaxOfArray(stockIdProductsWithPrice.map(p => p.price))
             const productWithMaxPrice = stockIdProductsWithPrice.find(p => p.price == maxProductPrice)
-        
+
             result = { ...result, ...productWithMaxPrice }
         }
 
@@ -255,10 +256,40 @@ export class StockLogic {
         return productItem
     }
 
+    filterStockByExcludeProductTriggerOrderSum = stocks => {
+        if (!stocks || stocks.length == 0)
+            return []
+
+        const newStocks = []
+        
+        for (const stock of stocks) {
+            if (!stock.StockExcludedProducts || stock.StockExcludedProducts.length == 0) {
+                newStocks.push(stock)
+            } else {
+                let orderSumExcludedProducts = 0
+
+                for (const productId of stock.StockExcludedProducts) {
+                    const basketProduct = this.basketProducts[productId]
+
+                    if (basketProduct)
+                        orderSumExcludedProducts += this.products[productId].Price * basketProduct.count
+                }
+                const orderSum = this.orderSum - orderSumExcludedProducts
+
+                if (stock.ConditionOrderSum <= orderSum)
+                    newStocks.push(stock)
+            }
+        }
+
+        return newStocks
+    }
+
     getStocksTriggerOrderSum() {
         let stocks = this.stocks.filter(p => p.ConditionType == TriggerType.SummOrder
             && p.RewardType == RewardType.Products
             && p.ConditionOrderSum <= this.orderSum)
+
+        stocks = this.filterStockByExcludeProductTriggerOrderSum(stocks)
 
         return stocks
     }
