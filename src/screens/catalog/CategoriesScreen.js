@@ -3,27 +3,23 @@ import { connect } from 'react-redux'
 import {
     FlatList,
     Animated,
-    View,
     ScrollView,
     Platform
 } from 'react-native'
-import Image from 'react-native-scalable-image'
 import { CategoryItem } from '../../components/category/CategoryItem'
 import { CategoryListItem } from '../../components/category/CategoryListItem'
 import { setSelectedCategory, setSelectedProduct } from '../../store/catalog/actions'
-import { PRODUCTS, STOCK_INFO, NEWS_INFO, CONSTRUCTOR_PRODUCTS, CASHBACK_PROFILE } from '../../navigation/pointsNavigate'
+import { PRODUCTS, CONSTRUCTOR_PRODUCTS, CASHBACK_PROFILE } from '../../navigation/pointsNavigate'
 import { timingAnimation } from '../../animation/timingAnimation'
-import { Text } from 'react-native'
 import VirtualMoneyButton from '../../components/buttons/VirtualMoneyButton/VirtualMoneyButton'
 import { MainBannerCarousel } from '../../components/category/main-banner-carousel/MainBannerCarousel';
-import { setSelectedStock } from '../../store/stock/actions'
-import { setSelectedNews } from '../../store/news/actions'
 import { CategoryType } from '../../helpers/type-category'
 import { notificationActionDone } from '../../store/FCM/actions'
 import FCMManagerComponent from '../../fcm/components/fcm-manager/fcm-manger-component'
 import { NewsType } from '../../helpers/news-type'
 import ViewContainerCategoryChanger from '../../components/view-container-changer/ViewContainerCategoryChanger'
 import { ViewContainerType } from '../../helpers/view-container-type'
+import { NewsInfo } from '../../components/raw-bottom-sheets/news-info/NewsInfo'
 
 class CategoriesScreen extends React.Component {
     static navigationOptions = ({ navigation }) => {
@@ -59,8 +55,7 @@ class CategoriesScreen extends React.Component {
 
         this.state = {
             showScaleAnimation: new Animated.Value(0),
-            goToStock: false,
-            goToNews: false,
+            news: null
         }
     }
 
@@ -94,14 +89,6 @@ class CategoriesScreen extends React.Component {
                     this.props.navigation.navigate(PRODUCTS)
                     break
             }
-        } else if (this.props.selectedStock.Id > 0
-            && this.state.goToStock) {
-            this.setState({ goToStock: false },
-                () => this.props.navigation.navigate(STOCK_INFO))
-        } else if (this.props.selectedNews.Id > 0
-            && this.state.goToNews) {
-            this.setState({ goToNews: false },
-                () => this.props.navigation.navigate(NEWS_INFO))
         }
     }
 
@@ -132,32 +119,8 @@ class CategoriesScreen extends React.Component {
         return categories
     }
 
-    onSelectedStock = stock => {
-        this.props.setSelectedCategory({})
-        this.props.setSelectedNews({})
-        this.props.setSelectedStock({})
-        this.props.setSelectedStock(stock)
-        this.setState({ goToStock: true })
-    }
-
-    onSelectedNews = news => {
-        this.props.setSelectedCategory({})
-        this.props.setSelectedStock({})
-        this.props.setSelectedNews({})
-        this.props.setSelectedNews(news)
-        this.setState({ goToNews: true })
-    }
-
-    onPressBunner = (type, data) => {
-        const newsType = parseInt(type)
-        switch (newsType) {
-            case NewsType.stock:
-                this.onSelectedStock(data)
-                break
-            case NewsType.news:
-                this.onSelectedNews(data)
-                break
-        }
+    onPressBanner = (type, data) => {
+        this.setState({ news: data })
     }
 
     renderListItem = ({ item }) => {
@@ -219,25 +182,25 @@ class CategoriesScreen extends React.Component {
     renderListView = () => {
         return (
             <FlatList
-            key={ViewContainerType.list.toString()}
-            style={{ marginTop: 12 }}
-            {...this.getFlatListPerformanceProperty()}
-            data={this.categoriesTransform()}
-            renderItem={this.renderListItem}
-        />
+                key={ViewContainerType.list.toString()}
+                style={{ marginTop: 12 }}
+                {...this.getFlatListPerformanceProperty()}
+                data={this.categoriesTransform()}
+                renderItem={this.renderListItem}
+            />
         )
     }
 
     renderGridView = () => {
         return (
             <FlatList
-            key={ViewContainerType.grid.toString()}
-            style={{ marginTop: 12 }}
-            {...this.getFlatListPerformanceProperty()}
-            data={this.categoriesTransform()}
-            renderItem={this.renderGridItem}
-            numColumns={2}
-        />
+                key={ViewContainerType.grid.toString()}
+                style={{ marginTop: 12 }}
+                {...this.getFlatListPerformanceProperty()}
+                data={this.categoriesTransform()}
+                renderItem={this.renderGridItem}
+                numColumns={2}
+            />
         )
     }
 
@@ -250,6 +213,8 @@ class CategoriesScreen extends React.Component {
         }
     }
 
+    onCloseSheetNewsInfo = () => this.setState({news: null})
+
     render() {
         return (
             <Animated.View
@@ -261,18 +226,25 @@ class CategoriesScreen extends React.Component {
                         transform: [{ scale: this.state.showScaleAnimation }]
                     }]}>
                 <FCMManagerComponent navigation={this.props.navigation} />
-                <ScrollView contentContainerStyle={{ paddingHorizontal: 1, alignItems:'center' }}>
+                <ScrollView contentContainerStyle={{ paddingHorizontal: 1, alignItems: 'center' }}>
                     {
                         this.isShowBanner() &&
                         <MainBannerCarousel
                             style={this.props.style}
                             items={this.getDataForBanner()}
-                            onPress={this.onPressBunner}
+                            onPress={this.onPressBanner}
                         />
                     }
 
                     {this.renderContent()}
                 </ScrollView>
+
+                <NewsInfo
+                    style={this.props.style}
+                    news={this.state.news}
+                    toggle={!!this.state.news}
+                    close={this.onCloseSheetNewsInfo}
+                />
             </Animated.View>
         )
     }
@@ -285,8 +257,6 @@ const mapStateToProps = state => {
         serverDomain: state.appSetting.serverDomain,
         categories: state.main.categories,
         selectedCategory: state.catalog.selectedCategory,
-        selectedStock: state.stock.selectedStock,
-        selectedNews: state.news.selectedNews,
         style: state.style,
         stocks: state.main.stocks,
         news: state.main.news,
@@ -298,8 +268,6 @@ const mapStateToProps = state => {
 const mapActionToProps = {
     setSelectedCategory,
     setSelectedProduct,
-    setSelectedStock,
-    setSelectedNews,
     notificationActionDone
 }
 
