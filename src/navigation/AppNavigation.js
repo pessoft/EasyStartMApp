@@ -1,9 +1,10 @@
 import { createSwitchNavigator, createAppContainer } from 'react-navigation'
 import StartLogoScreen from '../screens/start/StartLogoScreen'
 import { authStackNavigator } from './authStackNavigator'
-import { userInfoStackNavigator } from './userInfoStackNavigator';
-import { mainBottomTab } from './mainBottomTabNavigator';
-import { START_APP } from './pointsNavigate';
+import { userInfoStackNavigator } from './userInfoStackNavigator'
+import { mainBottomTab } from './mainBottomTabNavigator'
+import {drawerNavigator} from './drawerNavigator'
+import { START_APP } from './pointsNavigate'
 import CheckoutCompleteScreen from '../screens/checkout/checkout-complete/CheckoutCompleteScreen'
 import React from 'react'
 import { connect } from 'react-redux'
@@ -17,7 +18,7 @@ class AppNavigation extends React.Component {
         StartApp: StartLogoScreen,
         Auth: authStackNavigator(this.props.style),
         UserSetInfo: userInfoStackNavigator(this.props.style),
-        MainBottomTab: mainBottomTab(this.props.style),
+        MainBottomTab: drawerNavigator(this.props.style),
         CheckoutComplete: CheckoutCompleteScreen,
         CheckoutOnlinePay: CheckoutOnlinePayScreen
       },

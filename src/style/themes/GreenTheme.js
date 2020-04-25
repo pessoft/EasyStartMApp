@@ -49,6 +49,9 @@ export const GreenTheme = StyleSheet.create({
     dividerColor: {
         borderColor: '#BDBDBD'
     },
+    dividerColorSecondary: {
+        borderColor: '#eeeeee'
+    },
     applyPrimaryColor: {
         color: '#00c853'
     },

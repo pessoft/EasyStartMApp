@@ -8,7 +8,7 @@ import { defaultState as defaultUserData } from '../store/user/reducer'
 import { defaultState as defaultAppSetting} from '../store/app-settings/reducer'
 
 const migrations = {
-  7: (state) => {
+  8: (state) => {
     return {
       ...state,
       style: {
