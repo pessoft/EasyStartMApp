@@ -49,6 +49,9 @@ export const DarkOrangeTheme = StyleSheet.create({
   dividerColor: {
     borderColor: '#272727'
   },
+  dividerColorSecondary: {
+    borderColor: '#222222'
+  },
   applyPrimaryColor: {
     color: '#00c853'
   },
