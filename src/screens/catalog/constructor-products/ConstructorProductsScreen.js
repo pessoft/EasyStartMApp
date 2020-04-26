@@ -17,6 +17,7 @@ import {
 import { generateRandomString } from '../../../helpers/utils';
 import { priceValid, cloneObject } from '../../../helpers/utils'
 import LottieView from 'lottie-react-native';
+import BasketIcoWithBadge from '../../../components/badges/basket-badge/BasketIcoWithBadge'
 
 class ConstructorProductsScreen extends React.Component {
     static navigationOptions = ({ navigation }) => {

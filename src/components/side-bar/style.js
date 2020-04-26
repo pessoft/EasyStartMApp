@@ -26,6 +26,6 @@ export default StyleSheet.create({
   },
   btnSocialWrapper: {
     marginTop: 10,
-    marginHorizontal: 5
+    marginHorizontal: 6
   }
 })

@@ -54,7 +54,7 @@ export class CategoryItem extends React.PureComponent {
                         
                         <View style={[
                             Style.captionContainer,
-                            this.props.style.theme.backdoor,
+                            this.props.style.theme.backdoorTransparent,
                             this.props.style.theme.dividerColor,
                         ]}>
                             <Text

@@ -100,17 +100,11 @@ class ShoppingBasketScreen extends React.Component {
       && this.props.selectedProduct.Id > 0
       && this.props.navigation.isFocused()) {
       this.props.navigation.navigate(PRODUCT_INFO_FROM_BASKET)
-    } else if (this.state.showScaleAnimationEmptyBasket && this.isEmptyBasket()) {
+    } else if (this.isEmptyBasket()) {
       timingAnimation(this.state.showScaleAnimationEmptyBasket, 1, 300, true)
       this.props.cleanCoupon()
-    } else if (this.state.showScaleAnimation && !this.isEmptyBasket()) {
-      if (isWorkTime(this.props.deliverySettings.TimeDelivery))
-        timingAnimation(this.state.showScaleAnimation, 1, 300, true)
-      else {
-        this.props.cleanCoupon()
-        timingAnimation(this.state.showScaleAnimationWorkTimeInfo, 1, 300, true)
-      }
-
+    } else if (!this.isEmptyBasket()) {
+      timingAnimation(this.state.showScaleAnimation, 1, 300, true)
     }
 
     this.changeTotalCountProductInBasket()
