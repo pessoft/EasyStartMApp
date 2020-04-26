@@ -6,11 +6,11 @@ export default StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-start',
     height: 90,
-    borderRadius: 6,
+    borderRadius: 4,
     marginVertical: 5,
-    elevation: 4,
+    elevation: 3,
     shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.3,
+    shadowOpacity: 0.2,
     shadowRadius: 1,
   },
   textWrap: {
@@ -23,8 +23,8 @@ export default StyleSheet.create({
   productImage: {
     width: 90,
     height: 90,
-    borderTopLeftRadius: 6,
-    borderBottomLeftRadius: 6,
+    borderTopLeftRadius: 4,
+    borderBottomLeftRadius: 4,
     marginRight: 10
   },
   productInfoContainer: {

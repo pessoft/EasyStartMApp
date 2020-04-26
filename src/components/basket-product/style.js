@@ -6,10 +6,10 @@ export default StyleSheet.create({
     justifyContent: 'center',
     height: 110,
     marginVertical: 5,
-    borderRadius: 6,
-    elevation: 4,
+    borderRadius: 4,
+    elevation: 3,
     shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.3,
+    shadowOpacity: 0.2,
     shadowRadius: 1,
   },
   captionBlock: {
@@ -30,7 +30,7 @@ export default StyleSheet.create({
   productImage: {
     width: 110,
     height: 110,
-    borderRadius: 6,
+    borderRadius: 4,
     borderTopRightRadius: 0,
     borderBottomRightRadius: 0,
     marginRight: 10

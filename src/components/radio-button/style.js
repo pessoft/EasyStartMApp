@@ -24,7 +24,7 @@ export default StyleSheet.create({
     alignSelf: 'center',
 
     borderColor: '#2196f3',
-    borderRadius: 30,
+    borderRadius: 40,
   },
 
   radioLabel: {

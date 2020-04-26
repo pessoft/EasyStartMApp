@@ -30,23 +30,32 @@ import { priceValid } from '../../../helpers/utils'
 import { CategoryType } from '../../../helpers/type-category'
 import { BasketConstructorProductItem } from '../../../components/basket-constructor-product/BasketConstructorProductItem'
 import { cleanCoupon } from '../../../store/main/actions'
+import { BarsButton } from '../../../components/buttons/Square/BarsButton'
+import BasketIcoWithBadge from '../../../components/badges/basket-badge/BasketIcoWithBadge'
 
 class ShoppingBasketScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
-    const isShowVirtualMoney = navigation.getParam('isShowVirtualMoney', false)
-    const onPress = navigation.getParam('onPress', null)
-    if (isShowVirtualMoney)
-      return {
-        headerTitle: 'Корзина',
-        headerTitleStyle: {
-          textAlign: Platform.OS == 'ios' ? 'center' : 'left',
-          flex: 1,
-        },
-        headerRight: () => <VirtualMoneyButton onPress={onPress} />
-      }
+    const style = navigation.getParam('style', null)
 
     return {
-      headerTitle: 'Корзина'
+      headerTitle: 'Корзина',
+      headerTitleStyle: {
+        textAlign: Platform.OS == 'ios' ? 'center' : 'left',
+        flex: 1,
+      },
+      headerRight: () => <BasketIcoWithBadge
+        containerStyle={{ paddingHorizontal: 25 }}
+        navigation={navigation}
+        width={28}
+        height={28}
+        animation={true} />,
+      headerLeft: () => <BarsButton
+        containerStyle={{ paddingHorizontal: 20 }}
+        disabled={false}
+        onPress={() => navigation.openDrawer()}
+        size={25}
+        nonBorder={true}
+        color={style ? style.theme.textPrimaryColor.color : '#fff'} />
     }
   }
 
@@ -54,8 +63,7 @@ class ShoppingBasketScreen extends React.Component {
     super(props)
 
     this.props.navigation.setParams({
-      isShowVirtualMoney: this.props.promotionCashbackSetting.IsUseCashback,
-      onPress: () => this.goToCashbackScreen()
+      style: this.props.style,
     })
 
     this.state = {

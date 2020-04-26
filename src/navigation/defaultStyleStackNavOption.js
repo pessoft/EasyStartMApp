@@ -10,6 +10,7 @@ export const defaultStyleNavigationStackOptions = style => ({
     headerStyle: {
       backgroundColor: style.theme.navigationHeader.backgroundColor,
       borderBottomColor: style.theme.dividerColor.borderColor,
+      height: 50,
       // borderBottomWidth: 0.8,
       
       elevation: 0, // remove shadow on Android
@@ -18,7 +19,7 @@ export const defaultStyleNavigationStackOptions = style => ({
     headerTintColor: style.theme.textPrimaryColor.color,
     headerBackTitle: 'Назад',
     headerBackTitleStyle: {
-      fontSize: style.fontSize.h9.fontSize
+      fontSize: style.fontSize.h8.fontSize
     }
   },
   cardStyle: {

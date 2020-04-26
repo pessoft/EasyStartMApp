@@ -43,6 +43,7 @@ export class CategoryItem extends React.PureComponent {
                 onPress={this.onPress}>
                 <View style={[
                     Style.bodyItem,
+                    this.props.style.theme.backdoor,
                     this.props.style.theme.dividerColor,
                 ]}>
                     <Animated.View
@@ -50,18 +51,10 @@ export class CategoryItem extends React.PureComponent {
                             Style.directionRow,
                             { transform: [{ scale: this.state.showScaleAnimation }] }]}
                     >
-                        <View style={[
-                            Style.imageContainer,
-                            this.props.style.theme.backdoor,
-                            this.props.style.theme.shadowColor
-                        ]}>
-                            <Image
-                                source={this.props.imageSource}
-                                style={[Style.catalogImage]}
-                            />
-                        </View>
+                        
                         <View style={[
                             Style.captionContainer,
+                            this.props.style.theme.backdoor,
                             this.props.style.theme.dividerColor,
                         ]}>
                             <Text
@@ -75,6 +68,14 @@ export class CategoryItem extends React.PureComponent {
                                     this.props.style.theme.primaryTextColor]}>
                                 {this.props.caption}
                             </Text>
+                        </View>
+                        <View style={[
+                            Style.imageContainer,
+                        ]}>
+                            <Image
+                                source={this.props.imageSource}
+                                style={[Style.catalogImage]}
+                            />
                         </View>
                     </Animated.View>
                 </View>

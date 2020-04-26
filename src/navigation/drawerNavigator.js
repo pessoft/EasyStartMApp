@@ -28,7 +28,7 @@ export const drawerNavigator = style => createDrawerNavigator(
             navigationOptions: {
                 drawerLabel: 'Меню',
                 drawerIcon: ({ tintColor }) => {
-                    return <IcoMenu width={23} height={23} color={getSVGColor(tintColor)} />
+                    return <IcoMenu width={22} height={22} color={getSVGColor(tintColor)} />
                 }
             }
         },
@@ -37,7 +37,7 @@ export const drawerNavigator = style => createDrawerNavigator(
             navigationOptions: {
                 drawerLabel: 'Акции и новости',
                 drawerIcon: ({ tintColor }) => {
-                    return <IcoNews width={23} height={23} color={getSVGColor(tintColor)} />
+                    return <IcoNews width={22} height={22} color={getSVGColor(tintColor)} />
                 }
             }
         },
@@ -46,14 +46,14 @@ export const drawerNavigator = style => createDrawerNavigator(
             navigationOptions: {
                 drawerLabel: 'Корзина',
                 drawerIcon: ({ tintColor }) => {
-                    // return <IcoShoppingBasket width={23} height={23} color={getSVGColor(tintColor)} />
-                    return <BasketIcoWithBadge
-                        style={style}
-                        width={23}
-                        height={23}
-                        color={getSVGColor(tintColor)}
-                        animation={true}
-                        prefix={'шт'} />
+                    return <IcoShoppingBasket width={22} height={22} color={getSVGColor(tintColor)} />
+                    // return <BasketIcoWithBadge
+                    //     style={style}
+                    //     width={22}
+                    //     height={22}
+                    //     color={getSVGColor(tintColor)}
+                    //     animation={true}
+                    //     prefix={'шт'} />
                 }
             }
         },
@@ -62,7 +62,7 @@ export const drawerNavigator = style => createDrawerNavigator(
             navigationOptions: {
                 drawerLabel: 'Информация',
                 drawerIcon: ({ tintColor }) => {
-                    return <IcoInfo width={23} height={23} color={getSVGColor(tintColor)} />
+                    return <IcoInfo width={22} height={22} color={getSVGColor(tintColor)} />
                 }
             }
         },
@@ -71,7 +71,7 @@ export const drawerNavigator = style => createDrawerNavigator(
             navigationOptions: {
                 drawerLabel: 'Личный кабинет',
                 drawerIcon: ({ tintColor }) => {
-                    return <IcoUserCog width={23} height={23} color={getSVGColor(tintColor)} />
+                    return <IcoUserCog width={22} height={22} color={getSVGColor(tintColor)} />
                 }
             }
         }
@@ -83,7 +83,7 @@ export const drawerNavigator = style => createDrawerNavigator(
         hideStatusBar: true,
         contentOptions: {
             labelStyle: {
-                fontSize: style.fontSize.h7.fontSize,
+                fontSize: style.fontSize.h8.fontSize,
                 fontWeight: 'normal',
             },
             activeLabelStyle: {

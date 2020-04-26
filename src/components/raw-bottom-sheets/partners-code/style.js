@@ -17,7 +17,7 @@ export default StyleSheet.create({
     flex: 1,
     minHeight: 37,
     height: 37,
-    borderRadius: 6,
+    borderRadius: 4,
     borderWidth: 1,
     flexDirection: 'row',
     justifyContent: 'center',
@@ -25,7 +25,7 @@ export default StyleSheet.create({
   },
   loader: {
     flex: 1,
-    borderRadius: 5,
+    borderRadius: 4,
     borderTopLeftRadius: 0,
     borderBottomLeftRadius: 0,
     minHeight: 35,

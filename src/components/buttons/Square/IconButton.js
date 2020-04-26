@@ -52,13 +52,15 @@ export class IconButton extends React.Component {
     render() {
         return (
             <TouchableWithoutFeedback onPress={this.onPress}>
-                <View style={[
-                    Style.iconSquareButton,
-                    this.isNonBorder(),
-                    {
-                        borderColor: this.props.borderColor || this.defaultColor,
-                        backgroundColor: this.props.backgroundColor
-                    }]}>
+                <View
+                    style={[
+                        Style.iconSquareButton,
+                        this.isNonBorder(),
+                        {
+                            borderColor: this.props.borderColor || this.defaultColor,
+                            backgroundColor: this.props.backgroundColor
+                        },
+                        this.props.containerStyle]}>
                     {!this.state.showIndicator && this.renderIcon()}
                     {this.state.showIndicator && <ActivityIndicator size={this.props.size} color={this.props.color} />}
                 </View>

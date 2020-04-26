@@ -34,7 +34,20 @@ class ConstructorProductsScreen extends React.Component {
             }
 
         return {
-            headerTitle
+            headerTitle,
+            headerRight: () => <BasketIcoWithBadge
+            containerStyle={{ paddingHorizontal: 25 }}
+            navigation={navigation}
+            width={28}
+            height={28}
+            animation={true} />,
+            headerLeft: () => <BarsButton
+                containerStyle={{ paddingHorizontal: 20 }}  
+                disabled={false}
+                onPress={() => navigation.openDrawer()}
+                size={25}
+                nonBorder={true}
+                color={style ? style.theme.textPrimaryColor.color : '#fff'} />
         }
     }
 
@@ -42,7 +55,7 @@ class ConstructorProductsScreen extends React.Component {
         super(props)
         this.props.navigation.setParams({
             categoryName: this.props.selectedCategory.Name,
-            isShowVirtualMoney: this.props.promotionCashbackSetting.IsUseCashback
+            style: this.props.style,
         })
 
         this.state = {

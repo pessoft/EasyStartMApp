@@ -9,10 +9,10 @@ export default StyleSheet.create({
     marginVertical: 5,
     justifyContent: 'center',
     alignItems: 'stretch',
-    borderRadius: 6,
-    elevation: 4,
+    borderRadius: 4,
+    elevation: 3,
     shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.3,
+    shadowOpacity: 0.2,
     shadowRadius: 1,
   },
   header: {
@@ -35,7 +35,7 @@ export default StyleSheet.create({
   },
   datePickerContainer: {
     borderWidth: 0.7,
-    borderRadius: 3,
+    borderRadius: 4,
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',

@@ -9,10 +9,10 @@ export default StyleSheet.create({
     width: width,
     height: 85,
     marginVertical: 5,
-    borderRadius: 6,
-    elevation: 4,
+    borderRadius: 4,
+    elevation: 3,
     shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.3,
+    shadowOpacity: 0.2,
     shadowRadius: 1,
   },
   captionBlock: {
@@ -45,8 +45,8 @@ export default StyleSheet.create({
   productImage: {
     width: 85,
     height: 85,
-    borderTopLeftRadius: 6,
-    borderBottomLeftRadius: 6,
+    borderTopLeftRadius: 4,
+    borderBottomLeftRadius: 4,
     marginRight: 10
   },
   imageContainer: {

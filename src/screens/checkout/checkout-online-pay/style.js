@@ -36,8 +36,8 @@ export default StyleSheet.create({
         textAlign: 'center',
         margin: 0,
         borderWidth: 1,
-        borderTopLeftRadius: 5,
-        borderTopRightRadius: 5,
+        borderTopLeftRadius: 4,
+        borderTopRightRadius: 4,
         paddingVertical: Platform.OS == 'ios' ? 10 : 5
     },
     cvv: {
@@ -57,7 +57,7 @@ export default StyleSheet.create({
         textAlign: 'center',
         margin: 0,
         borderWidth: 1,
-        borderBottomLeftRadius: 5,
+        borderBottomLeftRadius: 4,
         paddingVertical: Platform.OS == 'ios' ? 10 : 5
     },
     year: {
@@ -65,7 +65,7 @@ export default StyleSheet.create({
         textAlign: 'center',
         margin: 0,
         borderWidth: 1,
-        borderBottomRightRadius: 5,
+        borderBottomRightRadius: 4,
         paddingVertical: Platform.OS == 'ios' ? 10 : 5
     },
     container: {

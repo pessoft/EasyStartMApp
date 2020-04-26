@@ -8,10 +8,10 @@ export default StyleSheet.create({
     minHeight: 90,
     paddingVertical: 10,
     marginVertical: 5,
-    borderRadius: 6,
-    elevation: 4,
+    borderRadius: 4,
+    elevation: 3,
     shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.3,
+    shadowOpacity: 0.2,
     shadowRadius: 1,
   },
   textWrap: {
@@ -26,7 +26,7 @@ export default StyleSheet.create({
   productImage: {
     width: 76,
     height: 76,
-    borderRadius: 5,
+    borderRadius: 4,
   },
   productInfoContainer: {
     flex: 2,

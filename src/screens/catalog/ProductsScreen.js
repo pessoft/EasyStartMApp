@@ -15,6 +15,7 @@ import { markFromBasket } from '../../store/navigation/actions'
 import VirtualMoneyButton from '../../components/buttons/VirtualMoneyButton/VirtualMoneyButton'
 import ViewContainerProductsChanger from '../../components/view-container-changer/ViewContainerProductsChanger'
 import { ViewContainerType } from '../../helpers/view-container-type'
+import BasketIcoWithBadge from '../../components/badges/basket-badge/BasketIcoWithBadge'
 
 class ProductsScreen extends React.Component {
     static navigationOptions = ({ navigation }) => {
@@ -26,7 +27,12 @@ class ProductsScreen extends React.Component {
                 textAlign: 'center',
                 flex: 1,
             },
-            headerRight: () => <ViewContainerProductsChanger />
+            headerRight: () => <BasketIcoWithBadge
+            containerStyle={{ paddingHorizontal: 20 }}
+            navigation={navigation}
+            width={28}
+            height={28}
+            animation={true} />
         }
     }
 

@@ -5,10 +5,10 @@ export default StyleSheet.create({
     flex: 1,
     marginVertical: 5,
     padding: 5,
-    borderRadius: 6,
-    elevation: 4,
+    borderRadius: 4,
+    elevation: 3,
     shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.3,
+    shadowOpacity: 0.2,
     shadowRadius: 1,
   },
   header: {

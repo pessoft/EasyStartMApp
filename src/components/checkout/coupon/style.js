@@ -11,10 +11,10 @@ export default StyleSheet.create({
     marginVertical: 5,
     justifyContent: 'center',
     alignItems: 'stretch',
-    borderRadius: 6,
-    elevation: 4,
+    borderRadius: 4,
+    elevation: 3,
     shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.3,
+    shadowOpacity: 0.2,
     shadowRadius: 1,
   },
   header: {
@@ -29,7 +29,7 @@ export default StyleSheet.create({
     justifyContent: 'center',
     flexDirection: 'row',
     borderWidth: 1,
-    borderRadius: 5,
+    borderRadius: 4,
     height: 38,
     maxHeight: 38,
     marginHorizontal: 5

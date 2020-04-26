@@ -11,7 +11,8 @@ export const defaultState = {
   currencyPrefix: min320 ? 'р.' : 'руб.',
   appPackageName: '',
   selectedCategoryViewType: ViewContainerType.grid,
-  selectedProductsViewType: ViewContainerType.grid
+  selectedProductsViewType: ViewContainerType.grid,
+  appTitle: 'Рис Лосось'
 }
 
 export const appSettingReducer = (state = defaultState, action) => {

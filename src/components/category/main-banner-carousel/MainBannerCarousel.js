@@ -4,7 +4,7 @@ import Carousel from 'react-native-banner-carousel'
 import Style from './style'
 
 
-const BannerWidth = Dimensions.get('window').width - 24
+const BannerWidth = Dimensions.get('window').width
 
 export class MainBannerCarousel extends React.Component {
   onPress = (newsType, data) => {
@@ -44,7 +44,6 @@ export class MainBannerCarousel extends React.Component {
         style={[
           this.props.style.theme.themeBody,
           Style.bannerContainer,
-          this.props.style.theme.shadowColor,
         ]}>
         <Carousel
           showsPageIndicator={true}

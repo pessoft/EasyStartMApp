@@ -7,10 +7,10 @@ export default StyleSheet.create({
     minHeight: 124,
     marginVertical: 5,
     paddingVertical: 5,
-    borderRadius: 6,
-    elevation: 4,
+    borderRadius: 4,
+    elevation: 3,
     shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.3,
+    shadowOpacity: 0.2,
     shadowRadius: 1,
   },
   directionRow: {
@@ -30,7 +30,7 @@ export default StyleSheet.create({
   productImage: {
     width: 80,
     height: 80,
-    borderRadius: 6,
+    borderRadius: 4,
     marginHorizontal: 18
 
   },

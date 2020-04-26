@@ -8,7 +8,7 @@ export default StyleSheet.create({
     flexDirection: 'row',
     width: width,
     minHeight: height,
-    borderRadius: 5,
+    borderRadius: 4,
     borderWidth: 1,
     margin: 5
   },

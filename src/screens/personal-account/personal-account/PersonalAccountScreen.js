@@ -22,14 +22,41 @@ import {
   AUTH_LOGIN
 }
   from '../../../navigation/pointsNavigate'
+import { BarsButton } from '../../../components/buttons/Square/BarsButton'
+import BasketIcoWithBadge from '../../../components/badges/basket-badge/BasketIcoWithBadge'
 
 class PersonalAccountScreen extends React.Component {
-  static navigationOptions = {
-    headerTitle: 'Личный кабинет',
+  static navigationOptions = ({ navigation }) => {
+    const style = navigation.getParam('style', null)
+
+    return {
+      headerTitle: 'Личный кабинет',
+      headerTitleStyle: {
+        textAlign: Platform.OS == 'ios' ? 'center' : 'left',
+        flex: 1,
+      },
+      headerRight: () => <BasketIcoWithBadge
+        containerStyle={{ paddingHorizontal: 25 }}
+        navigation={navigation}
+        width={28}
+        height={28}
+        animation={true} />,
+      headerLeft: () => <BarsButton
+        containerStyle={{ paddingHorizontal: 20 }}
+        disabled={false}
+        onPress={() => navigation.openDrawer()}
+        size={25}
+        nonBorder={true}
+        color={style ? style.theme.textPrimaryColor.color : '#fff'} />
+    }
   }
 
   constructor(props) {
     super(props)
+
+    this.props.navigation.setParams({
+      style: this.props.style,
+    })
 
     this.state = {
       showScaleAnimation: new Animated.Value(0)

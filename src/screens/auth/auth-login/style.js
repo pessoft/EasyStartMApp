@@ -16,7 +16,7 @@ export default StyleSheet.create({
     marginBottom: 15,
     margin: 0,
     borderWidth: 1,
-    borderRadius: 5,
+    borderRadius: 4,
     paddingVertical: Platform.OS == 'ios' ? 10 : 5
   },
   firstInput: {

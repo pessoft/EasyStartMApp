@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native'
 export default StyleSheet.create({
   bodyItem: {
     height: 35,
-    borderRadius: 6,
+    borderRadius: 4,
     marginVertical: 5,
   },
   container: {

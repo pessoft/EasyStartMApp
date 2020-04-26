@@ -14,14 +14,41 @@ import { DeliveryTypeInfo } from '../../components/information/delivery-type/Del
 import { PaymentTypeInfo } from '../../components/information/payment-type/PaymentTypeInfo'
 import { SocialInfo } from '../../components/information/social/SocialInfo'
 import { socialType, getSocialData } from '../../helpers/social'
+import { BarsButton } from '../../components/buttons/Square/BarsButton'
+import BasketIcoWithBadge from '../../components/badges/basket-badge/BasketIcoWithBadge'
 
 class CheckoutScreen extends React.Component {
-  static navigationOptions = {
-    headerTitle: 'Информация',
+  static navigationOptions = ({ navigation }) => {
+    const style = navigation.getParam('style', null)
+
+    return {
+      headerTitle: 'Информация',
+      headerTitleStyle: {
+        textAlign: Platform.OS == 'ios' ? 'center' : 'left',
+        flex: 1,
+      },
+      headerRight: () => <BasketIcoWithBadge
+        containerStyle={{ paddingHorizontal: 25 }}
+        navigation={navigation}
+        width={28}
+        height={28}
+        animation={true} />,
+      headerLeft: () => <BarsButton
+        containerStyle={{ paddingHorizontal: 20 }}
+        disabled={false}
+        onPress={() => navigation.openDrawer()}
+        size={25}
+        nonBorder={true}
+        color={style ? style.theme.textPrimaryColor.color : '#fff'} />
+    }
   }
 
   constructor(props) {
     super(props)
+
+    this.props.navigation.setParams({
+      style: this.props.style,
+    })
 
     this.state = {
       showScaleAnimation: new Animated.Value(0),
@@ -103,9 +130,9 @@ class CheckoutScreen extends React.Component {
           <PaymentTypeInfo
             style={this.props.style}
             card={this.props.deliverySettings.PayCard}
-            cash={this.props.deliverySettings.PayCash} 
-            payOnline={this.props.deliverySettings.PayOnline} 
-            />
+            cash={this.props.deliverySettings.PayCash}
+            payOnline={this.props.deliverySettings.PayOnline}
+          />
           {
             this.props.organizationSettings.Email &&
             <SocialInfo

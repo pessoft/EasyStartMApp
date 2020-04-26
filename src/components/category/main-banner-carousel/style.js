@@ -7,17 +7,10 @@ export default StyleSheet.create({
     alignItems: 'center',
     alignSelf: 'center',
     padding: 0,
-    marginTop: 12,
     marginBottom: 0,
-    marginHorizontal: 0,
-    borderRadius: 5,
-    elevation: 4,
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.3,
-    shadowRadius: 1,
+    marginHorizontal: 0
   },
   image: {
-    borderRadius: 5,
     aspectRatio: 115 / 37,
     resizeMode: 'stretch',
   }

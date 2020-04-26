@@ -1,20 +1,23 @@
 import React from 'react'
-import { View, Text, Animated } from 'react-native'
+import { View, Text, Animated,TouchableOpacity } from 'react-native'
 import Style from './style'
 import IcoShoppingBasket from '../../../images/font-awesome-svg/shopping-basket.svg'
 import { connect } from 'react-redux'
 import { timingAnimation } from '../../../animation/timingAnimation'
 import { springAnimation } from '../../../animation/springAnimation'
+import { SHOPPING_BASKET } from '../../../navigation/pointsNavigate'
 
 class BasketIcoWithBadge extends React.Component {
   constructor(props) {
     super(props)
-    
+
     const value = this.props.totalCountProducts == 0 ? 0 : 1
     this.state = {
       showScaleAnimation: this.props.animation ? new Animated.Value(value) : value,
     }
   }
+
+  goToBasketScreen = () => this.props.navigation.navigate(SHOPPING_BASKET)
 
   componentDidUpdate = (prevProps) => {
     if (prevProps.totalCountProducts != this.props.totalCountProducts) {
@@ -41,15 +44,31 @@ class BasketIcoWithBadge extends React.Component {
       this.setState({ showScaleAnimation: 1 })
   }
 
+  getPrefix = () => {
+    if (this.props.prefix)
+      return ` ${this.props.prefix}`
+
+    return ''
+  }
+
+  getFotSize = () => {
+    if (this.props.prefix)
+      return this.props.style.fontSize.h12
+
+    return this.props.style.fontSize.h11
+  }
+
   render() {
     return (
-      <View>
-        <IcoShoppingBasket width={this.props.width} height={this.props.height} color={this.props.color} />
+      <TouchableOpacity onPress={this.goToBasketScreen} style={this.props.containerStyle}>
+        <IcoShoppingBasket width={this.props.width} height={this.props.height} color={this.props.color || this.props.style.theme.textPrimaryColor.color} />
         <Animated.View
           key={new Date().getTime().toString()}
           style={[
             Style.badge,
-            this.props.style.theme.accentColor,
+            {
+              backgroundColor: this.props.style.theme.errorTextColor.color
+            },
             {
               opacity: this.state.showScaleAnimation,
               transform: [{ scale: this.state.showScaleAnimation }]
@@ -57,17 +76,18 @@ class BasketIcoWithBadge extends React.Component {
           ]}>
           <Text style={[
             this.props.style.theme.textPrimaryColor,
-            this.props.style.fontSize.h12
-          ]}>{`${this.props.totalCountProducts} ${this.props.prefix}`}</Text>
+            this.getFotSize()
+          ]}>{`${this.props.totalCountProducts}${this.getPrefix()}`}</Text>
         </Animated.View>
-      </View>
+      </TouchableOpacity>
     )
   }
 }
 
 const mapStateToProps = state => {
   return {
-    totalCountProducts: state.checkout.totalCountProducts
+    totalCountProducts: state.checkout.totalCountProducts,
+    style: state.style,
   }
 }
 

@@ -28,7 +28,7 @@ export default StyleSheet.create({
     margin: 5,
   },
   image: {
-    borderRadius: 6,
+    borderRadius: 4,
     marginTop: 5,
     aspectRatio: 115 / 37,
     resizeMode: 'stretch',
@@ -39,10 +39,10 @@ export default StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 15,
     paddingVertical: 10,
-    borderRadius: 6,
-    elevation: 4,
+    borderRadius: 4,
+    elevation: 3,
     shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.3,
+    shadowOpacity: 0.2,
     shadowRadius: 1,
   }
 })

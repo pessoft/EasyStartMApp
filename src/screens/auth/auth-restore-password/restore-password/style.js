@@ -15,7 +15,7 @@ export default StyleSheet.create({
     textAlign: 'center',
     marginBottom: 15,
     borderWidth: 1,
-    borderRadius: 5,
+    borderRadius: 4,
     padding: Platform.OS == 'ios' ? 8 : 3
   },
   inputSize: {

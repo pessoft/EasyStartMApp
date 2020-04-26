@@ -11,8 +11,8 @@ export class ListItem extends React.Component {
 
     return <Icon
       key={new Date().getTime().toString()}
-      width={23}
-      height={23}
+      width={22}
+      height={22}
       color={getSVGColor(this.props.style.theme.secondaryTextColor.color)} />
   }
 
@@ -41,7 +41,7 @@ export class ListItem extends React.Component {
               <Text
                 style={[
                   this.props.style.theme.primaryTextColor,
-                  this.props.style.fontSize.h7
+                  this.props.style.fontSize.h8
                 ]}
               >
                 {this.props.text}

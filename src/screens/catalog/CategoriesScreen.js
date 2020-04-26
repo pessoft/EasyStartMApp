@@ -20,34 +20,37 @@ import { NewsType } from '../../helpers/news-type'
 import ViewContainerCategoryChanger from '../../components/view-container-changer/ViewContainerCategoryChanger'
 import { ViewContainerType } from '../../helpers/view-container-type'
 import { NewsInfo } from '../../components/raw-bottom-sheets/news-info/NewsInfo'
+import BasketIcoWithBadge from '../../components/badges/basket-badge/BasketIcoWithBadge'
+import { BarsButton } from '../../components/buttons/Square/BarsButton'
 
 class CategoriesScreen extends React.Component {
     static navigationOptions = ({ navigation }) => {
-        const isShowVirtualMoney = navigation.getParam('isShowVirtualMoney', false)
-        const onPress = navigation.getParam('onPress', null)
-        if (isShowVirtualMoney)
-            return {
-                headerTitle: 'Категории',
-                headerTitleStyle: {
-                    textAlign: 'center',
-                    flex: 1,
-                },
-                headerRight: () => <VirtualMoneyButton onPress={onPress} />,
-                headerLeft: () => <ViewContainerCategoryChanger />
-            }
+        const style = navigation.getParam('style', null)
+        const title = navigation.getParam('title', null) || 'Меню'
 
         return {
-            headerTitle: 'Категории',
-            headerLeft: () => <ViewContainerCategoryChanger />
+            headerTitle: title,
+            headerRight: () => <BasketIcoWithBadge
+                containerStyle={{ paddingHorizontal: 25 }}
+                navigation={navigation}
+                width={28}
+                height={28}
+                animation={true} />,
+            headerLeft: () => <BarsButton
+                containerStyle={{ paddingHorizontal: 20 }}  
+                disabled={false}
+                onPress={() => navigation.openDrawer()}
+                size={25}
+                nonBorder={true}
+                color={style ? style.theme.textPrimaryColor.color : '#fff'} />
         }
     }
 
     constructor(props) {
         super(props)
-
         this.props.navigation.setParams({
-            isShowVirtualMoney: this.props.promotionCashbackSetting.IsUseCashback,
-            onPress: () => this.goToCashbackScreen()
+            style: this.props.style,
+            title: this.props.appSetting.appTitle,
         })
 
         this.props.setSelectedProduct({})
@@ -213,7 +216,7 @@ class CategoriesScreen extends React.Component {
         }
     }
 
-    onCloseSheetNewsInfo = () => this.setState({news: null})
+    onCloseSheetNewsInfo = () => this.setState({ news: null })
 
     render() {
         return (
@@ -226,7 +229,7 @@ class CategoriesScreen extends React.Component {
                         transform: [{ scale: this.state.showScaleAnimation }]
                     }]}>
                 <FCMManagerComponent navigation={this.props.navigation} />
-                <ScrollView contentContainerStyle={{ paddingHorizontal: 1, alignItems: 'center' }}>
+                <ScrollView contentContainerStyle={{ alignItems: 'center' }}>
                     {
                         this.isShowBanner() &&
                         <MainBannerCarousel
@@ -252,6 +255,7 @@ class CategoriesScreen extends React.Component {
 
 const mapStateToProps = state => {
     return {
+        appSetting: state.appSetting,
         promotionCashbackSetting: state.main.promotionCashbackSetting,
         promotionSetting: state.main.promotionSetting,
         serverDomain: state.appSetting.serverDomain,

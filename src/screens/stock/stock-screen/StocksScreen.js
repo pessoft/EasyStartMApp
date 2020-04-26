@@ -14,17 +14,43 @@ import Style from './style'
 import { StockCard } from '../../../components/stock/StockCard'
 import { STOCK_INFO, NEWS_INFO } from '../../../navigation/pointsNavigate'
 import { getSVGColor } from '../../../helpers/color-helper'
-import {NewsType} from '../../../helpers/news-type'
+import { NewsType } from '../../../helpers/news-type'
+import { BarsButton } from '../../../components/buttons/Square/BarsButton'
+import BasketIcoWithBadge from '../../../components/badges/basket-badge/BasketIcoWithBadge'
 
 class StocksScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
+    const style = navigation.getParam('style', null)
+
     return {
-      headerTitle: 'Новости',
+      headerTitle: 'Акции и новости',
+      headerTitleStyle: {
+        textAlign: Platform.OS == 'ios' ? 'center' : 'left',
+        flex: 1,
+      },
+      headerRight: () => <BasketIcoWithBadge
+        containerStyle={{ paddingHorizontal: 25 }}
+        navigation={navigation}
+        width={28}
+        height={28}
+        animation={true} />,
+      headerLeft: () => <BarsButton
+        containerStyle={{ paddingHorizontal: 20 }}
+        disabled={false}
+        onPress={() => navigation.openDrawer()}
+        size={25}
+        nonBorder={true}
+        color={style ? style.theme.textPrimaryColor.color : '#fff'} />
     }
   }
 
+
   constructor(props) {
     super(props)
+
+    this.props.navigation.setParams({
+      style: this.props.style,
+    })
 
     this.state = {
       showScaleAnimation: new Animated.Value(0)
@@ -100,7 +126,7 @@ class StocksScreen extends React.Component {
   getData = () => {
     let items = []
 
-    if(this.props.stocks.length > 0) {
+    if (this.props.stocks.length > 0) {
       this.props.stocks.forEach(p => {
         items.push({
           id: p.Id,
@@ -113,7 +139,7 @@ class StocksScreen extends React.Component {
       })
     }
 
-    if(this.props.news.length > 0) {
+    if (this.props.news.length > 0) {
       this.props.news.forEach(p => {
         items.push({
           id: p.Id,

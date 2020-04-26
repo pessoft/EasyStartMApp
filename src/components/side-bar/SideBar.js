@@ -69,7 +69,7 @@ class SideBar extends React.Component {
                     <ListItem
                         style={this.props.style}
                         icon={Ruble}
-                        text={priceValid(this.props.user.virtualMoney)}
+                        text={`${priceValid(this.props.user.virtualMoney)} ${this.props.currencyPrefix}`}
                         onPress={this.goToCashbackScreen}
                     />
                     <ListItem
@@ -133,7 +133,8 @@ const mapStateToProps = state => {
         style: state.style,
         user: state.user,
         promotionCashbackSetting: state.main.promotionCashbackSetting,
-        organizationSettings: state.main.organizationSettings
+        organizationSettings: state.main.organizationSettings,
+        currencyPrefix: state.appSetting.currencyPrefix,
     }
 }
 
