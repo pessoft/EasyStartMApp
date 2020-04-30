@@ -1,4 +1,5 @@
-import { StyleSheet } from 'react-native'
+import { StyleSheet, Dimensions } from 'react-native'
+const {height} = Dimensions.get('window')
 
 export default StyleSheet.create({
   items: {
@@ -6,14 +7,14 @@ export default StyleSheet.create({
       justifyContent: 'center'
   },
   logoContainer: {
-      flex: 3/8,
+      flex: height <= 592 ? 2/8 : 3/8,
       borderBottomWidth: 0.5,
       justifyContent: 'center',
       alignItems: 'center'
       
   },
   logo: {
-    width: 250,
+    width: height <= 592 ? 200 : 250,
     resizeMode: 'contain'
   },
   additionalInfo: {
@@ -26,10 +27,10 @@ export default StyleSheet.create({
     flexDirection:'row',
     justifyContent: 'center',
     position: 'absolute',
-    bottom: 20
+    bottom: 25
   },
   btnSocialWrapper: {
     marginTop: 10,
-    marginHorizontal: 6
+    marginHorizontal: 8
   },
 })

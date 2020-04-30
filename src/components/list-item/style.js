@@ -1,10 +1,11 @@
-import { StyleSheet } from 'react-native'
+import { StyleSheet, Dimensions } from 'react-native'
+const {height} = Dimensions.get('window')
 
 export default StyleSheet.create({
   bodyItem: {
     height: 35,
     borderRadius: 4,
-    marginVertical: 5,
+    marginVertical: height <= 592 ? 3 : 5,
   },
   container: {
     flex: 1,

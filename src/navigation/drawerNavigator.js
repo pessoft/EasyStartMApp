@@ -2,7 +2,7 @@ import React from 'react'
 import { store } from '../store/store'
 
 import { CATALOG_TAB } from './pointsNavigate';
-
+import { Platform, Dimensions } from 'react-native'
 import { createDrawerNavigator } from 'react-navigation-drawer'
 import { catalogStackNavigator } from './catalogStackNavigator'
 import { stockStackNavigator } from './stockStackNavigator'
@@ -21,6 +21,18 @@ import IcoUserCog from '../images/font-awesome-svg/home-lg.svg'
 import BasketIcoWithBadge from '../components/badges/basket-badge/BasketIcoWithBadge'
 import { getSVGColor } from '../helpers/color-helper';
 import SideBar from '../components/side-bar/SideBar'
+
+const { height } = Dimensions.get('window')
+
+const getHeightItemDrawer = () => {
+    if (height <= 592)
+        return 45
+    if (height >= 750)
+        return 55
+
+    return 50
+}
+
 export const drawerNavigator = style => createDrawerNavigator(
     {
         CatalogTab: {
@@ -77,10 +89,10 @@ export const drawerNavigator = style => createDrawerNavigator(
         }
     },
     {
-        contentComponent: props => <SideBar {...props} style={style}/>,
+        contentComponent: props => <SideBar {...props} style={style} />,
         drawerPosition: 'right',
         drawerBackgroundColor: style.theme.secondaryThemeBody.backgroundColor,
-        hideStatusBar: true,
+        hideStatusBar: Platform.OS == 'ios',
         contentOptions: {
             labelStyle: {
                 fontSize: style.fontSize.h8.fontSize,
@@ -88,6 +100,9 @@ export const drawerNavigator = style => createDrawerNavigator(
             },
             activeLabelStyle: {
                 color: style.theme.primaryTextColor.color,
+            },
+            itemStyle: {
+                height: getHeightItemDrawer()
             },
             activeBackgroundColor: 'transparent',
             inactiveBackgroundColor: 'transparent',
