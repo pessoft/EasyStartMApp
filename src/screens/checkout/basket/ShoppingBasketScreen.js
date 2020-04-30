@@ -96,13 +96,7 @@ class ShoppingBasketScreen extends React.Component {
       timingAnimation(this.state.showScaleAnimationEmptyBasket, 1, 300, true)
       this.props.cleanCoupon()
     } else if (this.state.showScaleAnimation && !this.isEmptyBasket()) {
-      if (isWorkTime(this.props.deliverySettings.TimeDelivery))
-        timingAnimation(this.state.showScaleAnimation, 1, 300, true)
-      else {
-        this.props.cleanCoupon()
-        timingAnimation(this.state.showScaleAnimationWorkTimeInfo, 1, 300, true)
-      }
-
+      timingAnimation(this.state.showScaleAnimation, 1, 300, true)
     }
 
     this.changeTotalCountProductInBasket()
@@ -151,6 +145,14 @@ class ShoppingBasketScreen extends React.Component {
     }
   }
 
+  keyExtractor = id => {
+    if (this.props.basketProducts[id]) {
+        return `${id}-${this.props.basketProducts[id].count}`
+    }
+
+    return id.toString()
+}
+
   renderDefaultProduct = productId => {
     const itemTransform = this.productTransform(productId)
 
@@ -158,6 +160,7 @@ class ShoppingBasketScreen extends React.Component {
       return null
 
     return <BasketProductItem
+      key={this.keyExtractor(productId)}
       style={this.props.style}
       animation={itemTransform.animation}
       id={itemTransform.id}
@@ -204,6 +207,7 @@ class ShoppingBasketScreen extends React.Component {
       return null
 
     return <BasketConstructorProductItem
+      key={this.keyExtractor(uniqId)}
       style={this.props.style}
       uniqId={uniqId}
       product={constructorProduct}

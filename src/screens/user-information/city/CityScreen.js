@@ -52,9 +52,9 @@ class CityScreen extends React.Component {
 
     const cities = this.citiesToArray()
     if (cities.length == 1) {
-      this.props.setCityId(cities[0].key)
+      this.setCityId(cities[0].key)
     } else {
-      this.props.setCityId(-1)
+      this.setCityId(-1)
       timingAnimation(this.state.showScaleAnimation, 1, 300, true)
     }
   }
