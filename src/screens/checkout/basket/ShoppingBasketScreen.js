@@ -50,6 +50,7 @@ class ShoppingBasketScreen extends React.Component {
         height={28}
         animation={true} />,
       headerLeft: () => <BarsButton
+        timeout={0}
         containerStyle={{ paddingHorizontal: 20 }}
         disabled={false}
         onPress={() => navigation.openDrawer()}
@@ -160,6 +161,7 @@ class ShoppingBasketScreen extends React.Component {
       return null
 
     return <BasketProductItem
+      key={this.keyExtractor(productId)}
       style={this.props.style}
       animation={itemTransform.animation}
       id={itemTransform.id}
@@ -206,6 +208,7 @@ class ShoppingBasketScreen extends React.Component {
       return null
 
     return <BasketConstructorProductItem
+      key={this.keyExtractor(uniqId)}
       style={this.props.style}
       uniqId={uniqId}
       product={constructorProduct}
@@ -361,6 +364,14 @@ class ShoppingBasketScreen extends React.Component {
     return products
   }
 
+  keyExtractor = productId => {
+    if (this.props.basketProducts[productId]) {
+      return `${productId}-${this.props.basketProducts[productId].count}`
+    }
+
+    return productId.toString()
+  }
+
   renderBasketContents = () => {
     return (
       <Animated.View
@@ -379,8 +390,7 @@ class ShoppingBasketScreen extends React.Component {
             removeClippedSubviews={Platform.OS !== 'ios'}
             initialNumToRender={4}
             maxToRenderPerBatch={4}
-            keyExtractor={item => item.id.toString()}
-            extraData={this.props.totalCountProducts}
+            extraData={this.props.basketProducts}
             data={this.getDataFromBasket()}
             renderItem={this.renderItem}
           />

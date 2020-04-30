@@ -37,13 +37,14 @@ class ConstructorProductsScreen extends React.Component {
         return {
             headerTitle,
             headerRight: () => <BasketIcoWithBadge
-            containerStyle={{ paddingHorizontal: 25 }}
-            navigation={navigation}
-            width={28}
-            height={28}
-            animation={true} />,
+                containerStyle={{ paddingHorizontal: 25 }}
+                navigation={navigation}
+                width={28}
+                height={28}
+                animation={true} />,
             headerLeft: () => <BarsButton
-                containerStyle={{ paddingHorizontal: 20 }}  
+                timeout={0}
+                containerStyle={{ paddingHorizontal: 20 }}
                 disabled={false}
                 onPress={() => navigation.openDrawer()}
                 size={25}

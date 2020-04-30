@@ -35,6 +35,7 @@ class StocksScreen extends React.Component {
         height={28}
         animation={true} />,
       headerLeft: () => <BarsButton
+        timeout={0}
         containerStyle={{ paddingHorizontal: 20 }}
         disabled={false}
         onPress={() => navigation.openDrawer()}

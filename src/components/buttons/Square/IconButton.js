@@ -38,15 +38,38 @@ export class IconButton extends React.Component {
         this.unmount = true
     }
 
+    getTimeout = () => {
+        if (this.props.timeout || this.props.timeout == 0)
+            return this.props.timeout
+
+        return 270
+    }
+
+    actionShowIndicator = () => {
+        const timeout = this.getTimeout()
+
+        if (timeout) {
+            return () => setTimeout(() => {
+                this.props.onPress()
+                if (!this.unmount) {
+                    this.setState({ showIndicator: false })
+                }
+            }, timeout)
+        } else {
+            return () => {
+                this.props.onPress()
+                if (!this.unmount) {
+                    this.setState({ showIndicator: false })
+                }
+            }
+        }
+    }
+
     onPress = () => {
         if (!this.props.disabled && this.props.onPress)
             this.setState({ showIndicator: true },
-                () => setTimeout(() => {
-                    this.props.onPress()
-                    if (!this.unmount) {
-                        this.setState({ showIndicator: false })
-                    }
-                }, 270))
+                this.actionShowIndicator()
+            )
     }
 
     render() {

@@ -2,30 +2,34 @@ import { StyleSheet } from 'react-native'
 
 export default StyleSheet.create({
   items: {
-      flex: 1
+      flex: 4/8,
+      justifyContent: 'center'
   },
   logoContainer: {
-      height: 200,
+      flex: 3/8,
       borderBottomWidth: 0.5,
       justifyContent: 'center',
       alignItems: 'center'
       
   },
   logo: {
-    width: 200,
+    width: 250,
     resizeMode: 'contain'
   },
   additionalInfo: {
-      height: 200,
+      flex: 3/8,
       paddingTop: 5,
       borderTopWidth: 1,
   },
   social: {
+    width: '100%',
     flexDirection:'row',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    position: 'absolute',
+    bottom: 20
   },
   btnSocialWrapper: {
     marginTop: 10,
     marginHorizontal: 6
-  }
+  },
 })

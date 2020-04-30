@@ -11,7 +11,7 @@ export const defaultStyleNavigationStackOptions = style => ({
       backgroundColor: style.theme.navigationHeader.backgroundColor,
       borderBottomColor: style.theme.dividerColor.borderColor,
       height: 50,
-      // borderBottomWidth: 0.8,
+      borderBottomWidth: 0,
       
       elevation: 0, // remove shadow on Android
       shadowOpacity: 0, // remove shadow on iOS

@@ -34,24 +34,24 @@ class SideBar extends React.Component {
 
     onCall = phoneNumber => {
         try {
-          const phone = phoneNumber.replace(/[(,),-]/g, '')
-          Linking.openURL(`tel:${phone}`)
+            const phone = phoneNumber.replace(/[(,),-]/g, '')
+            Linking.openURL(`tel:${phone}`)
         } catch{ }
-      }
+    }
 
-      onOpenSocialLink = link => {
+    onOpenSocialLink = link => {
         try {
-          if (link.indexOf('http://') == -1 &&
-          link.indexOf('https://') == -1)
-            Linking.openURL(`http://${link}`)
-          else
-            Linking.openURL(link)
+            if (link.indexOf('http://') == -1 &&
+                link.indexOf('https://') == -1)
+                Linking.openURL(`http://${link}`)
+            else
+                Linking.openURL(link)
         } catch{ }
-      }
+    }
 
     render() {
         return (
-            <ScrollView style={{ flex: 1 }}>
+            <ScrollView contentContainerStyle={{flex: 1}}>
                 <View style={[
                     Style.logoContainer,
                     this.props.style.theme.dividerColorSecondary
@@ -123,7 +123,9 @@ class SideBar extends React.Component {
                         }
                     </View>
                 </View>
+                
             </ScrollView>
+
         )
     }
 }
