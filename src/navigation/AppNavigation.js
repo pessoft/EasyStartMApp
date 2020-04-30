@@ -7,6 +7,7 @@ import { START_APP } from './pointsNavigate';
 import CheckoutCompleteScreen from '../screens/checkout/checkout-complete/CheckoutCompleteScreen'
 import React from 'react'
 import { connect } from 'react-redux'
+import CheckoutOnlinePayScreen from '../screens/checkout/checkout-online-pay/CheckoutOnlinePay'
 
 class AppNavigation extends React.Component {
 
@@ -17,7 +18,8 @@ class AppNavigation extends React.Component {
         Auth: authStackNavigator(this.props.style),
         UserSetInfo: userInfoStackNavigator(this.props.style),
         MainBottomTab: mainBottomTab(this.props.style),
-        CheckoutComplete: CheckoutCompleteScreen
+        CheckoutComplete: CheckoutCompleteScreen,
+        CheckoutOnlinePay: CheckoutOnlinePayScreen
       },
       {
         initialRouteName: START_APP

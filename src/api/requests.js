@@ -16,7 +16,8 @@ import {
   getCashbackTransactionQuery,
   registerDeviceQuery,
   updatePerentReferralQuery,
-  getStocksQuery
+  getStocksQuery,
+  checkOnlinePayNewOrderQuery
 } from './request-strings'
 import { fetchAPI } from './helper-api'
 
@@ -36,6 +37,7 @@ export const getProductReviewsFetch = async (productId) => fetchAPI(getProductRe
 export const setProductReviewsFetch = async (review) => fetchAPI(setProductReviewsQuery, review)
 
 export const sendNewOrderFetch = async (newOrder) => fetchAPI(sendNewOrderQuery, newOrder)
+export const checkOnlinePayNewOrderFetch = async (orderId) => fetchAPI(checkOnlinePayNewOrderQuery, orderId)
 
 export const getHistoryOrdersFetch = async (dataForHistory) => await fetchAPI(getHistoryOrdersQuery, dataForHistory)
 export const getProductsHistoryOrderFetch = async (orderId) => await fetchAPI(getProductsHistoryOrderQuery, orderId)

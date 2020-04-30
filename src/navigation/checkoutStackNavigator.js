@@ -12,7 +12,7 @@ const checkoutStackNavigator = style => {
             ShoppingBasketScreen: ShoppingBasketScreen,
             ProductInfoFomBasket: ProductInfoScreen,
             ProductReviewFromBasket: ProductReviewScreen,
-            CheckoutScreen: CheckoutScreen
+            CheckoutScreen: CheckoutScreen,
         },
         {
             ...defaultStyleNavigationStackOptions(style),

@@ -14,6 +14,7 @@ export const getProductReviewsQuery = `${SERVER_DOMAIN}/api/AdminApp/getproductr
 export const setProductReviewsQuery = `${SERVER_DOMAIN}/api/AdminApp/setProductReviews`
 
 export const sendNewOrderQuery = `${SERVER_DOMAIN}/api/AdminApp/sendorder`
+export const checkOnlinePayNewOrderQuery = `${SERVER_DOMAIN}/api/AdminApp/completeorderpay`
 
 export const getHistoryOrdersQuery = `${SERVER_DOMAIN}/api/AdminApp/gethistoryorders`
 export const getProductsHistoryOrderQuery = `${SERVER_DOMAIN}/api/AdminApp/getproductshistoryorder`

@@ -103,7 +103,9 @@ class CheckoutScreen extends React.Component {
           <PaymentTypeInfo
             style={this.props.style}
             card={this.props.deliverySettings.PayCard}
-            cash={this.props.deliverySettings.PayCash} />
+            cash={this.props.deliverySettings.PayCash} 
+            payOnline={this.props.deliverySettings.PayOnline} 
+            />
           {
             this.props.organizationSettings.Email &&
             <SocialInfo

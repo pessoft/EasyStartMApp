@@ -15,7 +15,7 @@ import { TypePayment } from '../../../helpers/type-payment'
 import { DeliveryAddressAnimation } from '../../../components/checkout/delivery-address/DeliveryAddressAnimation'
 import { OrderComment } from '../../../components/checkout/order-comment/OrderComment'
 import { CompleteCheckout } from '../../../components/checkout/complete-checkout/CompleteCheckout'
-import { CHECKOUT_COMPLETE, SHOPPING_BASKET, CASHBACK_PROFILE } from '../../../navigation/pointsNavigate'
+import { CHECKOUT_COMPLETE, SHOPPING_BASKET, CASHBACK_PROFILE, CHECKOUT_ONLINE_PAY } from '../../../navigation/pointsNavigate'
 import { addNewOrderData } from '../../../store/checkout/actions'
 import { PromotionLogic } from '../../../logic/promotion/promotion-logic'
 import { DiscountType } from '../../../logic/promotion/discount-type'
@@ -31,6 +31,7 @@ import VirtualMoneyButton from '../../../components/buttons/VirtualMoneyButton/V
 import { setDeliveryAddress } from '../../../store/user/actions'
 import { showMessage } from "react-native-flash-message"
 import { isWorkTime, getWorkTime } from '../../../helpers/work-time'
+import { OrderStatus } from '../../../helpers/order-status'
 
 class CheckoutScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -136,7 +137,7 @@ class CheckoutScreen extends React.Component {
       this.getStockOption(isDefault),
       this.getCoupon(),
       this.props.userData.referralDiscount,
-      this.props.promotionSettings)
+      this.props.promotionSectionSettings)
   }
 
   getCoupon = () => {
@@ -151,7 +152,9 @@ class CheckoutScreen extends React.Component {
       stocks: this.props.stocks,
       deliveryType: isDefault ? DeliveryType.Delivery : this.state.deliveryType,
       orderSum: this.getOrderPrice(),
-      basketProducts: this.props.basketProducts
+      basketProducts: this.props.basketProducts,
+      stockInteractionType: this.props.promotionSetting.StockInteractionType,
+      productDictionary: this.props.productDictionary
     }
   }
 
@@ -218,7 +221,7 @@ class CheckoutScreen extends React.Component {
   }
 
   setContactsData = userData => this.setState({ userData })
-  changeDeliveryType = deliveryType => this.setState({ deliveryType, deliveryAddress: { areaDeliveryId: -1 } })
+  changeDeliveryType = deliveryType => this.setState({ deliveryType })
   changeDeliveryDate = dateDelivery => { this.setState({ dateDelivery }) }
   changePaymentData = paymentData => this.setState({ paymentData })
   setDeliveryAddress = deliveryAddress => this.setState({ deliveryAddress })
@@ -292,7 +295,16 @@ class CheckoutScreen extends React.Component {
     return deliveryPrice
   }
 
+  isFreeDeliveryAnyArea = () => {
+    const paidDeliveryAreas = this.props.deliverySettings.AreaDeliveries.filter(p => p.MinPrice > this.getOrderPrice())
+
+    return paidDeliveryAreas.length == 0
+  }
+
   isFreeDelivery = () => {
+    if (this.isFreeDeliveryAnyArea())
+      return true
+
     if (!this.state.deliveryAddress.areaDeliveryId ||
       this.state.deliveryAddress.areaDeliveryId == -1)
       return false
@@ -416,7 +428,8 @@ class CheckoutScreen extends React.Component {
       stockIds: this.state.promotion.getApplyStockIds(),
       couponId: this.state.promotion.getApplyCouponId(),
       referralDiscount: this.state.promotion.getReferralDiscount(),
-      dateDelivery: this.state.dateDelivery
+      dateDelivery: this.state.dateDelivery,
+      OrderStatus: this.state.paymentData.paymentType == TypePayment.OnlinePay ? OrderStatus.PendingPay : OrderStatus.Processing
     }
   }
 
@@ -427,7 +440,10 @@ class CheckoutScreen extends React.Component {
     this.updateVirtualMoney()
     this.updateClientReferralDiscount(newOrderData.referralDiscount)
 
-    this.props.navigation.navigate(CHECKOUT_COMPLETE)
+    if (this.state.paymentData.paymentType == TypePayment.OnlinePay)
+      this.props.navigation.navigate(CHECKOUT_ONLINE_PAY)
+    else
+      this.props.navigation.navigate(CHECKOUT_COMPLETE)
   }
 
   updateVirtualMoney = () => {
@@ -446,7 +462,7 @@ class CheckoutScreen extends React.Component {
   isValidDeliveryAddress = () => {
     if (this.state.deliveryAddress.street
       && this.state.deliveryAddress.houseNumber
-      && this.state.deliveryAddress.areaDeliveryId != -1) {
+      && (this.state.deliveryAddress.areaDeliveryId != -1 || this.isFreeDeliveryAnyArea())) {
       return true
     }
 
@@ -545,6 +561,7 @@ class CheckoutScreen extends React.Component {
               style={this.props.style}
               hasCard={this.props.deliverySettings.PayCard}
               hasCash={this.props.deliverySettings.PayCash}
+              hasOnlinePay={this.props.deliverySettings.PayOnline}
               initValue={this.state.paymentData.paymentType}
               changePaymentData={this.changePaymentData}
             />
@@ -562,6 +579,7 @@ class CheckoutScreen extends React.Component {
               style={this.props.style}
               changeDeliveryAddress={this.setDeliveryAddress}
               isShow={this.state.deliveryType == DeliveryType.Delivery}
+              isHideArea={this.isFreeDeliveryAnyArea()}
               areaDeliveries={this.props.deliverySettings.AreaDeliveries}
               saveDeliveryAddress={this.saveDeliveryAddress}
             />
@@ -615,9 +633,11 @@ const mapStateToProps = state => {
     basketProducts: state.checkout.basketProducts,
     basketConstructorProducts: state.checkout.basketConstructorProducts,
     products: state.main.products,
+    productDictionary: state.main.productDictionary,
     categories: state.main.categories,
     deliverySettings: state.main.deliverySettings,
-    promotionSettings: state.main.promotionSectionSettings,
+    promotionSetting: state.main.promotionSetting,
+    promotionSectionSettings: state.main.promotionSectionSettings,
     promotionCashbackSetting: state.main.promotionCashbackSetting,
     stocks: state.main.stocks,
     coupon: state.main.coupon,

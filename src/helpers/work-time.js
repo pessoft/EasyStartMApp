@@ -9,36 +9,44 @@ const DaysShort = {
 }
 
 export const getWorkTime = timeDelivery => {
-  let workDays = {};
-  let freeDays = [];
+  const dayIds = Object.keys(DaysShort).sort()
+  const freeDay = 'выходной'
+  let workMode = []
+  workMode.getLastItem = () => workMode.length ? workMode[workMode.length - 1] : null
 
-  for (let dayId in timeDelivery) {
+  for (let dayId of dayIds) {
     let timePeriod = timeDelivery[dayId];
+    const workTime = timePeriod && timePeriod.length == 2 ?
+      timePeriod.join('-') :
+      freeDay
 
-    if (timePeriod == null ||
-      timePeriod.length != 2) {
-      freeDays.push(DaysShort[dayId]);
-    } else {
-      let periodStr = timePeriod.join(" - ");
-
-      if (!workDays[periodStr]) {
-        workDays[periodStr] = [];
-      }
-
-      workDays[periodStr].push(DaysShort[dayId]);
+    let daysEqualWorkMode = workMode.getLastItem()
+    const addDaysEqualWorkMode = () => {
+      workMode.push({
+        workTime: workTime,
+        dayIds: [dayId]
+      })
     }
+
+    if (daysEqualWorkMode && daysEqualWorkMode.workTime == workTime)
+      daysEqualWorkMode.dayIds.push(dayId)
+    else
+      addDaysEqualWorkMode()
   }
 
   let daysStr = [];
 
-  for (let period in workDays) {
-    let str = `${workDays[period].join()}: ${period}`;
+  for (const workDay of workMode) {
+    let daysWorkMode = ''
+    if (workDay.dayIds.length > 2) {
+      const firstPeriodDay = DaysShort[workDay.dayIds[0]]
+      const lastPeriodDay = DaysShort[workDay.dayIds[workDay.dayIds.length - 1]]
 
-    daysStr.push(str);
-  }
+      daysWorkMode = `${firstPeriodDay}-${lastPeriodDay}: ${workDay.workTime}`
+    } else
+      daysWorkMode = `${workDay.dayIds.map(p => DaysShort[p]).join()}: ${workDay.workTime}`
 
-  if (freeDays.length != 0) {
-    daysStr.push(`${freeDays.join()}: Выходной`);
+    daysStr.push(daysWorkMode)
   }
 
   return daysStr;
@@ -123,11 +131,13 @@ export const nearestWorkingDate = (timeDeliveryFromSettings, currentDate) => {
 
   if (currentDayWorkPeriod && currentDayWorkPeriod.length == 2) {
     const timeEndDay = currentDayWorkPeriod[1].split(':')
-    let dateEndDay = new Date(currentDate)
+    let dateEndDay = new Date()
     dateEndDay.setHours(timeEndDay[0], timeEndDay[1])
     
-    if(currentDate < dateEndDay) {
+    if (currentDate < dateEndDay) {
       workDatePeriod = currentDayWorkPeriod
+    } else if(dateEndDay.getDay() !=day) {
+      --day
     }
   }
   
@@ -176,7 +186,7 @@ export const toStringDate = dateToStr => {
   return dateStr;
 }
 
-export const getTimePeriodByDayFromDate = (timeDeliveryFromSettings, date) => {
+export const getTimePeriodByDayFromDate = (timeDeliveryFromSettings, date, dateShift) => {
   const currentDate = date
   const currentDay = currentDate.getDay() == 0 ? 7 : currentDate.getDay()
 
@@ -185,11 +195,20 @@ export const getTimePeriodByDayFromDate = (timeDeliveryFromSettings, date) => {
     isHoliday: true,
     periodStart: '',
     periodEnd: '',
-  }
+  }  
 
   if (currentWorkPeriod && currentWorkPeriod.length == 2) {
+    let periodStart = currentWorkPeriod[0]
+    if(dateShift && dateShift.length == 2) {
+      const splitPeriod = periodStart.split(':').map(p => parseInt(p))
+      splitPeriod[0] +=dateShift[0]
+      splitPeriod[1] +=dateShift[1]
+
+      periodStart = splitPeriod.join(':')
+    }
+
     result.isHoliday = false
-    result.periodStart = currentWorkPeriod[0]
+    result.periodStart = periodStart
     result.periodEnd = currentWorkPeriod[1]
   }
 

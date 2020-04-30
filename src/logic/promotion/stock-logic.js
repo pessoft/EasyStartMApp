@@ -2,6 +2,7 @@ import { TriggerType } from './trigger-type'
 import { RewardType } from './reward-type'
 import { DiscountType } from './discount-type'
 import { getMaxOfArray } from '../../helpers/utils'
+import { StockInteractionType } from '../../helpers/stock-interaction-type'
 
 export class StockLogic {
     /***
@@ -12,9 +13,22 @@ export class StockLogic {
         this.deliveryType = stockOption.deliveryType
         this.orderSum = stockOption.orderSum
         this.basketProducts = stockOption.basketProducts
+        this.stockInteractionType = stockOption.stockInteractionType
+        this.products = stockOption.productDictionary
     }
 
     getDiscount(discountType) {
+        switch (this.stockInteractionType) {
+            case StockInteractionType.PartialJoin:
+                return this.getDiscountByPartialJoin(discountType)
+            case StockInteractionType.FullExclude:
+                return this.getDiscountByFullExclude(discountType)
+            default:
+                return this.getDiscountByFullJoin(discountType)
+        }
+    }
+
+    getDiscountByFullJoin = discountType => {
         const stocksDiscount = this.getStockDiscountByTriggers(discountType)
         let result = 0
 
@@ -26,6 +40,31 @@ export class StockLogic {
         }
 
         return result
+    }
+
+    getDiscountByPartialJoin = discountType => {
+        const stocksDiscountPercent = this.getStockDiscountByTriggers(DiscountType.Percent)
+        const stocksDiscountRubel = this.getStockDiscountByTriggers(DiscountType.Ruble)
+
+        const maxDiscountPercent = getMaxOfArray(stocksDiscountPercent.map(p => p.discount))
+        const maxDiscountRubel = parseFloat(getMaxOfArray(stocksDiscountRubel.map(p => p.discount)))
+        const maxDiscountPercentConvertToRubel = parseFloat(this.orderSum) * maxDiscountPercent / 100.0
+
+        if (discountType == DiscountType.Percent && maxDiscountPercentConvertToRubel >= maxDiscountRubel)
+            return maxDiscountPercent
+        else if (discountType == DiscountType.Ruble && maxDiscountRubel > maxDiscountPercentConvertToRubel)
+            return maxDiscountRubel
+
+        return 0
+    }
+
+    getDiscountByFullExclude = discountType => {
+        const productsWithPaxPrice = this.getProductsByFullExclude()
+
+        if (productsWithPaxPrice.length)
+            return 0
+        else
+            return this.getDiscountByPartialJoin(discountType)
     }
 
     getStockDiscountByTriggers(discountType) {
@@ -52,10 +91,11 @@ export class StockLogic {
     }
 
     getDiscountTriggerOrderSum(discountType) {
-        const stocks = this.stocks.filter(p => p.ConditionType == TriggerType.SummOrder
+        let stocks = this.stocks.filter(p => p.ConditionType == TriggerType.SummOrder
             && p.RewardType == RewardType.Discount
             && p.DiscountType == discountType
             && p.ConditionOrderSum <= this.orderSum)
+        stocks = this.filterStockByExcludeProductTriggerOrderSum(stocks)
         const discountItem = this.transformDiscount(stocks)
 
         return discountItem
@@ -103,11 +143,27 @@ export class StockLogic {
             ids: [],
             discount: 0
         }
-        
+
         if (stocks.length > 0) {
-            for (const stock of stocks) {
-                discountItem.ids.push(stock.Id)
-                discountItem.discount +=  stock.DiscountValue
+            switch (this.stockInteractionType) {
+                case StockInteractionType.PartialJoin:
+                case StockInteractionType.FullExclude: {
+                    const maxDiscountValue = getMaxOfArray(stocks.map(p => p.DiscountValue))
+                    const maxDiscountStock = stocks.find(p => p.DiscountValue == maxDiscountValue)
+
+                    discountItem.ids.push(maxDiscountStock.Id)
+                    discountItem.discount = maxDiscountStock.DiscountValue
+
+                    break
+                }
+                default: {
+                    for (const stock of stocks) {
+                        discountItem.ids.push(stock.Id)
+                        discountItem.discount += stock.DiscountValue
+                    }
+
+                    break
+                }
             }
         }
 
@@ -115,6 +171,15 @@ export class StockLogic {
     }
 
     getProducts() {
+        switch (this.stockInteractionType) {
+            case StockInteractionType.FullExclude:
+                return this.getProductsByFullExclude()
+            default:
+                return this.getProductsByFullJoin()
+        }
+    }
+
+    getProductsByFullJoin = () => {
         const stocksProducts = this.getStockProductsByTriggers()
         let result = []
 
@@ -127,6 +192,41 @@ export class StockLogic {
 
         return result
     }
+
+    getProductsByPartialJoin = () => {
+        let result = {
+            id: -1,
+            price: 0
+        }
+        const stockIdProducts = this.getProductsByFullJoin()
+        const stockIdProductsWithPrice = stockIdProducts.map(p => ({ id: p, price: this.products[p].Price }))
+        if (stockIdProductsWithPrice.length) {
+            const maxProductPrice = getMaxOfArray(stockIdProductsWithPrice.map(p => p.price))
+            const productWithMaxPrice = stockIdProductsWithPrice.find(p => p.price == maxProductPrice)
+
+            result = { ...result, ...productWithMaxPrice }
+        }
+
+        return result
+    }
+
+    getProductsByFullExclude = () => {
+        const productWithMaxPrice = this.getProductsByPartialJoin()
+
+        if (productWithMaxPrice.id != -1) {
+            let percentDiscount = this.getDiscountByPartialJoin(DiscountType.Percent)
+            const percentDiscountConvertToRuble = parseFloat(this.orderSum) * percentDiscount / 100.0
+            let rubleDiscount = this.getDiscountByPartialJoin(DiscountType.Ruble)
+
+            if (productWithMaxPrice.price > percentDiscountConvertToRuble &&
+                productWithMaxPrice.price > rubleDiscount) {
+                return [productWithMaxPrice.id]
+            }
+        }
+
+        return []
+    }
+
 
     getStockProductsByTriggers() {
         const productsTriggerDeliveryType = this.getProductsTriggerDeliveryType()
@@ -156,10 +256,40 @@ export class StockLogic {
         return productItem
     }
 
+    filterStockByExcludeProductTriggerOrderSum = stocks => {
+        if (!stocks || stocks.length == 0)
+            return []
+
+        const newStocks = []
+        
+        for (const stock of stocks) {
+            if (!stock.StockExcludedProducts || stock.StockExcludedProducts.length == 0) {
+                newStocks.push(stock)
+            } else {
+                let orderSumExcludedProducts = 0
+
+                for (const productId of stock.StockExcludedProducts) {
+                    const basketProduct = this.basketProducts[productId]
+
+                    if (basketProduct)
+                        orderSumExcludedProducts += this.products[productId].Price * basketProduct.count
+                }
+                const orderSum = this.orderSum - orderSumExcludedProducts
+
+                if (stock.ConditionOrderSum <= orderSum)
+                    newStocks.push(stock)
+            }
+        }
+
+        return newStocks
+    }
+
     getStocksTriggerOrderSum() {
         let stocks = this.stocks.filter(p => p.ConditionType == TriggerType.SummOrder
             && p.RewardType == RewardType.Products
             && p.ConditionOrderSum <= this.orderSum)
+
+        stocks = this.filterStockByExcludeProductTriggerOrderSum(stocks)
 
         return stocks
     }

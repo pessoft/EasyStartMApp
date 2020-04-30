@@ -101,10 +101,14 @@ export class DeliveryDateSetting extends React.Component {
   }
 
   changeDate = date => {
-    let isWorkTimeForDelivery = isWorkTime(this.props.deliverySettings.TimeDelivery, date)
-    let isValidDayForDelivery = isWorkTimeForDelivery || isValidDay(date, this.props.deliverySettings.TimeDelivery)
+    let dateWithShift = new Date(date)
+    this.setTimeDateShift(dateWithShift, true)
 
-    if (isWorkTimeForDelivery)
+    let isWorkTimeForDelivery = isWorkTime(this.props.deliverySettings.TimeDelivery, date)
+    let isWorkTimeForDeliveryWithShift = isWorkTime(this.props.deliverySettings.TimeDelivery, dateWithShift)
+    let isValidDayForDelivery = isWorkTimeForDelivery && isWorkTimeForDeliveryWithShift || isValidDay(dateWithShift, this.props.deliverySettings.TimeDelivery)
+    
+    if (isWorkTimeForDelivery && isWorkTimeForDeliveryWithShift)
       this.setState({ date }, this.onChangeDate)
     else if (!isValidDayForDelivery) {
       this.invalidDayMessage(date)
@@ -120,44 +124,50 @@ export class DeliveryDateSetting extends React.Component {
   }
 
   invalidTimeMessage = date => {
-    const timeWorkPeriod = getTimePeriodByDayFromDate(this.props.deliverySettings.TimeDelivery, date)
+    let timeShift = this.getMinTimeProcessingOrder()
+    const timeWorkPeriod = getTimePeriodByDayFromDate(this.props.deliverySettings.TimeDelivery, date, timeShift)
 
     if (timeWorkPeriod.isHoliday)
       this.invalidDayMessage(date)
     else {
-      const msg = `Режим работы ${toStringDate(date)} c ${timeWorkPeriod.periodStart} до ${timeWorkPeriod.periodEnd}`
+      const msg = `Режим доставки ${toStringDate(date)} c ${timeWorkPeriod.periodStart} до ${timeWorkPeriod.periodEnd}`
       this.showInfoMessage(msg)
     }
   }
 
-  getMinDate = () => {
-    let date = new Date()
-    let minTimeProcessingOrder = this.props.deliverySettings ?
-      this.props.deliverySettings.MinTimeProcessingOrder.split(':').map(p => parseInt(p)) : [1, 0]
+  getMinTimeProcessingOrder = () => this.props.deliverySettings ?
+    this.props.deliverySettings.MinTimeProcessingOrder.split(':').map(p => parseInt(p)) : [1, 0]
+
+  setTimeDateShift = (dateForShift, isSubtract = false) => {
+    let minTimeProcessingOrder = this.getMinTimeProcessingOrder()
     const shiftHours = minTimeProcessingOrder[0]
     const shiftMinutes = minTimeProcessingOrder[1]
-    const setShift = dateForShift => {
-      dateForShift.setHours(dateForShift.getHours() + shiftHours)
-      dateForShift.setMinutes(dateForShift.getMinutes() + shiftMinutes)
-    }
+    const operation = (val1, val2) => isSubtract ? val1 - val2 : val1 + val2
+    dateForShift.setHours(operation(dateForShift.getHours(), shiftHours))
+    dateForShift.setMinutes(operation(dateForShift.getMinutes(), shiftMinutes))
+  }
 
-    setShift(date)
+  getMinDate = () => {
+    let date = new Date()
 
+    this.setTimeDateShift(date)
+    
     let isWorkTimeForDelivery = isWorkTime(this.props.deliverySettings.TimeDelivery, date)
 
     if (isWorkTimeForDelivery) {
       let minWorkDate = nearestWorkingStartDate(this.props.deliverySettings.TimeDelivery, date)
-      setShift(minWorkDate)
+      this.setTimeDateShift(minWorkDate)
 
       isWorkTimeForDelivery = minWorkDate < date
     }
-
+    
 
     if (!isWorkTimeForDelivery) {
       date = nearestWorkingStartDate(this.props.deliverySettings.TimeDelivery, date)
-      setShift(date)
-    }
 
+      this.setTimeDateShift(date)
+    }
+    
     return date
   }
 

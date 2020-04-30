@@ -22,7 +22,7 @@ import { getSVGColor } from '../../../helpers/color-helper'
 import { getMainData, resetMainData } from '../../../store/main/actions'
 import { resetCheckoutData } from '../../../store/checkout/actions'
 import { getLocation } from '../../../store/location/actions'
-import { showMessage } from "react-native-flash-message"
+import { showMessage } from 'react-native-flash-message'
 import { SimpleTextButton } from '../../../components/buttons/SimpleTextButton/SimpleTextButton'
 import { ButtonWithoutFeedback } from '../../../components/buttons/ButtonWithoutFeedback/ButtonWithoutFeedback'
 
@@ -70,7 +70,7 @@ class AuthLoginScreen extends React.Component {
 
     showMessage({
       message: this.props.errorMessage,
-      type: "danger",
+      type: 'danger',
     });
     this.props.dropFetchFlag()
   }
@@ -140,7 +140,7 @@ class AuthLoginScreen extends React.Component {
   renderLoader = () => {
     return (
       <View style={Style.centerScreen}>
-        <ActivityIndicator size="large" color={this.props.style.theme.defaultPrimaryColor.backgroundColor} />
+        <ActivityIndicator size='large' color={this.props.style.theme.defaultPrimaryColor.backgroundColor} />
       </View>
     )
   }
