@@ -8,10 +8,23 @@ import { timingAnimation } from '../../../animation/timingAnimation'
 import { MenuItemWithoutImage } from '../../../components/menu-item-without-image/MenuItemWithoutImage';
 import { ORDER_HISTORY_INFO_PROFILE } from '../../../navigation/pointsNavigate'
 import { dateFormatted } from '../../../helpers/utils'
+import BasketIcoWithBadge from '../../../components/badges/basket-badge/BasketIcoWithBadge'
 
 class OrdersHistoryScreen extends React.Component {
-  static navigationOptions = {
-    headerTitle: 'История заказов',
+  static navigationOptions = ({ navigation }) => {
+    return {
+      headerTitle: 'История заказов',
+      headerTitleStyle: {
+        textAlign: 'center',
+        flex: 1,
+      },
+      headerRight: () => <BasketIcoWithBadge
+        containerStyle={{ paddingHorizontal: 20 }}
+        navigation={navigation}
+        width={28}
+        height={28}
+        animation={true} />
+    }
   }
 
   constructor(props) {

@@ -3,12 +3,22 @@ import { Animated, Text, Image } from 'react-native'
 import { connect } from 'react-redux'
 import { timingAnimation } from '../../../animation/timingAnimation'
 import Style from './style'
-
+import BasketIcoWithBadge from '../../../components/badges/basket-badge/BasketIcoWithBadge'
 
 class NewsInfoScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
       headerTitle: navigation.getParam('NewsTitle', 'Новости'),
+      headerTitleStyle: {
+        textAlign: 'center',
+        flex: 1,
+      },
+      headerRight: () => <BasketIcoWithBadge
+        containerStyle={{ paddingHorizontal: 20 }}
+        navigation={navigation}
+        width={28}
+        height={28}
+        animation={true} />
     }
   }
 

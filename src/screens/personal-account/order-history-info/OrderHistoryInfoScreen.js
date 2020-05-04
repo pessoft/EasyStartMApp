@@ -24,11 +24,22 @@ import { getProductsHistoryOrder } from '../../../store/history-order/actions'
 import { CategoryType } from '../../../helpers/type-category'
 import { generateRandomString } from '../../../helpers/utils'
 import LottieView from 'lottie-react-native';
+import BasketIcoWithBadge from '../../../components/badges/basket-badge/BasketIcoWithBadge'
 
 class OrderHistoryInfoScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
       headerTitle: navigation.getParam('orderInfo', 'Информация о заказе'),
+      headerTitleStyle: {
+        textAlign: 'center',
+        flex: 1,
+      },
+      headerRight: () => <BasketIcoWithBadge
+        containerStyle={{ paddingHorizontal: 20 }}
+        navigation={navigation}
+        width={28}
+        height={28}
+        animation={true} />
     }
   }
 

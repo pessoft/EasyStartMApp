@@ -10,10 +10,23 @@ import { getCashbackTransaction } from '../../../store/promotion-transaction/act
 import { TransactionItem } from '../../../components/transaction-item/TransactionItem'
 import { PromotionTransactionType } from '../../../logic/promotion/promotion-transaction-type';
 import { CashbackTransactionType } from '../../../logic/promotion/cashback-transaction-type'
+import BasketIcoWithBadge from '../../../components/badges/basket-badge/BasketIcoWithBadge'
 
 class CashbackInfoScreen extends React.Component {
-  static navigationOptions = {
-    headerTitle: 'Кешбек',
+  static navigationOptions = ({ navigation }) => {
+    return {
+      headerTitle: 'Кешбек',
+      headerTitleStyle: {
+        textAlign: 'center',
+        flex: 1,
+      },
+      headerRight: () => <BasketIcoWithBadge
+        containerStyle={{ paddingHorizontal: 20 }}
+        navigation={navigation}
+        width={28}
+        height={28}
+        animation={true} />
+    }
   }
 
   constructor(props) {
