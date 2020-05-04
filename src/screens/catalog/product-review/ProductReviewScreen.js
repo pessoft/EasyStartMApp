@@ -17,9 +17,25 @@ import { MessageInput } from '../../../components/message-input/MessageInput'
 import { timingAnimation } from '../../../animation/timingAnimation'
 import { getSVGColor } from '../../../helpers/color-helper'
 import { toStringDateAndTime, jsonToDate } from '../../../helpers/work-time'
+import BasketIcoWithBadge from '../../../components/badges/basket-badge/BasketIcoWithBadge'
+
 class ProductReviewScreen extends React.Component {
-    static navigationOptions = {
-        headerTitle: 'Отзывы',
+    static navigationOptions = ({ navigation }) => {
+        const headerTitle =  'Отзывы'
+
+        return {
+            headerTitle,
+            headerTitleStyle: {
+                textAlign: 'center',
+                flex: 1,
+            },
+            headerRight: () => <BasketIcoWithBadge
+            containerStyle={{ paddingHorizontal: 20 }}
+            navigation={navigation}
+            width={28}
+            height={28}
+            animation={true} />
+        }
     }
 
     constructor(props) {

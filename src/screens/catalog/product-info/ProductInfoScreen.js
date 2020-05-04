@@ -15,12 +15,24 @@ import { timingAnimation } from '../../../animation/timingAnimation'
 import { setSelectedProduct } from '../../../store/catalog/actions'
 import { getSVGColor } from '../../../helpers/color-helper'
 import { updateRating } from '../../../store/main/actions'
-
+import BasketIcoWithBadge from '../../../components/badges/basket-badge/BasketIcoWithBadge'
 
 class ProductInfoScreen extends React.Component {
     static navigationOptions = ({ navigation }) => {
+        const headerTitle = navigation.getParam('productName', 'Блюдо')
+
         return {
-            headerTitle: navigation.getParam('productName', 'Блюдо'),
+            headerTitle,
+            headerTitleStyle: {
+                textAlign: 'center',
+                flex: 1,
+            },
+            headerRight: () => <BasketIcoWithBadge
+            containerStyle={{ paddingHorizontal: 20 }}
+            navigation={navigation}
+            width={28}
+            height={28}
+            animation={true} />
         }
     }
 
@@ -31,12 +43,17 @@ class ProductInfoScreen extends React.Component {
         this.state = {
             showScaleAnimation: new Animated.Value(0),
             selectedProduct: props.selectedProduct,
-            fromBasket: props.fromBasket
+            fromBasket: props.fromBasket,
+            refreshItems: false,
         }
     }
 
     componentDidMount() {
         timingAnimation(this.state.showScaleAnimation, 1, 300, true)
+
+        this.focusListener = this.props.navigation.addListener('didFocus', () => {
+            this.setState({ refreshItems: !this.state.refreshItems })
+          });
     }
 
     componentDidUpdate(prevProps) {
@@ -47,13 +64,22 @@ class ProductInfoScreen extends React.Component {
             this.setState({ selectedProduct: product })
         }
 
-        if (!this.props.selectedProduct ||
-            Object.keys(this.props.selectedProduct).length == 0) {
-            this.props.navigation.navigate(PRODUCTS)
-        } else if (this.props.selectedProduct != prevProps.selectedProduct) {
-            this.props.navigation.setParams({ productName: this.props.selectedProduct.Name })
+
+        if(this.state.refreshItems) {
+            if (!this.props.selectedProduct ||
+                Object.keys(this.props.selectedProduct).length == 0) {
+                this.props.navigation.navigate(PRODUCTS)
+            } else if (this.props.selectedProduct != prevProps.selectedProduct) {
+                this.props.navigation.setParams({ productName: this.props.selectedProduct.Name })
+            }
+
+            this.setState({ refreshItems: false })
         }
     }
+
+    componentWillUnmount() {
+        this.focusListener.remove();
+      }
 
     getRatingText() {
         const ratingValue = parseFloat(this.state.selectedProduct.Rating.toFixed(1))
