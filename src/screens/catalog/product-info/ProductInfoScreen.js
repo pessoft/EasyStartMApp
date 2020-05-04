@@ -31,12 +31,17 @@ class ProductInfoScreen extends React.Component {
         this.state = {
             showScaleAnimation: new Animated.Value(0),
             selectedProduct: props.selectedProduct,
-            fromBasket: props.fromBasket
+            fromBasket: props.fromBasket,
+            refreshItems: false,
         }
     }
 
     componentDidMount() {
         timingAnimation(this.state.showScaleAnimation, 1, 300, true)
+
+        this.focusListener = this.props.navigation.addListener('didFocus', () => {
+            this.setState({ refreshItems: !this.state.refreshItems })
+        });
     }
 
     componentDidUpdate(prevProps) {
@@ -47,11 +52,15 @@ class ProductInfoScreen extends React.Component {
             this.setState({ selectedProduct: product })
         }
 
-        if (!this.props.selectedProduct ||
-            Object.keys(this.props.selectedProduct).length == 0) {
-            this.props.navigation.navigate(PRODUCTS)
-        } else if (this.props.selectedProduct != prevProps.selectedProduct) {
-            this.props.navigation.setParams({ productName: this.props.selectedProduct.Name })
+        if (this.state.refreshItems) {
+            if (!this.props.selectedProduct ||
+                Object.keys(this.props.selectedProduct).length == 0) {
+                this.props.navigation.navigate(PRODUCTS)
+            } else if (this.props.selectedProduct != prevProps.selectedProduct) {
+                this.props.navigation.setParams({ productName: this.props.selectedProduct.Name })
+            }
+
+            this.setState({ refreshItems: false })
         }
     }
 
