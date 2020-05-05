@@ -25,7 +25,7 @@ import SideBar from '../components/side-bar/SideBar'
 const { height } = Dimensions.get('window')
 
 const getHeightItemDrawer = () => {
-    if (height <= 592)
+    if (height <= 592 && Platform.OS != 'ios')
         return 45
     if (height >= 750)
         return 55
