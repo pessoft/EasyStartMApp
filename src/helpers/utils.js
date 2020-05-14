@@ -4,6 +4,10 @@ export const getMaxOfArray = numArray => {
   return Math.max.apply(null, numArray);
 }
 
+export const getMinOfArray = numArray => {
+  return Math.min.apply(null, numArray);
+}
+
 export const intersectOfArray = (arr1, arr2) => {
   const a1 = arr1 && arr1.length > 0 ? arr1 : []
   const a2 = arr2 && arr2.length > 0 ? arr2 : []
