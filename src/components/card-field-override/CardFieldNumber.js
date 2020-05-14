@@ -8,7 +8,6 @@ export class CardFieldNumber extends CardFieldNumberBase {
     }
 
     __onChangeText__ = text => {
-        alert('change')
         if (this.props.onChangeText) {
             this.props.onChangeText(text)
         }
