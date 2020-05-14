@@ -1,7 +1,7 @@
 import { TriggerType } from './trigger-type'
 import { RewardType } from './reward-type'
 import { DiscountType } from './discount-type'
-import { getMaxOfArray } from '../../helpers/utils'
+import { getMaxOfArray, getMinOfArray } from '../../helpers/utils'
 import { StockInteractionType } from '../../helpers/stock-interaction-type'
 
 export class StockLogic {
@@ -17,7 +17,7 @@ export class StockLogic {
         this.products = stockOption.productDictionary
     }
 
-    getDiscount(discountType) {
+    getDiscount = discountType => {
         switch (this.stockInteractionType) {
             case StockInteractionType.PartialJoin:
                 return this.getDiscountByPartialJoin(discountType)
@@ -26,6 +26,49 @@ export class StockLogic {
             default:
                 return this.getDiscountByFullJoin(discountType)
         }
+    }
+
+    getPartialDiscount = discountType => {
+        switch (this.stockInteractionType) {
+            case StockInteractionType.PartialJoin:
+                return this.getPartialDiscountByPartialJoin(discountType)
+            case StockInteractionType.FullExclude:
+                return this.getPartialDiscountByFillExcluded(discountType)
+            default:
+                return this.getDiscountTriggerProducts(discountType)
+        }
+    }
+
+    getPartialDiscountByPartialJoin = discountType => {
+        const discount = this.getDiscountByPartialJoin(discountType)
+        
+        if (discount > 0)
+            return []
+
+        const stockPartialDiscountPercent = this.getDiscountTriggerProducts(DiscountType.Percent)
+        const stockPartialDiscountRubel = this.getDiscountTriggerProducts(DiscountType.Ruble)
+        const maxPartialDiscountPercentByRubel = getMaxOfArray(stockPartialDiscountPercent.map(p => p.discountValueCurrency))
+        const maxPartialDiscountRubel = parseFloat(getMaxOfArray(stockPartialDiscountRubel.map(p => p.discountValueCurrency)))
+        let maxDiscountValueCurrency
+        
+        if (discountType == DiscountType.Percent &&
+            maxPartialDiscountPercentByRubel >= maxPartialDiscountRubel)
+            maxDiscountValueCurrency = stockPartialDiscountPercent.find(p => p.discountValueCurrency == maxPartialDiscountPercentByRubel)
+        else if (discountType == DiscountType.Ruble &&
+            maxPartialDiscountRubel > maxPartialDiscountPercentByRubel)
+            maxDiscountValueCurrency = stockPartialDiscountRubel.find(p => p.discountValueCurrency == maxPartialDiscountRubel)
+        
+        return maxDiscountValueCurrency ? [maxDiscountValueCurrency] : []
+    }
+
+    getPartialDiscountByFillExcluded = discountType => {
+        const discount = this.getDiscountByFullExclude(discountType)
+        const productsWithPaxPrice = this.getProductsByFullExclude()
+
+        if(discount > 0 || productsWithPaxPrice.length)
+            return []
+        else
+            return this.getPartialDiscountByPartialJoin(discountType)
     }
 
     getDiscountByFullJoin = discountType => {
@@ -45,14 +88,24 @@ export class StockLogic {
     getDiscountByPartialJoin = discountType => {
         const stocksDiscountPercent = this.getStockDiscountByTriggers(DiscountType.Percent)
         const stocksDiscountRubel = this.getStockDiscountByTriggers(DiscountType.Ruble)
-
         const maxDiscountPercent = getMaxOfArray(stocksDiscountPercent.map(p => p.discount))
         const maxDiscountRubel = parseFloat(getMaxOfArray(stocksDiscountRubel.map(p => p.discount)))
         const maxDiscountPercentConvertToRubel = parseFloat(this.orderSum) * maxDiscountPercent / 100.0
 
-        if (discountType == DiscountType.Percent && maxDiscountPercentConvertToRubel >= maxDiscountRubel)
+        const stockPartialDiscountPercent = this.getDiscountTriggerProducts(DiscountType.Percent)
+        const stockPartialDiscountRubel = this.getDiscountTriggerProducts(DiscountType.Ruble)
+        const maxPartialDiscountPercentByRubel = getMaxOfArray(stockPartialDiscountPercent.map(p => p.discountValueCurrency))
+        const maxPartialDiscountRubel = parseFloat(getMaxOfArray(stockPartialDiscountRubel.map(p => p.discountValueCurrency)))
+
+        if (discountType == DiscountType.Percent &&
+            maxDiscountPercentConvertToRubel >= maxDiscountRubel &&
+            maxDiscountPercentConvertToRubel >= maxPartialDiscountPercentByRubel &&
+            maxDiscountPercentConvertToRubel >= maxPartialDiscountRubel)
             return maxDiscountPercent
-        else if (discountType == DiscountType.Ruble && maxDiscountRubel > maxDiscountPercentConvertToRubel)
+        else if (discountType == DiscountType.Ruble &&
+            maxDiscountRubel > maxDiscountPercentConvertToRubel &&
+            maxDiscountRubel > maxPartialDiscountPercentByRubel &&
+            maxDiscountRubel > maxPartialDiscountRubel)
             return maxDiscountRubel
 
         return 0
@@ -70,13 +123,13 @@ export class StockLogic {
     getStockDiscountByTriggers(discountType) {
         const discountTriggerDeliveryType = this.getDiscountTriggerDeliveryType(discountType)
         const discountTriggerOrderSum = this.getDiscountTriggerOrderSum(discountType)
-        const discountTriggerProducts = this.getDiscountTriggerProducts(discountType)
+        // const discountTriggerProducts = this.getDiscountTriggerProducts(discountType)
         const discountTriggerBirthday = this.getDiscountTriggerBirthday(discountType)
 
         return [
             discountTriggerDeliveryType,
             discountTriggerOrderSum,
-            discountTriggerProducts,
+            // discountTriggerProducts,
             discountTriggerBirthday]
     }
 
@@ -119,14 +172,76 @@ export class StockLogic {
             return result
         }
 
-        const stocks = this.stocks.filter(p => p.ConditionType == TriggerType.ProductsOrder
+        let stocks = this.stocks.filter(p => p.ConditionType == TriggerType.ProductsOrder
             && p.RewardType == RewardType.Discount
             && p.DiscountType == discountType
             && containsProducts(p.ConditionCountProducts))
-        const discountItem = this.transformDiscount(stocks)
+        stocks = this.transformPartialDiscount(stocks)
 
+        const discountItems = this.getPartialDiscountValues(stocks, discountType)
 
-        return discountItem
+        return discountItems
+    }
+
+    getDiscountValueCurrency = (discountValue, productPrice, multiplier, discountType) => {
+        const price = productPrice * multiplier
+        let discountValueCurrency = 0
+
+        if (discountType == DiscountType.Percent) {
+            discountValueCurrency = price * discountValue / 100
+        } else {
+            discountValueCurrency = discountValue
+        }
+
+        return discountValueCurrency
+    }
+
+    getPartialDiscountValues = (stocks, discountType) => {
+        const discountItems = []
+
+        if (stocks && stocks.length > 0) {
+            for (const stock of stocks) {
+                const countConditions = []
+                let productsPrice = 0
+                for (const id in stock.ConditionCountProducts) {
+                    const conditionProductCount = stock.ConditionCountProducts[id]
+                    const basketProductCount = this.basketProducts[id].count
+                    const countRepeatConditionProduct = basketProductCount / conditionProductCount
+
+                    productsPrice += this.products[id].Price
+                    countConditions.push(countRepeatConditionProduct)
+                }
+                const multiplier = getMinOfArray(countConditions)
+                discountItems.push({
+                    stockId: stock.Id,
+                    discount: stock.DiscountValue,
+                    discountValueCurrency: this.getDiscountValueCurrency(stock.DiscountValue, productsPrice, multiplier, discountType)
+                })
+            }
+        }
+
+        return discountItems
+    }
+
+    transformPartialDiscount(stocks) {
+        let _stocks = []
+
+        if (stocks.length > 0) {
+            switch (this.stockInteractionType) {
+                case StockInteractionType.PartialJoin:
+                case StockInteractionType.FullExclude:
+                    const maxDiscountValue = getMaxOfArray(stocks.map(p => p.DiscountValue))
+                    const maxDiscountStock = stocks.find(p => p.DiscountValue == maxDiscountValue)
+
+                    _stocks.push(maxDiscountStock)
+                    break
+                default:
+                    _stocks = stocks
+                    break;
+            }
+        }
+
+        return _stocks
     }
 
     getDiscountTriggerBirthday(discountType) {
@@ -217,9 +332,16 @@ export class StockLogic {
             let percentDiscount = this.getDiscountByPartialJoin(DiscountType.Percent)
             const percentDiscountConvertToRuble = parseFloat(this.orderSum) * percentDiscount / 100.0
             let rubleDiscount = this.getDiscountByPartialJoin(DiscountType.Ruble)
+            
+            const percentPartialDiscount = this.getPartialDiscountByPartialJoin(DiscountType.Percent)
+            const rubelPartialDiscount = this.getPartialDiscountByPartialJoin(DiscountType.Ruble)
+            const maxPartialPercentRubelDiscountCurrency = getMaxOfArray(percentPartialDiscount.map(p => p.discountValueCurrency))
+            const maxPartialRubelDiscountCurrency = getMaxOfArray(rubelPartialDiscount.map(p => p.discountValueCurrency))
 
             if (productWithMaxPrice.price > percentDiscountConvertToRuble &&
-                productWithMaxPrice.price > rubleDiscount) {
+                productWithMaxPrice.price > rubleDiscount &&
+                productWithMaxPrice.price > maxPartialPercentRubelDiscountCurrency &&
+                productWithMaxPrice.price > maxPartialRubelDiscountCurrency) {
                 return [productWithMaxPrice.id]
             }
         }
@@ -261,7 +383,7 @@ export class StockLogic {
             return []
 
         const newStocks = []
-        
+
         for (const stock of stocks) {
             if (!stock.StockExcludedProducts || stock.StockExcludedProducts.length == 0) {
                 newStocks.push(stock)
@@ -366,7 +488,17 @@ export class StockLogic {
     getStockIdsDiscountForCurrentOrder() {
         const stocksDiscountPercent = this.getStockDiscountByTriggers(DiscountType.Percent)
         const stocksDiscountRubel = this.getStockDiscountByTriggers(DiscountType.Ruble)
-        return this.getStockIdsForCurrentOrder([...stocksDiscountPercent, ...stocksDiscountRubel])
+        let stocksPartialDiscountPercent = this.getStockDiscountPartialByTriggers(DiscountType.Percent)
+        stocksPartialDiscountPercent = { ids: stocksPartialDiscountPercent.map(p => p.stockId) }
+        let stocksPartialDiscountRubel = this.getStockDiscountPartialByTriggers(DiscountType.Ruble)
+        stocksPartialDiscountRubel = { ids: stocksPartialDiscountRubel.map(p => p.stockId) }
+
+        return this.getStockIdsForCurrentOrder([
+            stocksDiscountPercent,
+            stocksDiscountRubel,
+            stocksPartialDiscountPercent,
+            stocksPartialDiscountRubel
+        ])
     }
 
 

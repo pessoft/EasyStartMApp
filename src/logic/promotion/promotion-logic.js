@@ -46,6 +46,14 @@ export class PromotionLogic {
         const discountItem = {}
 
         discountItem[PromotionSection.Stock] = this.stockLogic.getDiscount(discountType)
+        if (discountItem[PromotionSection.Stock] == 0) {
+            let partialDiscount = this.stockLogic.getPartialDiscount(discountType)
+
+            discountItem[PromotionSection.Stock] = partialDiscount.length == 0 ?
+                0 :
+                partialDiscount.reduce((acc, value) => acc.discount + value.discount, { discount: 0 })
+        }
+
         discountItem[PromotionSection.Coupon] = this.couponLogic.getDiscount(discountType)
         if (discountType == DiscountType.Percent)
             discountItem[PromotionSection.Partners] = this.referralLogic.getDiscount()
@@ -116,6 +124,38 @@ export class PromotionLogic {
         }
 
         return discount
+    }
+
+    getPartialDiscount(discountType) {
+        const discountItem = {}
+        let partialDiscount = this.stockLogic.getPartialDiscount(discountType)
+
+        if (BitOperation.isHas(this.allowedSection, PromotionSection.Stock))
+            discountItem[PromotionSection.Stock] = partialDiscount.length == 0 ?
+                0 :
+                partialDiscount.reduce((acc, value) => acc.discount + value.discount, { discount: 0 })
+        if (BitOperation.isHas(this.allowedSection, PromotionSection.Coupon))
+            discountItem[PromotionSection.Coupon] = this.couponLogic.getDiscount(discountType)
+        if (discountType == DiscountType.Percent
+            && BitOperation.isHas(this.allowedSection, PromotionSection.Partners))
+            discountItem[PromotionSection.Partners] = this.referralLogic.getDiscount()
+
+        const sections = []
+        for (let key in discountItem) {
+            if (discountItem[key] != 0)
+                sections.push(parseInt(key))
+        }
+
+        if (sections.length == 0)
+            return []
+
+        const applySection = sections.length > 1 ? this.filterSectionBySetting(sections) : sections[0]
+        this.applySectionForDiscount = BitOperation.Add(this.applySectionForDiscount, applySection)
+
+        if (BitOperation.isHas(applySection, PromotionSection.Stock))
+            return partialDiscount
+
+        return []
     }
 
     filterSectionBySetting(sections) {

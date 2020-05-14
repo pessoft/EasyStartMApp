@@ -154,6 +154,14 @@ class ShoppingBasketScreen extends React.Component {
     }
   }
 
+  keyExtractor = id => {
+    if (this.props.basketProducts[id]) {
+        return `${id}-${this.props.basketProducts[id].count}`
+    }
+
+    return id.toString()
+}
+
   renderDefaultProduct = productId => {
     const itemTransform = this.productTransform(productId)
 
