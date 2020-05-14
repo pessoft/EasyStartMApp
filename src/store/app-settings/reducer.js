@@ -12,7 +12,7 @@ export const defaultState = {
   appPackageName: '',
   selectedCategoryViewType: ViewContainerType.grid,
   selectedProductsViewType: ViewContainerType.grid,
-  appTitle: 'Рис Лосось'
+  appTitle: 'Easy Start'
 }
 
 export const appSettingReducer = (state = defaultState, action) => {
