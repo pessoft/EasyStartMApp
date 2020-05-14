@@ -327,17 +327,42 @@ class CheckoutScreen extends React.Component {
       return this.getCurrentAreaDeliveryPrice()
   }
 
-  getDiscount = (discountType) => {
-    return this.state.promotion.getDiscount(discountType)
+  getLabelDiscount = discountType => {
+    let discount = this.state.promotion.getDiscount(discountType)
+    const partialDiscount = this.state.promotion.getPartialDiscount(discountType)
+
+    if (partialDiscount && partialDiscount.length > 0)
+      discount += partialDiscount.reduce((acc, value) => acc.discount + value.discount, { discount: 0 })
+
+    return discount
+  }
+
+  applyDiscount = orderPrice => {
+    const discountPercent = parseFloat(this.state.promotion.getDiscount(DiscountType.Percent))
+    const discountRuble = parseFloat(this.state.promotion.getDiscount(DiscountType.Ruble))
+
+    let partialDiscountPercent = this.state.promotion.getPartialDiscount(DiscountType.Percent)
+    partialDiscountPercent = partialDiscountPercent.length == 0 ? [{ discountValueCurrency: 0 }] : partialDiscountPercent
+    let partialDiscountRubel = this.state.promotion.getPartialDiscount(DiscountType.Ruble)
+    partialDiscountRubel = partialDiscountRubel.length == 0 ? [{ discountValueCurrency: 0 }] : partialDiscountRubel
+
+    const reduce = (acc, value) => acc.partialDiscountValueCurrency + value.discountValueCurrency
+    
+    let partialDiscountValueCurrency = partialDiscountPercent.reduce(reduce, { partialDiscountValueCurrency: 0 })
+    partialDiscountValueCurrency += partialDiscountRubel.reduce(reduce, { partialDiscountValueCurrency: 0 })
+    
+    let price = orderPrice - discountRuble - partialDiscountValueCurrency
+    price = price - (price * discountPercent / 100)
+
+    return price
   }
 
   getToPayPriceWithoutCashback = () => {
     const orderPrice = parseFloat(this.getOrderPrice())
     const deliveryPrice = parseFloat(this.getDeliveryPrice())
-    const discountPercent = parseFloat(this.getDiscount(DiscountType.Percent))
-    const discountRuble = parseFloat(this.getDiscount(DiscountType.Ruble))
+    const orderPriceWithDiscount = this.applyDiscount(orderPrice)
 
-    return orderPrice - ((orderPrice * discountPercent / 100) + discountRuble) + deliveryPrice
+    return orderPriceWithDiscount + deliveryPrice
   }
 
   getToPayPrice = () => {
@@ -415,8 +440,8 @@ class CheckoutScreen extends React.Component {
       comment: this.state.commentText,
       cashBack: this.state.paymentData.cashBack,
       needCashBack: this.state.paymentData.needCashBack,
-      discountPercent: this.getDiscount(DiscountType.Percent),
-      discountRuble: this.getDiscount(DiscountType.Ruble),
+      discountPercent: this.getLabelDiscount(DiscountType.Percent),
+      discountRuble: this.getLabelDiscount(DiscountType.Ruble),
       deliveryPrice: this.getDeliveryPrice(),
       amountPay: this.getOrderPrice(),
       amountPayDiscountDelivery: this.getToPayPrice(),
@@ -612,8 +637,8 @@ class CheckoutScreen extends React.Component {
               orderPrice={this.getOrderPrice()}
               currencyPrefix={this.props.currencyPrefix}
               deliveryPrice={this.getDeliveryPrice()}
-              discountPercent={this.getDiscount(DiscountType.Percent)}
-              discountRuble={this.getDiscount(DiscountType.Ruble)}
+              discountPercent={this.getLabelDiscount(DiscountType.Percent)}
+              discountRuble={this.getLabelDiscount(DiscountType.Ruble)}
               toPay={this.getToPayPrice()}
               onCompleteCheckout={this.completeCheckout}
               disabled={!this.isValidData()}
