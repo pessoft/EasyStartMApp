@@ -147,9 +147,16 @@ class CheckoutScreen extends React.Component {
       null
   }
 
+  getStocks = () => {
+    if(this.props.stocks && this.props.stocks.length > 0)
+      return this.props.stocks.filter(p => !p.OnlyShowNews)
+
+    return []
+  }
+
   getStockOption = (isDefault) => {
     return {
-      stocks: this.props.stocks,
+      stocks: this.getStocks(),
       deliveryType: isDefault ? DeliveryType.Delivery : this.state.deliveryType,
       orderSum: this.getOrderPrice(),
       basketProducts: this.props.basketProducts,
