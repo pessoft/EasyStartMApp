@@ -22,7 +22,7 @@ export class PaymentType extends React.Component {
 
   setTypePaymentOptions() {
     this.typePaymentOptions = [
-      { label: "Наличыми", value: TypePayment.Cash },
+      { label: "Наличными", value: TypePayment.Cash },
       { label: "Картой", value: TypePayment.Card },
     ]
 
