@@ -123,13 +123,11 @@ export class StockLogic {
     getStockDiscountByTriggers(discountType) {
         const discountTriggerDeliveryType = this.getDiscountTriggerDeliveryType(discountType)
         const discountTriggerOrderSum = this.getDiscountTriggerOrderSum(discountType)
-        // const discountTriggerProducts = this.getDiscountTriggerProducts(discountType)
         const discountTriggerBirthday = this.getDiscountTriggerBirthday(discountType)
 
         return [
             discountTriggerDeliveryType,
             discountTriggerOrderSum,
-            // discountTriggerProducts,
             discountTriggerBirthday]
     }
 
@@ -488,19 +486,18 @@ export class StockLogic {
     getStockIdsDiscountForCurrentOrder() {
         const stocksDiscountPercent = this.getStockDiscountByTriggers(DiscountType.Percent)
         const stocksDiscountRubel = this.getStockDiscountByTriggers(DiscountType.Ruble)
-        let stocksPartialDiscountPercent = this.getStockDiscountPartialByTriggers(DiscountType.Percent)
-        stocksPartialDiscountPercent = { ids: stocksPartialDiscountPercent.map(p => p.stockId) }
-        let stocksPartialDiscountRubel = this.getStockDiscountPartialByTriggers(DiscountType.Ruble)
-        stocksPartialDiscountRubel = { ids: stocksPartialDiscountRubel.map(p => p.stockId) }
-
+        let stocksPartialDiscountPercent = this.getPartialDiscount(DiscountType.Percent)
+        stocksPartialDiscountPercent = [{ ids: stocksPartialDiscountPercent.map(p => p.stockId) }]
+        let stocksPartialDiscountRubel = this.getPartialDiscount(DiscountType.Ruble)
+        stocksPartialDiscountRubel = [{ ids: stocksPartialDiscountRubel.map(p => p.stockId) }]
+      
         return this.getStockIdsForCurrentOrder([
-            stocksDiscountPercent,
-            stocksDiscountRubel,
-            stocksPartialDiscountPercent,
-            stocksPartialDiscountRubel
+            ...stocksDiscountPercent,
+            ...stocksDiscountRubel,
+            ...stocksPartialDiscountPercent,
+            ...stocksPartialDiscountRubel
         ])
     }
-
 
     getStockIdsProductForCurrentOrder() {
         const stocksProducts = this.getStockProductsByTriggers()
