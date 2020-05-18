@@ -9,6 +9,7 @@ export const defaultState = {
   logo: Images.logo,
   serverDomain: SERVER_DOMAIN,
   currencyPrefix: min320 ? 'р.' : 'руб.',
+  cashbackLabel: 'рублей',
   appPackageName: '',
   selectedCategoryViewType: ViewContainerType.grid,
   selectedProductsViewType: ViewContainerType.grid

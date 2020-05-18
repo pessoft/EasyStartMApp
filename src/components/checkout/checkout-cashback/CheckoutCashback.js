@@ -109,7 +109,7 @@ export class CheckoutCashback extends React.Component {
         ]}>
         <KeyboardAvoidingView behavior='height'>
           <TextInput
-            placeholder='Cдача с ... рублей'
+            placeholder={`Cдача с ... ${this.props.cashbackLabel}`}
             keyboardType={'decimal-pad'}
             value={this.state.cashBack == 0 ? '' : this.state.cashBack.toString()}
             placeholderTextColor={this.props.style.theme.secondaryTextColor.color}

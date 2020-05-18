@@ -591,6 +591,7 @@ class CheckoutScreen extends React.Component {
             />
             <PaymentType
               style={this.props.style}
+              cashbackLabel={this.props.cashbackLabel}
               hasCard={this.props.deliverySettings.PayCard}
               hasCash={this.props.deliverySettings.PayCash}
               hasOnlinePay={this.props.deliverySettings.PayOnline}
@@ -662,6 +663,7 @@ const mapStateToProps = state => {
     style: state.style,
     userData: state.user,
     currencyPrefix: state.appSetting.currencyPrefix,
+    cashbackLabel: state.appSetting.cashbackLabel,
     basketProducts: state.checkout.basketProducts,
     basketConstructorProducts: state.checkout.basketConstructorProducts,
     products: state.main.products,
