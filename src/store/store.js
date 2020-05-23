@@ -8,7 +8,7 @@ import { defaultState as defaultUserData } from '../store/user/reducer'
 import { defaultState as defaultAppSetting} from '../store/app-settings/reducer'
 
 const migrations = {
-  8: (state) => {
+  12: (state) => {
     return {
       ...state,
       style: {
@@ -27,7 +27,7 @@ const migrations = {
 const persistConfig = {
   key: 'root',
   storage,
-  version: 8,
+  version: 12,
   whitelist: ['user', 'style', 'appSetting'],
   migrate: createMigrate(migrations, { debug: true }),
 }
