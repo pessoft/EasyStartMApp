@@ -11,7 +11,7 @@ import { priceValid } from '../../../helpers/utils'
 export class CompleteCheckout extends React.Component {
   getDiscountText = () => {
     const percent = this.props.discountPercent > 0 ? `${this.props.discountPercent}%` : ''
-    const ruble = this.props.discountRuble > 0 ? `${priceValid(this.props.discountRuble)} руб.` : ''
+    const ruble = this.props.discountRuble > 0 ? `${priceValid(this.props.discountRuble)} ${this.props.currencyPrefix}` : ''
     let text = percent && ruble ? `${percent} и ${ruble}` : percent || ruble
 
     return text

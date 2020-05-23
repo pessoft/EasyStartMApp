@@ -103,6 +103,7 @@ export class PaymentType extends React.Component {
             onPress={this.onChangePaymentType}
           />
           <CheckoutCashback
+            cashbackLabel={this.props.cashbackLabel}
             style={this.props.style}
             needCashBackInit={this.state.needCashBack}
             animation={true}

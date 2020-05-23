@@ -1,9 +1,8 @@
 import React from 'react'
 import { View, Text } from 'react-native'
 import Style from './style'
-import Ruble from '../../images/font-awesome-svg/ruble-sign.svg'
-import { getSVGColor } from '../../helpers/color-helper'
 import { PromotionTransactionType } from '../../logic/promotion/promotion-transaction-type'
+import CurrencyIcon from '../currency-icon/CurrencyIconConnect'
 
 export class TransactionItem extends React.Component {
 
@@ -87,12 +86,12 @@ export class TransactionItem extends React.Component {
               >
                 {this.formatStringMoneyByTransactionType(this.props.money)}
               </Text>
-              <Ruble
+              <CurrencyIcon
                 style={Style.iconMargin}
                 key={new Date().getTime().toString()}
                 width={this.props.style.fontSize.h9.fontSize}
                 height={this.props.style.fontSize.h9.fontSize}
-                color={getSVGColor(this.getColorByTransactionType())} />
+                color={this.getColorByTransactionType()} />
             </View>
           </View>
         </View>
