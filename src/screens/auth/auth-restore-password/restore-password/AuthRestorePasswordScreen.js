@@ -20,7 +20,7 @@ import UserPhotoDefaultIcon from '../../../../images/font-awesome-svg/user-lock.
 import { getSVGColor } from '../../../../helpers/color-helper'
 import { AUTH_RESTORE_PASSWORD_SUCCESS } from '../../../../navigation/pointsNavigate'
 import { showMessage } from "react-native-flash-message"
-
+import { ButtonWithoutFeedback } from '../../../../components/buttons/ButtonWithoutFeedback/ButtonWithoutFeedback'
 const { width } = Dimensions.get('window')
 
 class AuthRestorePasswordScreen extends React.Component {
@@ -64,7 +64,7 @@ class AuthRestorePasswordScreen extends React.Component {
   }
 
   goToRestorePasswordSuccessPage = () => this.props.navigation.navigate(AUTH_RESTORE_PASSWORD_SUCCESS)
-  onEmailChange = email => this.setState({ email })
+  onEmailChange = email => this.setState({ email: email.trim() })
 
   restoreUserPassword = () => this.props.restoreUserPassword(this.state.email)
 
@@ -93,35 +93,36 @@ class AuthRestorePasswordScreen extends React.Component {
               opacity: this.state.showScaleAnimation,
               transform: [{ scale: this.state.showScaleAnimation }]
             }]}>
-            <UserPhotoDefaultIcon
-              width={90} height={90}
-              style={Style.loginIcon}
-              color={getSVGColor(this.props.style.theme.primaryTextColor.color)}
-            />
-            <TextInput
-              placeholder='Введите e-mail'
-              value={this.state.email}
-              placeholderTextColor={this.props.style.theme.secondaryTextColor.color}
-              style={[
-                Style.inputText,
+            <View style={Style.mainContainer}>
+              <UserPhotoDefaultIcon
+                width={90} height={90}
+                style={Style.loginIcon}
+                color={getSVGColor(this.props.style.theme.primaryTextColor.color)}
+              />
+              <TextInput
+                placeholder='Введите e-mail'
+                value={this.state.email}
+                placeholderTextColor={this.props.style.theme.secondaryTextColor.color}
+                style={[
+                  Style.inputText,
+                  Style.inputSize,
+                  this.props.style.fontSize.h8,
+                  this.props.style.theme.primaryTextColor,
+                  this.props.style.theme.dividerColor]}
+                onChangeText={this.onEmailChange}
+              />
+              <View style={[
                 Style.inputSize,
-                this.props.style.fontSize.h7,
-                this.props.style.theme.primaryTextColor,
-                this.props.style.theme.dividerColor]}
-              onChangeText={this.onEmailChange}
-            />
-            <View style={[
-              Style.inputSize,
-              Style.buttonsContainer]}>
-              <View style={Style.buttonMargin}>
-                <Button
-                  title='Восстановить пароль'
-                  onPress={this.restoreUserPassword}
-                  disabled={!this.isValidData()}
-                  color={Platform.OS == 'ios' ?
-                    this.props.style.theme.primaryTextColor.color :
-                    this.props.style.theme.defaultPrimaryColor.backgroundColor}
-                />
+                Style.buttonsContainer]}>
+                <View style={Style.buttonMargin}>
+                  <ButtonWithoutFeedback
+                    text='Восстановить пароль'
+                    style={this.props.style}
+                    disabled={!this.isValidData()}
+                    borderRadius={5}
+                    onPress={this.restoreUserPassword}
+                  />
+                </View>
               </View>
             </View>
           </Animated.View>

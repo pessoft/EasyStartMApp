@@ -10,23 +10,32 @@ export const DarkTheme = StyleSheet.create({
   backdoor: {
     backgroundColor: '#3a3a3a'
   },
+  backdoorTransparent: {
+    backgroundColor: '#000000aa',
+  },
+  shadowColor: {
+    shadowColor: '#2c2c2c'
+  },
   themeBody: {
     backgroundColor: '#141414'
   },
   darkPrimaryColor: {
     backgroundColor: '#131313'
   },
+  secondaryThemeBody: {
+    backgroundColor: '#141414'
+  },
   defaultPrimaryColor: {
-    backgroundColor: '#4a4a4a'
+    backgroundColor: '#37373d'
   },
   lightPrimaryColor: {
-    backgroundColor: '#37373d'
+    backgroundColor: '#4a4a4a'
   },
   textPrimaryColor: {
     color: '#FFFFFF'
   },
   accentColor: {
-    backgroundColor: '#636363'
+    backgroundColor: '#4CAF50'
   },
   accentOther: {
     backgroundColor: '#1976D2'

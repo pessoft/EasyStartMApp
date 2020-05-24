@@ -3,22 +3,23 @@ import { connect } from 'react-redux'
 import {
     FlatList,
     Animated,
-    View,
     ScrollView,
     Platform
 } from 'react-native'
-import Image from 'react-native-scalable-image'
-import { CategoryItem } from '../../components/category/CategoryItem';
+import { CategoryItem } from '../../components/category/CategoryItem'
+import { CategoryListItem } from '../../components/category/CategoryListItem'
 import { setSelectedCategory, setSelectedProduct } from '../../store/catalog/actions'
-import { PRODUCTS, STOCK_INFO, CONSTRUCTOR_PRODUCTS, CASHBACK_PROFILE } from '../../navigation/pointsNavigate';
+import { PRODUCTS, CONSTRUCTOR_PRODUCTS, CASHBACK_PROFILE } from '../../navigation/pointsNavigate'
 import { timingAnimation } from '../../animation/timingAnimation'
-import { Text } from 'react-native'
 import VirtualMoneyButton from '../../components/buttons/VirtualMoneyButton/VirtualMoneyButton'
-import { StockBannerCarousel } from '../../components/category/stock-banner-carousel/StockBannerCarousel';
-import { setSelectedStock } from '../../store/stock/actions'
+import { MainBannerCarousel } from '../../components/category/main-banner-carousel/MainBannerCarousel';
 import { CategoryType } from '../../helpers/type-category'
 import { notificationActionDone } from '../../store/FCM/actions'
 import FCMManagerComponent from '../../fcm/components/fcm-manager/fcm-manger-component'
+import { NewsType } from '../../helpers/news-type'
+import ViewContainerCategoryChanger from '../../components/view-container-changer/ViewContainerCategoryChanger'
+import { ViewContainerType } from '../../helpers/view-container-type'
+import { NewsInfo } from '../../components/raw-bottom-sheets/news-info/NewsInfo'
 
 class CategoriesScreen extends React.Component {
     static navigationOptions = ({ navigation }) => {
@@ -28,14 +29,16 @@ class CategoriesScreen extends React.Component {
             return {
                 headerTitle: 'Категории',
                 headerTitleStyle: {
-                    textAlign: "left",
+                    textAlign: 'center',
                     flex: 1,
                 },
-                headerRight: () => <VirtualMoneyButton onPress={onPress} />
+                headerRight: () => <VirtualMoneyButton onPress={onPress} />,
+                headerLeft: () => <ViewContainerCategoryChanger />
             }
 
         return {
-            headerTitle: 'Категории'
+            headerTitle: 'Категории',
+            headerLeft: () => <ViewContainerCategoryChanger />
         }
     }
 
@@ -52,19 +55,27 @@ class CategoriesScreen extends React.Component {
 
         this.state = {
             showScaleAnimation: new Animated.Value(0),
-            goToStock: false
+            news: null
         }
     }
 
     goToCashbackScreen = () => this.props.navigation.navigate(CASHBACK_PROFILE)
 
     componentDidMount = () => {
+        this.focusListener = this.props.navigation.addListener('didFocus', () => {
+            this.props.setSelectedCategory({})
+        });
+
         if (this.props.fcmNotificationAction) {
             this.props.fcmNotificationAction()
             this.props.notificationActionDone()
         }
 
         timingAnimation(this.state.showScaleAnimation, 1, 300, true)
+    }
+
+    componentWillUnmount() {
+        this.focusListener.remove();
     }
 
     componentDidUpdate = () => {
@@ -78,10 +89,6 @@ class CategoriesScreen extends React.Component {
                     this.props.navigation.navigate(PRODUCTS)
                     break
             }
-        } else if (this.props.selectedStock.Id > 0
-            && this.state.goToStock) {
-            this.setState({ goToStock: false },
-                () => this.props.navigation.navigate(STOCK_INFO))
         }
     }
 
@@ -112,14 +119,21 @@ class CategoriesScreen extends React.Component {
         return categories
     }
 
-    onSelectedStock = stock => {
-        this.props.setSelectedCategory({})
-        this.props.setSelectedStock({})
-        this.props.setSelectedStock(stock)
-        this.setState({ goToStock: true })
+    onPressBanner = (type, data) => {
+        this.setState({ news: data })
     }
 
-    renderItem = ({ item }) => {
+    renderListItem = ({ item }) => {
+        return <CategoryListItem
+            style={this.props.style}
+            id={item.key}
+            caption={item.caption}
+            imageSource={item.imageSource}
+            onPress={this.onSelectedCategory}
+        />
+    }
+
+    renderGridItem = ({ item }) => {
         return <CategoryItem
             style={this.props.style}
             id={item.key}
@@ -140,32 +154,97 @@ class CategoriesScreen extends React.Component {
             }
     }
 
+    isShowBanner = () => {
+        let isShow = (this.props.stocks.length > 0 &&
+            this.props.promotionSetting.IsShowStockBanner) ||
+            (this.props.news.length > 0 &&
+                this.props.promotionSetting.IsShowNewsBanner)
+
+        return isShow
+    }
+
+    getDataForBanner = () => {
+        let items = {}
+
+        if (this.props.stocks.length > 0 &&
+            this.props.promotionSetting.IsShowStockBanner) {
+            items[NewsType.stock] = this.props.stocks
+        }
+
+        if (this.props.news.length > 0 &&
+            this.props.promotionSetting.IsShowNewsBanner) {
+            items[NewsType.news] = this.props.news
+        }
+
+        return items
+    }
+
+    renderListView = () => {
+        return (
+            <FlatList
+                key={ViewContainerType.list.toString()}
+                style={{ marginTop: 12 }}
+                {...this.getFlatListPerformanceProperty()}
+                data={this.categoriesTransform()}
+                renderItem={this.renderListItem}
+            />
+        )
+    }
+
+    renderGridView = () => {
+        return (
+            <FlatList
+                key={ViewContainerType.grid.toString()}
+                style={{ marginTop: 12 }}
+                {...this.getFlatListPerformanceProperty()}
+                data={this.categoriesTransform()}
+                renderItem={this.renderGridItem}
+                numColumns={2}
+            />
+        )
+    }
+
+    renderContent = () => {
+        switch (this.props.selectedCategoryViewType) {
+            case ViewContainerType.list:
+                return this.renderListView()
+            case ViewContainerType.grid:
+                return this.renderGridView()
+        }
+    }
+
+    onCloseSheetNewsInfo = () => this.setState({news: null})
+
     render() {
         return (
             <Animated.View
                 style={[
                     {
                         flex: 1,
+                        alignItems: 'center',
                         opacity: this.state.showScaleAnimation,
                         transform: [{ scale: this.state.showScaleAnimation }]
                     }]}>
                 <FCMManagerComponent navigation={this.props.navigation} />
-                <ScrollView style={{ flex: 1 }}>
+                <ScrollView contentContainerStyle={{ paddingHorizontal: 1, alignItems: 'center' }}>
                     {
-                        this.props.stocks.length > 0 &&
-                        this.props.promotionSetting.IsShowStockBanner &&
-                        <StockBannerCarousel
+                        this.isShowBanner() &&
+                        <MainBannerCarousel
                             style={this.props.style}
-                            stocks={this.props.stocks}
-                            onPress={this.onSelectedStock}
+                            items={this.getDataForBanner()}
+                            onPress={this.onPressBanner}
                         />
                     }
-                    <FlatList
-                        {...this.getFlatListPerformanceProperty()}
-                        data={this.categoriesTransform()}
-                        renderItem={this.renderItem}
-                    />
+
+                    {this.renderContent()}
                 </ScrollView>
+
+                <NewsInfo
+                    style={this.props.style}
+                    news={this.state.news}
+                    toggle={!!this.state.news}
+                    close={this.onCloseSheetNewsInfo}
+                />
             </Animated.View>
         )
     }
@@ -178,17 +257,17 @@ const mapStateToProps = state => {
         serverDomain: state.appSetting.serverDomain,
         categories: state.main.categories,
         selectedCategory: state.catalog.selectedCategory,
-        selectedStock: state.stock.selectedStock,
         style: state.style,
         stocks: state.main.stocks,
-        fcmNotificationAction: state.fcm.notificationAction
+        news: state.main.news,
+        fcmNotificationAction: state.fcm.notificationAction,
+        selectedCategoryViewType: state.appSetting.selectedCategoryViewType,
     }
 }
 
 const mapActionToProps = {
     setSelectedCategory,
     setSelectedProduct,
-    setSelectedStock,
     notificationActionDone
 }
 

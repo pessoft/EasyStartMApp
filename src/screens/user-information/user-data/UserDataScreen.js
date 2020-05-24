@@ -5,21 +5,27 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
   TextInput,
-  Button,
   View,
   Animated,
-  Dimensions,
-  Platform,
-  ActivityIndicator
+  ActivityIndicator,
+  Text
 } from 'react-native'
-import { TextInputMask } from 'react-native-masked-text'
 import { SET_CITY } from '../../../navigation/pointsNavigate'
-import { setUserEmail, setUserName, setParentReferralCode, dropSuccessClientUpdateDataFlag, updateUser, dropFetchFlag } from '../../../store/user/actions'
+import {
+  setUserEmail,
+  setUserName,
+  dropSuccessClientUpdateDataFlag,
+  updateUser,
+  dropFetchFlag,
+  setDateBirth
+} from '../../../store/user/actions'
 import Style from './style'
 import { timingAnimation } from '../../../animation/timingAnimation'
 import { showMessage } from "react-native-flash-message"
-
-const { width } = Dimensions.get('window')
+import { ButtonWithoutFeedback } from '../../../components/buttons/ButtonWithoutFeedback/ButtonWithoutFeedback'
+import { toStringDate } from '../../../helpers/work-time'
+import { SimpleTextButton } from '../../../components/buttons/SimpleTextButton/SimpleTextButton'
+import { DatePickerBirthday } from '../../../components/raw-bottom-sheets/date-picker-birthday/DatePickerBirthday'
 
 class UserDataScreen extends React.Component {
   static navigationOptions = {
@@ -30,7 +36,8 @@ class UserDataScreen extends React.Component {
     super(props)
 
     this.state = {
-      showScaleAnimation: new Animated.Value(0)
+      showScaleAnimation: new Animated.Value(0),
+      toggleDatepicker: false
     }
   }
 
@@ -61,8 +68,7 @@ class UserDataScreen extends React.Component {
   }
 
   onUserNameChange = userName => this.props.setUserName(userName)
-  onParentReferralCodeChange = referralCode => this.props.setParentReferralCode(referralCode)
-  onEmailChange = email => this.props.setUserEmail(email)
+  onEmailChange = email => this.props.setUserEmail(email.trim())
 
   onNextPage = () => this.props.navigation.navigate(SET_CITY)
 
@@ -75,8 +81,7 @@ class UserDataScreen extends React.Component {
       branchId: this.props.user.branchId,
       email: this.props.user.email,
       userName: this.props.user.userName,
-      parentReferralClientId: this.props.user.parentReferralClientId,
-      parentReferralCode: this.props.user.parentReferralCode,
+      dateBirth: this.props.user.dateBirth
     }
 
     this.props.updateUser(userData)
@@ -96,6 +101,14 @@ class UserDataScreen extends React.Component {
     return false
   }
 
+  closeDatepicker = () => this.setState({ toggleDatepicker: false })
+  setDateBirth = dateBirth => {
+    if (dateBirth) {
+      this.closeDatepicker()
+      this.props.setDateBirth(dateBirth)
+    }
+  }
+
   renderLoader() {
     return (
       <View style={Style.centerScreen}>
@@ -108,67 +121,105 @@ class UserDataScreen extends React.Component {
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
         <KeyboardAvoidingView style={Style.screen} behavior='height'>
-
           <Animated.View
             style={{
               opacity: this.state.showScaleAnimation,
               transform: [{ scale: this.state.showScaleAnimation }]
             }}>
-            <TextInput
-              placeholder='Ваше имя'
-              value={this.props.userName}
-              placeholderTextColor={this.props.style.theme.secondaryTextColor.color}
-              style={[
-                Style.inputText,
-                Style.inputSize,
-                this.props.style.fontSize.h7,
-                this.props.style.theme.primaryTextColor,
-                this.props.style.theme.dividerColor]}
-              onChangeText={this.onUserNameChange}
-              returnKeyType={'next'}
-              onSubmitEditing={() => { this.secondTextInput.focus() }}
-              blurOnSubmit={false}
-            />
-            <TextInput
-              ref={(input) => { this.secondTextInput = input; }}
-              placeholder='Введите e-mail'
-              value={this.props.email}
-              placeholderTextColor={this.props.style.theme.secondaryTextColor.color}
-              style={[
-                Style.inputText,
-                Style.inputSize,
-                this.props.style.fontSize.h7,
-                this.props.style.theme.primaryTextColor,
-                this.props.style.theme.dividerColor]}
-              onChangeText={this.onEmailChange}
-              onSubmitEditing={() => { this.referralCodeInput.focus() }}
-              blurOnSubmit={false}
-            />
-            <TextInput
-              ref={(input) => { this.referralCodeInput = input; }}
-              placeholder='Реферальный код'
-              value={this.props.parentReferralCode}
-              placeholderTextColor={this.props.style.theme.secondaryTextColor.color}
-              style={[
-                Style.inputText,
-                Style.inputSize,
-                this.props.style.fontSize.h7,
-                this.props.style.theme.primaryTextColor,
-                this.props.style.theme.dividerColor]}
-              onChangeText={this.onParentReferralCodeChange}
-            />
-            <View style={[
-              Style.inputSize,
-              Style.buttonNext]}>
-              <Button
-                title='Далее'
-                onPress={this.onUpdateUserData}
-                disabled={!this.isValidData()}
-                color={Platform.OS == 'ios' ?
-                  this.props.style.theme.primaryTextColor.color :
-                  this.props.style.theme.defaultPrimaryColor.backgroundColor}
+            <View style={Style.mainContainer}>
+              <TextInput
+                placeholder='Ваше имя'
+                value={this.props.userName}
+                placeholderTextColor={this.props.style.theme.secondaryTextColor.color}
+                style={[
+                  Style.inputText,
+                  Style.mr_bt_0,
+                  Style.b_bt_w_0,
+                  Style.b_bt_l_r_0,
+                  Style.b_bt_r_r_0,
+                  Style.inputSize,
+                  this.props.style.fontSize.h8,
+                  this.props.style.theme.primaryTextColor,
+                  this.props.style.theme.dividerColor]}
+                onChangeText={this.onUserNameChange}
+                returnKeyType={'next'}
+                onSubmitEditing={() => { this.secondTextInput.focus() }}
+                blurOnSubmit={false}
               />
+
+              {
+                this.props.dateBirth &&
+                <View style={[
+                  Style.dateBirth,
+                  this.props.style.fontSize.h8,
+                  Style.inputSize,
+                  Style.inputText,
+                  this.props.style.theme.primaryTextColor,
+                  this.props.style.theme.dividerColor,
+                  Style.b_bt_w_0,
+                  Style.b_r_0,
+                  Style.mr_bt_0,
+                ]}>
+                  <SimpleTextButton
+                    text={toStringDate(this.props.dateBirth)}
+                    onPress={() => this.setState({ toggleDatepicker: true })}
+                    sizeText={this.props.style.fontSize.h9.fontSize}
+                    color={this.props.style.theme.primaryTextColor.color}
+                    margin={10}
+                  />
+                </View>
+              }
+
+              <TextInput
+                ref={(input) => { this.secondTextInput = input; }}
+                placeholder='Введите e-mail'
+                value={this.props.email}
+                placeholderTextColor={this.props.style.theme.secondaryTextColor.color}
+                style={[
+                  Style.inputText,
+                  Style.mr_tp_0,
+                  Style.b_tp_l_r_0,
+                  Style.b_tp_r_r_0,
+                  this.props.dateBirth ? {} : {},
+                  Style.inputSize,
+                  this.props.style.fontSize.h8,
+                  this.props.style.theme.primaryTextColor,
+                  this.props.style.theme.dividerColor]}
+                onChangeText={this.onEmailChange}
+                onSubmitEditing={() => { this.referralCodeInput.focus() }}
+                blurOnSubmit={false}
+              />
+              <View style={[
+                Style.inputSize,
+                Style.buttonNext]}>
+                <ButtonWithoutFeedback
+                  text='Далее'
+                  onPress={this.onUpdateUserData}
+                  disabled={!this.isValidData()}
+                  style={this.props.style}
+                  borderRadius={5}
+                />
+              </View>
             </View>
+            <View style={Style.secondaryContainer}>
+              {
+                !this.props.dateBirth &&
+                <SimpleTextButton
+                  text='Добавить дату рождения'
+                  onPress={() => this.setState({ toggleDatepicker: true })}
+                  sizeText={this.props.style.fontSize.h9.fontSize}
+                  color={this.props.style.theme.primaryTextColor.color}
+                  margin={10}
+                />
+              }
+            </View>
+            <DatePickerBirthday
+              style={this.props.style}
+              toggle={this.state.toggleDatepicker}
+              date={this.props.dateBirth}
+              onClose={this.closeDatepicker}
+              onDone={this.setDateBirth}
+            />
           </Animated.View>
 
         </KeyboardAvoidingView>
@@ -188,9 +239,8 @@ const mapStateToProps = state => {
   return {
     email: state.user.email,
     userName: state.user.userName,
+    dateBirth: state.user.dateBirth,
     user: state.user,
-    parentReferralClientId: state.user.parentReferralClientId,
-    parentReferralCode: state.user.parentReferralCode,
     style: state.style,
     isFetchingUser: state.user.isFetching,
     isFetchUserError: state.user.isFetchError,
@@ -202,10 +252,10 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
   setUserEmail,
   setUserName,
-  setParentReferralCode,
   dropSuccessClientUpdateDataFlag,
   updateUser,
-  dropFetchFlag
+  dropFetchFlag,
+  setDateBirth
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserDataScreen)

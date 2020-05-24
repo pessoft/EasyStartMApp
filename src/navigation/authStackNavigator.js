@@ -15,5 +15,8 @@ export const authStackNavigator = style => createStackNavigator(
   },
   {
     ...defaultStyleNavigationStackOptions(style),
+    cardStyle: {
+      backgroundColor: style.theme.secondaryThemeBody.backgroundColor,
+    },
     initialRouteName: AUTH_LOGIN
   })

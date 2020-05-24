@@ -8,8 +8,8 @@ export class MainContainer extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <FlashMessage position='top' duration={4000} />
         <AppNavigation />
+        <FlashMessage position='top' duration={4000} />
       </React.Fragment>
     )
   }

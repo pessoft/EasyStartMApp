@@ -16,9 +16,9 @@ export class IngredientCounter extends React.Component {
 
     componentDidUpdate() {
         if (this.props.count == 1) {
-            springAnimation(this.state.toggleAnimation, 1, 200, 7, true)
+            springAnimation(this.state.toggleAnimation, 1, 200, 8, true)
         } else if (this.props.count == 0) {
-            springAnimation(this.state.toggleAnimation, 0, 200, 7, true)
+            springAnimation(this.state.toggleAnimation, 0, 200, 8, true)
         }
     }
 

@@ -1,13 +1,19 @@
 import React from 'react'
 import {
     TouchableHighlight,
+    TouchableWithoutFeedback,
     Image,
+    ImageBackground,
     Text,
     View,
-    Animated
+    Animated,
+    Dimensions
 } from 'react-native'
 import Style from './style'
 import { timingAnimation } from '../../animation/timingAnimation'
+
+
+const min320 = Dimensions.get('window').width <= 320
 
 export class CategoryItem extends React.PureComponent {
     constructor(props) {
@@ -33,33 +39,46 @@ export class CategoryItem extends React.PureComponent {
 
     render() {
         return (
-            <TouchableHighlight
-                underlayColor={this.props.style.theme.backdoor.backgroundColor}
-                style={[
-                    Style.bodyItem,
-                    this.props.style.theme.dividerColor]}
+            <TouchableWithoutFeedback
                 onPress={this.onPress}>
-                <Animated.View
-                    style={[
-                        Style.directionRow,
-                        { transform: [{ scale: this.state.showScaleAnimation }] }]}
-                >
-                    <Image
-                        source={this.props.imageSource}
-                        style={[Style.catalogImage]}
-                    />
-                    <View style={[
-                        Style.captionContainer,
-                        this.props.style.theme.dividerColor,]}>
-                        <Text style={[
-                            this.props.style.fontSize.h6,
-                            Style.captionCatalog,
-                            this.props.style.theme.primaryTextColor]}>
-                            {this.props.caption}
-                        </Text>
-                    </View>
-                </Animated.View>
-            </TouchableHighlight>
+                <View style={[
+                    Style.bodyItem,
+                    this.props.style.theme.dividerColor,
+                ]}>
+                    <Animated.View
+                        style={[
+                            Style.directionRow,
+                            { transform: [{ scale: this.state.showScaleAnimation }] }]}
+                    >
+                        <View style={[
+                            Style.imageContainer,
+                            this.props.style.theme.backdoor,
+                            this.props.style.theme.shadowColor
+                        ]}>
+                            <Image
+                                source={this.props.imageSource}
+                                style={[Style.catalogImage]}
+                            />
+                        </View>
+                        <View style={[
+                            Style.captionContainer,
+                            this.props.style.theme.dividerColor,
+                        ]}>
+                            <Text
+                                numberOfLines={2}
+                                ellipsizeMode="tail"
+                                style={[
+                                    min320 ?
+                                        this.props.style.fontSize.h9 :
+                                        this.props.style.fontSize.h8,
+                                    Style.captionCatalog,
+                                    this.props.style.theme.primaryTextColor]}>
+                                {this.props.caption}
+                            </Text>
+                        </View>
+                    </Animated.View>
+                </View>
+            </TouchableWithoutFeedback>
         )
     }
 }

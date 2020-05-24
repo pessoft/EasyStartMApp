@@ -9,9 +9,9 @@ import {
   Animated,
   Platform
 } from 'react-native'
-import { BasketProductItem } from '../../../components/basket-product/BasketProductItem';
+import { BasketProductItem } from '../../../components/basket-product/BasketProductItem'
 import { setSelectedProduct } from '../../../store/catalog/actions'
-import { PRODUCT_INFO_FROM_BASKET, CHECKOUT_ORDER, AUTH_LOGIN } from '../../../navigation/pointsNavigate'
+import { PRODUCT_INFO_FROM_BASKET, CHECKOUT_ORDER, AUTH_LOGIN, CASHBACK_PROFILE } from '../../../navigation/pointsNavigate'
 import { timingAnimation } from '../../../animation/timingAnimation'
 import {
   toggleProductInBasket,
@@ -22,26 +22,27 @@ import ShoppingBasketIcon from '../../../images/font-awesome-svg/shopping-basket
 import Style from './style'
 import { getSVGColor } from '../../../helpers/color-helper';
 import { markFromBasket } from '../../../store/navigation/actions'
-import { isWorkTime, getWorkTime } from '../../../helpers/work-time';
+import { isWorkTime, getWorkTime } from '../../../helpers/work-time'
 import { WorkTimeInfo } from '../../../components/information/work-time/WorkTimeInfo'
 import LottieView from 'lottie-react-native';
 import VirtualMoneyButton from '../../../components/buttons/VirtualMoneyButton/VirtualMoneyButton'
 import { priceValid } from '../../../helpers/utils'
 import { CategoryType } from '../../../helpers/type-category'
-import { BasketConstructorProductItem } from '../../../components/basket-constructor-product/BasketConstructorProductItem';
+import { BasketConstructorProductItem } from '../../../components/basket-constructor-product/BasketConstructorProductItem'
+import { cleanCoupon } from '../../../store/main/actions'
 
 class ShoppingBasketScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     const isShowVirtualMoney = navigation.getParam('isShowVirtualMoney', false)
-
+    const onPress = navigation.getParam('onPress', null)
     if (isShowVirtualMoney)
       return {
         headerTitle: 'Корзина',
         headerTitleStyle: {
-          textAlign: "left",
+          textAlign: Platform.OS == 'ios' ? 'center' : 'left',
           flex: 1,
         },
-        headerRight: () => <VirtualMoneyButton />
+        headerRight: () => <VirtualMoneyButton onPress={onPress} />
       }
 
     return {
@@ -52,7 +53,10 @@ class ShoppingBasketScreen extends React.Component {
   constructor(props) {
     super(props)
 
-    this.props.navigation.setParams({ isShowVirtualMoney: this.props.promotionCashbackSetting.IsUseCashback })
+    this.props.navigation.setParams({
+      isShowVirtualMoney: this.props.promotionCashbackSetting.IsUseCashback,
+      onPress: () => this.goToCashbackScreen()
+    })
 
     this.state = {
       showScaleAnimation: new Animated.Value(0),
@@ -64,6 +68,8 @@ class ShoppingBasketScreen extends React.Component {
 
     this.props.setSelectedProduct({})
   }
+
+  goToCashbackScreen = () => this.props.navigation.navigate(CASHBACK_PROFILE)
 
   componentDidMount = () => {
     if (this.isEmptyBasket())
@@ -88,11 +94,9 @@ class ShoppingBasketScreen extends React.Component {
       this.props.navigation.navigate(PRODUCT_INFO_FROM_BASKET)
     } else if (this.state.showScaleAnimationEmptyBasket && this.isEmptyBasket()) {
       timingAnimation(this.state.showScaleAnimationEmptyBasket, 1, 300, true)
+      this.props.cleanCoupon()
     } else if (this.state.showScaleAnimation && !this.isEmptyBasket()) {
-      if (isWorkTime(this.props.deliverySettings.TimeDelivery))
-        timingAnimation(this.state.showScaleAnimation, 1, 300, true)
-      else
-        timingAnimation(this.state.showScaleAnimationWorkTimeInfo, 1, 300, true)
+      timingAnimation(this.state.showScaleAnimation, 1, 300, true)
     }
 
     this.changeTotalCountProductInBasket()
@@ -141,6 +145,14 @@ class ShoppingBasketScreen extends React.Component {
     }
   }
 
+  keyExtractor = id => {
+    if (this.props.basketProducts[id]) {
+        return `${id}-${this.props.basketProducts[id].count}`
+    }
+
+    return id.toString()
+}
+
   renderDefaultProduct = productId => {
     const itemTransform = this.productTransform(productId)
 
@@ -148,6 +160,7 @@ class ShoppingBasketScreen extends React.Component {
       return null
 
     return <BasketProductItem
+      key={this.keyExtractor(productId)}
       style={this.props.style}
       animation={itemTransform.animation}
       id={itemTransform.id}
@@ -187,13 +200,14 @@ class ShoppingBasketScreen extends React.Component {
     }
   }
 
-  renderConstroctorProduct = uniqId => {
+  renderConstructorProduct = uniqId => {
     const constructorProduct = this.constructorProductTransform(uniqId)
 
     if (constructorProduct == null)
       return null
 
     return <BasketConstructorProductItem
+      key={this.keyExtractor(uniqId)}
       style={this.props.style}
       uniqId={uniqId}
       product={constructorProduct}
@@ -206,7 +220,7 @@ class ShoppingBasketScreen extends React.Component {
       case CategoryType.Default:
         return this.renderDefaultProduct(item.id)
       case CategoryType.Constructor:
-        return this.renderConstroctorProduct(item.id)
+        return this.renderConstructorProduct(item.id)
     }
   }
 
@@ -354,6 +368,7 @@ class ShoppingBasketScreen extends React.Component {
       <Animated.View
         style={[
           {
+            paddingHorizontal: 12,
             marginTop: 5,
             opacity: this.state.showScaleAnimation,
             flex: 1,
@@ -383,6 +398,8 @@ class ShoppingBasketScreen extends React.Component {
       <View
         style={[
           Style.footer,
+          this.props.style.theme.backdoor,
+          this.props.style.theme.shadowColor,
           this.props.style.theme.dividerColor
         ]}>
         <Text
@@ -398,8 +415,8 @@ class ShoppingBasketScreen extends React.Component {
             title='Перейти к оформлению'
             onPress={this.checkoutOrder}
             color={Platform.OS == 'ios' ?
-              this.props.style.theme.accentOther.backgroundColor :
-              this.props.style.theme.defaultPrimaryColor.backgroundColor}
+              this.props.style.theme.accentColor.backgroundColor :
+              this.props.style.theme.accentColor.backgroundColor}
           />
         </View>
       </View>
@@ -411,7 +428,9 @@ class ShoppingBasketScreen extends React.Component {
       <View
         style={[
           Style.footer,
-          this.props.style.theme.dividerColor
+          this.props.style.theme.backdoor,
+          this.props.style.theme.dividerColor,
+          this.props.style.theme.shadowColor,
         ]}>
         <Text
           style={[
@@ -427,7 +446,7 @@ class ShoppingBasketScreen extends React.Component {
             onPress={this.goToAuthLoginPage}
             color={Platform.OS == 'ios' ?
               this.props.style.theme.accentOther.backgroundColor :
-              this.props.style.theme.defaultPrimaryColor.backgroundColor}
+              this.props.style.theme.accentOther.backgroundColor}
           />
         </View>
       </View>
@@ -439,6 +458,7 @@ class ShoppingBasketScreen extends React.Component {
       <Animated.View
         style={[
           {
+            paddingHorizontal: 12,
             marginTop: 5,
             opacity: this.state.showScaleAnimationWorkTimeInfo,
             flex: 1,
@@ -448,7 +468,8 @@ class ShoppingBasketScreen extends React.Component {
         <View style={[
           Style.workTimeInfonAnimationContainer,
           this.props.style.theme.backdoor,
-          this.props.style.theme.dividerColor
+          this.props.style.theme.dividerColor,
+          this.props.style.theme.shadowColor,
         ]}>
           <LottieView
             style={Style.workTimeInfonAnimationSize}
@@ -466,13 +487,12 @@ class ShoppingBasketScreen extends React.Component {
     )
   }
 
+  //isWorkTime(this.props.deliverySettings.TimeDelivery)
   render() {
     if (this.isEmptyBasket())
       return this.renderEmptyBasket()
-    else if (isWorkTime(this.props.deliverySettings.TimeDelivery))
-      return this.renderBasketContents()
     else
-      return this.renderWorkTimeInfo()
+      return this.renderBasketContents()
   }
 }
 
@@ -497,7 +517,8 @@ const mapActionToProps = {
   toggleProductInBasket,
   toggleConstructorProductInBasket,
   markFromBasket,
-  changeTotalCountProductInBasket
+  changeTotalCountProductInBasket,
+  cleanCoupon
 }
 
 export default connect(mapStateToProps, mapActionToProps)(ShoppingBasketScreen)

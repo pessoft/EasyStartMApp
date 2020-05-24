@@ -7,6 +7,7 @@ import {
 } from 'react-native'
 import Style from './style'
 import { priceValid } from '../../../helpers/utils'
+import { SimpleTextButton } from '../../../components/buttons/SimpleTextButton/SimpleTextButton'
 
 export class PayVirtualMoney extends React.Component {
   constructor(props) {
@@ -65,13 +66,13 @@ export class PayVirtualMoney extends React.Component {
         ]}>
           {`${priceValid(this.getValuePayCashback())}  ${this.props.currencyPrefix}`}
         </Text>
-        <View style={{ flex: 0.6 }}>
-          <Button
-            title='Оплатить'
+        <View style={{ flex: 0.5 }}>
+          <SimpleTextButton
+            text='Оплатить'
             onPress={this.onApplyAmountPayCashBack}
-            color={Platform.OS == 'ios' ?
-              this.props.style.theme.accentOther.backgroundColor :
-              this.props.style.theme.darkPrimaryColor.backgroundColor} />
+            sizeText={this.props.style.fontSize.h7.fontSize}
+            color={this.props.style.theme.accentOther.backgroundColor}
+          />
         </View>
       </View>
     )
@@ -87,13 +88,13 @@ export class PayVirtualMoney extends React.Component {
         ]}>
           {`- ${priceValid(this.state.paymentValue)} ${this.props.currencyPrefix}`}
         </Text>
-        <View style={{ flex: 0.6 }}>
-          <Button
-            title='Отменить'
+        <View style={{ flex: 0.5 }}>
+          <SimpleTextButton
+            text='Отменить'
             onPress={this.onCancelAmountPayCashBack}
-            color={Platform.OS == 'ios' ?
-              this.props.style.theme.accentOther.backgroundColor :
-              this.props.style.theme.darkPrimaryColor.backgroundColor} />
+            sizeText={this.props.style.fontSize.h7.fontSize}
+            color={this.props.style.theme.accentOther.backgroundColor}
+          />
         </View>
       </View>
     )
@@ -104,7 +105,8 @@ export class PayVirtualMoney extends React.Component {
       <View style={[
         Style.container,
         this.props.style.theme.backdoor,
-        this.props.style.theme.dividerColor
+        this.props.style.theme.dividerColor,
+        this.props.style.theme.shadowColor,
       ]}>
         <View style={Style.header}>
           <Text style={[

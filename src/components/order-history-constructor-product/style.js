@@ -1,12 +1,18 @@
 import { StyleSheet } from 'react-native'
 
 export default StyleSheet.create({
-  
+
   directionRow: {
     flexDirection: 'row',
     justifyContent: 'center',
     minHeight: 90,
-    paddingVertical: 10
+    paddingVertical: 10,
+    marginVertical: 5,
+    borderRadius: 6,
+    elevation: 4,
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.3,
+    shadowRadius: 1,
   },
   textWrap: {
     flexWrap: 'wrap'
@@ -15,7 +21,7 @@ export default StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    
+
   },
   productImage: {
     width: 76,
@@ -26,7 +32,6 @@ export default StyleSheet.create({
     flex: 2,
     alignSelf: 'stretch',
     justifyContent: 'center',
-    borderBottomWidth: 1,
     paddingBottom: 10,
     paddingRight: 5
   },

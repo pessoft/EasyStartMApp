@@ -1,10 +1,9 @@
 import React from 'react'
-import { Animated, Dimensions, Text } from 'react-native'
+import { Animated, Image, Text } from 'react-native'
 import { connect } from 'react-redux'
 import { timingAnimation } from '../../../animation/timingAnimation'
-import { StockCard } from '../../../components/stock/StockCard'
-import Image from 'react-native-scalable-image'
 import Style from './style'
+
 
 class StocksInfoScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -35,15 +34,21 @@ class StocksInfoScreen extends React.Component {
   render() {
     return (
       <Animated.ScrollView
-        style={[{ transform: [{ scale: this.state.showScaleAnimation }] }]}>
+        contentContainerStyle={{ paddingHorizontal: 12 }}
+        style={[{
+          opacity: this.state.showScaleAnimation,
+          transform: [{ scale: this.state.showScaleAnimation }]
+        }]}>
         <Image
+          style={Style.image}
           source={this.props.selectedStock.Image}
-          width={Dimensions.get('window').width}
-          resizeMode='contain' />
+        />
         <Text style={[
           this.props.style.theme.backdoor,
           this.props.style.theme.primaryTextColor,
-          Style.stockDescription]}
+          Style.stockDescription,
+          this.props.style.theme.shadowColor,
+        ]}
         >
           {this.props.selectedStock.Description}
         </Text>

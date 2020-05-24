@@ -11,6 +11,7 @@ class StartLogoScreen extends React.Component {
   constructor(props) {
     super(props)
 
+    this.isRequestData = false
     this.props.dropFetchFlag()
   }
 
@@ -24,11 +25,14 @@ class StartLogoScreen extends React.Component {
   userLogin = () => {
     if (this.props.categories.length > 0) {
       this.goToMainPage()
-    } else {
+      this.isRequestData = false
+    } else if(!this.isRequestData) {
       this.props.getLocation()
-
+      
       const params = this.getParamsForMainData()
       this.props.getMainData(params)
+
+      this.isRequestData = true
     }
   }
 

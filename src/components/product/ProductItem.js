@@ -5,12 +5,16 @@ import {
     Text,
     View,
     Animated,
+    Dimensions
 } from 'react-native'
 import Style from './style'
 import { ShoppingButton } from '../buttons/ShoppingButton/ShoppingButton';
 import { timingAnimation } from '../../animation/timingAnimation'
 import { getProductTypes } from '../../helpers/product';
 import { TypeProduct } from '../../helpers/type-product';
+
+
+const min320 = Dimensions.get('window').width <= 320
 
 export class ProductItem extends React.PureComponent {
     constructor(props) {
@@ -58,7 +62,11 @@ export class ProductItem extends React.PureComponent {
         return (
             <TouchableHighlight
                 underlayColor={this.props.style.theme.backdoor.backgroundColor}
-                style={Style.bodyItem}
+                style={[
+                    { backgroundColor: this.props.backgroundColor ?? this.props.style.theme.backdoor.backgroundColor },
+                    Style.bodyItem,
+                    this.props.style.theme.shadowColor,
+                ]}
                 onPress={this.onPress}>
                 <Animated.View style={[
                     Style.directionRow,
@@ -72,35 +80,45 @@ export class ProductItem extends React.PureComponent {
                     <View style={[
                         Style.productHeader,
                         this.props.style.theme.dividerColor]}>
-                        <Text style={[
-                            Style.textWrap,
-                            this.props.style.fontSize.h8,
-                            this.props.style.theme.primaryTextColor]}>
-                            {this.props.product.caption}
-                        </Text>
-                        <View style={Style.rowWrap}>
-                            <Text style={[
-                                Style.mt_5,
-                                this.props.style.theme.secondaryTextColor,
-                                this.props.style.fontSize.h10]}>
-                                {this.props.product.additionInfo}
+                        <View style={[Style.captionBlock]}>
+                            <Text
+                                numberOfLines={2}
+                                ellipsizeMode={"tail"}
+                                style={[
+                                    Style.textWrap,
+                                    min320 ?
+                                        this.props.style.fontSize.h9 :
+                                        this.props.style.fontSize.h8,
+                                    this.props.style.theme.primaryTextColor]}>
+                                {this.props.product.caption.trimStart()}
                             </Text>
-                            <View style={Style.productTypeContainer}>
-                                {
-                                    getProductTypes(this.props.product.productType, this.props.style.theme).map(p => {
-                                        const Icon = p.icon
-                                        const key = new Date().getTime().toString() + p.type
-                                        const { width, height } = this.getSizeProductType(p.type)
-                                        return (
-                                            <View key={key} style={Style.productType}>
-                                                <Icon
-                                                    color={p.color}
-                                                    width={width}
-                                                    height={height} />
-                                            </View>
-                                        )
-                                    })
-                                }
+                            <View style={[
+                                Style.rowWrap
+                            ]}>
+                                <Text style={[
+                                    Style.mt_5,
+                                    this.props.style.theme.secondaryTextColor,
+                                    this.props.style.fontSize.h10]}>
+                                    {this.props.product.additionInfo}
+                                </Text>
+                                <View style={Style.productTypeContainer}>
+                                    {
+                                        getProductTypes(this.props.product.productType, this.props.style.theme).map(p => {
+                                            const Icon = p.icon
+                                            const key = new Date().getTime().toString() + p.type
+                                            const { width, height } = this.getSizeProductType(p.type)
+                                            return (
+                                                <View key={key} style={Style.productType}>
+                                                    <Icon
+                                                        color={p.color}
+                                                        width={width}
+                                                        height={height} />
+                                                </View>
+                                            )
+                                        })
+                                    }
+                                </View>
+
                             </View>
                         </View>
                         <View style={Style.blockShopAction}>

@@ -6,11 +6,14 @@ export default StyleSheet.create({
     paddingTop: 7,
     paddingBottom: 14,
     paddingHorizontal: 12,
-    marginVertical: 3,
-    borderTopWidth: 0.5,
-    borderBottomWidth: 0.5,
+    marginVertical: 5,
     justifyContent: 'center',
     alignItems: 'stretch',
+    borderRadius: 6,
+    elevation: 4,
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.3,
+    shadowRadius: 1,
   },
   header: {
     flex: 1,
@@ -27,14 +30,14 @@ export default StyleSheet.create({
     textAlign: 'center',
     marginTop: 10,
     borderWidth: 1,
-    borderRadius: 3,
-    padding: Platform.OS == 'ios' ? 8 : 3
+    borderRadius: 5,
+    padding: Platform.OS == 'ios' ? 10 : 5
   },
   inputBigSize: {
     width: 280,
   },
   inputSmallSize: {
-    width: 135,
+    flex: 1
   },
   icoDeliveryAddress: {
     justifyContent: 'flex-end',
@@ -43,5 +46,46 @@ export default StyleSheet.create({
   wrapperRow: {
     flexDirection: 'row',
     justifyContent: 'space-between'
-  }
+  },
+
+  mr_bt_0: {
+    marginBottom: 0,
+  },
+
+  mr_tp_0: {
+    marginTop: 0,
+  },
+
+  b_tp_w_0: {
+    borderTopWidth: 0,
+  },
+
+  b_bt_w_0: {
+    borderBottomWidth: 0,
+  },
+
+  b_r_w_0: {
+    borderRightWidth: 0
+  },
+
+  b_r_0: {
+    borderRadius: 0
+  },
+
+  b_tp_l_r_0: {
+    borderTopLeftRadius: 0,
+  },
+
+  b_tp_r_r_0: {
+    borderTopRightRadius: 0,
+  },
+
+  b_bt_l_r_0: {
+    borderBottomLeftRadius: 0,
+  },
+
+  b_bt_r_r_0: {
+    borderBottomRightRadius: 0,
+  },
+
 })

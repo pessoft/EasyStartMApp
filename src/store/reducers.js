@@ -7,6 +7,7 @@ import { catalogReducer } from './catalog/reducer';
 import { productReviewReducer } from './product-reviews/reducer';
 import { styleReducer } from './style/reducer'
 import { stockReducer } from '../store/stock/reducer'
+import { newsReducer } from '../store/news/reducer'
 import { checkoutReducer } from '../store/checkout/reducer'
 import { navigationHelperReducer } from '../store/navigation/reducer'
 import { historyOrderReducer } from './history-order/reducer';
@@ -22,6 +23,7 @@ export default combineReducers({
   productReviews: productReviewReducer,
   style: styleReducer,
   stock: stockReducer,
+  news: newsReducer,
   checkout: checkoutReducer,
   navigationHelper: navigationHelperReducer,
   historyOrder: historyOrderReducer,

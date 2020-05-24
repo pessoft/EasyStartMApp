@@ -3,10 +3,10 @@ import {
   Text,
   View,
   TouchableWithoutFeedback,
-  Dimensions,
+  Image
 } from 'react-native'
-import Image from 'react-native-scalable-image'
 import Style from './style'
+
 
 export class StockCard extends React.Component {
 
@@ -21,11 +21,13 @@ export class StockCard extends React.Component {
       <TouchableWithoutFeedback onPress={this.onPress}>
         <View style={[
           Style.card,
-          this.props.style.theme.backdoor]}>
+          this.props.style.theme.backdoor,
+          this.props.style.theme.shadowColor,
+        ]}>
           <Image
-            width={Dimensions.get('screen').width}
+            style={Style.image}
             source={this.props.imageSource}
-            resizeMode='contain' />
+          />
           <Text style={[
             this.props.style.fontSize.h9,
             this.props.style.theme.primaryTextColor,

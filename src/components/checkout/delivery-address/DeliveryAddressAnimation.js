@@ -48,10 +48,12 @@ export class DeliveryAddressAnimation extends React.Component {
             }
           ]}>
           <DeliveryAddress
-            cityId={this.props.cityId}
+            address={this.props.address}
             style={this.props.style}
             changeDeliveryAddress={this.props.changeDeliveryAddress}
+            isHideArea={this.props.isHideArea}
             areaDeliveries={this.props.areaDeliveries}
+            saveDeliveryAddress={this.props.saveDeliveryAddress}
           />
         </Animated.View>
       )

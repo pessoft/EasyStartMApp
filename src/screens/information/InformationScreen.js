@@ -73,7 +73,9 @@ class CheckoutScreen extends React.Component {
             transform: [{ scale: this.state.showScaleAnimation }]
           }
         ]}>
-        <ScrollView>
+        <ScrollView
+          contentContainerStyle={{ paddingHorizontal: 10 }}
+        >
           <AddressInfo
             style={this.props.style}
             city={this.props.organizationSettings.City}
@@ -95,13 +97,15 @@ class CheckoutScreen extends React.Component {
           />
           <DeliveryTypeInfo
             style={this.props.style}
-            takeYourSelf={true}
-            delivery={true}
+            takeYourSelf={this.props.deliverySettings.IsTakeYourSelf}
+            delivery={this.props.deliverySettings.IsDelivery}
           />
           <PaymentTypeInfo
             style={this.props.style}
             card={this.props.deliverySettings.PayCard}
-            cash={this.props.deliverySettings.PayCash} />
+            cash={this.props.deliverySettings.PayCash} 
+            payOnline={this.props.deliverySettings.PayOnline} 
+            />
           {
             this.props.organizationSettings.Email &&
             <SocialInfo

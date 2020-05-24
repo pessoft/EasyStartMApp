@@ -6,8 +6,14 @@ export default StyleSheet.create({
     height: 150,
     justifyContent: 'center',
     alignItems: 'center',
-    borderBottomWidth: 0.7,
-    paddingBottom: 8
+    paddingBottom: 8,
+    marginTop: 10,
+    marginBottom: 5,
+    borderRadius: 6,
+    elevation: 4,
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.3,
+    shadowRadius: 1,
   },
   textBottom: {
     textAlignVertical: 'bottom'

@@ -2,12 +2,16 @@ import { StyleSheet } from 'react-native'
 
 export default StyleSheet.create({
   reviewItem: {
-    paddingVertical: 15,
-    marginHorizontal: 15,
-    borderBottomWidth: 0.5,
-    marginVertical: 4,
+    paddingVertical: 10,
+    marginVertical: 5,
+    paddingHorizontal: 15,
     flexDirection: 'row',
     alignItems: 'center',
+    borderRadius: 6,
+    elevation: 4,
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.3,
+    shadowRadius: 1,
   },
 
   reviewContainer: {

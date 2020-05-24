@@ -5,40 +5,38 @@ import {
     Animated,
     Platform
 } from 'react-native'
-import { ProductItem } from '../../components/product/ProductItem';
+import { ProductItem } from '../../components/product/ProductItem'
+import { ProductItemGrid } from '../../components/product/ProductItemGrid'
 import { setSelectedProduct } from '../../store/catalog/actions'
-import { PRODUCT_INFO } from '../../navigation/pointsNavigate'
+import { PRODUCT_INFO, CASHBACK_PROFILE } from '../../navigation/pointsNavigate'
 import { timingAnimation } from '../../animation/timingAnimation'
 import { toggleProductInBasket, changeTotalCountProductInBasket } from '../../store/checkout/actions'
 import { markFromBasket } from '../../store/navigation/actions'
 import VirtualMoneyButton from '../../components/buttons/VirtualMoneyButton/VirtualMoneyButton'
+import ViewContainerProductsChanger from '../../components/view-container-changer/ViewContainerProductsChanger'
+import { ViewContainerType } from '../../helpers/view-container-type'
 
 class ProductsScreen extends React.Component {
     static navigationOptions = ({ navigation }) => {
-        const isShowVirtualMoney = navigation.getParam('isShowVirtualMoney', false)
         const headerTitle = navigation.getParam('categoryName', 'Блюда')
 
-        if (isShowVirtualMoney)
-            return {
-                headerTitle,
-                headerTitleStyle: {
-                    textAlign: "left",
-                    flex: 1,
-                },
-                headerRight: () => <VirtualMoneyButton />
-            }
-
         return {
-            headerTitle
+            headerTitle,
+            headerTitleStyle: {
+                textAlign: 'center',
+                flex: 1,
+            },
+            headerRight: () => <ViewContainerProductsChanger />
         }
     }
 
     constructor(props) {
         super(props)
+
         this.props.navigation.setParams({
             categoryName: this.props.selectedCategory.Name,
-            isShowVirtualMoney: this.props.promotionCashbackSetting.IsUseCashback
         })
+
         this.props.setSelectedProduct({})
 
         this.state = {
@@ -46,6 +44,8 @@ class ProductsScreen extends React.Component {
             refreshItems: false
         }
     }
+
+    goToCashbackScreen = () => this.props.navigation.navigate(CASHBACK_PROFILE)
 
     componentDidMount = () => {
         timingAnimation(this.state.showScaleAnimation, 1, 300, true)
@@ -139,7 +139,19 @@ class ProductsScreen extends React.Component {
         this.props.toggleProductInBasket(basketProductModify)
     }
 
-    renderItem = ({ item, index }) => {
+    renderGridItem = ({ item, index }) => {
+        let itemTransform = this.productTransform(item, index)
+        return <ProductItemGrid
+            style={this.props.style}
+            animation={itemTransform.animation}
+            id={itemTransform.id}
+            product={itemTransform.product}
+            onPress={this.onSelectedProduct}
+            onToggleProduct={this.toggleProductInBasket}
+        />
+    }
+
+    renderListItem = ({ item, index }) => {
         let itemTransform = this.productTransform(item, index)
         return <ProductItem
             style={this.props.style}
@@ -171,21 +183,65 @@ class ProductsScreen extends React.Component {
             }
     }
 
+    renderListView = () => {
+        return (
+            <FlatList
+                contentContainerStyle={{
+                    alignSelf: 'center',
+                    paddingVertical: 6,
+                }}
+                key={ViewContainerType.list.toString()}
+                {...this.getFlatListPerformanceProperty()}
+                renderItem={this.renderListItem}
+                keyExtractor={this.keyExtractor}
+                extraData={this.props.basketProducts}
+                data={this.props.products[this.props.selectedCategory.Id]}
+            />
+        )
+    }
+
+    renderGridView = () => {
+        return (
+            <FlatList
+                contentContainerStyle={{
+                    alignSelf: 'center',
+                    paddingVertical: 6,
+                }}
+                key={ViewContainerType.grid.toString()}
+                {...this.getFlatListPerformanceProperty()}
+                renderItem={this.renderGridItem}
+                keyExtractor={this.keyExtractor}
+                extraData={this.props.basketProducts}
+                numColumns={2}
+                data={this.props.products[this.props.selectedCategory.Id]}
+            />
+        )
+    }
+
+    renderContent() {
+        switch (this.props.selectedProductsViewType) {
+            case ViewContainerType.list:
+                return this.renderListView()
+            case ViewContainerType.grid:
+                return this.renderGridView()
+        }
+    }
+
     render() {
         return (
             <Animated.ScrollView
+                contentContainerStyle={{
+                    flex: 1,
+                    paddingHorizontal: 1,
+                    alignContent: 'space-between'
+                }}
                 style={[
-                    { marginTop: 5 },
-                    { opacity: this.state.showScaleAnimation },
-                    { transform: [{ scale: this.state.showScaleAnimation }] }]}>
+                    {
+                        opacity: this.state.showScaleAnimation,
+                        transform: [{ scale: this.state.showScaleAnimation }]
+                    }]}>
 
-                <FlatList
-                    {...this.getFlatListPerformanceProperty()}
-                    renderItem={this.renderItem}
-                    keyExtractor={this.keyExtractor}
-                    extraData={this.props.basketProducts}
-                    data={this.props.products[this.props.selectedCategory.Id]}
-                />
+                {this.renderContent()}
             </Animated.ScrollView>
         )
     }
@@ -203,6 +259,7 @@ const mapStateToProps = state => {
         totalCountProducts: state.checkout.totalCountProducts,
         style: state.style,
         promotionCashbackSetting: state.main.promotionCashbackSetting,
+        selectedProductsViewType: state.appSetting.selectedProductsViewType,
     }
 }
 

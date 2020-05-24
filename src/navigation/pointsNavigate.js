@@ -9,6 +9,7 @@ export const AUTH_RESTORE_PASSWORD_SUCCESS = 'AuthRestorePasswordSuccess'
 export const USER_INFO = 'UserSetInfo'
 export const MAIN = 'MainBottomTab'
 export const CHECKOUT_COMPLETE = 'CheckoutComplete'
+export const CHECKOUT_ONLINE_PAY = 'CheckoutOnlinePay'
 
 export const SET_USER_DATA = 'UserDataSet'
 export const SET_CITY = 'CitySet'
@@ -28,6 +29,7 @@ export const PROFILE_TAB = 'ProfileTab'
 
 export const STOCKS = 'Stocks'
 export const STOCK_INFO = 'StockInfo'
+export const NEWS_INFO = 'NewsInfo'
 
 export const INFO_ORGANIZATION = 'InfoOrganization'
 export const ORGANIZATION_REVIEWS = 'OrganizationReviews'

@@ -10,17 +10,26 @@ export const DarkOrangeTheme = StyleSheet.create({
   backdoor: {
     backgroundColor: '#3a3a3a'
   },
+  backdoorTransparent: {
+    backgroundColor: '#000000aa',
+  },
+  shadowColor: {
+    shadowColor: '#2c2c2c'
+  },
   themeBody: {
+    backgroundColor: '#141414'
+  },
+  secondaryThemeBody: {
     backgroundColor: '#141414'
   },
   darkPrimaryColor: {
     backgroundColor: '#131313'
   },
   defaultPrimaryColor: {
-    backgroundColor: '#4a4a4a'
+    backgroundColor: '#37373d'
   },
   lightPrimaryColor: {
-    backgroundColor: '#37373d'
+    backgroundColor: '#4a4a4a'
   },
   textPrimaryColor: {
     color: '#FFFFFF'

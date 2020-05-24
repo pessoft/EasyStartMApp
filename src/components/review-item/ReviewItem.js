@@ -33,7 +33,7 @@ export class ReviewItem extends React.Component {
             return <Image style={Style.userPhoto} source={this.props.sourceUserPhoto} />
         else
             return <UserPhotoDefaultIcon
-            width={35} height={35}
+                width={35} height={35}
                 style={Style.userPhoto}
                 color={getSVGColor(this.props.style.theme.secondaryTextColor.color)} />
     }
@@ -42,6 +42,8 @@ export class ReviewItem extends React.Component {
         return (
             <Animated.View style={[
                 Style.reviewItem,
+                this.props.style.theme.backdoor,,
+                this.props.style.theme.shadowColor,
                 this.props.style.theme.dividerColor,
                 { transform: [{ scale: this.state.showScaleAnimation }] }
             ]}>
@@ -50,7 +52,7 @@ export class ReviewItem extends React.Component {
                     <Text style={[
                         Style.header,
                         this.props.style.fontSize.h8,
-                        { color: this.props.style.theme.accentColor.backgroundColor }]}
+                        { color: this.props.style.theme.accentOther.backgroundColor }]}
                     >
                         {this.props.header}
                     </Text>

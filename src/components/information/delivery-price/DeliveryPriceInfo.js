@@ -11,7 +11,9 @@ export class DeliveryPriceInfo extends React.Component {
       <View style={[
         Style.container,
         this.props.style.theme.backdoor,
-        this.props.style.theme.dividerColor]}>
+        this.props.style.theme.dividerColor,,
+        this.props.style.theme.shadowColor,
+        ]}>
         <View style={Style.image}>
           <StackDollarIcon
             width={45}
@@ -67,7 +69,7 @@ export class DeliveryPriceInfo extends React.Component {
                   Style.paddingBottomText,
                   Style.AreaDeliveryInfo
                 ]}>
-                Бесплатная доставка осуществляется при заказа на минимальную
+                Бесплатная доставка осуществляется при заказе на минимальную
                 сумму, которая зависит от вашего местонахождения
               </Text>
             }

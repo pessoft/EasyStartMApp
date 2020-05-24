@@ -11,7 +11,14 @@ import {
   Platform,
   Picker
 } from 'react-native'
-import { setCityId, setBranchId, updateUser, dropFetchFlag, dropSuccessClientUpdateDataFlag } from '../../../store/user/actions'
+import {
+  setCityId,
+  setBranchId,
+  updateUser,
+  dropFetchFlag,
+  dropSuccessClientUpdateDataFlag,
+  setDeliveryAddress
+} from '../../../store/user/actions'
 import { getMainData } from '../../../store/main/actions'
 import Style from './style'
 import { MAIN } from '../../../navigation/pointsNavigate'
@@ -19,6 +26,7 @@ import { SimpleListItem } from '../../../components/simple-list-item/SimpleListI
 import { timingAnimation } from '../../../animation/timingAnimation'
 import LottieView from 'lottie-react-native';
 import { showMessage } from "react-native-flash-message"
+import { ButtonWithoutFeedback } from '../../../components/buttons/ButtonWithoutFeedback/ButtonWithoutFeedback'
 
 const { width } = Dimensions.get('window')
 
@@ -33,16 +41,35 @@ class CityScreen extends React.Component {
     this.state = {
       onFinishedButton: false,
       showScaleAnimation: new Animated.Value(0),
-      nextPage: false
+      nextPage: false,
+      isFastSetCity: this.citiesToArray().length == 1
     }
   }
 
   componentDidMount() {
     this.props.dropSuccessClientUpdateDataFlag()
-    this.props.setCityId(-1)
-    timingAnimation(this.state.showScaleAnimation, 1, 300, true)
+    this.resetDeliveryAddress()
+
+    const cities = this.citiesToArray()
+    if (cities.length == 1) {
+      this.setCityId(cities[0].key)
+    } else {
+      this.setCityId(-1)
+      timingAnimation(this.state.showScaleAnimation, 1, 300, true)
+    }
   }
 
+  resetDeliveryAddress = () => {
+    this.props.setDeliveryAddress({
+      areaDeliveryId: -1,
+      street: '',
+      houseNumber: '',
+      entrance: '',
+      apartmentNumber: '',
+      level: '',
+      intercomCode: ''
+    })
+  }
 
   showErrMessage = () => {
     if (!this.props.isFetchUserError)
@@ -72,6 +99,7 @@ class CityScreen extends React.Component {
       branchId: this.props.user.branchId,
       email: this.props.user.email,
       userName: this.props.user.userName,
+      dateBirth: this.props.user.dateBirth,
       parentReferralClientId: this.props.user.parentReferralClientId,
       parentReferralCode: this.props.user.parentReferralCode,
     }
@@ -94,6 +122,15 @@ class CityScreen extends React.Component {
   }
 
   componentDidUpdate() {
+    if (this.state.isFastSetCity &&
+      this.props.cityId > 0) {
+      this.setState({ isFastSetCity: false },
+        this.onFinishSetUserData
+      )
+
+      return
+    }
+
     if (this.props.isFetchUserError) {
       this.showErrMessage()
       this.setState({ onFinishedButton: false, nextPage: false })
@@ -171,14 +208,18 @@ class CityScreen extends React.Component {
           </View>
           {this.renderCities()}
         </View>
-        <View style={[Style.inputSize, Style.footerContainer, Style.pv_20]}>
-          <Button
-            title='Далее'
-            onPress={this.onFinishSetUserData}
-            disabled={this.props.cityId < 1}
-            color={Platform.OS == 'ios' ?
-              this.props.style.theme.primaryTextColor.color :
-              this.props.style.theme.defaultPrimaryColor.backgroundColor} />
+        <View style={[Style.footerContainer, Style.pv_20]}>
+          <View style={[
+            Style.inputSize
+          ]}>
+            <ButtonWithoutFeedback
+              text='Далее'
+              onPress={this.onFinishSetUserData}
+              disabled={this.props.cityId < 1}
+              style={this.props.style}
+              borderRadius={5}
+            />
+          </View>
         </View>
       </Animated.View>
     )
@@ -229,6 +270,7 @@ const mapDispatchToProps = {
   updateUser,
   dropFetchFlag,
   dropSuccessClientUpdateDataFlag,
+  setDeliveryAddress
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CityScreen)

@@ -1,16 +1,19 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Animated, View, Text, Dimensions, Button } from 'react-native'
-import LottieView from 'lottie-react-native';
+import LottieView from 'lottie-react-native'
 import Style from './style'
 import { timingAnimation } from '../../../animation/timingAnimation'
 import { sendNewOrder } from '../../../store/checkout/actions'
 import { MAIN } from '../../../navigation/pointsNavigate'
+import { getStocks } from '../../../store/main/actions'
 import {
   toggleProductInBasket,
   changeTotalCountProductInBasket,
   toggleConstructorProductInBasket
 } from '../../../store/checkout/actions'
+import { showMessage } from "react-native-flash-message"
+import { dropFetchFlag } from '../../../store/checkout/actions'
 
 class CheckoutCompleteScreen extends React.Component {
   constructor(props) {
@@ -31,9 +34,32 @@ class CheckoutCompleteScreen extends React.Component {
   componentDidUpdate = () => {
     if (!this.props.isFetching && !this.props.isError) {
       timingAnimation(this.state.showScaleAnimationSuccess, 1, 200, true)
+      this.updateStocksAfterOrder()
     } else if (!this.props.isFetching && this.props.isError) {
       timingAnimation(this.state.showScaleAnimationError, 1, 200, true)
+      this.showErrMessage()
+      this.updateStocksAfterOrder()
     }
+  }
+
+  showErrMessage = () => {
+    if (!this.props.isError)
+      return
+
+    showMessage({
+      message: this.props.errorMessage,
+      type: "danger",
+      duration: 10000
+    });
+  }
+
+  updateStocksAfterOrder() {
+    const params = {
+      clientId: this.props.userData.clientId,
+      branchId: this.props.userData.branchId
+    }
+
+    this.props.getStocks(params)
   }
 
   onFinishCheckout = () => {
@@ -114,6 +140,7 @@ class CheckoutCompleteScreen extends React.Component {
           ]}>
           Успешно оформлен
         </Text>
+        {this.renderButtonOk()}
       </Animated.View>
     )
   }
@@ -142,7 +169,7 @@ class CheckoutCompleteScreen extends React.Component {
             Style.infoText,
           ]}>
           Заказ не оформлен
-        </Text>
+          </Text>
         <Text
           style={[
             this.props.style.theme.primaryTextColor,
@@ -151,7 +178,8 @@ class CheckoutCompleteScreen extends React.Component {
             { flexWrap: 'wrap' }
           ]}>
           При оформлении заказа что-то пошло не так
-        </Text>
+          </Text>
+        {this.renderButtonOk()}
       </Animated.View>
     )
   }
@@ -160,11 +188,11 @@ class CheckoutCompleteScreen extends React.Component {
     return (
       <View style={[Style.buttonOk]}>
         <Button
-          title='Готово'
+          title='ОK'
           onPress={this.onFinishCheckout}
           color={Platform.OS == 'ios' ?
-            this.props.style.theme.primaryTextColor.color :
-            this.props.style.theme.defaultPrimaryColor.backgroundColor} />
+            this.props.style.theme.accentOther.backgroundColor :
+            this.props.style.theme.accentOther.backgroundColor} />
       </View>
     )
   }
@@ -172,13 +200,12 @@ class CheckoutCompleteScreen extends React.Component {
   render() {
     return (
       <View style={[
-        this.props.style.theme.themeBody,
-        Style.container,
+        this.props.style.theme.secondaryThemeBody,
+        Style.mainContainer,
       ]}>
         {this.props.isFetching && this.renderLoader()}
         {!this.props.isFetching && !this.props.isError && this.renderSuccess()}
         {!this.props.isFetching && this.props.isError && this.renderError()}
-        {!this.props.isFetching && this.renderButtonOk()}
       </View>
     )
   }
@@ -190,7 +217,9 @@ const mapStateToProps = state => {
     order: state.checkout.lastOrder,
     isFetching: state.checkout.isFetching,
     isError: state.checkout.isError,
+    errorMessage: state.checkout.errorMessage,
     orderNumber: state.checkout.lastOrderNumber,
+    userData: state.user,
   }
 }
 
@@ -198,7 +227,9 @@ const mapActionToProps = {
   sendNewOrder,
   toggleProductInBasket,
   toggleConstructorProductInBasket,
-  changeTotalCountProductInBasket
+  changeTotalCountProductInBasket,
+  getStocks,
+  dropFetchFlag
 }
 
 export default connect(mapStateToProps, mapActionToProps)(CheckoutCompleteScreen)

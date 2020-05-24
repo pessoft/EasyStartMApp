@@ -6,7 +6,7 @@ import {
 } from 'react-native'
 import Style from './style'
 import { endingStrByNumber } from '../../../helpers/utils'
-import { ProductItem } from '../../product/ProductItem';
+import { ProductBonusItem } from '../../product/ProductBonusItem';
 
 export class BonusProducts extends React.Component {
   constructor(props) {
@@ -14,6 +14,19 @@ export class BonusProducts extends React.Component {
 
     this.state = {
       limit: this.props.allowedCountSelect
+    }
+  }
+
+  componentDidMount = () => {
+    const bonusProductCount = this.props.bonusProductIds.length
+
+    if(this.state.limit != 0 && bonusProductCount == 1) {
+      const product = {
+        count: 1,
+        id: this.props.bonusProductIds[0]
+      }
+
+      this.toggleProduct(product)
     }
   }
 
@@ -82,7 +95,8 @@ export class BonusProducts extends React.Component {
   }
 
   renderItem = ({ item }) => {
-    return <ProductItem
+    return <ProductBonusItem
+      backgroundColor={this.props.style.theme.themeBody.backgroundColor}
       style={this.props.style}
       animation={item.animation}
       id={item.id}
@@ -120,7 +134,8 @@ export class BonusProducts extends React.Component {
       <View style={[
         Style.container,
         this.props.style.theme.backdoor,
-        this.props.style.theme.dividerColor
+        this.props.style.theme.dividerColor,
+        this.props.style.theme.shadowColor,
       ]}>
         <View style={Style.header}>
           <Text style={[

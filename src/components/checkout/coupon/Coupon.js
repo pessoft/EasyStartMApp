@@ -5,10 +5,15 @@ import {
   TextInput,
   Button,
   ActivityIndicator,
-  Platform
+  Platform,
+  Dimensions
 } from 'react-native'
 import Style from './style'
 import LottieView from 'lottie-react-native';
+import { SimpleTextButton } from '../../../components/buttons/SimpleTextButton/SimpleTextButton'
+import { showMessage } from 'react-native-flash-message'
+
+const min320 = Dimensions.get('window').width <= 320
 
 export class Coupon extends React.Component {
   constructor(props) {
@@ -19,8 +24,14 @@ export class Coupon extends React.Component {
     }
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
+    if (prevProps.isProcessingActivation &&
+      !this.props.isProcessingActivation &&
+      !this.props.isActivated) {
+      const msg = 'Промокод не верен или недействителен'
 
+      this.showErrorMessage(msg)
+    }
   }
 
   onPromotionCodeChange = promotionCode => this.setState({ promotionCode })
@@ -35,6 +46,14 @@ export class Coupon extends React.Component {
     return false
   }
 
+  showErrorMessage = message => {
+    showMessage({
+      message: message,
+      type: 'danger',
+      duration: 3000
+    });
+  }
+
   activateCoupon = () => {
     if (this.props.onActivateCoupon)
       this.props.onActivateCoupon(this.state.promotionCode)
@@ -45,7 +64,8 @@ export class Coupon extends React.Component {
       <View style={[
         Style.contacts,
         this.props.style.theme.backdoor,
-        this.props.style.theme.dividerColor
+        this.props.style.theme.dividerColor,
+        this.props.style.theme.shadowColor,
       ]}>
         <View style={Style.header}>
           <Text style={[
@@ -56,44 +76,59 @@ export class Coupon extends React.Component {
           </Text>
         </View>
         <View
-          style={Style.content}
+          style={[
+            Style.content,
+            this.props.style.theme.dividerColor
+          ]}
         >
-          <TextInput
-            placeholder='Промокод'
-            value={this.state.promotionCode}
-            placeholderTextColor={this.props.style.theme.secondaryTextColor.color}
-            style={[
-              Style.inputText,
-              this.props.style.fontSize.h8,
-              this.props.style.theme.primaryTextColor,
-              this.props.style.theme.dividerColor]}
-            onChangeText={this.onPromotionCodeChange}
-          />
+          <View style={[
+            Style.itemContainer,
+            Style.borderRight,
+            this.props.style.theme.dividerColor
+          ]}>
+            <TextInput
+              placeholder='Промокод'
+              value={this.state.promotionCode}
+              placeholderTextColor={this.props.style.theme.secondaryTextColor.color}
+              style={[
+                Style.inputText,
+                min320 ?
+                  this.props.style.fontSize.h10 :
+                  this.props.style.fontSize.h8,
+                this.props.style.theme.primaryTextColor
+              ]}
+              onChangeText={this.onPromotionCodeChange}
+            />
+          </View>
           {
             !this.props.isProcessingActivation &&
             !this.props.isActivated &&
-            <Button
-              title='Активировать'
-              onPress={this.activateCoupon}
-              disabled={this.isDisabled()}
-              color={Platform.OS == 'ios' ?
-                this.props.style.theme.primaryTextColor.color :
-                this.props.style.theme.defaultPrimaryColor.backgroundColor}
-            />
+            <View style={Style.itemContainer}>
+              <SimpleTextButton
+                text='Активировать'
+                onPress={this.activateCoupon}
+                disabled={this.isDisabled()}
+                sizeText={min320 ?
+                  this.props.style.fontSize.h10.fontSize :
+                  this.props.style.fontSize.h8.fontSize}
+                color={this.props.style.theme.primaryTextColor.color}
+                disabledColor={this.props.style.theme.secondaryTextColor.color}
+              />
+            </View>
           }
           {
             this.props.isProcessingActivation &&
             !this.props.isActivated &&
-            <View style={{ flex: 0.5 }}>
-              <ActivityIndicator size="large" color={this.props.style.theme.defaultPrimaryColor.backgroundColor} />
+            <View style={Style.itemContainer}>
+              <ActivityIndicator size='small' color={this.props.style.theme.lightPrimaryColor.backgroundColor} />
             </View>
           }
           {
             this.props.isActivated &&
-            <View style={{ flex: 0.5 }}>
+            <View style={{ flex: 0.3 }}>
               <LottieView
                 style={Style.loader}
-                source={require('../../../animation/src/success.json')}
+                source={require('../../../animation/src/check-success.json')}
                 autoPlay
                 loop={false}
                 resizeMode='contain'

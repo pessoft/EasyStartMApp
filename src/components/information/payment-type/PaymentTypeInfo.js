@@ -11,7 +11,9 @@ export class PaymentTypeInfo extends React.Component {
       <View style={[
         Style.container,
         this.props.style.theme.backdoor,
-        this.props.style.theme.dividerColor]}>
+        this.props.style.theme.dividerColor,
+        this.props.style.theme.shadowColor,
+        ]}>
         <View style={Style.image}>
           <CoinsIcon
             width={45}
@@ -47,6 +49,16 @@ export class PaymentTypeInfo extends React.Component {
                 Style.paddingBottomText
               ]}>
                 Оплата наличными курьеру или в кафе при получении заказа.
+              </Text>
+            }
+             {
+              this.props.payOnline &&
+              <Text style={[
+                this.props.style.theme.secondaryTextColor,
+                this.props.style.fontSize.h9,
+                Style.paddingBottomText
+              ]}>
+                Онлайн оплата при оформлении заказа
               </Text>
             }
           </View>

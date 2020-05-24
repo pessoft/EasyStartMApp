@@ -3,10 +3,9 @@ import { connect } from 'react-redux'
 import {
     View,
     Text,
-    Dimensions,
     Animated,
+    Image
 } from 'react-native'
-import Image from 'react-native-scalable-image'
 import { SimpleTextButton } from '../../../components/buttons/SimpleTextButton/SimpleTextButton'
 import { AirbnbRating } from 'react-native-ratings';
 import { PRODUCT_REVIEW, PRODUCT_REVIEW_FROM_BASKET, PRODUCTS } from '../../../navigation/pointsNavigate'
@@ -16,6 +15,7 @@ import { timingAnimation } from '../../../animation/timingAnimation'
 import { setSelectedProduct } from '../../../store/catalog/actions'
 import { getSVGColor } from '../../../helpers/color-helper'
 import { updateRating } from '../../../store/main/actions'
+
 
 class ProductInfoScreen extends React.Component {
     static navigationOptions = ({ navigation }) => {
@@ -31,12 +31,17 @@ class ProductInfoScreen extends React.Component {
         this.state = {
             showScaleAnimation: new Animated.Value(0),
             selectedProduct: props.selectedProduct,
-            fromBasket: props.fromBasket
+            fromBasket: props.fromBasket,
+            refreshItems: false,
         }
     }
 
     componentDidMount() {
         timingAnimation(this.state.showScaleAnimation, 1, 300, true)
+
+        this.focusListener = this.props.navigation.addListener('didFocus', () => {
+            this.setState({ refreshItems: !this.state.refreshItems })
+        });
     }
 
     componentDidUpdate(prevProps) {
@@ -47,11 +52,15 @@ class ProductInfoScreen extends React.Component {
             this.setState({ selectedProduct: product })
         }
 
-        if (!this.props.selectedProduct ||
-            Object.keys(this.props.selectedProduct).length == 0) {
-            this.props.navigation.navigate(PRODUCTS)
-        } else if (this.props.selectedProduct != prevProps.selectedProduct) {
-            this.props.navigation.setParams({ productName: this.props.selectedProduct.Name })
+        if (this.state.refreshItems) {
+            if (!this.props.selectedProduct ||
+                Object.keys(this.props.selectedProduct).length == 0) {
+                this.props.navigation.navigate(PRODUCTS)
+            } else if (this.props.selectedProduct != prevProps.selectedProduct) {
+                this.props.navigation.setParams({ productName: this.props.selectedProduct.Name })
+            }
+
+            this.setState({ refreshItems: false })
         }
     }
 
@@ -86,14 +95,22 @@ class ProductInfoScreen extends React.Component {
 
     render() {
         return (
-            <Animated.ScrollView style={[
-                { opacity: this.state.showScaleAnimation },
-                { transform: [{ scale: this.state.showScaleAnimation }] }]}>
+            <Animated.ScrollView
+                contentContainerStyle={{
+                    paddingHorizontal: 12
+                }}
+                style={[
+                    { opacity: this.state.showScaleAnimation },
+                    { transform: [{ scale: this.state.showScaleAnimation }] }]}>
                 <Image
+                    style={Style.image}
                     source={this.state.selectedProduct.Image}
-                    width={Dimensions.get('window').width}
-                    resizeMode='contain' />
-                <View style={Style.contentBody}>
+                />
+                <View style={[
+                    Style.contentBody,
+                    this.props.style.theme.backdoor,
+                    this.props.style.theme.shadowColor,
+                ]}>
                     <View style={[
                         Style.productInfoContainer,
                         this.props.style.theme.dividerColor]}>
@@ -112,12 +129,15 @@ class ProductInfoScreen extends React.Component {
                                 this.props.style.theme.secondaryTextColor]}>{this.getRatingText()}
                             </Text>
                             <View style={Style.reviewsButtonWithIcon}>
-                                <SimpleTextButton
-                                    text={'Отзывы'}
-                                    onPress={this.onPressReviews}
-                                    sizeText={this.props.style.fontSize.h6.fontSize}
-                                    color={this.props.style.theme.accentOther.backgroundColor}
-                                />
+                                <View style={Style.buttonContainer}>
+                                    <SimpleTextButton
+                                        text={'Отзывы'}
+                                        onPress={this.onPressReviews}
+                                        sizeText={this.props.style.fontSize.h6.fontSize}
+                                        color={this.props.style.theme.accentOther.backgroundColor}
+                                        textAlign={'left'}
+                                    />
+                                </View>
                                 <CommentLinesIcon
                                     width={20}
                                     height={20}

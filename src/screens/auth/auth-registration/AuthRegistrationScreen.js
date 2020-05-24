@@ -22,6 +22,8 @@ import { getSVGColor } from '../../../helpers/color-helper'
 import { getMainData } from '../../../store/main/actions'
 import { getLocation } from '../../../store/location/actions'
 import { showMessage } from "react-native-flash-message"
+import { ButtonWithoutFeedback } from '../../../components/buttons/ButtonWithoutFeedback/ButtonWithoutFeedback'
+import { Confirm } from '../../../components/raw-bottom-sheets/confirm/Confirm'
 
 const { width } = Dimensions.get('window')
 
@@ -37,7 +39,8 @@ class AuthRegistrationScreen extends React.Component {
       showScaleAnimation: new Animated.Value(0),
       phoneNumber: '',
       password: '',
-      confirmPassword: ''
+      confirmPassword: '',
+      toggleConfirm: false
     }
   }
 
@@ -104,7 +107,7 @@ class AuthRegistrationScreen extends React.Component {
     return true
   }
 
-  onPhoneChange = phoneNumber => this.setState({ phoneNumber })
+  onPhoneChange = phoneNumber => this.setState({ phoneNumber: phoneNumber.trim() })
   onPasswordChange = password => this.setState({ password })
   onConfirmPasswordChange = confirmPassword => this.setState({ confirmPassword })
   goToSetUserInfoPage = () => this.props.navigation.navigate(USER_INFO)
@@ -113,6 +116,13 @@ class AuthRegistrationScreen extends React.Component {
     PhoneNumber: this.state.phoneNumber,
     Password: this.state.password
   })
+
+  confirmPhoneNumber = () => this.setState({ toggleConfirm: true })
+  confirmCancel = () => this.setState({ toggleConfirm: false })
+  confirmSuccess = () => {
+    this.setState({ toggleConfirm: false })
+    this.registration()
+  }
 
   isValidData = () => {
     const regexp = /\+7[(]\d{3}\)\d{3}-\d{2}-\d{2}$/
@@ -126,6 +136,12 @@ class AuthRegistrationScreen extends React.Component {
     return false
   }
 
+  getMessageForConfirm = () => {
+    const message = `Номер телефона ${this.state.phoneNumber} указан верно?`
+
+    return message
+  }
+
   renderLoader = () => {
     return (
       <View style={Style.centerScreen}>
@@ -137,7 +153,7 @@ class AuthRegistrationScreen extends React.Component {
   renderContent = () => {
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-        <KeyboardAvoidingView style={Style.screen} behavior='padding'>
+        <KeyboardAvoidingView style={Style.screen} behavior='height'>
 
           <Animated.View
             style={[Style.screen,
@@ -145,76 +161,88 @@ class AuthRegistrationScreen extends React.Component {
               opacity: this.state.showScaleAnimation,
               transform: [{ scale: this.state.showScaleAnimation }]
             }]}>
-            <UserPhotoDefaultIcon
-              width={90} height={90}
-              style={Style.loginIcon}
-              color={getSVGColor(this.props.style.theme.primaryTextColor.color)}
-            />
-            <TextInputMask
-              keyboardType={'phone-pad'}
-              placeholder={'Номер телефона: +7...'}
-              placeholderTextColor={this.props.style.theme.secondaryTextColor.color}
-              type={'custom'}
-              options={{ mask: '+7(999)999-99-99' }}
-              value={this.state.phoneNumber}
-              style={[
-                Style.inputText,
+            <View style={Style.mainContainer}>
+              <UserPhotoDefaultIcon
+                width={90} height={90}
+                style={Style.loginIcon}
+                color={getSVGColor(this.props.style.theme.primaryTextColor.color)}
+              />
+              <TextInputMask
+                keyboardType={'phone-pad'}
+                placeholder={'Номер телефона: +7...'}
+                placeholderTextColor={this.props.style.theme.secondaryTextColor.color}
+                type={'custom'}
+                options={{ mask: '+7(999)999-99-99' }}
+                value={this.state.phoneNumber}
+                style={[
+                  Style.inputText,
+                  Style.phoneNumber,
+                  Style.inputSize,
+                  this.props.style.fontSize.h8,
+                  this.props.style.theme.primaryTextColor,
+                  this.props.style.theme.dividerColor]}
+                onChangeText={this.onPhoneChange}
+                returnKeyType={'next'}
+                onSubmitEditing={() => { this.passwordTextInput.focus() }}
+                blurOnSubmit={false}
+              />
+              <TextInput
+                ref={(input) => { this.passwordTextInput = input; }}
+                secureTextEntry={true}
+                placeholder='Пароль'
+                value={this.state.password}
+                placeholderTextColor={this.props.style.theme.secondaryTextColor.color}
+                style={[
+                  Style.inputText,
+                  Style.password,
+                  Style.inputSize,
+                  this.props.style.fontSize.h8,
+                  this.props.style.theme.primaryTextColor,
+                  this.props.style.theme.dividerColor]}
+                onChangeText={this.onPasswordChange}
+                returnKeyType={'next'}
+                onSubmitEditing={() => { this.confirmPasswordTextInput.focus() }}
+                blurOnSubmit={false}
+              />
+              <TextInput
+                ref={(input) => { this.confirmPasswordTextInput = input; }}
+                secureTextEntry={true}
+                placeholder='Повторите пароль'
+                value={this.state.confirmPassword}
+                placeholderTextColor={this.props.style.theme.secondaryTextColor.color}
+                style={[
+                  Style.inputText,
+                  Style.passwordRepeat,
+                  Style.inputSize,
+                  this.props.style.fontSize.h8,
+                  this.props.style.theme.primaryTextColor,
+                  this.props.style.theme.dividerColor]}
+                onChangeText={this.onConfirmPasswordChange}
+                onSubmitEditing={() => Keyboard.dismiss()}
+                blurOnSubmit={false}
+              />
+              <View style={[
                 Style.inputSize,
-                this.props.style.fontSize.h7,
-                this.props.style.theme.primaryTextColor,
-                this.props.style.theme.dividerColor]}
-              onChangeText={this.onPhoneChange}
-              returnKeyType={'next'}
-              onSubmitEditing={() => { this.passwordTextInput.focus() }}
-              blurOnSubmit={false}
-            />
-            <TextInput
-              ref={(input) => { this.passwordTextInput = input; }}
-              secureTextEntry={true}
-              placeholder='Пароль'
-              value={this.state.password}
-              placeholderTextColor={this.props.style.theme.secondaryTextColor.color}
-              style={[
-                Style.inputText,
-                Style.inputSize,
-                this.props.style.fontSize.h7,
-                this.props.style.theme.primaryTextColor,
-                this.props.style.theme.dividerColor]}
-              onChangeText={this.onPasswordChange}
-              returnKeyType={'next'}
-              onSubmitEditing={() => { this.confirmPasswordTextInput.focus() }}
-              blurOnSubmit={false}
-            />
-            <TextInput
-              ref={(input) => { this.confirmPasswordTextInput = input; }}
-              secureTextEntry={true}
-              placeholder='Повторите пароль'
-              value={this.state.confirmPassword}
-              placeholderTextColor={this.props.style.theme.secondaryTextColor.color}
-              style={[
-                Style.inputText,
-                Style.inputSize,
-                this.props.style.fontSize.h7,
-                this.props.style.theme.primaryTextColor,
-                this.props.style.theme.dividerColor]}
-              onChangeText={this.onConfirmPasswordChange}
-              onSubmitEditing={() => Keyboard.dismiss()}
-              blurOnSubmit={false}
-            />
-            <View style={[
-              Style.inputSize,
-              Style.buttonsContainer]}>
-              <View style={Style.buttonMargin}>
-                <Button
-                  title='Зарегистрироваться'
-                  onPress={this.registration}
-                  disabled={!this.isValidData()}
-                  color={Platform.OS == 'ios' ?
-                    this.props.style.theme.primaryTextColor.color :
-                    this.props.style.theme.defaultPrimaryColor.backgroundColor}
-                />
+                Style.buttonsContainer]}>
+                <View style={Style.buttonMargin}>
+                  <ButtonWithoutFeedback
+                    text='Зарегистрироваться'
+                    style={this.props.style}
+                    disabled={!this.isValidData()}
+                    borderRadius={5}
+                    onPress={this.confirmPhoneNumber}
+                  />
+                </View>
               </View>
             </View>
+            <Confirm
+              title={'Подтвердите номер телефона'}
+              message={this.getMessageForConfirm()}
+              style={this.props.style}
+              toggle={this.state.toggleConfirm}
+              confirm={this.confirmSuccess}
+              cancel={this.confirmCancel}
+            />
           </Animated.View>
         </KeyboardAvoidingView>
       </TouchableWithoutFeedback>

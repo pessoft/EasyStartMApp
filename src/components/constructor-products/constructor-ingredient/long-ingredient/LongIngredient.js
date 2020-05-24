@@ -4,6 +4,7 @@ import { TouchableWithoutFeedback, Text, View, Image } from 'react-native'
 import { priceValid } from '../../../../helpers/utils'
 import { IngredientCounter } from '../ingredient-counter/IngredientCounter'
 
+
 export class LongIngredient extends React.Component {
   constructor(props) {
     super(props)

@@ -1,25 +1,38 @@
-import { StyleSheet } from 'react-native'
+import { StyleSheet, Dimensions } from 'react-native'
+
+let width = Dimensions.get('screen').width - 24
 
 export default StyleSheet.create({
   bodyItem: {
     alignSelf: 'stretch',
     justifyContent: 'center',
-    minHeight: 105
+    width: width,
+    height: 110,
+    marginVertical: 5,
+    borderRadius: 6,
+    elevation: 4,
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.3,
+    shadowRadius: 1,
+  },
+  captionBlock: {
+    flex: 1,
+    alignItems: 'flex-start',
   },
   directionRow: {
     flexDirection: 'row',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   mt_5: {
     marginTop: 3
   },
   textWrap: {
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
   },
   rowWrap: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
-    marginBottom: 10,
   },
   productTypeContainer: {
     flexDirection: 'row',
@@ -30,28 +43,28 @@ export default StyleSheet.create({
     marginLeft: 5
   },
   productImage: {
-    width: 80,
-    height: 80,
-    borderRadius: 5,
-    marginHorizontal: 18
-
+    width: 110,
+    height: 110,
+    borderTopLeftRadius: 6,
+    borderBottomLeftRadius: 6,
+    marginRight: 10
   },
   imageContainer: {
     alignSelf: 'stretch',
     justifyContent: 'center',
-    minHeight: 105
+    minHeight: 110
   },
   productHeader: {
     flex: 1,
     alignSelf: 'stretch',
-    justifyContent: 'center',
-    borderBottomWidth: 1,
-    minHeight: 102,
-    paddingVertical: 5,
-    paddingRight: 5
+    justifyContent: 'space-between',
+    height: 110,
+    paddingTop: 4,
+    paddingBottom: 10,
+    paddingHorizontal: 5,
   },
   blockShopAction: {
-    alignItems: 'center',
+    alignItems: 'flex-end',
     justifyContent: 'center',
     flexDirection: 'row',
   },

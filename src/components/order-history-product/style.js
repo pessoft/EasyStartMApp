@@ -1,41 +1,48 @@
 import { StyleSheet } from 'react-native'
 
 export default StyleSheet.create({
-  
+
   directionRow: {
     flexDirection: 'row',
-    justifyContent: 'center',
-    minHeight: 90,
-    paddingVertical: 10
+    justifyContent: 'flex-start',
+    height: 90,
+    borderRadius: 6,
+    marginVertical: 5,
+    elevation: 4,
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.3,
+    shadowRadius: 1,
   },
   textWrap: {
     flexWrap: 'wrap'
   },
   imageContainer: {
-    flex: 1,
-    alignItems: 'center',
     justifyContent: 'center',
-    
+    alignSelf: 'stretch',
   },
   productImage: {
-    width: 76,
-    height: 76,
-    borderRadius: 5,
+    width: 90,
+    height: 90,
+    borderTopLeftRadius: 6,
+    borderBottomLeftRadius: 6,
+    marginRight: 10
   },
   productInfoContainer: {
-    flex: 2,
+    flex: 1,
     alignSelf: 'stretch',
-    justifyContent: 'center',
-    borderBottomWidth: 1,
+    justifyContent: 'space-between',
+    paddingTop: 4,
     paddingBottom: 10,
-    paddingRight: 5
+    paddingHorizontal: 10,
+    height: 90,
   },
   captionContainer: {
-    flex: 1
+    flex: 1,
+    alignItems: 'flex-start',
   },
   priceContainer: {
-    flex: 1,
+    flex: 0.5,
     alignItems: 'flex-end',
-    justifyContent: 'flex-end'
+    justifyContent: 'flex-end',
   }
 })

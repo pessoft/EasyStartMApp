@@ -33,7 +33,8 @@ export class Contacts extends React.Component {
       <View style={[
         Style.contacts,
         this.props.style.theme.backdoor,
-        this.props.style.theme.dividerColor
+        this.props.style.theme.dividerColor,
+        this.props.style.theme.shadowColor,
       ]}>
         <View style={Style.header}>
           <Text style={[
@@ -52,6 +53,7 @@ export class Contacts extends React.Component {
             placeholderTextColor={this.props.style.theme.secondaryTextColor.color}
             style={[
               Style.inputText,
+              Style.name,
               Style.inputSize,
               this.props.style.fontSize.h8,
               this.props.style.theme.primaryTextColor,
@@ -72,6 +74,7 @@ export class Contacts extends React.Component {
             value={this.state.phoneNumber}
             style={[
               Style.inputText,
+              Style.phone,
               Style.inputSize,
               this.props.style.fontSize.h8,
               this.props.style.theme.primaryTextColor,

@@ -3,14 +3,19 @@ import { StyleSheet, Platform } from 'react-native'
 export default StyleSheet.create({
   screen: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     alignItems: 'center',
+  },
+  mainContainer: {
+    flex: 0.65,
+    justifyContent: 'flex-end',
+    alignItems: 'center'
   },
   inputText: {
     textAlign: 'center',
     marginBottom: 15,
     borderWidth: 1,
-    borderRadius: 3,
+    borderRadius: 5,
     padding: Platform.OS == 'ios' ? 8 : 3
   },
   inputSize: {

@@ -15,7 +15,7 @@ import { TypePayment } from '../../../helpers/type-payment'
 import { DeliveryAddressAnimation } from '../../../components/checkout/delivery-address/DeliveryAddressAnimation'
 import { OrderComment } from '../../../components/checkout/order-comment/OrderComment'
 import { CompleteCheckout } from '../../../components/checkout/complete-checkout/CompleteCheckout'
-import { CHECKOUT_COMPLETE, SHOPPING_BASKET } from '../../../navigation/pointsNavigate'
+import { CHECKOUT_COMPLETE, SHOPPING_BASKET, CASHBACK_PROFILE, CHECKOUT_ONLINE_PAY } from '../../../navigation/pointsNavigate'
 import { addNewOrderData } from '../../../store/checkout/actions'
 import { PromotionLogic } from '../../../logic/promotion/promotion-logic'
 import { DiscountType } from '../../../logic/promotion/discount-type'
@@ -26,21 +26,48 @@ import { getCoupon } from '../../../store/main/actions'
 import { NavigationEvents } from 'react-navigation';
 import { cleanCoupon } from '../../../store/main/actions'
 import { updateVirtualMoney, updateReferralDiscount } from '../../../store/user/actions'
+import { NumberAppliances } from '../../../components/checkout/number-appliances/NumberAppliances'
+import VirtualMoneyButton from '../../../components/buttons/VirtualMoneyButton/VirtualMoneyButton'
+import { setDeliveryAddress } from '../../../store/user/actions'
+import { showMessage } from "react-native-flash-message"
+import { isWorkTime, getWorkTime } from '../../../helpers/work-time'
+import { OrderStatus } from '../../../helpers/order-status'
 
 class CheckoutScreen extends React.Component {
-  static navigationOptions = {
-    headerTitle: 'Оформление заказа',
+  static navigationOptions = ({ navigation }) => {
+    const isShowVirtualMoney = navigation.getParam('isShowVirtualMoney', false)
+    const onPress = navigation.getParam('onPress', null)
+    if (isShowVirtualMoney)
+      return {
+        headerTitle: 'Оформление заказа',
+        headerTitleStyle: {
+          textAlign: Platform.OS == 'ios' ? 'center' : 'left',
+          flex: 1,
+        },
+        headerRight: () => <VirtualMoneyButton onPress={onPress} />
+      }
+
+    return {
+      headerTitle: 'Оформление заказа'
+    }
   }
 
   constructor(props) {
     super(props)
+
+    this.props.navigation.setParams({
+      isShowVirtualMoney: this.props.promotionCashbackSetting.IsUseCashback,
+      onPress: () => this.goToCashbackScreen()
+    })
+    const isWorkTimeCurrent = isWorkTime(this.props.deliverySettings.TimeDelivery)
     this.state = {
+      isWorkTime: isWorkTimeCurrent,
       showScaleAnimation: new Animated.Value(0),
       userData: {
         userName: props.userData.userName,
         phoneNumber: props.userData.phoneNumber
       },
-      deliveryType: DeliveryType.Delivery,
+      deliveryType: this.props.deliverySettings.IsDelivery ? DeliveryType.Delivery : DeliveryType.TakeYourSelf,
       paymentData: {
         paymentType: TypePayment.Cash,
         needCashBack: false,
@@ -48,14 +75,16 @@ class CheckoutScreen extends React.Component {
       },
       deliveryAddress: {
         cityId: props.userData.cityId,
-        areaDeliveryId: -1,
-        street: '',
-        houseNumber: '',
-        entrance: '',
-        apartmentNumber: '',
-        level: '',
-        intercomCode: ''
+        areaDeliveryId: this.getIdAreaDelivery(props.userData.areaDeliveryId),
+        street: props.userData.street,
+        houseNumber: props.userData.houseNumber,
+        entrance: props.userData.entrance,
+        apartmentNumber: props.userData.apartmentNumber,
+        level: props.userData.level,
+        intercomCode: props.userData.intercomCode,
       },
+      numberAppliances: this.isRequestNumberAppliances() ? 1 : 0,
+      dateDelivery: isWorkTimeCurrent ? null : new Date(),
       commentText: '',
       promotion: this.getPromotionLogic(true),
       amountPayCashBack: 0,
@@ -64,12 +93,51 @@ class CheckoutScreen extends React.Component {
     }
   }
 
+  goToCashbackScreen = () => this.props.navigation.navigate(CASHBACK_PROFILE)
+
+  isRequestNumberAppliances = () => {
+    let isRequest = false
+
+    for (const productId in this.props.basketProducts) {
+      const basketProduct = this.props.basketProducts[productId]
+
+      if (basketProduct.count == 0)
+        continue
+
+      const category = this.getCategoryById(basketProduct.categoryId)
+
+      if (category && category.NumberAppliances) {
+        isRequest = true
+        break
+      }
+    }
+
+    if (!isRequest) {
+      for (const uniqId in this.props.basketConstructorProducts) {
+        const basketConstructorProduct = this.props.basketConstructorProducts[uniqId]
+
+        if (basketConstructorProduct && basketConstructorProduct.category.NumberAppliances) {
+          isRequest = true
+          break
+        }
+      }
+    }
+
+    return isRequest
+  }
+
+  getCategoryById = id => {
+    const category = this.props.categories.find(p => p.Id == id)
+
+    return category
+  }
+
   getPromotionLogic = (isDefault = false) => {
     return new PromotionLogic(
       this.getStockOption(isDefault),
       this.getCoupon(),
       this.props.userData.referralDiscount,
-      this.props.promotionSettings)
+      this.props.promotionSectionSettings)
   }
 
   getCoupon = () => {
@@ -79,12 +147,21 @@ class CheckoutScreen extends React.Component {
       null
   }
 
+  getStocks = () => {
+    if(this.props.stocks && this.props.stocks.length > 0)
+      return this.props.stocks.filter(p => !p.OnlyShowNews)
+
+    return []
+  }
+
   getStockOption = (isDefault) => {
     return {
-      stocks: this.props.stocks,
+      stocks: this.getStocks(),
       deliveryType: isDefault ? DeliveryType.Delivery : this.state.deliveryType,
       orderSum: this.getOrderPrice(),
-      basketProducts: this.props.basketProducts
+      basketProducts: this.props.basketProducts,
+      stockInteractionType: this.props.promotionSetting.StockInteractionType,
+      productDictionary: this.props.productDictionary
     }
   }
 
@@ -96,6 +173,11 @@ class CheckoutScreen extends React.Component {
     if (this.isEmptyBasket() && !this.isEmptyCoupon()) {
       this.props.cleanCoupon()
     }
+
+    if (this.state.numberAppliances > 0 && !this.isRequestNumberAppliances())
+      this.setState({ numberAppliances: 0 })
+    else if (this.state.numberAppliances == 0 && this.isRequestNumberAppliances())
+      this.setState({ numberAppliances: 1 })
 
     const promotionData = this.getPromotionDataForEquals()
     if (!this.state.promotion.equalsPromotionData(promotionData)) {
@@ -146,11 +228,24 @@ class CheckoutScreen extends React.Component {
   }
 
   setContactsData = userData => this.setState({ userData })
-  changeDeliveryType = deliveryType => this.setState({ deliveryType, deliveryAddress: { areaDeliveryId: -1 } })
+  changeDeliveryType = deliveryType => this.setState({ deliveryType })
+  changeDeliveryDate = dateDelivery => { this.setState({ dateDelivery }) }
   changePaymentData = paymentData => this.setState({ paymentData })
   setDeliveryAddress = deliveryAddress => this.setState({ deliveryAddress })
   setCommentText = commentText => this.setState({ commentText })
   setAmountPayCashBack = amountPayCashBack => this.setState({ amountPayCashBack })
+  changeNumberAppliances = numberAppliances => this.setState({ numberAppliances })
+  saveDeliveryAddress = () => {
+    this.props.setDeliveryAddress(this.state.deliveryAddress)
+    this.showSuccessMessage('Адрес доставки сохранен')
+  }
+
+  showSuccessMessage = msg => {
+    showMessage({
+      message: msg,
+      type: 'success',
+    });
+  }
 
   getOrderPrice = () => {
     let cost = 0
@@ -183,6 +278,15 @@ class CheckoutScreen extends React.Component {
       return null
   }
 
+  getIdAreaDelivery = uniqId => {
+    const findResults = this.props.deliverySettings.AreaDeliveries.filter(p => p.UniqId == uniqId)
+
+    if (findResults && findResults.length > 0)
+      return uniqId
+    else
+      return -1
+  }
+
   getCurrentAreaDeliveryPrice = () => {
     let deliveryPrice = 0
 
@@ -198,11 +302,28 @@ class CheckoutScreen extends React.Component {
     return deliveryPrice
   }
 
+  isFreeDeliveryAnyArea = () => {
+    const paidDeliveryAreas = this.props.deliverySettings.AreaDeliveries.filter(p => p.MinPrice > this.getOrderPrice())
+
+    return paidDeliveryAreas.length == 0
+  }
+
   isFreeDelivery = () => {
-    if (this.state.deliveryAddress.areaDeliveryId == -1)
+    if (this.isFreeDeliveryAnyArea())
+      return true
+
+    if (!this.state.deliveryAddress.areaDeliveryId ||
+      this.state.deliveryAddress.areaDeliveryId == -1)
       return false
-    else
-      return this.getOrderPrice() >= this.getCurrentAreaDelivery().MinPrice
+    else {
+      const areaDelivery = this.getCurrentAreaDelivery()
+
+      if (areaDelivery)
+        return this.getOrderPrice() >= areaDelivery.MinPrice
+      else
+        return false
+    }
+
   }
 
   getDeliveryPrice = () => {
@@ -213,17 +334,42 @@ class CheckoutScreen extends React.Component {
       return this.getCurrentAreaDeliveryPrice()
   }
 
-  getDiscount = (discountType) => {
-    return this.state.promotion.getDiscount(discountType)
+  getLabelDiscount = discountType => {
+    let discount = this.state.promotion.getDiscount(discountType)
+    const partialDiscount = this.state.promotion.getPartialDiscount(discountType)
+
+    if (partialDiscount && partialDiscount.length > 0)
+      discount += partialDiscount.reduce((acc, value) => acc.discount + value.discount, { discount: 0 })
+
+    return discount
+  }
+
+  applyDiscount = orderPrice => {
+    const discountPercent = parseFloat(this.state.promotion.getDiscount(DiscountType.Percent))
+    const discountRuble = parseFloat(this.state.promotion.getDiscount(DiscountType.Ruble))
+
+    let partialDiscountPercent = this.state.promotion.getPartialDiscount(DiscountType.Percent)
+    partialDiscountPercent = partialDiscountPercent.length == 0 ? [{ discountValueCurrency: 0 }] : partialDiscountPercent
+    let partialDiscountRubel = this.state.promotion.getPartialDiscount(DiscountType.Ruble)
+    partialDiscountRubel = partialDiscountRubel.length == 0 ? [{ discountValueCurrency: 0 }] : partialDiscountRubel
+
+    const reduce = (acc, value) => acc.partialDiscountValueCurrency + value.discountValueCurrency
+    
+    let partialDiscountValueCurrency = partialDiscountPercent.reduce(reduce, { partialDiscountValueCurrency: 0 })
+    partialDiscountValueCurrency += partialDiscountRubel.reduce(reduce, { partialDiscountValueCurrency: 0 })
+    
+    let price = orderPrice - discountRuble - partialDiscountValueCurrency
+    price = price - (price * discountPercent / 100)
+
+    return price
   }
 
   getToPayPriceWithoutCashback = () => {
     const orderPrice = parseFloat(this.getOrderPrice())
     const deliveryPrice = parseFloat(this.getDeliveryPrice())
-    const discountPercent = parseFloat(this.getDiscount(DiscountType.Percent))
-    const discountRuble = parseFloat(this.getDiscount(DiscountType.Ruble))
+    const orderPriceWithDiscount = this.applyDiscount(orderPrice)
 
-    return orderPrice - ((orderPrice * discountPercent / 100) + discountRuble) + deliveryPrice
+    return orderPriceWithDiscount + deliveryPrice
   }
 
   getToPayPrice = () => {
@@ -266,7 +412,7 @@ class CheckoutScreen extends React.Component {
       constructorProducts.push({
         CategoryId: constructorItem.category.Id,
         Count: constructorItem.count,
-        IngrdientCount: ingredientsCount
+        IngredientCount: ingredientsCount
       })
     }
 
@@ -301,8 +447,8 @@ class CheckoutScreen extends React.Component {
       comment: this.state.commentText,
       cashBack: this.state.paymentData.cashBack,
       needCashBack: this.state.paymentData.needCashBack,
-      discountPercent: this.getDiscount(DiscountType.Percent),
-      discountRuble: this.getDiscount(DiscountType.Ruble),
+      discountPercent: this.getLabelDiscount(DiscountType.Percent),
+      discountRuble: this.getLabelDiscount(DiscountType.Ruble),
       deliveryPrice: this.getDeliveryPrice(),
       amountPay: this.getOrderPrice(),
       amountPayDiscountDelivery: this.getToPayPrice(),
@@ -310,9 +456,12 @@ class CheckoutScreen extends React.Component {
       productConstructorCountJSON: this.getProductConstructorCountJson(),
       productBonusCountJSON: this.getProductBonusCountJson(),
       amountPayCashBack: this.state.amountPayCashBack,
+      numberAppliances: parseInt(this.state.numberAppliances),
       stockIds: this.state.promotion.getApplyStockIds(),
       couponId: this.state.promotion.getApplyCouponId(),
       referralDiscount: this.state.promotion.getReferralDiscount(),
+      dateDelivery: this.state.dateDelivery,
+      OrderStatus: this.state.paymentData.paymentType == TypePayment.OnlinePay ? OrderStatus.PendingPay : OrderStatus.Processing
     }
   }
 
@@ -323,7 +472,10 @@ class CheckoutScreen extends React.Component {
     this.updateVirtualMoney()
     this.updateClientReferralDiscount(newOrderData.referralDiscount)
 
-    this.props.navigation.navigate(CHECKOUT_COMPLETE)
+    if (this.state.paymentData.paymentType == TypePayment.OnlinePay)
+      this.props.navigation.navigate(CHECKOUT_ONLINE_PAY)
+    else
+      this.props.navigation.navigate(CHECKOUT_COMPLETE)
   }
 
   updateVirtualMoney = () => {
@@ -342,10 +494,7 @@ class CheckoutScreen extends React.Component {
   isValidDeliveryAddress = () => {
     if (this.state.deliveryAddress.street
       && this.state.deliveryAddress.houseNumber
-      && this.state.deliveryAddress.entrance
-      && this.state.deliveryAddress.apartmentNumber
-      && this.state.deliveryAddress.level
-      && this.state.deliveryAddress.areaDeliveryId != -1) {
+      && (this.state.deliveryAddress.areaDeliveryId != -1 || this.isFreeDeliveryAnyArea())) {
       return true
     }
 
@@ -369,6 +518,9 @@ class CheckoutScreen extends React.Component {
       && !this.isValidDeliveryAddress()) {
       return false
     }
+
+    if (this.isRequestNumberAppliances() && Number.isNaN(parseInt(this.state.numberAppliances)))
+      return false
 
     return true
   }
@@ -407,10 +559,12 @@ class CheckoutScreen extends React.Component {
         <KeyboardAwareScrollView
           style={{ flex: 1 }}
           behavior='padding'
-          enabled>
+          enabled
+          keyboardShouldPersistTaps='handled'
+        >
           <ScrollView
-            contentContainerStyle={{ flex: 1 }}
-            keyboardShouldPersistTaps="always">
+            contentContainerStyle={{ flex: 1, paddingHorizontal: 10 }}
+            keyboardShouldPersistTaps='always'>
             <Coupon
               style={this.props.style}
               isProcessingActivation={this.props.isFetchingCoupon}
@@ -437,21 +591,39 @@ class CheckoutScreen extends React.Component {
             />
             <PaymentType
               style={this.props.style}
+              cashbackLabel={this.props.cashbackLabel}
+              hasCard={this.props.deliverySettings.PayCard}
+              hasCash={this.props.deliverySettings.PayCash}
+              hasOnlinePay={this.props.deliverySettings.PayOnline}
               initValue={this.state.paymentData.paymentType}
               changePaymentData={this.changePaymentData}
             />
             <DeliveryTypeBlock
               style={this.props.style}
               initValue={this.state.deliveryType}
+              dateDelivery={this.state.dateDelivery}
+              deliverySettings={this.props.deliverySettings}
               changeDeliveryType={this.changeDeliveryType}
+              changeDeliveryDate={this.changeDeliveryDate}
+              isWorkTime={this.state.isWorkTime}
             />
             <DeliveryAddressAnimation
-              cityId={this.state.deliveryAddress.cityId}
+              address={this.state.deliveryAddress}
               style={this.props.style}
               changeDeliveryAddress={this.setDeliveryAddress}
               isShow={this.state.deliveryType == DeliveryType.Delivery}
+              isHideArea={this.isFreeDeliveryAnyArea()}
               areaDeliveries={this.props.deliverySettings.AreaDeliveries}
+              saveDeliveryAddress={this.saveDeliveryAddress}
             />
+            {
+              this.isRequestNumberAppliances() &&
+              <NumberAppliances
+                style={this.props.style}
+                numberAppliances={this.state.numberAppliances}
+                changeNumberAppliances={this.changeNumberAppliances}
+              />
+            }
             <OrderComment
               style={this.props.style}
               changeCommentText={this.setCommentText}
@@ -473,8 +645,8 @@ class CheckoutScreen extends React.Component {
               orderPrice={this.getOrderPrice()}
               currencyPrefix={this.props.currencyPrefix}
               deliveryPrice={this.getDeliveryPrice()}
-              discountPercent={this.getDiscount(DiscountType.Percent)}
-              discountRuble={this.getDiscount(DiscountType.Ruble)}
+              discountPercent={this.getLabelDiscount(DiscountType.Percent)}
+              discountRuble={this.getLabelDiscount(DiscountType.Ruble)}
               toPay={this.getToPayPrice()}
               onCompleteCheckout={this.completeCheckout}
               disabled={!this.isValidData()}
@@ -491,11 +663,15 @@ const mapStateToProps = state => {
     style: state.style,
     userData: state.user,
     currencyPrefix: state.appSetting.currencyPrefix,
+    cashbackLabel: state.appSetting.cashbackLabel,
     basketProducts: state.checkout.basketProducts,
     basketConstructorProducts: state.checkout.basketConstructorProducts,
     products: state.main.products,
+    productDictionary: state.main.productDictionary,
+    categories: state.main.categories,
     deliverySettings: state.main.deliverySettings,
-    promotionSettings: state.main.promotionSectionSettings,
+    promotionSetting: state.main.promotionSetting,
+    promotionSectionSettings: state.main.promotionSectionSettings,
     promotionCashbackSetting: state.main.promotionCashbackSetting,
     stocks: state.main.stocks,
     coupon: state.main.coupon,
@@ -509,7 +685,8 @@ const mapDispatchToProps = {
   getCoupon,
   cleanCoupon,
   updateVirtualMoney,
-  updateReferralDiscount
+  updateReferralDiscount,
+  setDeliveryAddress
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CheckoutScreen)

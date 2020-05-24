@@ -16,7 +16,7 @@ import CommentSmile from '../../../images/font-awesome-svg/comment-smile.svg'
 import { MessageInput } from '../../../components/message-input/MessageInput'
 import { timingAnimation } from '../../../animation/timingAnimation'
 import { getSVGColor } from '../../../helpers/color-helper'
-
+import { toStringDateAndTime, jsonToDate } from '../../../helpers/work-time'
 class ProductReviewScreen extends React.Component {
     static navigationOptions = {
         headerTitle: 'Отзывы',
@@ -69,31 +69,7 @@ class ProductReviewScreen extends React.Component {
         }
     }
 
-    toStringDateAndTime = date => {
-        let day = date.getDate().toString()
-        day = day.length == 1 ? "0" + day : day
-        let month = (date.getMonth() + 1).toString()
-        month = month.length == 1 ? "0" + month : month
-        let hours = date.getHours().toString()
-        hours = hours.length == 1 ? "0" + hours : hours
-        let minutes = date.getMinutes().toString()
-        minutes = minutes.length == 1 ? "0" + minutes : minutes
-        let dateStr = `${hours}:${minutes} ${day}.${month}.${date.getFullYear()}`
-        return dateStr;
-    }
-
-    jsonToDate = value => {
-        let date;
-        if (value.includes("/Date")) {
-            date = new Date(parseInt(value.replace("/Date(", "").replace(")/", ""), 10));
-        } else {
-            date = new Date(value);
-        }
-
-        return date;
-    }
-
-    getReviews = () => {
+     getReviews = () => {
         const reviews = []
 
         for (review of this.props.reviews) {
@@ -105,7 +81,7 @@ class ProductReviewScreen extends React.Component {
                 style: this.props.style,
                 header: review.Reviewer,
                 text: `${review.ReviewText}`,
-                date: this.toStringDateAndTime(this.jsonToDate(review.Date))
+                date: toStringDateAndTime(jsonToDate(review.Date))
             })
         }
 

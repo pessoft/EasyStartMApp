@@ -8,6 +8,7 @@ import {
 import Style from './style'
 import { generateRandomString } from '../../helpers/utils'
 
+
 export class OrderHistoryConstructorProductItem extends React.Component {
     getIngredients = () => {
         let ingredients = []
@@ -21,7 +22,11 @@ export class OrderHistoryConstructorProductItem extends React.Component {
 
     render() {
         return (
-            <View style={[Style.directionRow]}>
+            <View style={[
+                Style.directionRow,
+                this.props.style.theme.backdoor,
+                this.props.style.theme.shadowColor,
+                ]}>
                 <View style={Style.imageContainer}>
                     <Image
                         source={this.props.product.Image}
@@ -36,7 +41,7 @@ export class OrderHistoryConstructorProductItem extends React.Component {
                             Style.textWrap,
                             this.props.style.fontSize.h8,
                             this.props.style.theme.primaryTextColor]}>
-                            {this.props.product.Name}
+                            {this.props.product.Name.trimStart()}
                         </Text>
                         {
                             this.getIngredients().map(p => <Text

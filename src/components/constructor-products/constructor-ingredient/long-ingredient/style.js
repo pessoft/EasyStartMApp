@@ -1,5 +1,5 @@
 import { StyleSheet, Dimensions } from 'react-native'
-let width = Dimensions.get('screen').width - 20
+let width = Dimensions.get('screen').width - 42
 let height = width * 0.5
 const imageSize = parseInt(width / 5)
 export default StyleSheet.create({
@@ -9,7 +9,7 @@ export default StyleSheet.create({
     width: width,
     minHeight: height,
     borderRadius: 5,
-    borderWidth: 3,
+    borderWidth: 1,
     margin: 5
   },
   imageContainer: {

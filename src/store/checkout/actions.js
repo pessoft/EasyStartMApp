@@ -1,4 +1,4 @@
-import { sendNewOrderFetch } from '../../api/requests'
+import { sendNewOrderFetch, checkOnlinePayNewOrderFetch } from '../../api/requests'
 
 export const TOGGLE_PRODUCT_IN_BASKET_SHOP = 'TOGGLE_PRODUCT_IN_BASKET_SHOP'
 export const TOGGLE_CONSTRUCTOR_PRODUCT_IN_BASKET_SHOP = 'TOGGLE_CONSTRUCTOR_PRODUCT_IN_BASKET_SHOP'
@@ -8,10 +8,21 @@ export const FETCH_CHECKOUT_COMPLETE_REQUEST = 'FETCH_CHECKOUT_COMPLETE_REQUEST'
 export const FETCH_CHECKOUT_COMPLETE_FAILURE = 'FETCH_CHECKOUT_COMPLETE_FAILURE'
 export const ADD_NEW_ORDER_DATA = 'ADD_NEW_ORDER_DATA'
 export const RESET_DATA = 'RESET_DATA'
+export const DROP_FETCH_FLAG = 'DROP_FETCH_FLAG'
+
+export const FETCH_CHECKOUT_ONLINE_PAY_SUCCESS = 'FETCH_CHECKOUT_ONLINE_PAY_SUCCESS'
+export const FETCH_CHECKOUT_ONLINE_PAY_REQUEST = 'FETCH_CHECKOUT_ONLINE_PAY_REQUEST'
+export const FETCH_CHECKOUT_ONLINE_PAY_FAILURE = 'FETCH_CHECKOUT_ONLINE_PAY_FAILURE'
 
 export const resetCheckoutData = () => {
   return {
     type: RESET_DATA,
+  }
+}
+
+export const dropFetchFlag = () => {
+  return {
+    type: DROP_FETCH_FLAG,
   }
 }
 
@@ -49,8 +60,19 @@ export const sendNewOrder = newOrder => async (dispatch) => {
   try {
     const requestData = await sendNewOrderFetch(newOrder)
     dispatch(successPosts(requestData))
-  } catch {
-    dispatch(failurePosts())
+  } catch(err){
+    dispatch(failurePosts(err.message))
+  }
+}
+
+export const checkOnlinePayNewOrder = orderId => async (dispatch) => {
+  dispatch(requestCheckOnlinePayPosts())
+
+  try {
+    const requestData = await checkOnlinePayNewOrderFetch(orderId)
+    dispatch(successCheckOnlinePayPosts(requestData))
+  } catch(err){
+    dispatch(failureCheckOnlinePayPosts(err.message))
   }
 }
 
@@ -67,9 +89,30 @@ const successPosts = orderNumber => {
   }
 }
 
-const failurePosts = () => {
+const failurePosts = errMessage => {
   return {
     type: FETCH_CHECKOUT_COMPLETE_FAILURE,
-    payload: true
+    payload: errMessage
   }
 }
+
+const requestCheckOnlinePayPosts = () => {
+  return {
+    type: FETCH_CHECKOUT_ONLINE_PAY_REQUEST
+  }
+}
+
+const successCheckOnlinePayPosts = orderNumber => {
+  return {
+    type: FETCH_CHECKOUT_ONLINE_PAY_SUCCESS,
+    payload: orderNumber
+  }
+}
+
+const failureCheckOnlinePayPosts = errMessage => {
+  return {
+    type: FETCH_CHECKOUT_ONLINE_PAY_FAILURE,
+    payload: errMessage
+  }
+}
+
