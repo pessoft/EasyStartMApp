@@ -17,6 +17,19 @@ export class BonusProducts extends React.Component {
     }
   }
 
+  componentDidMount = () => {
+    const bonusProductCount = this.props.bonusProductIds.length
+
+    if(this.state.limit != 0 && bonusProductCount == 1) {
+      const product = {
+        count: 1,
+        id: this.props.bonusProductIds[0]
+      }
+
+      this.toggleProduct(product)
+    }
+  }
+
   componentDidUpdate = (prevProps, prevState) => {
     if (prevProps.allowedCountSelect != this.props.allowedCountSelect) {
       let limit = this.props.allowedCountSelect
