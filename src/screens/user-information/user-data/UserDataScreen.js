@@ -186,7 +186,7 @@ class UserDataScreen extends React.Component {
                   this.props.style.theme.primaryTextColor,
                   this.props.style.theme.dividerColor]}
                 onChangeText={this.onEmailChange}
-                onSubmitEditing={() => { this.referralCodeInput.focus() }}
+                onSubmitEditing={Keyboard.dismiss}
                 blurOnSubmit={false}
               />
               <View style={[
