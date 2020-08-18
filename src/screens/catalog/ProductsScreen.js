@@ -110,10 +110,10 @@ class ProductsScreen extends React.Component {
     }
 
     getProductPrice = product => {
-        let price = product.Price 
+        let price = product.Price
         if (product.ProductAdditionalInfoType != ProductAdditionalInfoType.Custom) {
-            if(product.ProductAdditionalOptionIds.length != 0) {
-                for(const optionId of product.ProductAdditionalOptionIds) {
+            if (product.ProductAdditionalOptionIds.length != 0) {
+                for (const optionId of product.ProductAdditionalOptionIds) {
                     const productOptions = this.props.additionalOptions[optionId]
                     const defaultOption = productOptions.Items.find(p => p.IsDefault)
 
@@ -129,8 +129,8 @@ class ProductsScreen extends React.Component {
         let additionInfo
         if (product.ProductAdditionalInfoType != ProductAdditionalInfoType.Custom) {
             let value = parseFloat(product.AdditionInfo)
-            if(product.ProductAdditionalOptionIds.length != 0) {
-                for(const optionId of product.ProductAdditionalOptionIds) {
+            if (product.ProductAdditionalOptionIds.length != 0) {
+                for (const optionId of product.ProductAdditionalOptionIds) {
                     const productOptions = this.props.additionalOptions[optionId]
                     const defaultOption = productOptions.Items.find(p => p.IsDefault)
 
@@ -139,7 +139,7 @@ class ProductsScreen extends React.Component {
             }
 
             additionInfo = `${value} ${ProductAdditionalInfoTypeShortName[product.ProductAdditionalInfoType]}`
-        } else 
+        } else
             additionInfo = product.AdditionInfo
 
         return additionInfo
@@ -178,11 +178,31 @@ class ProductsScreen extends React.Component {
 
     renderGridItem = ({ item, index }) => {
         let itemTransform = this.productTransform(item, index)
+
+        if (item.ProductAdditionalOptionIds.length
+            || item.ProductAdditionalFillingIds.length)
+            return this.getProductGridWithOptionsView(itemTransform)
+        else
+            return this.getProductGridView(itemTransform)
+    }
+
+    getProductGridView = product => {
         return <ProductItemGrid
             style={this.props.style}
-            animation={itemTransform.animation}
-            id={itemTransform.id}
-            product={itemTransform.product}
+            animation={product.animation}
+            id={product.id}
+            product={product.product}
+            onPress={this.onSelectedProduct}
+            onToggleProduct={this.toggleProductInBasket}
+        />
+    }
+
+    getProductGridWithOptionsView = product => {
+        return <ProductItemGrid
+            style={this.props.style}
+            animation={product.animation}
+            id={product.id}
+            product={product.product}
             onPress={this.onSelectedProduct}
             onToggleProduct={this.toggleProductInBasket}
         />
@@ -190,11 +210,31 @@ class ProductsScreen extends React.Component {
 
     renderListItem = ({ item, index }) => {
         let itemTransform = this.productTransform(item, index)
+
+        if (item.ProductAdditionalOptionIds.length
+            || item.ProductAdditionalFillingIds.length)
+            return this.getProductLisWithOptionsView(itemTransform)
+        else
+            return this.getProductListView(itemTransform)
+    }
+
+    getProductListView = product => {
         return <ProductItem
             style={this.props.style}
-            animation={itemTransform.animation}
-            id={itemTransform.id}
-            product={itemTransform.product}
+            animation={product.animation}
+            id={product.id}
+            product={product.product}
+            onPress={this.onSelectedProduct}
+            onToggleProduct={this.toggleProductInBasket}
+        />
+    }
+
+    getProductLisWithOptionsView = product => {
+        return <ProductItem
+            style={this.props.style}
+            animation={product.animation}
+            id={product.id}
+            product={product.product}
             onPress={this.onSelectedProduct}
             onToggleProduct={this.toggleProductInBasket}
         />
