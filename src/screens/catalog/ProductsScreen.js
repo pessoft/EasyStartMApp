@@ -100,7 +100,7 @@ class ProductsScreen extends React.Component {
                 caption: item.Name,
                 imageSource: item.Image,
                 additionInfo: this.getProductAdditionalInfo(item),
-                price: item.Price,
+                price: this.getProductPrice(item),
                 currencyPrefix: this.props.currencyPrefix,
                 startCount: countProduct,
                 productType: item.ProductType,
@@ -110,7 +110,19 @@ class ProductsScreen extends React.Component {
     }
 
     getProductPrice = product => {
+        let price = product.Price 
+        if (product.ProductAdditionalInfoType != ProductAdditionalInfoType.Custom) {
+            if(product.ProductAdditionalOptionIds.length != 0) {
+                for(const optionId of product.ProductAdditionalOptionIds) {
+                    const productOptions = this.props.additionalOptions[optionId]
+                    const defaultOption = productOptions.Items.find(p => p.IsDefault)
 
+                    price += defaultOption.Price
+                }
+            }
+        }
+
+        return price
     }
 
     getProductAdditionalInfo = product => {
