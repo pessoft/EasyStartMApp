@@ -116,7 +116,17 @@ class ProductsScreen extends React.Component {
     getProductAdditionalInfo = product => {
         let additionInfo
         if (product.ProductAdditionalInfoType != ProductAdditionalInfoType.Custom) {
-            additionInfo = `${product.AdditionInfo} ${ProductAdditionalInfoTypeShortName[product.ProductAdditionalInfoType]}`
+            let value = parseFloat(product.AdditionInfo)
+            if(product.ProductAdditionalOptionIds.length != 0) {
+                for(const optionId of product.ProductAdditionalOptionIds) {
+                    const productOptions = this.props.additionalOptions[optionId]
+                    const defaultOption = productOptions.Items.find(p => p.IsDefault)
+
+                    value += defaultOption.AdditionalInfo
+                }
+            }
+
+            additionInfo = `${value} ${ProductAdditionalInfoTypeShortName[product.ProductAdditionalInfoType]}`
         } else 
             additionInfo = product.AdditionInfo
 
@@ -267,6 +277,8 @@ const mapStateToProps = state => {
         serverDomain: state.appSetting.serverDomain,
         currencyPrefix: state.appSetting.currencyPrefix,
         products: state.main.products,
+        additionalOptions: state.main.additionalOptions,
+        additionalFillings: state.main.additionalFillings,
         selectedCategory: state.catalog.selectedCategory,
         selectedProduct: state.catalog.selectedProduct,
         basketProducts: state.checkout.basketProducts,
