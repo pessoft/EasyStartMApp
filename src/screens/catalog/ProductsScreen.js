@@ -15,6 +15,7 @@ import { markFromBasket } from '../../store/navigation/actions'
 import VirtualMoneyButton from '../../components/buttons/VirtualMoneyButton/VirtualMoneyButton'
 import ViewContainerProductsChanger from '../../components/view-container-changer/ViewContainerProductsChanger'
 import { ViewContainerType } from '../../helpers/view-container-type'
+import { ProductAdditionalInfoType, ProductAdditionalInfoTypeShortName } from '../../helpers/product-additional-option'
 
 class ProductsScreen extends React.Component {
     static navigationOptions = ({ navigation }) => {
@@ -98,7 +99,7 @@ class ProductsScreen extends React.Component {
             product: {
                 caption: item.Name,
                 imageSource: item.Image,
-                additionInfo: item.AdditionInfo,
+                additionInfo: this.getProductAdditionalInfo(item),
                 price: item.Price,
                 currencyPrefix: this.props.currencyPrefix,
                 startCount: countProduct,
@@ -106,6 +107,20 @@ class ProductsScreen extends React.Component {
                 index
             },
         }
+    }
+
+    getProductPrice = product => {
+
+    }
+
+    getProductAdditionalInfo = product => {
+        let additionInfo
+        if (product.ProductAdditionalInfoType != ProductAdditionalInfoType.Custom) {
+            additionInfo = `${product.AdditionInfo} ${ProductAdditionalInfoTypeShortName[product.ProductAdditionalInfoType]}`
+        } else 
+            additionInfo = product.AdditionInfo
+
+        return additionInfo
     }
 
     changeTotalCountProductInBasket = () => {
