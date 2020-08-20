@@ -116,8 +116,15 @@ class ProductWithOptions extends React.Component {
       return this.renderCheckBoxListOptionsAdditionalInfo(additionalOption)
   }
 
+  onChangeProductAdditionalOption = selectOption => {
+    const optionsAdditionalInfo = { ...this.state.optionsAdditionalInfo }
+    optionsAdditionalInfo[selectOption.additionalOptionId] = selectOption.value
+
+    this.setState({ optionsAdditionalInfo })
+  }
+
   renderSwitchSelectorOptionsAdditionalInfo = additionalOption => {
-    const options = additionalOption.Items.map(p => { return { label: p.Name, value: p.Id, additionalOptionId: additionalOption.Id} })
+    const options = additionalOption.Items.map(p => { return { label: p.Name, value: p.Id, additionalOptionId: additionalOption.Id } })
     const initial = this.state.optionsAdditionalInfo[additionalOption.Id]
     const initialIndex = options.findIndex(p => p.value == initial)
 
@@ -135,7 +142,7 @@ class ProductWithOptions extends React.Component {
       buttonColor={this.props.style.theme.darkPrimaryColor.backgroundColor}
       style={{ marginBottom: 8, borderWidth: 1, borderRadius: 4, borderColor: this.props.style.theme.darkPrimaryColor.backgroundColor }}
       returnObject={true}
-      // onPress={this.onChangePaymentType}
+      onPress={this.onChangeProductAdditionalOption}
     />
   }
 
