@@ -7,6 +7,7 @@ import {
 } from 'react-native'
 import { ProductItem } from '../../components/product/ProductItem'
 import { ProductItemGrid } from '../../components/product/ProductItemGrid'
+import { ProductItemGridWithOptions } from '../../components/product/ProductItemGridWithOptions'
 import { setSelectedProduct } from '../../store/catalog/actions'
 import { PRODUCT_INFO, CASHBACK_PROFILE } from '../../navigation/pointsNavigate'
 import { timingAnimation } from '../../animation/timingAnimation'
@@ -16,6 +17,7 @@ import VirtualMoneyButton from '../../components/buttons/VirtualMoneyButton/Virt
 import ViewContainerProductsChanger from '../../components/view-container-changer/ViewContainerProductsChanger'
 import { ViewContainerType } from '../../helpers/view-container-type'
 import { ProductAdditionalInfoType, ProductAdditionalInfoTypeShortName } from '../../helpers/product-additional-option'
+import ProductWithOptions from '../../components/raw-bottom-sheets/product-with-options/ProductWithOptions'
 
 class ProductsScreen extends React.Component {
     static navigationOptions = ({ navigation }) => {
@@ -42,7 +44,11 @@ class ProductsScreen extends React.Component {
 
         this.state = {
             showScaleAnimation: new Animated.Value(0),
-            refreshItems: false
+            refreshItems: false,
+            metadataProductWithOptions: {
+                toggleInfoProductWithOptions: false,
+                selectedProductId: -1
+            }
         }
     }
 
@@ -198,13 +204,13 @@ class ProductsScreen extends React.Component {
     }
 
     getProductGridWithOptionsView = product => {
-        return <ProductItemGrid
+        return <ProductItemGridWithOptions
             style={this.props.style}
             animation={product.animation}
             id={product.id}
             product={product.product}
             onPress={this.onSelectedProduct}
-            onToggleProduct={this.toggleProductInBasket}
+            onToggleProduct={this.showSheetProductWithOptions}
         />
     }
 
@@ -304,6 +310,24 @@ class ProductsScreen extends React.Component {
         }
     }
 
+    showSheetProductWithOptions = productId => {
+        this.setState({
+            metadataProductWithOptions: {
+                toggleInfoProductWithOptions: true,
+                selectedProductId: productId
+            }
+        })
+    }
+
+    closeSheetProductWithOptions = () => {
+        this.setState({
+            metadataProductWithOptions: {
+                toggleInfoProductWithOptions: false,
+                selectedProductId: -1
+            }
+        })
+    }
+
     render() {
         return (
             <Animated.ScrollView
@@ -319,6 +343,11 @@ class ProductsScreen extends React.Component {
                     }]}>
 
                 {this.renderContent()}
+                <ProductWithOptions
+                    toggle={this.state.metadataProductWithOptions.toggleInfoProductWithOptions}
+                    close={this.closeSheetProductWithOptions}
+                    productId={this.state.metadataProductWithOptions.selectedProductId}
+                />
             </Animated.ScrollView>
         )
     }

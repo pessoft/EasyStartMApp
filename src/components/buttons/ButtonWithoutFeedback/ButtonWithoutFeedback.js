@@ -18,6 +18,17 @@ export class ButtonWithoutFeedback extends React.Component {
             return this.props.borderRightRadius || this.props.borderRadius
     }
 
+    getBackgroundColor = () => {
+        let backgroundColor = this.props.disabled ?
+            this.props.style.theme.lightPrimaryColor.backgroundColor :
+            this.props.style.theme.defaultPrimaryColor.backgroundColor
+
+        if (this.props.backgroundColor)
+            backgroundColor = this.props.backgroundColor
+
+        return backgroundColor
+    }
+
     render() {
         return (
             <TouchableWithoutFeedback
@@ -27,9 +38,7 @@ export class ButtonWithoutFeedback extends React.Component {
                 <View style={[
                     Style.button,
                     {
-                        backgroundColor: this.props.disabled ?
-                            this.props.style.theme.lightPrimaryColor.backgroundColor :
-                            this.props.style.theme.defaultPrimaryColor.backgroundColor,
+                        backgroundColor: this.getBackgroundColor(),
                         margin: this.props.margin || 0,
                         minHeight: this.props.height || 35,
                         borderRadius: this.props.borderRadius,
