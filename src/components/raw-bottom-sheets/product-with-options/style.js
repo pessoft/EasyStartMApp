@@ -30,7 +30,7 @@ export default StyleSheet.create({
     flex: 1,
   },
   productBaseInfo: {
-
+    marginBottom: 10
   },
   additionalInfo: {
     marginVertical: 5

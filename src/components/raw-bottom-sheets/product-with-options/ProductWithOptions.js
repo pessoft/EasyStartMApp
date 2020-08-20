@@ -11,7 +11,8 @@ import Style from './style'
 import RBSheet from 'react-native-raw-bottom-sheet'
 import { connect } from 'react-redux'
 import { ButtonWithoutFeedback } from '../../buttons/ButtonWithoutFeedback/ButtonWithoutFeedback'
-import { ProductAdditionalInfoType, ProductAdditionalInfoTypeShortName} from '../../../helpers/product-additional-option'
+import { ProductAdditionalInfoType, ProductAdditionalInfoTypeShortName } from '../../../helpers/product-additional-option'
+import SwitchSelector from "react-native-switch-selector"
 
 const height = Dimensions.get('window').height - 64
 
@@ -35,7 +36,9 @@ class ProductWithOptions extends React.Component {
 
   show = () => {
     const product = this.props.productDictionary[this.props.productId]
-    this.setState({ product, optionsAdditionalInfo: this.initOptionsAdditionalInfo(product) })
+    const optionsAdditionalInfo = this.initOptionsAdditionalInfo(product)
+
+    this.setState({ product, optionsAdditionalInfo })
     this.ProductWithOptions.open()
   }
 
@@ -78,7 +81,7 @@ class ProductWithOptions extends React.Component {
   getAdditionalInfo = () => {
     let additionalInfo
     const productAdditionalInfoType = this.state.product.ProductAdditionalInfoType
-    
+
     if (productAdditionalInfoType != ProductAdditionalInfoType.Custom) {
       additionalInfoValue = parseFloat(this.state.product.AdditionInfo)
 
@@ -104,6 +107,42 @@ class ProductWithOptions extends React.Component {
     return `В корзину за ${this.getPriceStr()}`
   }
 
+  renderOptionsAdditionalInfo = additionalOptionId => {
+    const additionalOption = this.props.additionalOptions[additionalOptionId]
+
+    if (additionalOption.Items.length < 3)
+      return this.renderSwitchSelectorOptionsAdditionalInfo(additionalOption)
+    else
+      return this.renderCheckBoxListOptionsAdditionalInfo(additionalOption)
+  }
+
+  renderSwitchSelectorOptionsAdditionalInfo = additionalOption => {
+    const options = additionalOption.Items.map(p => { return { label: p.Name, value: p.Id, additionalOptionId: additionalOption.Id} })
+    const initial = this.state.optionsAdditionalInfo[additionalOption.Id]
+    const initialIndex = options.findIndex(p => p.value == initial)
+
+    return <SwitchSelector
+      key={additionalOption.Id.toString()}
+      options={options}
+      initial={initialIndex}
+      height={32}
+      borderRadius={3}
+      fontSize={this.props.style.fontSize.h10.fontSize}
+      bold={false}
+      textColor={this.props.style.theme.primaryTextColor.color}
+      selectedColor={this.props.style.theme.textPrimaryColor.color}
+      backgroundColor={this.props.style.theme.backdoor.backgroundColor}
+      buttonColor={this.props.style.theme.darkPrimaryColor.backgroundColor}
+      style={{ marginBottom: 8, borderWidth: 1, borderRadius: 4, borderColor: this.props.style.theme.darkPrimaryColor.backgroundColor }}
+      returnObject={true}
+      // onPress={this.onChangePaymentType}
+    />
+  }
+
+  renderCheckBoxListOptionsAdditionalInfo = additionalOption => {
+
+  }
+
   render() {
     return (
       <RBSheet
@@ -123,7 +162,7 @@ class ProductWithOptions extends React.Component {
         onClose={this.onClose}
       >
 
-        <ScrollView style={Style.container}>
+        <ScrollView style={Style.container} contentOffset={{ y: 50 }}>
           <TouchableOpacity activeOpacity={1}>
             <Image
               style={Style.image}
@@ -151,7 +190,10 @@ class ProductWithOptions extends React.Component {
                 {this.state.product.Description}
               </Text>
             </View>
-
+            <View>
+              {Object.keys(this.state.product).length &&
+                this.state.product.ProductAdditionalOptionIds.map(p => this.renderOptionsAdditionalInfo(p))}
+            </View>
           </TouchableOpacity>
         </ScrollView>
         <View style={Style.productOptions}>
