@@ -203,7 +203,7 @@ class ProductWithOptions extends React.Component {
             </View>
           </TouchableOpacity>
         </ScrollView>
-        <View style={Style.productOptions}>
+        <View style={[Style.productOptions, this.props.style.theme.themeBody]}>
           <ButtonWithoutFeedback
             text={this.getButtonText()}
             style={this.props.style}
