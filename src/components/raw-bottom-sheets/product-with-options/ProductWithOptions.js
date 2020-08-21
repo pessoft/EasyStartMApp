@@ -12,7 +12,8 @@ import RBSheet from 'react-native-raw-bottom-sheet'
 import { connect } from 'react-redux'
 import { ButtonWithoutFeedback } from '../../buttons/ButtonWithoutFeedback/ButtonWithoutFeedback'
 import { ProductAdditionalInfoType, ProductAdditionalInfoTypeShortName } from '../../../helpers/product-additional-option'
-import SwitchSelector from "react-native-switch-selector"
+import SwitchSelector from 'react-native-switch-selector'
+import { RadioGroup } from '../../radio-group/RadioGroup'
 
 const height = Dimensions.get('window').height - 64
 
@@ -123,8 +124,12 @@ class ProductWithOptions extends React.Component {
     this.setState({ optionsAdditionalInfo })
   }
 
+  getOptionsForControls = additionalOption => {
+    return additionalOption.Items.map(p => { return { label: p.Name, value: p.Id, additionalOptionId: additionalOption.Id } })
+  }
+
   renderSwitchSelectorOptionsAdditionalInfo = additionalOption => {
-    const options = additionalOption.Items.map(p => { return { label: p.Name, value: p.Id, additionalOptionId: additionalOption.Id } })
+    const options = this.getOptionsForControls(additionalOption)
     const initial = this.state.optionsAdditionalInfo[additionalOption.Id]
     const initialIndex = options.findIndex(p => p.value == initial)
 
@@ -147,7 +152,30 @@ class ProductWithOptions extends React.Component {
   }
 
   renderCheckBoxListOptionsAdditionalInfo = additionalOption => {
+    const options = this.getOptionsForControls(additionalOption)
+    const initial = this.state.optionsAdditionalInfo[additionalOption.Id]
 
+    return (
+      <View
+        style={[this.props.style.theme.themeBody, Style.radioOptionsGroup]}
+        key={additionalOption.Id.toString()}
+      >
+        <Text
+          style={[
+            { marginBottom: 8 },
+            this.props.style.fontSize.h7,
+            this.props.style.theme.primaryTextColor]}>
+          {additionalOption.Name}
+        </Text>
+        <RadioGroup
+          radioProps={options}
+          initValue={initial}
+          returnObject={true}
+          changeRadio={this.onChangeProductAdditionalOption}
+          style={this.props.style}
+        />
+      </View>
+    )
   }
 
   render() {
@@ -169,7 +197,7 @@ class ProductWithOptions extends React.Component {
         onClose={this.onClose}
       >
 
-        <ScrollView style={Style.container} contentOffset={{ y: 50 }}>
+        <ScrollView style={Style.container} contentOffset={{ y: 80 }}>
           <TouchableOpacity activeOpacity={1}>
             <Image
               style={Style.image}
@@ -203,7 +231,7 @@ class ProductWithOptions extends React.Component {
             </View>
           </TouchableOpacity>
         </ScrollView>
-        <View style={[Style.productOptions, this.props.style.theme.themeBody]}>
+        <View style={[Style.productOptionsBtnBasket]}>
           <ButtonWithoutFeedback
             text={this.getButtonText()}
             style={this.props.style}

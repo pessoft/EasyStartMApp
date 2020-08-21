@@ -30,14 +30,20 @@ export default StyleSheet.create({
     flex: 1,
   },
   productBaseInfo: {
+    marginTop: 5,
     marginBottom: 10
   },
   additionalInfo: {
     marginVertical: 5
   },
-  productOptions: {
+  productOptionsBtnBasket: {
     justifyContent:'center',
     paddingHorizontal: 18,
     paddingVertical: 30,
+  },
+  radioOptionsGroup: {
+    borderRadius: 5,
+    marginBottom: 10,
+    padding: 10
   }
 })

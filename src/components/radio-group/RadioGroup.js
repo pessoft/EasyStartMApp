@@ -22,10 +22,11 @@ export class RadioGroup extends React.Component {
     }
   }
 
-  onChange = value => {
+  onChange = (value, index) => {
     this.setState({ value: value }, () => {
       if (this.props.changeRadio) {
-        this.props.changeRadio(this.state.value)
+        const returnedValue = this.props.returnObject ? this.props.radioProps[index] : this.state.value
+        this.props.changeRadio(returnedValue)
       }
     })
   }
