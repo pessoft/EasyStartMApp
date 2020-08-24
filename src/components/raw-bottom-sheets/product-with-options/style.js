@@ -41,9 +41,15 @@ export default StyleSheet.create({
     paddingHorizontal: 18,
     paddingVertical: 30,
   },
-  radioOptionsGroup: {
+  groupWrapper: {
     borderRadius: 5,
     marginBottom: 10,
     padding: 10
+  },
+  additionalFillingGroup: {
+
+  },
+  groupLabel: {
+    marginBottom: 8
   }
 })

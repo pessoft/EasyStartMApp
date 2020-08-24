@@ -14,6 +14,7 @@ import { ButtonWithoutFeedback } from '../../buttons/ButtonWithoutFeedback/Butto
 import { ProductAdditionalInfoType, ProductAdditionalInfoTypeShortName } from '../../../helpers/product-additional-option'
 import SwitchSelector from 'react-native-switch-selector'
 import { RadioGroup } from '../../radio-group/RadioGroup'
+import { ToggleSwitch } from '../../toggle-switch/ToggleSwitch'
 
 const height = Dimensions.get('window').height - 64
 
@@ -24,6 +25,7 @@ class ProductWithOptions extends React.Component {
     this.state = {
       product: {},
       optionsAdditionalInfo: {},//key - productAdditionalOptionId, value - productAdditionalOptionItemId
+      fillingAdditionalInfo: {},//key - productAdditionalFillingId, value - bool isSelected
     }
   }
 
@@ -38,13 +40,14 @@ class ProductWithOptions extends React.Component {
   show = () => {
     const product = this.props.productDictionary[this.props.productId]
     const optionsAdditionalInfo = this.initOptionsAdditionalInfo(product)
+    const fillingAdditionalInfo = this.initAdditionalFillingInfo(product)
 
-    this.setState({ product, optionsAdditionalInfo })
+    this.setState({ product, optionsAdditionalInfo, fillingAdditionalInfo })
     this.ProductWithOptions.open()
   }
 
   onClose = () => {
-    this.setState({ product: {} })
+    this.setState({ product: {}, optionsAdditionalInfo: {}, fillingAdditionalInfo: {} })
 
     if (this.props.close) {
       this.props.close()
@@ -62,6 +65,16 @@ class ProductWithOptions extends React.Component {
     return optionsAdditionalInfo
   }
 
+  initAdditionalFillingInfo = product => {
+    const fillingAdditionalInfo = {}
+
+    for (const id of product.ProductAdditionalFillingIds) {
+      fillingAdditionalInfo[id] = false
+    }
+
+    return fillingAdditionalInfo
+  }
+
   getPrice = () => {
     let price = this.state.product.Price
 
@@ -71,6 +84,18 @@ class ProductWithOptions extends React.Component {
         const item = this.props.additionalOptions[id].Items.find(p => p.Id == itemId)
 
         price += item.Price
+      }
+    }
+
+    if (Object.keys(this.state.fillingAdditionalInfo).length) {
+      for (const id in this.state.fillingAdditionalInfo) {
+        const isSelected = this.state.fillingAdditionalInfo[id]
+
+        if (isSelected) {
+          const additionalFilling = this.props.additionalFillings[id]
+
+          price += additionalFilling.Price
+        }
       }
     }
 
@@ -157,12 +182,12 @@ class ProductWithOptions extends React.Component {
 
     return (
       <View
-        style={[this.props.style.theme.themeBody, Style.radioOptionsGroup]}
+        style={[this.props.style.theme.themeBody, Style.groupWrapper]}
         key={additionalOption.Id.toString()}
       >
         <Text
           style={[
-            { marginBottom: 8 },
+            Style.groupLabel,
             this.props.style.fontSize.h7,
             this.props.style.theme.primaryTextColor]}>
           {additionalOption.Name}
@@ -176,6 +201,42 @@ class ProductWithOptions extends React.Component {
         />
       </View>
     )
+  }
+
+
+
+  renderAdditionalFillingInfo = () => {
+    return (
+      <View style={[this.props.style.theme.themeBody, Style.groupWrapper]}>
+        <Text style={[
+          Style.groupLabel,
+          this.props.style.fontSize.h7,
+          this.props.style.theme.primaryTextColor]}>
+          Дополнительные опции
+              </Text>
+        {this.state.product.ProductAdditionalFillingIds.map(p => this.renderAdditionalFillingItem(p))}
+      </View>
+    )
+  }
+
+  renderAdditionalFillingItem = id => {
+    const additionalFilling = this.props.additionalFillings[id]
+    const label = `${additionalFilling.Name} +${additionalFilling.Price} ${this.props.currencyPrefix}`
+    return <ToggleSwitch
+      key={id.toString()}
+      id={id}
+      label={label}
+      value={this.state.fillingAdditionalInfo[id]}
+      onToggle={this.onToggleAdditionalFilling}
+      style={this.props.style}
+    />
+  }
+
+  onToggleAdditionalFilling = (id, value) => {
+    const fillingAdditionalInfo = { ...this.state.fillingAdditionalInfo }
+    fillingAdditionalInfo[id] = value
+
+    this.setState({ fillingAdditionalInfo })
   }
 
   render() {
@@ -197,7 +258,7 @@ class ProductWithOptions extends React.Component {
         onClose={this.onClose}
       >
 
-        <ScrollView style={Style.container} contentOffset={{ y: 80 }}>
+        <ScrollView style={Style.container} contentOffset={{ y: 110 }}>
           <TouchableOpacity activeOpacity={1}>
             <Image
               style={Style.image}
@@ -229,6 +290,9 @@ class ProductWithOptions extends React.Component {
               {Object.keys(this.state.product).length &&
                 this.state.product.ProductAdditionalOptionIds.map(p => this.renderOptionsAdditionalInfo(p))}
             </View>
+            {Object.keys(this.state.product).length &&
+              this.state.product.ProductAdditionalFillingIds.length &&
+              this.renderAdditionalFillingInfo()}
           </TouchableOpacity>
         </ScrollView>
         <View style={[Style.productOptionsBtnBasket]}>
