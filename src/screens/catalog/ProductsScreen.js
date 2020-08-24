@@ -11,7 +11,7 @@ import { ProductItemGridWithOptions } from '../../components/product/ProductItem
 import { setSelectedProduct } from '../../store/catalog/actions'
 import { PRODUCT_INFO, CASHBACK_PROFILE } from '../../navigation/pointsNavigate'
 import { timingAnimation } from '../../animation/timingAnimation'
-import { toggleProductInBasket, changeTotalCountProductInBasket } from '../../store/checkout/actions'
+import { toggleProductInBasket, changeTotalCountProductInBasket, toggleProductWithOptionsInBasket } from '../../store/checkout/actions'
 import { markFromBasket } from '../../store/navigation/actions'
 import VirtualMoneyButton from '../../components/buttons/VirtualMoneyButton/VirtualMoneyButton'
 import ViewContainerProductsChanger from '../../components/view-container-changer/ViewContainerProductsChanger'
@@ -168,6 +168,10 @@ class ProductsScreen extends React.Component {
             countCalc(this.props.basketConstructorProducts)
         }
 
+        if (this.props.basketProductsWithOptions && Object.keys(this.props.basketProductsWithOptions).length != 0) {
+            countCalc(this.props.basketProductsWithOptions)
+        }
+
         this.props.changeTotalCountProductInBasket(count)
     }
 
@@ -180,6 +184,18 @@ class ProductsScreen extends React.Component {
         }
 
         this.props.toggleProductInBasket(basketProductModify)
+    }
+
+    toggleProductWithOptionsInBasket = basketProduct => {
+        const basketProductModify = { ...this.props.basketProductsWithOptions }
+        basketProductModify[basketProduct.id] = {
+            categoryId: this.props.selectedCategory.Id,
+            count: basketProduct.count,
+            additionalOptions: basketProduct.additionalOptions,
+            additionalFillings: basketProduct.additionalFillings,
+        }
+
+        this.props.toggleProductWithOptionsInBasket(basketProductModify)
     }
 
     renderGridItem = ({ item, index }) => {
@@ -347,6 +363,7 @@ class ProductsScreen extends React.Component {
                     toggle={this.state.metadataProductWithOptions.toggleInfoProductWithOptions}
                     close={this.closeSheetProductWithOptions}
                     productId={this.state.metadataProductWithOptions.selectedProductId}
+                    onToggleProduct={this.toggleProductWithOptionsInBasket}
                 />
             </Animated.ScrollView>
         )
@@ -364,6 +381,7 @@ const mapStateToProps = state => {
         selectedProduct: state.catalog.selectedProduct,
         basketProducts: state.checkout.basketProducts,
         basketConstructorProducts: state.checkout.basketConstructorProducts,
+        basketProductsWithOptions: state.checkout.basketProductsWithOptions,
         totalCountProducts: state.checkout.totalCountProducts,
         style: state.style,
         promotionCashbackSetting: state.main.promotionCashbackSetting,
@@ -374,6 +392,7 @@ const mapStateToProps = state => {
 const mapActionToProps = {
     setSelectedProduct,
     toggleProductInBasket,
+    toggleProductWithOptionsInBasket,
     markFromBasket,
     changeTotalCountProductInBasket
 }

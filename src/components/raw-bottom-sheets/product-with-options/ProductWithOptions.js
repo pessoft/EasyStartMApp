@@ -15,6 +15,10 @@ import { ProductAdditionalInfoType, ProductAdditionalInfoTypeShortName } from '.
 import SwitchSelector from 'react-native-switch-selector'
 import { RadioGroup } from '../../radio-group/RadioGroup'
 import { ToggleSwitch } from '../../toggle-switch/ToggleSwitch'
+import { generateRandomString } from '../../../helpers/utils'
+import LottieView from 'lottie-react-native'
+import { timingAnimation } from '../../../animation/timingAnimation'
+
 
 const height = Dimensions.get('window').height - 64
 
@@ -26,9 +30,18 @@ class ProductWithOptions extends React.Component {
       product: {},
       optionsAdditionalInfo: {},//key - productAdditionalOptionId, value - productAdditionalOptionItemId
       fillingAdditionalInfo: {},//key - productAdditionalFillingId, value - bool isSelected
+      showSuccessAnimation: false,
     }
   }
 
+  showSuccessAnimation = () => this.setState({ showSuccessAnimation: true })
+  hideSuccessAnimation = callback => this.setState({ showSuccessAnimation: false }, callback)
+
+  delayFunc = func => {
+    if (func) {
+      setTimeout(func, 200)
+    }
+  }
   componentDidUpdate(prevProps) {
     if (!prevProps.toggle && this.props.toggle && this.ProductWithOptions) {
       this.show()
@@ -47,7 +60,7 @@ class ProductWithOptions extends React.Component {
   }
 
   onClose = () => {
-    this.setState({ product: {}, optionsAdditionalInfo: {}, fillingAdditionalInfo: {} })
+    this.setState({ product: {}, optionsAdditionalInfo: {}, fillingAdditionalInfo: {}, showSuccessAnimation: false })
 
     if (this.props.close) {
       this.props.close()
@@ -239,6 +252,39 @@ class ProductWithOptions extends React.Component {
     this.setState({ fillingAdditionalInfo })
   }
 
+  getSelectedAdditionalFillings = () => {
+    const ids = []
+
+    for (const id in this.state.fillingAdditionalInfo) {
+      if (this.state.fillingAdditionalInfo[id])
+        ids.push(id)
+    }
+
+    return ids
+  }
+
+  onToggleProduct = () => {
+    if (this.props.onToggleProduct) {
+      const productForBasket = {
+        id: generateRandomString(),
+        count: 1,
+        additionalOptions: this.state.optionsAdditionalInfo,
+        additionalFillings: this.getSelectedAdditionalFillings(),
+      }
+
+      this.props.onToggleProduct(productForBasket)
+    }
+
+    this.showSuccessAnimation()
+  }
+
+  onSuccessAnimationFinish = () => {
+    const closeFunc = () => this.ProductWithOptions.close()
+    const func = () => this.hideSuccessAnimation(closeFunc)
+
+    this.delayFunc(func)
+  }
+
   render() {
     return (
       <RBSheet
@@ -257,7 +303,21 @@ class ProductWithOptions extends React.Component {
         }}
         onClose={this.onClose}
       >
-
+        {
+          this.state.showSuccessAnimation &&
+          <View style={Style.successContainer}>
+            <View style={Style.success}>
+              <LottieView
+                style={Style.loader}
+                source={require('../../../animation/src/success-2.json')}
+                autoPlay
+                loop={false}
+                onAnimationFinish={this.onSuccessAnimationFinish}
+                resizeMode='contain'
+                speed={1} />
+            </View>
+          </View>
+        }
         <ScrollView style={Style.container} contentOffset={{ y: 110 }}>
           <TouchableOpacity activeOpacity={1}>
             <Image
@@ -301,7 +361,7 @@ class ProductWithOptions extends React.Component {
             style={this.props.style}
             backgroundColor={this.props.style.theme.accentColor.backgroundColor}
             borderRadius={5}
-          // onPress={this.login}
+            onPress={this.onToggleProduct}
           />
         </View>
 

@@ -16,7 +16,7 @@ export const intersectOfArray = (arr1, arr2) => {
   for (const item of a1) {
     const index = a2.indexOf(item)
 
-    if (index != 1)
+    if (index != -1)
       result.push(item)
   }
 

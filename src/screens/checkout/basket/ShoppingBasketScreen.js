@@ -263,6 +263,10 @@ class ShoppingBasketScreen extends React.Component {
       countCalc(this.props.basketConstructorProducts)
     }
 
+    if (this.props.basketProductsWithOptions && Object.keys(this.props.basketProductsWithOptions).length != 0) {
+      countCalc(this.props.basketProductsWithOptions)
+    }
+
     this.props.changeTotalCountProductInBasket(count)
   }
 
@@ -307,6 +311,7 @@ class ShoppingBasketScreen extends React.Component {
 
       return countProducts
     }
+
     if (Object.keys(this.props.basketProducts).length > 0) {
       isEmpty = countProductsCalc(this.props.basketProducts) == 0
     }
@@ -314,6 +319,11 @@ class ShoppingBasketScreen extends React.Component {
     if (isEmpty
       && Object.keys(this.props.basketConstructorProducts).length > 0) {
       isEmpty = countProductsCalc(this.props.basketConstructorProducts) == 0
+    }
+
+    if (isEmpty
+      && Object.keys(this.props.basketProductsWithOptions).length > 0) {
+      isEmpty = countProductsCalc(this.props.basketProductsWithOptions) == 0
     }
 
     return isEmpty
@@ -504,6 +514,7 @@ const mapStateToProps = state => {
     selectedProduct: state.catalog.selectedProduct,
     basketProducts: state.checkout.basketProducts,
     basketConstructorProducts: state.checkout.basketConstructorProducts,
+    basketProductsWithOptions: state.checkout.basketProductsWithOptions,
     totalCountProducts: state.checkout.totalCountProducts,
     style: state.style,
     deliverySettings: state.main.deliverySettings,
