@@ -266,8 +266,9 @@ class ProductWithOptions extends React.Component {
   onToggleProduct = () => {
     if (this.props.onToggleProduct) {
       const productForBasket = {
-        id: generateRandomString(),
+        uniqId: generateRandomString(),
         count: 1,
+        productId: this.props.productId,
         additionalOptions: this.state.optionsAdditionalInfo,
         additionalFillings: this.getSelectedAdditionalFillings(),
       }

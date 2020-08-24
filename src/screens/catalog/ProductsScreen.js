@@ -188,9 +188,11 @@ class ProductsScreen extends React.Component {
 
     toggleProductWithOptionsInBasket = basketProduct => {
         const basketProductModify = { ...this.props.basketProductsWithOptions }
-        basketProductModify[basketProduct.id] = {
+        basketProductModify[basketProduct.uniqId] = {
+            uniqId: basketProduct.uniqId,
             categoryId: this.props.selectedCategory.Id,
             count: basketProduct.count,
+            productId: basketProduct.productId,
             additionalOptions: basketProduct.additionalOptions,
             additionalFillings: basketProduct.additionalFillings,
         }
