@@ -15,6 +15,8 @@ export class StockLogic {
         this.basketProducts = stockOption.basketProducts
         this.stockInteractionType = stockOption.stockInteractionType
         this.products = stockOption.productDictionary
+        this.additionalOptions = stockOption.additionalOptions
+        this.additionalFillings = stockOption.additionalFillings
     }
 
     getDiscount = (discountType, withStockIds = false) => {
@@ -341,13 +343,28 @@ export class StockLogic {
         return result
     }
 
+    getProductPriceForStockProducts = product => {
+        let price = product.Price
+
+        if(product.ProductAdditionalOptionIds.length) {
+            for(const id of product.ProductAdditionalOptionIds) {
+                const additionalOption = this.additionalOptions[id]
+                const additionalOptionItem = additionalOption.Items.find(p => p.IsDefault)
+
+                price += additionalOptionItem.Price
+            }
+        }
+
+        return price
+    }
+
     getProductsByPartialJoin = () => {
         let result = {
             id: -1,
             price: 0
         }
         const stockIdProducts = this.getProductsByFullJoin()
-        const stockIdProductsWithPrice = stockIdProducts.map(p => ({ id: p, price: this.products[p].Price }))
+        const stockIdProductsWithPrice = stockIdProducts.map(p => ({ id: p, price: this.getProductPriceForStockProducts(this.products[p]) }))
         if (stockIdProductsWithPrice.length) {
             const maxProductPrice = getMaxOfArray(stockIdProductsWithPrice.map(p => p.price))
             const productWithMaxPrice = stockIdProductsWithPrice.find(p => p.price == maxProductPrice)
@@ -370,7 +387,7 @@ export class StockLogic {
             const rubelPartialDiscount = this.getPartialDiscountByPartialJoin(DiscountType.Ruble)
             const maxPartialPercentRubelDiscountCurrency = getMaxOfArray(percentPartialDiscount.map(p => p.discountValueCurrency))
             const maxPartialRubelDiscountCurrency = getMaxOfArray(rubelPartialDiscount.map(p => p.discountValueCurrency))
-
+            
             if (productWithMaxPrice.price > percentDiscountConvertToRuble &&
                 productWithMaxPrice.price > rubleDiscount &&
                 productWithMaxPrice.price > maxPartialPercentRubelDiscountCurrency &&

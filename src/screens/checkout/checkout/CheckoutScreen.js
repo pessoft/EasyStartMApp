@@ -179,7 +179,9 @@ class CheckoutScreen extends React.Component {
       basketProducts: this.props.basketProducts,
       basketProductsWithOptions: this.props.basketProductsWithOptions,
       stockInteractionType: this.props.promotionSetting.StockInteractionType,
-      productDictionary: this.props.productDictionary
+      productDictionary: this.props.productDictionary,
+      additionalOptions: this.props.additionalOptions,
+      additionalFillings: this.props.additionalFillings
     }
   }
 
