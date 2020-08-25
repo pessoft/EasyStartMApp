@@ -13,7 +13,6 @@ import { timingAnimation } from '../../animation/timingAnimation'
 import { getProductTypes } from '../../helpers/product';
 import { TypeProduct } from '../../helpers/type-product';
 
-
 const min320 = Dimensions.get('window').width <= 320
 
 export class ProductBonusItem extends React.PureComponent {

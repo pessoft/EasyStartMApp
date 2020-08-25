@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import {
   ScrollView,
   Animated,
+  TouchableHighlightBase,
 } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import Style from './style'
@@ -650,6 +651,8 @@ class CheckoutScreen extends React.Component {
               && <BonusProducts
                 style={this.props.style}
                 products={this.props.products}
+                additionalOptions={this.props.additionalOptions}
+                additionalFillings={this.props.additionalFillings}
                 currencyPrefix={this.props.currencyPrefix}
                 bonusProductIds={this.state.promotion.getBonusProducts()}
                 selectedProductsBonus={this.state.selectedProductsBonus}

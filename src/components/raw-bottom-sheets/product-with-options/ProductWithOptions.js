@@ -216,8 +216,6 @@ class ProductWithOptions extends React.Component {
     )
   }
 
-
-
   renderAdditionalFillingInfo = () => {
     return (
       <View style={[this.props.style.theme.themeBody, Style.groupWrapper]}>
