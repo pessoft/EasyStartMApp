@@ -12,11 +12,13 @@ import {
 } from 'react-native'
 import { timingAnimation } from '../../../animation/timingAnimation'
 import Style from './style'
-import { OrderHistoryProductItem } from '../../../components/order-history-product/OrderHistoryProductItem';
-import { OrderHistoryConstructorProductItem } from '../../../components/order-history-constructor-product/OrderHistoryProductItem';
+import { OrderHistoryProductItem } from '../../../components/order-history-product/OrderHistoryProductItem'
+import { OrderHistoryConstructorProductItem } from '../../../components/order-history-constructor-product/OrderHistoryConstructorProductItem'
+import { OrderHistoryProductWithOptionsItem } from '../../../components/order-history-product-with-options/OrderHistoryProductWithOptionsItem'
 import {
   toggleProductInBasket,
   toggleConstructorProductInBasket,
+  toggleProductWithOptionsInBasket,
   changeTotalCountProductInBasket
 } from '../../../store/checkout/actions'
 import { SHOPPING_BASKET } from '../../../navigation/pointsNavigate'
@@ -111,7 +113,7 @@ class OrderHistoryInfoScreen extends React.Component {
     return productsForRender
   }
 
-  getProducts = () => [...this.props.productsHistory, ... this.props.constructorProductsHistory]
+  getProducts = () => [...this.props.productsHistory, ...this.props.productsWithOptionsHistory, ...this.props.constructorProductsHistory]
 
   renderItem = ({ item }) => {
     switch (item.CategoryType) {
@@ -123,6 +125,12 @@ class OrderHistoryInfoScreen extends React.Component {
         />
       case CategoryType.Constructor:
         return <OrderHistoryConstructorProductItem
+          style={this.props.style}
+          product={item}
+          currencyPrefix={this.props.currencyPrefix}
+        />
+      case CategoryType.WithOptions:
+        return <OrderHistoryProductWithOptionsItem
           style={this.props.style}
           product={item}
           currencyPrefix={this.props.currencyPrefix}
@@ -169,16 +177,58 @@ class OrderHistoryInfoScreen extends React.Component {
     return ingredientsCount
   }
 
-  isAllowRepeadOrder = () => {
+  isAllowRepeatOrder = () => {
     let products = this.props.productsHistory.filter(p => !p.IsDeleted)
     let constructorProducts = this.props.constructorProductsHistory.filter(p => !p.IsDeleted)
+    const productsWithOptions = this.productWithOptionsForRepeatOrder()
 
-    return products.length > 0 || constructorProducts.length > 0
+    return products.length > 0 || constructorProducts.length > 0 || productsWithOptions.length > 0
+  }
+
+  productWithOptionsForRepeatOrder = () => {
+    const products = []
+
+    for (const product of this.props.productsWithOptionsHistory) {
+      let isAllow = true
+
+      if (product.IsDeleted) {
+        isAllow = false
+        continue
+      }
+
+      if (Object.keys(product.AdditionalFillings).length) {
+        for (let id in product.AdditionalFillings) {
+          if (product.AdditionalFillings[id].IsDeleted) {
+            isAllow = false
+            break
+          }
+        }
+      }
+
+      if (Object.keys(product.AdditionalOptions).length) {
+        for (let id in product.AdditionalOptions) {
+          const additionalOption = product.AdditionalOptions[id]
+          if (additionalOption.IsDeleted) {
+            isAllow = false
+            break
+          }
+
+          if (additionalOption.Items.length > 0)
+            isAllow = additionalOption.Items.filter(p => p.IsDeleted).length == 0
+        }
+      }
+
+      if (isAllow)
+        products.push(product)
+    }
+
+    return products
   }
 
   repeatOrder = () => {
     let products = this.props.productsHistory.filter(p => !p.IsDeleted)
     let constructorProducts = this.props.constructorProductsHistory.filter(p => !p.IsDeleted)
+    let productWithOptions = this.productWithOptionsForRepeatOrder()
 
     const basketProductModify = { ...this.props.basketProducts }
 
@@ -208,10 +258,35 @@ class OrderHistoryInfoScreen extends React.Component {
       }
     }
 
+    const basketProductWithOptionsModify = { ...this.props.basketProductsWithOptions }
+
+    for (let product of productWithOptions) {
+      const uniqId = generateRandomString()
+      const additionalOptions = {}
+
+      if(Object.keys(product.AdditionalOptions).length > 0) {
+        for(const id in product.AdditionalOptions) {
+          const additionalOptionItem = product.AdditionalOptions[id].Items[0]
+          additionalOptions[id] = additionalOptionItem.Id
+        }
+      }
+
+      basketProductWithOptionsModify[uniqId] = {
+        uniqId,
+        categoryId: product.CategoryId,
+        count: product.Count,
+        productId: product.Id,
+        additionalOptions,
+        additionalFillings: Object.keys(product.AdditionalFillings),
+      }
+    }
+
     if (products.length > 0
-      || constructorProducts.length > 0) {
+      || constructorProducts.length > 0
+      || productWithOptions.length > 0) {
       products.length > 0 && this.props.toggleProductInBasket(basketProductModify)
       constructorProducts.length > 0 && this.props.toggleConstructorProductInBasket(basketConstructorProducts)
+      productWithOptions.length > 0 && this.props.toggleProductWithOptionsInBasket(basketProductWithOptionsModify)
       this.setState({ toBasket: true })
     }
   }
@@ -310,7 +385,7 @@ class OrderHistoryInfoScreen extends React.Component {
           </Text>
           <View style={Style.buttonSize}>
             <Button
-              disabled={!this.isAllowRepeadOrder()}
+              disabled={!this.isAllowRepeatOrder()}
               title='Повторить заказ'
               onPress={this.repeatOrder}
               color={Platform.OS == 'ios' ?
@@ -327,7 +402,8 @@ class OrderHistoryInfoScreen extends React.Component {
     if (this.props.isFetchingProductsHistory)
       return this.renderLoader()
     else if (this.props.productsHistory.length > 0 ||
-      this.props.constructorProductsHistory.length > 0)
+      this.props.constructorProductsHistory.length > 0 ||
+      this.props.productsWithOptionsHistory.length > 0)
       return this.renderHistoryOrders()
     else
       return this.renderWrong()
@@ -344,10 +420,12 @@ const mapStateToProps = state => {
     selectHistoryOrder: state.historyOrder.selectOrder,
     basketProducts: state.checkout.basketProducts,
     basketConstructorProducts: state.checkout.basketConstructorProducts,
+    basketProductsWithOptions: state.checkout.basketProductsWithOptions,
     constructorCategories: state.main.constructorCategories,
     ingredients: state.main.ingredients,
     isFetchingProductsHistory: state.historyOrder.isFetching,
     productsHistory: state.historyOrder.productsHistory,
+    productsWithOptionsHistory: state.historyOrder.productsWithOptionsHistory,
     constructorProductsHistory: state.historyOrder.constructorProductsHistory,
   }
 }
@@ -355,6 +433,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
   toggleProductInBasket,
   toggleConstructorProductInBasket,
+  toggleProductWithOptionsInBasket,
   changeTotalCountProductInBasket,
   getProductsHistoryOrder
 }

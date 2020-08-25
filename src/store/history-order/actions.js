@@ -101,5 +101,9 @@ const processingProductsData = data => {
     if (data.constructorProductsHistory) {
       imgProcessing(data.constructorProductsHistory)
     }
+
+    if (data.productsWithOptionsHistory) {
+      imgProcessing(data.productsWithOptionsHistory)
+    }
   }
 }

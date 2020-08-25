@@ -123,6 +123,22 @@ class CheckoutScreen extends React.Component {
       }
     }
 
+    if (!isRequest) {
+      for (const uniqId in this.props.basketProductsWithOptions) {
+        const basketProduct = this.props.basketProductsWithOptions[uniqId]
+
+        if (basketProduct.count == 0)
+          continue
+
+        const category = this.getCategoryById(basketProduct.categoryId)
+
+        if (category && category.NumberAppliances) {
+          isRequest = true
+          break
+        }
+      }
+    }
+
     return isRequest
   }
 
@@ -148,7 +164,7 @@ class CheckoutScreen extends React.Component {
   }
 
   getStocks = () => {
-    if(this.props.stocks && this.props.stocks.length > 0)
+    if (this.props.stocks && this.props.stocks.length > 0)
       return this.props.stocks.filter(p => !p.OnlyShowNews)
 
     return []
@@ -160,6 +176,7 @@ class CheckoutScreen extends React.Component {
       deliveryType: isDefault ? DeliveryType.Delivery : this.state.deliveryType,
       orderSum: this.getOrderPrice(),
       basketProducts: this.props.basketProducts,
+      basketProductsWithOptions: this.props.basketProductsWithOptions,
       stockInteractionType: this.props.promotionSetting.StockInteractionType,
       productDictionary: this.props.productDictionary
     }
@@ -216,6 +233,11 @@ class CheckoutScreen extends React.Component {
       isEmpty = countProductsCalc(this.props.basketConstructorProducts) == 0
     }
 
+    if (isEmpty
+      && Object.keys(this.props.basketProductsWithOptions).length > 0) {
+      isEmpty = countProductsCalc(this.props.basketProductsWithOptions) == 0
+    }
+
     return isEmpty
   }
 
@@ -260,6 +282,37 @@ class CheckoutScreen extends React.Component {
     for (let uniqId in this.props.basketConstructorProducts) {
       const basketItem = this.props.basketConstructorProducts[uniqId]
       cost += basketItem.price * basketItem.count
+    }
+
+    cost += this.getOrderCostProductWithOptions()
+
+    return cost
+  }
+
+  getOrderCostProductWithOptions = () => {
+    let cost = 0
+
+    for (let uniqId in this.props.basketProductsWithOptions) {
+      const basketItem = this.props.basketProductsWithOptions[uniqId]
+      const product = this.props.productDictionary[basketItem.productId]
+      let costProduct = product.Price
+
+      for (const id in basketItem.additionalOptions) {
+        const additionalOption = this.props.additionalOptions[id]
+        const additionalOptionItemId = basketItem.additionalOptions[id]
+        const additionalOptionItem = additionalOption.Items.find(p => p.Id == additionalOptionItemId)
+
+        costProduct += additionalOptionItem.Price
+      }
+
+      for (const id of basketItem.additionalFillings) {
+        const additionalFilling = this.props.additionalFillings[id]
+
+        costProduct += additionalFilling.Price
+      }
+
+      costProduct *= basketItem.count
+      cost += costProduct
     }
 
     return cost
@@ -354,10 +407,10 @@ class CheckoutScreen extends React.Component {
     partialDiscountRubel = partialDiscountRubel.length == 0 ? [{ discountValueCurrency: 0 }] : partialDiscountRubel
 
     const reduce = (acc, value) => acc.partialDiscountValueCurrency + value.discountValueCurrency
-    
+
     let partialDiscountValueCurrency = partialDiscountPercent.reduce(reduce, { partialDiscountValueCurrency: 0 })
     partialDiscountValueCurrency += partialDiscountRubel.reduce(reduce, { partialDiscountValueCurrency: 0 })
-    
+
     let price = orderPrice - discountRuble - partialDiscountValueCurrency
     price = price - (price * discountPercent / 100)
 
@@ -419,6 +472,26 @@ class CheckoutScreen extends React.Component {
     return JSON.stringify(constructorProducts)
   }
 
+  getProductWithOptionsCountJson = () => {
+    const products = []
+
+    for (let uniqId in this.props.basketProductsWithOptions) {
+      const basketItem = this.props.basketProductsWithOptions[uniqId]
+
+      if (basketItem.count > 0) {
+        products.push({
+          CategoryId: basketItem.categoryId,
+          ProductId: basketItem.productId,
+          Count: basketItem.count,
+          AdditionalOptions: basketItem.additionalOptions, //object
+          AdditionalFillings: basketItem.additionalFillings //array
+        })
+      }
+    }
+
+    return JSON.stringify(products)
+  }
+
   getProductBonusCountJson = () => {
     const productCount = {}
 
@@ -454,6 +527,7 @@ class CheckoutScreen extends React.Component {
       amountPayDiscountDelivery: this.getToPayPrice(),
       productCountJSON: this.getProductCountJson(),
       productConstructorCountJSON: this.getProductConstructorCountJson(),
+      productWithOptionsCountJSON: this.getProductWithOptionsCountJson(),
       productBonusCountJSON: this.getProductBonusCountJson(),
       amountPayCashBack: this.state.amountPayCashBack,
       numberAppliances: parseInt(this.state.numberAppliances),
@@ -665,6 +739,7 @@ const mapStateToProps = state => {
     currencyPrefix: state.appSetting.currencyPrefix,
     cashbackLabel: state.appSetting.cashbackLabel,
     basketProducts: state.checkout.basketProducts,
+    basketProductsWithOptions: state.checkout.basketProductsWithOptions,
     basketConstructorProducts: state.checkout.basketConstructorProducts,
     products: state.main.products,
     productDictionary: state.main.productDictionary,
@@ -677,6 +752,8 @@ const mapStateToProps = state => {
     coupon: state.main.coupon,
     isFetchingCoupon: state.main.isFetchingCoupon,
     isFetchErrorCoupon: state.main.isFetchErrorCoupon,
+    additionalOptions: state.main.additionalOptions,
+    additionalFillings: state.main.additionalFillings,
   }
 }
 

@@ -31,6 +31,7 @@ import { priceValid } from '../../../helpers/utils'
 import { CategoryType } from '../../../helpers/type-category'
 import { BasketConstructorProductItem } from '../../../components/basket-constructor-product/BasketConstructorProductItem'
 import { cleanCoupon } from '../../../store/main/actions'
+import { cos } from 'react-native-reanimated'
 
 class ShoppingBasketScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -298,6 +299,37 @@ class ShoppingBasketScreen extends React.Component {
     for (let uniqId in this.props.basketConstructorProducts) {
       const basketItem = this.props.basketConstructorProducts[uniqId]
       cost += basketItem.price * basketItem.count
+    }
+
+    cost += this.getOrderCostProductWithOptions()
+
+    return cost
+  }
+
+  getOrderCostProductWithOptions = () => {
+    let cost = 0
+
+    for (let uniqId in this.props.basketProductsWithOptions) {
+      const basketItem = this.props.basketProductsWithOptions[uniqId]
+      const product = this.props.productDictionary[basketItem.productId]
+      let costProduct = product.Price
+
+      for (const id in basketItem.additionalOptions) {
+        const additionalOption = this.props.additionalOptions[id]
+        const additionalOptionItemId = basketItem.additionalOptions[id]
+        const additionalOptionItem = additionalOption.Items.find(p => p.Id == additionalOptionItemId)
+
+        costProduct += additionalOptionItem.Price
+      }
+
+      for (const id of basketItem.additionalFillings) {
+        const additionalFilling = this.props.additionalFillings[id]
+
+        costProduct += additionalFilling.Price
+      }
+
+      costProduct *= basketItem.count
+      cost += costProduct
     }
 
     return cost
@@ -598,6 +630,8 @@ const mapStateToProps = state => {
     currencyPrefix: state.appSetting.currencyPrefix,
     products: state.main.products,
     productDictionary: state.main.productDictionary,
+    additionalOptions: state.main.additionalOptions,
+    additionalFillings: state.main.additionalFillings,
     selectedProduct: state.catalog.selectedProduct,
     basketProducts: state.checkout.basketProducts,
     basketConstructorProducts: state.checkout.basketConstructorProducts,
@@ -607,8 +641,6 @@ const mapStateToProps = state => {
     deliverySettings: state.main.deliverySettings,
     promotionCashbackSetting: state.main.promotionCashbackSetting,
     isLogin: state.user.isLogin,
-    additionalOptions: state.main.additionalOptions,
-    additionalFillings: state.main.additionalFillings,
   }
 }
 
