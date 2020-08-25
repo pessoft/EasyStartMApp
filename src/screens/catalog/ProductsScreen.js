@@ -6,6 +6,7 @@ import {
     Platform
 } from 'react-native'
 import { ProductItem } from '../../components/product/ProductItem'
+import { ProductItemWithOptions } from '../../components/product/ProductItemWithOptions'
 import { ProductItemGrid } from '../../components/product/ProductItemGrid'
 import { ProductItemGridWithOptions } from '../../components/product/ProductItemGridWithOptions'
 import { setSelectedProduct } from '../../store/catalog/actions'
@@ -254,13 +255,13 @@ class ProductsScreen extends React.Component {
     }
 
     getProductLisWithOptionsView = product => {
-        return <ProductItem
+        return <ProductItemWithOptions
             style={this.props.style}
             animation={product.animation}
             id={product.id}
             product={product.product}
             onPress={this.onSelectedProduct}
-            onToggleProduct={this.toggleProductInBasket}
+            onToggleProduct={this.showSheetProductWithOptions}
         />
     }
 

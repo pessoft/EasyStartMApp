@@ -65,7 +65,7 @@ export class ProductItemGridWithOptions extends React.PureComponent {
             this.props.onPress(this.props.id)
     }
 
-    onToggleProduct = countProduct => {
+    onToggleProduct = () => {
         this.props.onToggleProduct(this.props.id)
     }
 
