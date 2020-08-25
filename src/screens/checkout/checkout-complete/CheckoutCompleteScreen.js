@@ -9,6 +9,7 @@ import { MAIN } from '../../../navigation/pointsNavigate'
 import { getStocks } from '../../../store/main/actions'
 import {
   toggleProductInBasket,
+  toggleProductWithOptionsInBasket,
   changeTotalCountProductInBasket,
   toggleConstructorProductInBasket
 } from '../../../store/checkout/actions'
@@ -64,6 +65,7 @@ class CheckoutCompleteScreen extends React.Component {
 
   onFinishCheckout = () => {
     this.props.toggleProductInBasket({})
+    this.props.toggleProductWithOptionsInBasket({})
     this.props.toggleConstructorProductInBasket({})
     this.props.changeTotalCountProductInBasket(0)
 
@@ -227,6 +229,7 @@ const mapActionToProps = {
   sendNewOrder,
   toggleProductInBasket,
   toggleConstructorProductInBasket,
+  toggleProductWithOptionsInBasket,
   changeTotalCountProductInBasket,
   getStocks,
   dropFetchFlag
