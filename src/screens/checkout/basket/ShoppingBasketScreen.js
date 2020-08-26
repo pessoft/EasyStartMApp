@@ -16,7 +16,8 @@ import { timingAnimation } from '../../../animation/timingAnimation'
 import {
   toggleProductInBasket,
   toggleConstructorProductInBasket,
-  changeTotalCountProductInBasket
+  changeTotalCountProductInBasket,
+  toggleProductWithOptionsInBasket,
 } from '../../../store/checkout/actions'
 import ShoppingBasketIcon from '../../../images/font-awesome-svg/shopping-basket.svg'
 import Style from './style'
@@ -30,6 +31,7 @@ import { priceValid } from '../../../helpers/utils'
 import { CategoryType } from '../../../helpers/type-category'
 import { BasketConstructorProductItem } from '../../../components/basket-constructor-product/BasketConstructorProductItem'
 import { cleanCoupon } from '../../../store/main/actions'
+import { cos } from 'react-native-reanimated'
 
 class ShoppingBasketScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -147,11 +149,11 @@ class ShoppingBasketScreen extends React.Component {
 
   keyExtractor = id => {
     if (this.props.basketProducts[id]) {
-        return `${id}-${this.props.basketProducts[id].count}`
+      return `${id}-${this.props.basketProducts[id].count}`
     }
 
     return id.toString()
-}
+  }
 
   renderDefaultProduct = productId => {
     const itemTransform = this.productTransform(productId)
@@ -200,6 +202,49 @@ class ShoppingBasketScreen extends React.Component {
     }
   }
 
+  productWithOptionTransform = uniqId => {
+    const basketProduct = this.props.basketProductsWithOptions[uniqId]
+
+    if (!basketProduct || basketProduct.count == 0)
+      return null
+
+    const product = this.props.productDictionary[basketProduct.productId]
+
+    const ingredients = []
+    let price = product.Price
+
+    if (Object.keys(basketProduct.additionalOptions).length) {
+      for (const id in basketProduct.additionalOptions) {
+        const additionalOption = this.props.additionalOptions[id]
+        const additionalOptionItemId = basketProduct.additionalOptions[id]
+        const additionalOptionItem = additionalOption.Items.find(p => p.Id == additionalOptionItemId)
+
+        ingredients.push(`${additionalOptionItem.Name}`)
+        price += additionalOptionItem.Price
+      }
+    }
+
+    if (basketProduct.additionalFillings.length) {
+      for (const id of basketProduct.additionalFillings) {
+        const additionalFilling = this.props.additionalFillings[id]
+
+        ingredients.push(`${additionalFilling.Name}`)
+        price += additionalFilling.Price
+      }
+    }
+
+    price *= basketProduct.count
+
+    return {
+      caption: product.Name,
+      imageSource: product.Image,
+      ingredients: ingredients,
+      price: price,
+      currencyPrefix: this.props.currencyPrefix,
+      startCount: basketProduct.count,
+    }
+  }
+
   renderConstructorProduct = uniqId => {
     const constructorProduct = this.constructorProductTransform(uniqId)
 
@@ -207,11 +252,26 @@ class ShoppingBasketScreen extends React.Component {
       return null
 
     return <BasketConstructorProductItem
-      key={this.keyExtractor(uniqId)}
+      key={uniqId.toString()}
       style={this.props.style}
       uniqId={uniqId}
       product={constructorProduct}
       onToggleProduct={this.toggleConstructorProductInBasket}
+    />
+  }
+
+  renderProductWithOptions = uniqId => {
+    const productWithOption = this.productWithOptionTransform(uniqId)
+
+    if (productWithOption == null)
+      return null
+
+    return <BasketConstructorProductItem
+      key={uniqId.toString()}
+      style={this.props.style}
+      uniqId={uniqId}
+      product={productWithOption}
+      onToggleProduct={this.toggleProductWithOptionsInBasket}
     />
   }
 
@@ -221,6 +281,8 @@ class ShoppingBasketScreen extends React.Component {
         return this.renderDefaultProduct(item.id)
       case CategoryType.Constructor:
         return this.renderConstructorProduct(item.id)
+      case CategoryType.WithOptions:
+        return this.renderProductWithOptions(item.id)
     }
   }
 
@@ -237,6 +299,37 @@ class ShoppingBasketScreen extends React.Component {
     for (let uniqId in this.props.basketConstructorProducts) {
       const basketItem = this.props.basketConstructorProducts[uniqId]
       cost += basketItem.price * basketItem.count
+    }
+
+    cost += this.getOrderCostProductWithOptions()
+
+    return cost
+  }
+
+  getOrderCostProductWithOptions = () => {
+    let cost = 0
+
+    for (let uniqId in this.props.basketProductsWithOptions) {
+      const basketItem = this.props.basketProductsWithOptions[uniqId]
+      const product = this.props.productDictionary[basketItem.productId]
+      let costProduct = product.Price
+
+      for (const id in basketItem.additionalOptions) {
+        const additionalOption = this.props.additionalOptions[id]
+        const additionalOptionItemId = basketItem.additionalOptions[id]
+        const additionalOptionItem = additionalOption.Items.find(p => p.Id == additionalOptionItemId)
+
+        costProduct += additionalOptionItem.Price
+      }
+
+      for (const id of basketItem.additionalFillings) {
+        const additionalFilling = this.props.additionalFillings[id]
+
+        costProduct += additionalFilling.Price
+      }
+
+      costProduct *= basketItem.count
+      cost += costProduct
     }
 
     return cost
@@ -261,6 +354,10 @@ class ShoppingBasketScreen extends React.Component {
 
     if (this.props.basketConstructorProducts && Object.keys(this.props.basketConstructorProducts).length != 0) {
       countCalc(this.props.basketConstructorProducts)
+    }
+
+    if (this.props.basketProductsWithOptions && Object.keys(this.props.basketProductsWithOptions).length != 0) {
+      countCalc(this.props.basketProductsWithOptions)
     }
 
     this.props.changeTotalCountProductInBasket(count)
@@ -296,6 +393,26 @@ class ShoppingBasketScreen extends React.Component {
     this.props.toggleConstructorProductInBasket(basketConstructorProductModify)
   }
 
+  toggleProductWithOptionsInBasket = basketProduct => {
+    const basketConstructorProductModify = { ...this.props.basketProductsWithOptions }
+
+    if (basketProduct.count > 0) {
+      const item = basketConstructorProductModify[basketProduct.uniqId]
+      basketConstructorProductModify[basketProduct.uniqId] = {
+        uniqId: item.uniqId,
+        categoryId: item.categoryId,
+        count: basketProduct.count,
+        productId: item.productId,
+        additionalOptions: item.additionalOptions,
+        additionalFillings: item.additionalFillings,
+      }
+    } else {
+      delete basketConstructorProductModify[basketProduct.uniqId]
+    }
+
+    this.props.toggleProductWithOptionsInBasket(basketConstructorProductModify)
+  }
+
   isEmptyBasket = () => {
     let isEmpty = true
     const countProductsCalc = items => {
@@ -307,6 +424,7 @@ class ShoppingBasketScreen extends React.Component {
 
       return countProducts
     }
+
     if (Object.keys(this.props.basketProducts).length > 0) {
       isEmpty = countProductsCalc(this.props.basketProducts) == 0
     }
@@ -314,6 +432,11 @@ class ShoppingBasketScreen extends React.Component {
     if (isEmpty
       && Object.keys(this.props.basketConstructorProducts).length > 0) {
       isEmpty = countProductsCalc(this.props.basketConstructorProducts) == 0
+    }
+
+    if (isEmpty
+      && Object.keys(this.props.basketProductsWithOptions).length > 0) {
+      isEmpty = countProductsCalc(this.props.basketProductsWithOptions) == 0
     }
 
     return isEmpty
@@ -358,6 +481,11 @@ class ShoppingBasketScreen extends React.Component {
     if (this.props.basketConstructorProducts
       && Object.keys(this.props.basketConstructorProducts).length > 0) {
       addeddProducts(this.props.basketConstructorProducts, CategoryType.Constructor)
+    }
+
+    if (this.props.basketProductsWithOptions
+      && Object.keys(this.props.basketProductsWithOptions).length > 0) {
+      addeddProducts(this.props.basketProductsWithOptions, CategoryType.WithOptions)
     }
 
     return products
@@ -501,14 +629,18 @@ const mapStateToProps = state => {
     serverDomain: state.appSetting.serverDomain,
     currencyPrefix: state.appSetting.currencyPrefix,
     products: state.main.products,
+    productDictionary: state.main.productDictionary,
+    additionalOptions: state.main.additionalOptions,
+    additionalFillings: state.main.additionalFillings,
     selectedProduct: state.catalog.selectedProduct,
     basketProducts: state.checkout.basketProducts,
     basketConstructorProducts: state.checkout.basketConstructorProducts,
+    basketProductsWithOptions: state.checkout.basketProductsWithOptions,
     totalCountProducts: state.checkout.totalCountProducts,
     style: state.style,
     deliverySettings: state.main.deliverySettings,
     promotionCashbackSetting: state.main.promotionCashbackSetting,
-    isLogin: state.user.isLogin
+    isLogin: state.user.isLogin,
   }
 }
 
@@ -516,6 +648,7 @@ const mapActionToProps = {
   setSelectedProduct,
   toggleProductInBasket,
   toggleConstructorProductInBasket,
+  toggleProductWithOptionsInBasket,
   markFromBasket,
   changeTotalCountProductInBasket,
   cleanCoupon

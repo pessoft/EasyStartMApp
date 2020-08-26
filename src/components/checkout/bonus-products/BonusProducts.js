@@ -7,6 +7,7 @@ import {
 import Style from './style'
 import { endingStrByNumber } from '../../../helpers/utils'
 import { ProductBonusItem } from '../../product/ProductBonusItem';
+import { ProductAdditionalInfoTypeShortName, ProductAdditionalInfoType } from '../../../helpers/product-additional-option'
 
 export class BonusProducts extends React.Component {
   constructor(props) {
@@ -20,7 +21,7 @@ export class BonusProducts extends React.Component {
   componentDidMount = () => {
     const bonusProductCount = this.props.bonusProductIds.length
 
-    if(this.state.limit != 0 && bonusProductCount == 1) {
+    if (this.state.limit != 0 && bonusProductCount == 1) {
       const product = {
         count: 1,
         id: this.props.bonusProductIds[0]
@@ -66,6 +67,31 @@ export class BonusProducts extends React.Component {
     return result
   }
 
+  getAdditionalInfo = product => {
+    let additionalInfo
+    const productAdditionalInfoType = product.ProductAdditionalInfoType
+
+    if (productAdditionalInfoType != ProductAdditionalInfoType.Custom) {
+      additionalInfoValue = parseFloat(product.AdditionInfo)
+
+      if (product.ProductAdditionalOptionIds.length) {
+        for (const id of product.ProductAdditionalOptionIds) {
+          const additionalOption = this.props.additionalOptions[id]
+          const additionalOptionItem = additionalOption.Items.find(p => p.IsDefault)
+
+          additionalInfoValue += additionalOptionItem.AdditionalInfo
+        }
+      }
+
+      const productAdditionalInfoPrefix = ProductAdditionalInfoTypeShortName[productAdditionalInfoType]
+      additionalInfo = `${additionalInfoValue} ${productAdditionalInfoPrefix}`
+
+    } else
+      additionalInfo = product.AdditionInfo
+
+    return additionalInfo
+  }
+
   productsTransform = () => {
     const productsForRender = []
     const products = this.getProducts()
@@ -82,7 +108,7 @@ export class BonusProducts extends React.Component {
         product: {
           caption: item.Name,
           imageSource: item.Image,
-          additionInfo: item.AdditionInfo,
+          additionInfo: this.getAdditionalInfo(item),
           price: 0,
           currencyPrefix: this.props.currencyPrefix,
           startCount: countProduct,
