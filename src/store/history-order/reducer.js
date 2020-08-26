@@ -13,6 +13,7 @@ const defaultState = {
   isFetchError: false,
   history: [],
   productsHistory: [],
+  productsWithOptionsHistory: [],
   constructorProductsHistory: [],
   selectOrder: {}
 }

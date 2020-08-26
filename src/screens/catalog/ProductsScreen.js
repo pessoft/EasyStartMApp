@@ -6,15 +6,19 @@ import {
     Platform
 } from 'react-native'
 import { ProductItem } from '../../components/product/ProductItem'
+import { ProductItemWithOptions } from '../../components/product/ProductItemWithOptions'
 import { ProductItemGrid } from '../../components/product/ProductItemGrid'
+import { ProductItemGridWithOptions } from '../../components/product/ProductItemGridWithOptions'
 import { setSelectedProduct } from '../../store/catalog/actions'
 import { PRODUCT_INFO, CASHBACK_PROFILE } from '../../navigation/pointsNavigate'
 import { timingAnimation } from '../../animation/timingAnimation'
-import { toggleProductInBasket, changeTotalCountProductInBasket } from '../../store/checkout/actions'
+import { toggleProductInBasket, changeTotalCountProductInBasket, toggleProductWithOptionsInBasket } from '../../store/checkout/actions'
 import { markFromBasket } from '../../store/navigation/actions'
 import VirtualMoneyButton from '../../components/buttons/VirtualMoneyButton/VirtualMoneyButton'
 import ViewContainerProductsChanger from '../../components/view-container-changer/ViewContainerProductsChanger'
 import { ViewContainerType } from '../../helpers/view-container-type'
+import { ProductAdditionalInfoType, ProductAdditionalInfoTypeShortName } from '../../helpers/product-additional-option'
+import ProductWithOptions from '../../components/raw-bottom-sheets/product-with-options/ProductWithOptions'
 
 class ProductsScreen extends React.Component {
     static navigationOptions = ({ navigation }) => {
@@ -41,7 +45,11 @@ class ProductsScreen extends React.Component {
 
         this.state = {
             showScaleAnimation: new Animated.Value(0),
-            refreshItems: false
+            refreshItems: false,
+            metadataProductWithOptions: {
+                toggleInfoProductWithOptions: false,
+                selectedProductId: -1
+            }
         }
     }
 
@@ -98,14 +106,50 @@ class ProductsScreen extends React.Component {
             product: {
                 caption: item.Name,
                 imageSource: item.Image,
-                additionInfo: item.AdditionInfo,
-                price: item.Price,
+                additionInfo: this.getProductAdditionalInfo(item),
+                price: this.getProductPrice(item),
                 currencyPrefix: this.props.currencyPrefix,
                 startCount: countProduct,
                 productType: item.ProductType,
                 index
             },
         }
+    }
+
+    getProductPrice = product => {
+        let price = product.Price
+        if (product.ProductAdditionalInfoType != ProductAdditionalInfoType.Custom) {
+            if (product.ProductAdditionalOptionIds.length != 0) {
+                for (const optionId of product.ProductAdditionalOptionIds) {
+                    const productOptions = this.props.additionalOptions[optionId]
+                    const defaultOption = productOptions.Items.find(p => p.IsDefault)
+
+                    price += defaultOption.Price
+                }
+            }
+        }
+
+        return price
+    }
+
+    getProductAdditionalInfo = product => {
+        let additionInfo
+        if (product.ProductAdditionalInfoType != ProductAdditionalInfoType.Custom) {
+            let value = parseFloat(product.AdditionInfo)
+            if (product.ProductAdditionalOptionIds.length != 0) {
+                for (const optionId of product.ProductAdditionalOptionIds) {
+                    const productOptions = this.props.additionalOptions[optionId]
+                    const defaultOption = productOptions.Items.find(p => p.IsDefault)
+
+                    value += defaultOption.AdditionalInfo
+                }
+            }
+
+            additionInfo = `${value} ${ProductAdditionalInfoTypeShortName[product.ProductAdditionalInfoType]}`
+        } else
+            additionInfo = product.AdditionInfo
+
+        return additionInfo
     }
 
     changeTotalCountProductInBasket = () => {
@@ -125,6 +169,10 @@ class ProductsScreen extends React.Component {
             countCalc(this.props.basketConstructorProducts)
         }
 
+        if (this.props.basketProductsWithOptions && Object.keys(this.props.basketProductsWithOptions).length != 0) {
+            countCalc(this.props.basketProductsWithOptions)
+        }
+
         this.props.changeTotalCountProductInBasket(count)
     }
 
@@ -139,27 +187,81 @@ class ProductsScreen extends React.Component {
         this.props.toggleProductInBasket(basketProductModify)
     }
 
+    toggleProductWithOptionsInBasket = basketProduct => {
+        const basketProductModify = { ...this.props.basketProductsWithOptions }
+        basketProductModify[basketProduct.uniqId] = {
+            uniqId: basketProduct.uniqId,
+            categoryId: this.props.selectedCategory.Id,
+            count: basketProduct.count,
+            productId: basketProduct.productId,
+            additionalOptions: basketProduct.additionalOptions,
+            additionalFillings: basketProduct.additionalFillings,
+        }
+
+        this.props.toggleProductWithOptionsInBasket(basketProductModify)
+    }
+
     renderGridItem = ({ item, index }) => {
         let itemTransform = this.productTransform(item, index)
+
+        if (item.ProductAdditionalOptionIds.length
+            || item.ProductAdditionalFillingIds.length)
+            return this.getProductGridWithOptionsView(itemTransform)
+        else
+            return this.getProductGridView(itemTransform)
+    }
+
+    getProductGridView = product => {
         return <ProductItemGrid
             style={this.props.style}
-            animation={itemTransform.animation}
-            id={itemTransform.id}
-            product={itemTransform.product}
+            animation={product.animation}
+            id={product.id}
+            product={product.product}
             onPress={this.onSelectedProduct}
             onToggleProduct={this.toggleProductInBasket}
         />
     }
 
+    getProductGridWithOptionsView = product => {
+        return <ProductItemGridWithOptions
+            style={this.props.style}
+            animation={product.animation}
+            id={product.id}
+            product={product.product}
+            onPress={this.onSelectedProduct}
+            onToggleProduct={this.showSheetProductWithOptions}
+        />
+    }
+
     renderListItem = ({ item, index }) => {
         let itemTransform = this.productTransform(item, index)
+
+        if (item.ProductAdditionalOptionIds.length
+            || item.ProductAdditionalFillingIds.length)
+            return this.getProductLisWithOptionsView(itemTransform)
+        else
+            return this.getProductListView(itemTransform)
+    }
+
+    getProductListView = product => {
         return <ProductItem
             style={this.props.style}
-            animation={itemTransform.animation}
-            id={itemTransform.id}
-            product={itemTransform.product}
+            animation={product.animation}
+            id={product.id}
+            product={product.product}
             onPress={this.onSelectedProduct}
             onToggleProduct={this.toggleProductInBasket}
+        />
+    }
+
+    getProductLisWithOptionsView = product => {
+        return <ProductItemWithOptions
+            style={this.props.style}
+            animation={product.animation}
+            id={product.id}
+            product={product.product}
+            onPress={this.onSelectedProduct}
+            onToggleProduct={this.showSheetProductWithOptions}
         />
     }
 
@@ -227,6 +329,24 @@ class ProductsScreen extends React.Component {
         }
     }
 
+    showSheetProductWithOptions = productId => {
+        this.setState({
+            metadataProductWithOptions: {
+                toggleInfoProductWithOptions: true,
+                selectedProductId: productId
+            }
+        })
+    }
+
+    closeSheetProductWithOptions = () => {
+        this.setState({
+            metadataProductWithOptions: {
+                toggleInfoProductWithOptions: false,
+                selectedProductId: -1
+            }
+        })
+    }
+
     render() {
         return (
             <Animated.ScrollView
@@ -242,6 +362,12 @@ class ProductsScreen extends React.Component {
                     }]}>
 
                 {this.renderContent()}
+                <ProductWithOptions
+                    toggle={this.state.metadataProductWithOptions.toggleInfoProductWithOptions}
+                    close={this.closeSheetProductWithOptions}
+                    productId={this.state.metadataProductWithOptions.selectedProductId}
+                    onToggleProduct={this.toggleProductWithOptionsInBasket}
+                />
             </Animated.ScrollView>
         )
     }
@@ -252,10 +378,13 @@ const mapStateToProps = state => {
         serverDomain: state.appSetting.serverDomain,
         currencyPrefix: state.appSetting.currencyPrefix,
         products: state.main.products,
+        additionalOptions: state.main.additionalOptions,
+        additionalFillings: state.main.additionalFillings,
         selectedCategory: state.catalog.selectedCategory,
         selectedProduct: state.catalog.selectedProduct,
         basketProducts: state.checkout.basketProducts,
         basketConstructorProducts: state.checkout.basketConstructorProducts,
+        basketProductsWithOptions: state.checkout.basketProductsWithOptions,
         totalCountProducts: state.checkout.totalCountProducts,
         style: state.style,
         promotionCashbackSetting: state.main.promotionCashbackSetting,
@@ -266,6 +395,7 @@ const mapStateToProps = state => {
 const mapActionToProps = {
     setSelectedProduct,
     toggleProductInBasket,
+    toggleProductWithOptionsInBasket,
     markFromBasket,
     changeTotalCountProductInBasket
 }

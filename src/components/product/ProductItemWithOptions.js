@@ -7,15 +7,16 @@ import {
     Animated,
     Dimensions
 } from 'react-native'
-import Style from './style-bonus-item'
+import Style from './style'
 import { ShoppingButton } from '../buttons/ShoppingButton/ShoppingButton';
 import { timingAnimation } from '../../animation/timingAnimation'
 import { getProductTypes } from '../../helpers/product';
 import { TypeProduct } from '../../helpers/type-product';
+import { BasketButton } from '../buttons/Square/BasketButton';
 
 const min320 = Dimensions.get('window').width <= 320
 
-export class ProductBonusItem extends React.PureComponent {
+export class ProductItemWithOptions extends React.PureComponent {
     constructor(props) {
         super(props)
         this.state = {
@@ -36,16 +37,8 @@ export class ProductBonusItem extends React.PureComponent {
             this.props.onPress(this.props.id)
     }
 
-    onToggleProduct = countProduct => {
-        const basketProduct = {
-            id: this.props.id,
-            count: countProduct,
-            index: this.props.product.index
-        }
-
-        if (this.props.onToggleProduct) {
-            this.props.onToggleProduct(basketProduct)
-        }
+    onToggleProduct = () => {
+        this.props.onToggleProduct(this.props.id)
     }
 
     getSizeProductType = type => {
@@ -81,7 +74,7 @@ export class ProductBonusItem extends React.PureComponent {
                         this.props.style.theme.dividerColor]}>
                         <View style={[Style.captionBlock]}>
                             <Text
-                                numberOfLines={1}
+                                numberOfLines={2}
                                 ellipsizeMode={"tail"}
                                 style={[
                                     Style.textWrap,
@@ -128,10 +121,7 @@ export class ProductBonusItem extends React.PureComponent {
                                 {`${this.props.product.price} ${this.props.product.currencyPrefix}`}
                             </Text>
                             <View style={Style.blockShopButtons}>
-                                <ShoppingButton
-                                    startCount={this.props.product.startCount}
-                                    limit={this.props.limit}
-                                    maxCount={this.props.maxCount}
+                                <BasketButton
                                     size={20}
                                     underlayColor={this.props.style.theme.lightPrimaryColor.backgroundColor}
                                     color={this.props.style.theme.textPrimaryColor.color}
