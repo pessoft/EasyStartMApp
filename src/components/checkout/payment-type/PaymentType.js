@@ -4,7 +4,8 @@ import Style from './style'
 import { PaymentRadioGroup } from './PaymentRadioGroup'
 import { CheckoutCashback } from '../checkout-cashback/CheckoutCashback'
 import { TypePayment } from '../../../helpers/type-payment'
-import SwitchSelector from "react-native-switch-selector";
+import SwitchSelector from "react-native-switch-selector"
+
 const min320 = Dimensions.get('window').width <= 320
 
 export class PaymentType extends React.Component {

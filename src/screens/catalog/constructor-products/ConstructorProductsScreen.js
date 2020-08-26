@@ -7,16 +7,16 @@ import {
 } from 'react-native'
 import { timingAnimation } from '../../../animation/timingAnimation'
 import VirtualMoneyButton from '../../../components/buttons/VirtualMoneyButton/VirtualMoneyButton'
-import { ConstructorCategory } from '../../../components/constructor-products/constructor-category/ConstructorCategory';
+import { ConstructorCategory } from '../../../components/constructor-products/constructor-category/ConstructorCategory'
 import Style from './style'
-import { ConstructorToggleBasket } from '../../../components/constructor-products/constructor-toggle-basket/ConstructorToggleBasket';
+import { ConstructorToggleBasket } from '../../../components/constructor-products/constructor-toggle-basket/ConstructorToggleBasket'
 import {
     toggleConstructorProductInBasket,
     changeTotalCountProductInBasket
 } from '../../../store/checkout/actions'
-import { generateRandomString } from '../../../helpers/utils';
+import { generateRandomString } from '../../../helpers/utils'
 import { priceValid, cloneObject } from '../../../helpers/utils'
-import LottieView from 'lottie-react-native';
+import LottieView from 'lottie-react-native'
 import BasketIcoWithBadge from '../../../components/badges/basket-badge/BasketIcoWithBadge'
 
 class ConstructorProductsScreen extends React.Component {
@@ -163,6 +163,10 @@ class ConstructorProductsScreen extends React.Component {
             countCalc(this.props.basketConstructorProducts)
         }
 
+        if (this.props.basketProductsWithOptions && Object.keys(this.props.basketProductsWithOptions).length != 0) {
+            countCalc(this.props.basketProductsWithOptions)
+        }
+
         this.props.changeTotalCountProductInBasket(count)
     }
 
@@ -261,6 +265,7 @@ const mapStateToProps = state => {
         selectedCategory: state.catalog.selectedCategory,
         basketProducts: state.checkout.basketProducts,
         basketConstructorProducts: state.checkout.basketConstructorProducts,
+        basketProductsWithOptions: state.checkout.basketProductsWithOptions,
         totalCountProducts: state.checkout.totalCountProducts,
         style: state.style,
         promotionCashbackSetting: state.main.promotionCashbackSetting,
