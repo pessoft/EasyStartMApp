@@ -15,7 +15,7 @@ import { ProductAdditionalInfoType, ProductAdditionalInfoTypeShortName } from '.
 import SwitchSelector from 'react-native-switch-selector'
 import { RadioGroup } from '../../radio-group/RadioGroup'
 import { ToggleSwitch } from '../../toggle-switch/ToggleSwitch'
-import { generateRandomString } from '../../../helpers/utils'
+import { generateRandomString, containsSubarray } from '../../../helpers/utils'
 import LottieView from 'lottie-react-native'
 import { timingAnimation } from '../../../animation/timingAnimation'
 
@@ -31,7 +31,33 @@ class ProductWithOptions extends React.Component {
       optionsAdditionalInfo: {},//key - productAdditionalOptionId, value - productAdditionalOptionItemId
       fillingAdditionalInfo: {},//key - productAdditionalFillingId, value - bool isSelected
       showSuccessAnimation: false,
+      foreverDisabledAdditionalOptionItems: {}
     }
+  }
+
+  //allowCombination = [[],[],...]
+  getForeverDisabledAdditionalOptionItems = (productAdditionalOptionIds, allowCombinations) => {
+    let foreverDisabledAdditionalOptionItems = []
+    const uniqItemsFromCombinations = {}
+
+    if (allowCombinations && allowCombinations.length > 0) {
+
+      for (const items of allowCombinations)
+        for (const item of items)
+          uniqItemsFromCombinations[item] = item
+
+      for (const id of productAdditionalOptionIds) {
+        const additionalOption = this.props.additionalOptions[id]
+        const offItemIds = additionalOption.Items.filter(p => !uniqItemsFromCombinations[p.Id]).map(p => p.Id)
+
+        foreverDisabledAdditionalOptionItems = [...foreverDisabledAdditionalOptionItems, ...offItemIds]
+      }
+    }
+
+    return foreverDisabledAdditionalOptionItems.reduce((acc, v) => {
+      acc[v] = v
+      return acc
+    }, {})
   }
 
   showSuccessAnimation = () => this.setState({ showSuccessAnimation: true })
@@ -54,13 +80,20 @@ class ProductWithOptions extends React.Component {
     const product = this.props.productDictionary[this.props.productId]
     const optionsAdditionalInfo = this.initOptionsAdditionalInfo(product)
     const fillingAdditionalInfo = this.initAdditionalFillingInfo(product)
+    const foreverDisabledAdditionalOptionItems = this.getForeverDisabledAdditionalOptionItems(product.ProductAdditionalOptionIds, product.AllowCombinations)
 
-    this.setState({ product, optionsAdditionalInfo, fillingAdditionalInfo })
+    this.setState({ product, optionsAdditionalInfo, fillingAdditionalInfo, foreverDisabledAdditionalOptionItems })
     this.ProductWithOptions.open()
   }
 
   onClose = () => {
-    this.setState({ product: {}, optionsAdditionalInfo: {}, fillingAdditionalInfo: {}, showSuccessAnimation: false })
+    this.setState({
+      product: {},
+      optionsAdditionalInfo: {},
+      fillingAdditionalInfo: {},
+      showSuccessAnimation: false,
+      foreverDisabledAdditionalOptionItems: []
+    })
 
     if (this.props.close) {
       this.props.close()
@@ -156,30 +189,126 @@ class ProductWithOptions extends React.Component {
   }
 
   onChangeProductAdditionalOption = selectOption => {
-    const optionsAdditionalInfo = { ...this.state.optionsAdditionalInfo }
-    optionsAdditionalInfo[selectOption.additionalOptionId] = selectOption.value
+    const updateOptionsAdditionalInfo = { ...this.state.optionsAdditionalInfo }
+    updateOptionsAdditionalInfo[selectOption.additionalOptionId] = selectOption.value
+    const optionIndex = this.state.product.ProductAdditionalOptionIds.findIndex(p => p == selectOption.additionalOptionId)
+    const optionsAdditionalInfo = this.getValidCombination(updateOptionsAdditionalInfo, optionIndex)
 
     this.setState({ optionsAdditionalInfo })
+  }
+
+  getValidCombination = (optionsAdditionalInfo, targetOptionIndex) => {
+    if (this.state.product.AllowCombinations && this.state.product.AllowCombinations.length > 0) {
+      const currentCombination = this.state.product.ProductAdditionalOptionIds.map(p => optionsAdditionalInfo[p])
+      let isValidCombination = false
+      const subCombinationForFindValid = [currentCombination[targetOptionIndex]]
+      let validCombination = []
+
+      for (const allowCombination of this.state.product.AllowCombinations) {
+        const startIndexSubarray = containsSubarray(allowCombination, currentCombination)
+
+        if (startIndexSubarray >= 0) {
+          isValidCombination = true
+          break
+        } else if (validCombination.length == 0) {
+          const startIndexValidCombination = containsSubarray(allowCombination, subCombinationForFindValid)
+
+          if (startIndexValidCombination >= 0)
+            validCombination = allowCombination
+        }
+      }
+
+      if (!isValidCombination) {
+        const newOptionsAdditionalInfo = {}
+
+        for (let i = 0; i < this.state.product.ProductAdditionalOptionIds.length; ++i) {
+          const optionId = this.state.product.ProductAdditionalOptionIds[i]
+          const selectItemId = validCombination[i]
+
+          newOptionsAdditionalInfo[optionId] = selectItemId
+        }
+
+        return newOptionsAdditionalInfo
+      }
+    }
+
+    return optionsAdditionalInfo
   }
 
   getOptionsForControls = additionalOption => {
     return additionalOption.Items.map(p => { return { label: p.Name, value: p.Id, additionalOptionId: additionalOption.Id } })
   }
 
+  isDisabledSwitchSelector = (additionalOptionId, v) => {
+    let isDisabled = false
+
+    return isDisabled
+  }
+
+  getDisabledOptionItems = (optionIndex, additionalOption, optionsAdditionalInfo) => {
+    let prevCombination = []
+    optionsAdditionalInfo = optionsAdditionalInfo || this.state.optionsAdditionalInfo
+    for (let i = 0; i < optionIndex; ++i) {
+      const optionId = this.state.product.ProductAdditionalOptionIds[i]
+      prevCombination.push(optionsAdditionalInfo[optionId])
+    }
+
+    const disabledItems = []
+    for (const item of additionalOption.Items) {
+      const tmpCombination = [...prevCombination, item.Id]
+
+      let isItemDisabled = true
+      for (const allowCombination of this.state.product.AllowCombinations) {
+        const startIndexSubarray = containsSubarray(allowCombination, tmpCombination)
+
+        if (startIndexSubarray >= 0) {
+          isItemDisabled = false
+          break
+        }
+      }
+
+      if (isItemDisabled)
+        disabledItems.push(item.Id)
+    }
+
+    return disabledItems
+  }
+
   renderSwitchSelectorOptionsAdditionalInfo = additionalOption => {
+    const additionalOptionId = additionalOption.Id
+    const optionIndex = this.state.product.ProductAdditionalOptionIds.findIndex(p => p == additionalOptionId)
     const options = this.getOptionsForControls(additionalOption)
     const initial = this.state.optionsAdditionalInfo[additionalOption.Id]
     const initialIndex = options.findIndex(p => p.value == initial)
+    let isForeverDisabled = false
+    let isDisabled = false
+
+    for (const option of options) {
+      isForeverDisabled = !!this.state.foreverDisabledAdditionalOptionItems[option.value]
+
+      if (isForeverDisabled)
+        break
+    }
+
+    if (optionIndex > 0 && this.state.product.AllowCombinations && this.state.product.AllowCombinations.length) {
+
+      const disabledItems = this.getDisabledOptionItems(optionIndex, additionalOption)
+      isDisabled = disabledItems.length > 0
+    }
+
+    isDisabled = isForeverDisabled || isDisabled
 
     return <SwitchSelector
       key={additionalOption.Id.toString()}
+      disabled={isDisabled}
       options={options}
       initial={initialIndex}
+      value={initialIndex}
       height={32}
       borderRadius={3}
       fontSize={this.props.style.fontSize.h10.fontSize}
       bold={false}
-      textColor={this.props.style.theme.primaryTextColor.color}
+      textColor={!isDisabled ? this.props.style.theme.primaryTextColor.color : this.props.style.theme.secondaryTextColor.color}
       selectedColor={this.props.style.theme.textPrimaryColor.color}
       backgroundColor={this.props.style.theme.backdoor.backgroundColor}
       buttonColor={this.props.style.theme.darkPrimaryColor.backgroundColor}
@@ -190,8 +319,26 @@ class ProductWithOptions extends React.Component {
   }
 
   renderCheckBoxListOptionsAdditionalInfo = additionalOption => {
+    const additionalOptionId = additionalOption.Id
+    const optionIndex = this.state.product.ProductAdditionalOptionIds.findIndex(p => p == additionalOptionId)
     const options = this.getOptionsForControls(additionalOption)
     const initial = this.state.optionsAdditionalInfo[additionalOption.Id]
+    let disabledItems = []
+
+    if (optionIndex > 0 && this.state.product.AllowCombinations && this.state.product.AllowCombinations.length) {
+      disabledItems = this.getDisabledOptionItems(optionIndex, additionalOption)
+    }
+    
+    for (const option of options) {
+      const isForeverDisabled = !!this.state.foreverDisabledAdditionalOptionItems[option.value]
+    
+      if (isForeverDisabled)
+        option.disabled = true
+      else {
+        const index = disabledItems.findIndex(p => p == option.value)
+        options.disabled = index != -1
+      }
+    }
 
     return (
       <View
@@ -208,6 +355,7 @@ class ProductWithOptions extends React.Component {
         <RadioGroup
           radioProps={options}
           initValue={initial}
+          value={initial}
           returnObject={true}
           changeRadio={this.onChangeProductAdditionalOption}
           style={this.props.style}
