@@ -69,8 +69,25 @@ class ProductInfoScreen extends React.Component {
         return `Оценка: ${ratingValue} (голосов: ${this.state.selectedProduct.VotesCount})`
     }
 
+    getPrice = () => {
+        const product = this.state.selectedProduct
+        let price = product.Price
+        if (product.ProductAdditionalInfoType != ProductAdditionalInfoType.Custom) {
+            if (product.ProductAdditionalOptionIds.length != 0) {
+                for (const optionId of product.ProductAdditionalOptionIds) {
+                    const productOptions = this.props.additionalOptions[optionId]
+                    const defaultOption = productOptions.Items.find(p => p.IsDefault)
+
+                    price += defaultOption.Price
+                }
+            }
+        }
+
+        return price
+    }
+
     getPriceProduct() {
-        return `${this.state.selectedProduct.Price} ${this.props.currencyPrefix}`
+        return `${this.getPrice()} ${this.props.currencyPrefix}`
     }
 
     onPressReviews = () => {
