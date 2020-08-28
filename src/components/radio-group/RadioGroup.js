@@ -22,6 +22,13 @@ export class RadioGroup extends React.Component {
     }
   }
 
+  componentDidUpdate(prevPros) {
+    if (typeof (this.props.value) !== 'undefined' &&
+      prevPros.value != this.props.value &&
+      this.props.value != this.state.value)
+      this.setState({ value: this.props.value })
+  }
+
   onChange = (value, index) => {
     this.setState({ value: value }, () => {
       if (this.props.changeRadio) {
@@ -32,7 +39,6 @@ export class RadioGroup extends React.Component {
   }
 
   render() {
-
     return (
       <View>
         <RadioForm onPress={this.onChange} animation={true}>
@@ -41,8 +47,10 @@ export class RadioGroup extends React.Component {
               <RadioButton
                 labelHorizontal={true}
                 key={i}
+                disabled={obj.disabled || false}
                 style={this.props.radioProps.length - 1 == i ? {} : { marginBottom: 15 }}>
                 <RadioButtonInput
+                  disabled={obj.disabled || false}
                   obj={obj}
                   index={i}
                   isSelected={this.state.value == obj.value}
@@ -55,13 +63,14 @@ export class RadioGroup extends React.Component {
                   buttonStyle={[this.props.style.theme.themeBody]}
                 />
                 <RadioButtonLabel
+                  disabled={obj.disabled || false}
                   obj={obj}
                   index={i}
                   labelHorizontal={true}
                   onPress={this.onChange}
                   labelStyle={{
                     fontSize: this.props.style.fontSize.h8.fontSize,
-                    color: this.props.style.theme.primaryTextColor.color
+                    color: !obj.disabled ? this.props.style.theme.primaryTextColor.color : this.props.style.theme.secondaryTextColor.color
                   }}
                   labelWrapStyle={{}}
                 />

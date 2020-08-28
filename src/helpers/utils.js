@@ -23,6 +23,18 @@ export const intersectOfArray = (arr1, arr2) => {
   return result
 }
 
+export const containsSubarray = (arr, subarr) => {
+  for (let i = 0; i < 1 + (arr.length - subarr.length); i++) {
+    let j = 0;
+    for (; j < subarr.length; j++)
+      if (arr[i + j] !== subarr[j])
+        break;
+    if (j == subarr.length)
+      return i;
+  }
+  return -1;
+}
+
 export const endingStrByNumber = (n, text_forms) => {
   n = Math.abs(n) % 100
   let n1 = n % 10
