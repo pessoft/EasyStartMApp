@@ -373,7 +373,7 @@ class ProductWithOptions extends React.Component {
           this.props.style.fontSize.h7,
           this.props.style.theme.primaryTextColor]}>
           Дополнительные опции
-              </Text>
+        </Text>
         {this.state.product.ProductAdditionalFillingIds.map(p => this.renderAdditionalFillingItem(p))}
       </View>
     )
@@ -433,6 +433,12 @@ class ProductWithOptions extends React.Component {
     const func = () => this.hideSuccessAnimation(closeFunc)
 
     this.delayFunc(func)
+  }
+
+  getAdditionalFillingInfo = () => {
+    if (Object.keys(this.state.product).length &&
+      this.state.product.ProductAdditionalFillingIds.length)
+      return this.renderAdditionalFillingInfo()
   }
 
   render() {
@@ -500,9 +506,7 @@ class ProductWithOptions extends React.Component {
               {Object.keys(this.state.product).length &&
                 this.state.product.ProductAdditionalOptionIds.map(p => this.renderOptionsAdditionalInfo(p))}
             </View>
-            {Object.keys(this.state.product).length &&
-              this.state.product.ProductAdditionalFillingIds.length &&
-              this.renderAdditionalFillingInfo()}
+            {this.getAdditionalFillingInfo()}
           </TouchableOpacity>
         </ScrollView>
         <View style={[Style.productOptionsBtnBasket]}>
