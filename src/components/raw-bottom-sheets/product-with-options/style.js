@@ -49,7 +49,7 @@ export default StyleSheet.create({
     padding: 10
   },
   additionalFillingGroup: {
-
+    marginTop: 5
   },
   groupLabel: {
     marginBottom: 8

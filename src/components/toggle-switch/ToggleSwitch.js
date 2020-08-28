@@ -21,14 +21,14 @@ export class ToggleSwitch extends React.Component {
           {this.props.label}
         </Text>
         <Switch
-          backgroundColor={this.props.style.theme.backdoor.backgroundColor}
+          backgroundColor={this.props.backgroundColor || this.props.style.theme.backdoor.backgroundColor}
           onValueChange={this.onToggleSwitch}
           value={this.props.value}
           trackColor={{
             true: Platform.OS == 'ios' ?
               this.props.style.theme.applyPrimaryColor.color :
               this.props.style.theme.applySecondaryColor.color,
-            false: this.props.style.theme.themeBody.backgroundColor
+            false: this.props.trackColorFalse || this.props.style.theme.themeBody.backgroundColor
           }}
           thumbColor={[
             (this.props.value ?

@@ -5,7 +5,8 @@ import {
   ScrollView,
   View,
   Image,
-  Dimensions
+  Dimensions,
+  Platform
 } from 'react-native'
 import Style from './style'
 import RBSheet from 'react-native-raw-bottom-sheet'
@@ -328,10 +329,10 @@ class ProductWithOptions extends React.Component {
     if (optionIndex > 0 && this.state.product.AllowCombinations && this.state.product.AllowCombinations.length) {
       disabledItems = this.getDisabledOptionItems(optionIndex, additionalOption)
     }
-    
+
     for (const option of options) {
       const isForeverDisabled = !!this.state.foreverDisabledAdditionalOptionItems[option.value]
-    
+
       if (isForeverDisabled)
         option.disabled = true
       else {
@@ -366,7 +367,7 @@ class ProductWithOptions extends React.Component {
 
   renderAdditionalFillingInfo = () => {
     return (
-      <View style={[this.props.style.theme.themeBody, Style.groupWrapper]}>
+      <View style={[this.props.style.theme.themeBody, Style.groupWrapper, Style.additionalFillingGroup]}>
         <Text style={[
           Style.groupLabel,
           this.props.style.fontSize.h7,
@@ -388,6 +389,8 @@ class ProductWithOptions extends React.Component {
       value={this.state.fillingAdditionalInfo[id]}
       onToggle={this.onToggleAdditionalFilling}
       style={this.props.style}
+      backgroundColor={Platform.OS == 'android' ? this.props.style.theme.themeBody.backgroundColor : null}
+      trackColorFalse={Platform.OS == 'android' ? this.props.style.theme.backdoor.backgroundColor : null}
     />
   }
 
