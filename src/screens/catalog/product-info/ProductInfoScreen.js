@@ -15,7 +15,7 @@ import { timingAnimation } from '../../../animation/timingAnimation'
 import { setSelectedProduct } from '../../../store/catalog/actions'
 import { getSVGColor } from '../../../helpers/color-helper'
 import { updateRating } from '../../../store/main/actions'
-
+import { ProductAdditionalInfoType, ProductAdditionalInfoTypeShortName } from '../../../helpers/product-additional-option'
 
 class ProductInfoScreen extends React.Component {
     static navigationOptions = ({ navigation }) => {
@@ -93,6 +93,27 @@ class ProductInfoScreen extends React.Component {
         })
     }
 
+    getProductAdditionalInfo = () => {
+        const product = this.state.selectedProduct
+        let additionInfo
+        if (product.ProductAdditionalInfoType != ProductAdditionalInfoType.Custom) {
+            let value = parseFloat(product.AdditionInfo)
+            if (product.ProductAdditionalOptionIds.length != 0) {
+                for (const optionId of product.ProductAdditionalOptionIds) {
+                    const productOptions = this.props.additionalOptions[optionId]
+                    const defaultOption = productOptions.Items.find(p => p.IsDefault)
+
+                    value += defaultOption.AdditionalInfo
+                }
+            }
+
+            additionInfo = `${value} ${ProductAdditionalInfoTypeShortName[product.ProductAdditionalInfoType]}`
+        } else
+            additionInfo = product.AdditionInfo
+
+        return additionInfo
+    }
+
     render() {
         return (
             <Animated.ScrollView
@@ -155,7 +176,7 @@ class ProductInfoScreen extends React.Component {
                             <Text style={[
                                 this.props.style.fontSize.h8,
                                 this.props.style.theme.secondaryTextColor]}>
-                                {this.state.selectedProduct.AdditionInfo}
+                                {this.getProductAdditionalInfo()}
                             </Text>
                         </View>
                     </View>
@@ -180,7 +201,8 @@ const mapStateToProps = state => {
         main: state.main,
         fromBasket: state.navigationHelper.fromBasket,
         style: state.style,
-        clientId: state.user.clientId
+        clientId: state.user.clientId,
+        additionalOptions: state.main.additionalOptions,
     }
 }
 
