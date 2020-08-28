@@ -31,7 +31,6 @@ import { priceValid } from '../../../helpers/utils'
 import { CategoryType } from '../../../helpers/type-category'
 import { BasketConstructorProductItem } from '../../../components/basket-constructor-product/BasketConstructorProductItem'
 import { cleanCoupon } from '../../../store/main/actions'
-import { cos } from 'react-native-reanimated'
 import { BarsButton } from '../../../components/buttons/Square/BarsButton'
 import BasketIcoWithBadge from '../../../components/badges/basket-badge/BasketIcoWithBadge'
 
