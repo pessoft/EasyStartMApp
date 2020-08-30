@@ -228,7 +228,7 @@ class ProductsScreen extends React.Component {
             animation={product.animation}
             id={product.id}
             product={product.product}
-            onPress={this.onSelectedProduct}
+            onPress={this.showSheetProductWithOptions}
             onToggleProduct={this.showSheetProductWithOptions}
         />
     }
@@ -260,7 +260,7 @@ class ProductsScreen extends React.Component {
             animation={product.animation}
             id={product.id}
             product={product.product}
-            onPress={this.onSelectedProduct}
+            onPress={this.showSheetProductWithOptions}
             onToggleProduct={this.showSheetProductWithOptions}
         />
     }
