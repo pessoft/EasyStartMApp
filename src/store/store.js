@@ -6,9 +6,10 @@ import storage from 'redux-persist/lib/storage'
 import { defaultState as defaultStyle } from '../store/style/reducer'
 import { defaultState as defaultUserData } from '../store/user/reducer'
 import { defaultState as defaultAppSetting} from '../store/app-settings/reducer'
+import { defaultState as defaultBasket} from '../store/basket/reducer'
 
 const migrations = {
-  12: (state) => {
+  15: (state) => {
     return {
       ...state,
       style: {
@@ -19,16 +20,19 @@ const migrations = {
       },
       appSetting: {
         ...defaultAppSetting
+      },
+      basket: {
+        ...defaultBasket
       }
     }
-  },
+  }
 }
 
 const persistConfig = {
   key: 'root',
   storage,
-  version: 12,
-  whitelist: ['user', 'style', 'appSetting'],
+  version: 15,
+  whitelist: ['user', 'style', 'appSetting', 'basket'],
   migrate: createMigrate(migrations, { debug: true }),
 }
 const persistedReducer = persistReducer(persistConfig, rootReducer)

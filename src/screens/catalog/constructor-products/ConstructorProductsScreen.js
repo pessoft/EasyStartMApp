@@ -13,7 +13,7 @@ import { ConstructorToggleBasket } from '../../../components/constructor-product
 import {
     toggleConstructorProductInBasket,
     changeTotalCountProductInBasket
-} from '../../../store/checkout/actions'
+} from '../../../store/basket/actions'
 import { generateRandomString } from '../../../helpers/utils'
 import { priceValid, cloneObject } from '../../../helpers/utils'
 import LottieView from 'lottie-react-native'
@@ -248,10 +248,10 @@ const mapStateToProps = state => {
         serverDomain: state.appSetting.serverDomain,
         currencyPrefix: state.appSetting.currencyPrefix,
         selectedCategory: state.catalog.selectedCategory,
-        basketProducts: state.checkout.basketProducts,
-        basketConstructorProducts: state.checkout.basketConstructorProducts,
-        basketProductsWithOptions: state.checkout.basketProductsWithOptions,
-        totalCountProducts: state.checkout.totalCountProducts,
+        basketProducts: state.basket.basketProducts,
+        basketConstructorProducts: state.basket.basketConstructorProducts,
+        basketProductsWithOptions: state.basket.basketProductsWithOptions,
+        totalCountProducts: state.basket.totalCountProducts,
         style: state.style,
         promotionCashbackSetting: state.main.promotionCashbackSetting,
         constructorCategories: state.main.constructorCategories,

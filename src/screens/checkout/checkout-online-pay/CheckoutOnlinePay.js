@@ -8,8 +8,9 @@ import { timingAnimation } from '../../../animation/timingAnimation'
 import {
   toggleProductInBasket,
   changeTotalCountProductInBasket,
-  toggleConstructorProductInBasket
-} from '../../../store/checkout/actions'
+  toggleConstructorProductInBasket,
+  toggleProductWithOptionsInBasket
+} from '../../../store/basket/actions'
 import { dropFetchFlag } from '../../../store/checkout/actions'
 import {
   Animated,
@@ -127,6 +128,7 @@ class CheckoutOnlinePay extends React.Component {
   resetBasketData = () => {
     this.props.toggleProductInBasket({})
     this.props.toggleConstructorProductInBasket({})
+    this.props.toggleProductWithOptionsInBasket({})
     this.props.changeTotalCountProductInBasket(0)
   }
 
@@ -515,6 +517,7 @@ const mapDispatchToProps = {
   checkOnlinePayNewOrder,
   toggleProductInBasket,
   toggleConstructorProductInBasket,
+  toggleProductWithOptionsInBasket,
   changeTotalCountProductInBasket,
   getStocks,
   dropFetchFlag

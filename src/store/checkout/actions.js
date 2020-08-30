@@ -1,9 +1,5 @@
 import { sendNewOrderFetch, checkOnlinePayNewOrderFetch } from '../../api/requests'
 
-export const TOGGLE_PRODUCT_IN_BASKET_SHOP = 'TOGGLE_PRODUCT_IN_BASKET_SHOP'
-export const TOGGLE_PRODUCT_WITH_OPTIONS_IN_BASKET_SHOP = 'TOGGLE_PRODUCT_WITH_OPTIONS_IN_BASKET_SHOP'
-export const TOGGLE_CONSTRUCTOR_PRODUCT_IN_BASKET_SHOP = 'TOGGLE_CONSTRUCTOR_PRODUCT_IN_BASKET_SHOP'
-export const CHANGE_TOTAL_COUNT_PRODUCT_IN_BASKET_SHOP = 'CHANGE_TOTAL_COUNT_PRODUCT_IN_BASKET_SHOP'
 export const FETCH_CHECKOUT_COMPLETE_SUCCESS = 'FETCH_CHECKOUT_COMPLETE_SUCCESS'
 export const FETCH_CHECKOUT_COMPLETE_REQUEST = 'FETCH_CHECKOUT_COMPLETE_REQUEST'
 export const FETCH_CHECKOUT_COMPLETE_FAILURE = 'FETCH_CHECKOUT_COMPLETE_FAILURE'
@@ -34,41 +30,13 @@ export const addNewOrderData = newOrder => {
   }
 }
 
-export const toggleConstructorProductInBasket = basketProduct => {
-  return {
-    type: TOGGLE_CONSTRUCTOR_PRODUCT_IN_BASKET_SHOP,
-    payload: basketProduct
-  }
-}
-
-export const toggleProductInBasket = basketProduct => {
-  return {
-    type: TOGGLE_PRODUCT_IN_BASKET_SHOP,
-    payload: basketProduct
-  }
-}
-
-export const toggleProductWithOptionsInBasket = basketProduct => {
-  return {
-    type: TOGGLE_PRODUCT_WITH_OPTIONS_IN_BASKET_SHOP,
-    payload: basketProduct
-  }
-}
-
-export const changeTotalCountProductInBasket = count => {
-  return {
-    type: CHANGE_TOTAL_COUNT_PRODUCT_IN_BASKET_SHOP,
-    payload: count
-  }
-}
-
 export const sendNewOrder = newOrder => async (dispatch) => {
   dispatch(requestPosts())
 
   try {
     const requestData = await sendNewOrderFetch(newOrder)
     dispatch(successPosts(requestData))
-  } catch(err){
+  } catch (err) {
     dispatch(failurePosts(err.message))
   }
 }
@@ -79,7 +47,7 @@ export const checkOnlinePayNewOrder = orderId => async (dispatch) => {
   try {
     const requestData = await checkOnlinePayNewOrderFetch(orderId)
     dispatch(successCheckOnlinePayPosts(requestData))
-  } catch(err){
+  } catch (err) {
     dispatch(failureCheckOnlinePayPosts(err.message))
   }
 }
@@ -123,4 +91,3 @@ const failureCheckOnlinePayPosts = errMessage => {
     payload: errMessage
   }
 }
-
