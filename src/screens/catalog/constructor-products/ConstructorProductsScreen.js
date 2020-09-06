@@ -18,12 +18,14 @@ import { generateRandomString } from '../../../helpers/utils'
 import { priceValid, cloneObject } from '../../../helpers/utils'
 import LottieView from 'lottie-react-native'
 import BasketIcoWithBadge from '../../../components/badges/basket-badge/BasketIcoWithBadge'
+import { BarsButton } from '../../../components/buttons/Square/BarsButton'
 
 class ConstructorProductsScreen extends React.Component {
     static navigationOptions = ({ navigation }) => {
         const isShowVirtualMoney = navigation.getParam('isShowVirtualMoney', false)
         const headerTitle = navigation.getParam('categoryName', 'Блюда')
-
+        const style = navigation.getParam('style', null)
+        
         if (isShowVirtualMoney)
             return {
                 headerTitle,
