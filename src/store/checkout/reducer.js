@@ -1,8 +1,4 @@
 import {
-  TOGGLE_PRODUCT_IN_BASKET_SHOP,
-  TOGGLE_CONSTRUCTOR_PRODUCT_IN_BASKET_SHOP,
-  TOGGLE_PRODUCT_WITH_OPTIONS_IN_BASKET_SHOP,
-  CHANGE_TOTAL_COUNT_PRODUCT_IN_BASKET_SHOP,
   FETCH_CHECKOUT_COMPLETE_SUCCESS,
   FETCH_CHECKOUT_COMPLETE_REQUEST,
   FETCH_CHECKOUT_COMPLETE_FAILURE,
@@ -16,10 +12,6 @@ import {
 } from './actions'
 
 const defaultState = {
-  basketProducts: {},
-  basketProductsWithOptions: {},
-  basketConstructorProducts: {},
-  totalCountProducts: 0,
   isFetching: false,
   isError: false,
   errorMessage: '',
@@ -39,7 +31,6 @@ export const checkoutReducer = (state = defaultState, action) => {
         isError: false,
         isFetchingCheckOnlinePay: false,
         isErrorCheckOnlinePay: false
-
       }
     case RESET_DATA:
       return { ...defaultState }
@@ -47,26 +38,6 @@ export const checkoutReducer = (state = defaultState, action) => {
       return {
         ...state,
         lastOrder: action.payload
-      }
-    case TOGGLE_CONSTRUCTOR_PRODUCT_IN_BASKET_SHOP:
-      return {
-        ...state,
-        basketConstructorProducts: action.payload
-      }
-    case TOGGLE_PRODUCT_IN_BASKET_SHOP:
-      return {
-        ...state,
-        basketProducts: action.payload
-      }
-    case TOGGLE_PRODUCT_WITH_OPTIONS_IN_BASKET_SHOP:
-      return {
-        ...state,
-        basketProductsWithOptions: action.payload
-      }
-    case CHANGE_TOTAL_COUNT_PRODUCT_IN_BASKET_SHOP:
-      return {
-        ...state,
-        totalCountProducts: action.payload
       }
     case FETCH_CHECKOUT_COMPLETE_REQUEST:
       return {

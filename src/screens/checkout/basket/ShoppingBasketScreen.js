@@ -18,7 +18,7 @@ import {
   toggleConstructorProductInBasket,
   changeTotalCountProductInBasket,
   toggleProductWithOptionsInBasket,
-} from '../../../store/checkout/actions'
+} from '../../../store/basket/actions'
 import ShoppingBasketIcon from '../../../images/font-awesome-svg/shopping-basket.svg'
 import Style from './style'
 import { getSVGColor } from '../../../helpers/color-helper';
@@ -648,10 +648,10 @@ const mapStateToProps = state => {
     additionalOptions: state.main.additionalOptions,
     additionalFillings: state.main.additionalFillings,
     selectedProduct: state.catalog.selectedProduct,
-    basketProducts: state.checkout.basketProducts,
-    basketConstructorProducts: state.checkout.basketConstructorProducts,
-    basketProductsWithOptions: state.checkout.basketProductsWithOptions,
-    totalCountProducts: state.checkout.totalCountProducts,
+    basketProducts: state.basket.basketProducts,
+    basketConstructorProducts: state.basket.basketConstructorProducts,
+    basketProductsWithOptions: state.basket.basketProductsWithOptions,
+    totalCountProducts: state.basket.totalCountProducts,
     style: state.style,
     deliverySettings: state.main.deliverySettings,
     promotionCashbackSetting: state.main.promotionCashbackSetting,

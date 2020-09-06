@@ -46,6 +46,9 @@ export const GreenTheme = StyleSheet.create({
     secondaryTextColor: {
         color: '#757575'
     },
+    disabledTextColor: {
+        color: '#cacaca'
+    },
     dividerColor: {
         borderColor: '#BDBDBD'
     },

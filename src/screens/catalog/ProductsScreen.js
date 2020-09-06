@@ -12,7 +12,7 @@ import { ProductItemGridWithOptions } from '../../components/product/ProductItem
 import { setSelectedProduct } from '../../store/catalog/actions'
 import { PRODUCT_INFO, CASHBACK_PROFILE } from '../../navigation/pointsNavigate'
 import { timingAnimation } from '../../animation/timingAnimation'
-import { toggleProductInBasket, changeTotalCountProductInBasket, toggleProductWithOptionsInBasket } from '../../store/checkout/actions'
+import { toggleProductInBasket, changeTotalCountProductInBasket, toggleProductWithOptionsInBasket } from '../../store/basket/actions'
 import { markFromBasket } from '../../store/navigation/actions'
 import VirtualMoneyButton from '../../components/buttons/VirtualMoneyButton/VirtualMoneyButton'
 import ViewContainerProductsChanger from '../../components/view-container-changer/ViewContainerProductsChanger'
@@ -234,7 +234,7 @@ class ProductsScreen extends React.Component {
             animation={product.animation}
             id={product.id}
             product={product.product}
-            onPress={this.onSelectedProduct}
+            onPress={this.showSheetProductWithOptions}
             onToggleProduct={this.showSheetProductWithOptions}
         />
     }
@@ -266,7 +266,7 @@ class ProductsScreen extends React.Component {
             animation={product.animation}
             id={product.id}
             product={product.product}
-            onPress={this.onSelectedProduct}
+            onPress={this.showSheetProductWithOptions}
             onToggleProduct={this.showSheetProductWithOptions}
         />
     }
@@ -388,10 +388,10 @@ const mapStateToProps = state => {
         additionalFillings: state.main.additionalFillings,
         selectedCategory: state.catalog.selectedCategory,
         selectedProduct: state.catalog.selectedProduct,
-        basketProducts: state.checkout.basketProducts,
-        basketConstructorProducts: state.checkout.basketConstructorProducts,
-        basketProductsWithOptions: state.checkout.basketProductsWithOptions,
-        totalCountProducts: state.checkout.totalCountProducts,
+        basketProducts: state.basket.basketProducts,
+        basketConstructorProducts: state.basket.basketConstructorProducts,
+        basketProductsWithOptions: state.basket.basketProductsWithOptions,
+        totalCountProducts: state.basket.totalCountProducts,
         style: state.style,
         promotionCashbackSetting: state.main.promotionCashbackSetting,
         selectedProductsViewType: state.appSetting.selectedProductsViewType,

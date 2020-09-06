@@ -86,7 +86,7 @@ class BasketIcoWithBadge extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    totalCountProducts: state.checkout.totalCountProducts,
+    totalCountProducts: state.basket.totalCountProducts,
     style: state.style,
   }
 }

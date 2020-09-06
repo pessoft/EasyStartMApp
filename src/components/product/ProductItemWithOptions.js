@@ -38,7 +38,8 @@ export class ProductItemWithOptions extends React.PureComponent {
     }
 
     onToggleProduct = () => {
-        this.props.onToggleProduct(this.props.id)
+        if (this.props.onToggleProduct)
+            this.props.onToggleProduct(this.props.id)
     }
 
     getSizeProductType = type => {
