@@ -272,6 +272,13 @@ class CheckoutScreen extends React.Component {
     });
   }
 
+  showWarningMessage = msg => {
+    showMessage({
+      message: msg,
+      type: 'warning',
+    });
+  }
+
   getOrderPrice = () => {
     let cost = 0
 
@@ -543,6 +550,11 @@ class CheckoutScreen extends React.Component {
   }
 
   completeCheckout = () => {
+    if(!this.isValidDeliveryArea()) {
+      this.showWarningMessage('Выберите район доставки в разделе "Адрес доставки"')
+      return
+    }
+
     const newOrderData = this.getOrderData()
     this.props.addNewOrderData(newOrderData)
     this.props.cleanCoupon()
@@ -570,12 +582,15 @@ class CheckoutScreen extends React.Component {
 
   isValidDeliveryAddress = () => {
     if (this.state.deliveryAddress.street
-      && this.state.deliveryAddress.houseNumber
-      && (this.state.deliveryAddress.areaDeliveryId != -1 || this.isFreeDeliveryAnyArea())) {
+      && this.state.deliveryAddress.houseNumber) {
       return true
     }
 
     return false
+  }
+
+  isValidDeliveryArea = () => {
+    return this.state.deliveryAddress.areaDeliveryId != -1 || this.isFreeDeliveryAnyArea()
   }
 
   isValidData = () => {
