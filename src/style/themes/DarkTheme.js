@@ -46,6 +46,9 @@ export const DarkTheme = StyleSheet.create({
   secondaryTextColor: {
     color: '#9e9e9e'
   },
+  disabledTextColor: {
+    color: '#9e9e9e'
+  },
   dividerColor: {
     borderColor: '#272727'
   },

@@ -12,7 +12,7 @@ import {
   toggleProductWithOptionsInBasket,
   changeTotalCountProductInBasket,
   toggleConstructorProductInBasket
-} from '../../../store/checkout/actions'
+} from '../../../store/basket/actions'
 import { showMessage } from "react-native-flash-message"
 import { dropFetchFlag } from '../../../store/checkout/actions'
 

@@ -309,7 +309,7 @@ class ProductWithOptions extends React.Component {
       borderRadius={3}
       fontSize={this.props.style.fontSize.h10.fontSize}
       bold={false}
-      textColor={!isDisabled ? this.props.style.theme.primaryTextColor.color : this.props.style.theme.secondaryTextColor.color}
+      textColor={this.getTextColorForSwitchSelector(isDisabled)}
       selectedColor={this.props.style.theme.textPrimaryColor.color}
       backgroundColor={this.props.style.theme.backdoor.backgroundColor}
       buttonColor={this.props.style.theme.darkPrimaryColor.backgroundColor}
@@ -317,6 +317,17 @@ class ProductWithOptions extends React.Component {
       returnObject={true}
       onPress={this.onChangeProductAdditionalOption}
     />
+  }
+
+  getTextColorForSwitchSelector = (isDisabled) => {
+    if (isDisabled) {
+      if (this.props.style.theme.disabledTextColor)
+        return this.props.style.theme.disabledTextColor.color
+
+      this.props.style.theme.secondaryTextColor.color
+    }
+
+    return this.props.style.theme.primaryTextColor.color
   }
 
   renderCheckBoxListOptionsAdditionalInfo = additionalOption => {

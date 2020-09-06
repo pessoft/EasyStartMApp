@@ -9,6 +9,7 @@ import { styleReducer } from './style/reducer'
 import { stockReducer } from '../store/stock/reducer'
 import { newsReducer } from '../store/news/reducer'
 import { checkoutReducer } from '../store/checkout/reducer'
+import { basketReducer } from '../store/basket/reducer'
 import { navigationHelperReducer } from '../store/navigation/reducer'
 import { historyOrderReducer } from './history-order/reducer';
 import { promotionTransactionReducer } from './promotion-transaction/reducer'
@@ -25,6 +26,7 @@ export default combineReducers({
   stock: stockReducer,
   news: newsReducer,
   checkout: checkoutReducer,
+  basket: basketReducer,
   navigationHelper: navigationHelperReducer,
   historyOrder: historyOrderReducer,
   promotionTransaction: promotionTransactionReducer,

@@ -20,7 +20,7 @@ import {
   toggleConstructorProductInBasket,
   toggleProductWithOptionsInBasket,
   changeTotalCountProductInBasket
-} from '../../../store/checkout/actions'
+} from '../../../store/basket/actions'
 import { SHOPPING_BASKET } from '../../../navigation/pointsNavigate'
 import { getProductsHistoryOrder } from '../../../store/history-order/actions'
 import { CategoryType } from '../../../helpers/type-category'
@@ -418,9 +418,9 @@ const mapStateToProps = state => {
     categories: state.main.categories,
     style: state.style,
     selectHistoryOrder: state.historyOrder.selectOrder,
-    basketProducts: state.checkout.basketProducts,
-    basketConstructorProducts: state.checkout.basketConstructorProducts,
-    basketProductsWithOptions: state.checkout.basketProductsWithOptions,
+    basketProducts: state.basket.basketProducts,
+    basketConstructorProducts: state.basket.basketConstructorProducts,
+    basketProductsWithOptions: state.basket.basketProductsWithOptions,
     constructorCategories: state.main.constructorCategories,
     ingredients: state.main.ingredients,
     isFetchingProductsHistory: state.historyOrder.isFetching,
