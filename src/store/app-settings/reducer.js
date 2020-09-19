@@ -13,7 +13,7 @@ export const defaultState = {
   currencyType: defaultCurrency,
   currencyPrefix: getCurrencyPrefix(defaultCurrency),
   cashbackLabel: getCurrencyCashbackLabel(defaultCurrency),
-  appPackageName: '',
+  appPackageName: 'com.easystartmapp',
   selectedCategoryViewType: ViewContainerType.grid,
   selectedProductsViewType: ViewContainerType.grid,
   appTitle: 'Easy Start'

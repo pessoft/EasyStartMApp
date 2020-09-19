@@ -18,7 +18,8 @@ class StartLogoScreen extends React.Component {
   getParamsForMainData = () => {
     return {
       branchId: this.props.branchId,
-      clientId: this.props.clientId
+      clientId: this.props.clientId,
+      appPackageName: this.props.appPackageName
     }
   }
 
@@ -117,6 +118,7 @@ const mapStateToProps = state => {
   return {
     isLogin: state.user.isLogin,
     logo: state.appSetting.logo,
+    appPackageName: state.appSetting.appPackageName,
     phoneNumber: state.user.phoneNumber,
     userName: state.user.userName,
     email: state.user.email,
