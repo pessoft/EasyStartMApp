@@ -51,9 +51,6 @@ class CategoriesScreen extends React.Component {
             onPress: () => this.goToCashbackScreen()
         })
 
-        this.props.setSelectedProduct({})
-        this.props.setSelectedCategory({})
-
         this.state = {
             showScaleAnimation: new Animated.Value(0),
             news: null
@@ -63,6 +60,9 @@ class CategoriesScreen extends React.Component {
     goToCashbackScreen = () => this.props.navigation.navigate(CASHBACK_PROFILE)
 
     componentDidMount = () => {
+        this.props.setSelectedProduct({})
+        this.props.setSelectedCategory({})
+
         this.focusListener = this.props.navigation.addListener('didFocus', () => {
             this.props.setSelectedCategory({})
         });

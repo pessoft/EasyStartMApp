@@ -41,8 +41,6 @@ class ProductsScreen extends React.Component {
             categoryName: this.props.selectedCategory.Name,
         })
 
-        this.props.setSelectedProduct({})
-
         this.state = {
             showScaleAnimation: new Animated.Value(0),
             refreshItems: false,
@@ -56,6 +54,8 @@ class ProductsScreen extends React.Component {
     goToCashbackScreen = () => this.props.navigation.navigate(CASHBACK_PROFILE)
 
     componentDidMount = () => {
+        this.props.setSelectedProduct({})
+
         timingAnimation(this.state.showScaleAnimation, 1, 300, true)
         this.focusListener = this.props.navigation.addListener('didFocus', () => {
             this.props.setSelectedProduct({})

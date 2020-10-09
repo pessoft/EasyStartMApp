@@ -66,13 +66,13 @@ class ShoppingBasketScreen extends React.Component {
       refreshItems: false,
       price: this.getOrderCost()
     }
-
-    this.props.setSelectedProduct({})
   }
 
   goToCashbackScreen = () => this.props.navigation.navigate(CASHBACK_PROFILE)
 
   componentDidMount = () => {
+    this.props.setSelectedProduct({})
+
     if (this.isEmptyBasket())
       timingAnimation(this.state.showScaleAnimationEmptyBasket, 1, 300, true)
     else
