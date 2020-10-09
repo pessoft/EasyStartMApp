@@ -4,13 +4,12 @@ import {
   ScrollView,
   FlatList,
   View,
-  Button,
   ActivityIndicator,
   Animated,
   Dimensions,
-  Platform,
-  Picker
+  Platform
 } from 'react-native'
+import { Picker } from '@react-native-community/picker'
 import {
   setCityId,
   setBranchId,
