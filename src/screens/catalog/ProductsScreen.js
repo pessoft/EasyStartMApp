@@ -349,7 +349,7 @@ class ProductsScreen extends React.Component {
 
     render() {
         return (
-            <Animated.ScrollView
+            <Animated.View
                 contentContainerStyle={{
                     flex: 1,
                     paddingHorizontal: 1,
@@ -368,7 +368,7 @@ class ProductsScreen extends React.Component {
                     productId={this.state.metadataProductWithOptions.selectedProductId}
                     onToggleProduct={this.toggleProductWithOptionsInBasket}
                 />
-            </Animated.ScrollView>
+            </Animated.View>
         )
     }
 }

@@ -490,6 +490,13 @@ class ShoppingBasketScreen extends React.Component {
     return products
   }
 
+  getFooter = () => {
+    if(this.props.isLogin)
+      return this.renderCheckoutFooter()
+    else 
+      return this.renderLoginInfoFooter()
+  }
+
   renderBasketContents = () => {
     return (
       <Animated.View
@@ -502,7 +509,7 @@ class ShoppingBasketScreen extends React.Component {
             transform: [{ scale: this.state.showScaleAnimation }]
           }
         ]}>
-        <ScrollView Style={Style.basketProducts}>
+       
           <FlatList
             windowSize={4}
             removeClippedSubviews={Platform.OS !== 'ios'}
@@ -513,9 +520,8 @@ class ShoppingBasketScreen extends React.Component {
             data={this.getDataFromBasket()}
             renderItem={this.renderItem}
           />
-        </ScrollView>
-        {this.props.isLogin && this.renderCheckoutFooter()}
-        {!this.props.isLogin && this.renderLoginInfoFooter()}
+          {this.getFooter()}
+    
       </Animated.View>
     )
   }
