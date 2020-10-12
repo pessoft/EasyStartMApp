@@ -138,7 +138,7 @@ class FCMManagerComponent extends React.Component {
   settingFCMForIOS = () => {
     PushNotificationIOS.removeEventListener('register', this.registerToken)
     PushNotificationIOS.addEventListener('register', this.registerToken)
-    const isRegisteredForRemoteNotifications = firebase.messaging().isRegisteredForRemoteNotifications
+    const isRegisteredForRemoteNotifications = firebase.messaging().isDeviceRegisteredForRemoteMessages
     if (!isRegisteredForRemoteNotifications) {
       this.props.registerAppWithFCM()
     }

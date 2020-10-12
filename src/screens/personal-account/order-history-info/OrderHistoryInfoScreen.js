@@ -368,7 +368,7 @@ class OrderHistoryInfoScreen extends React.Component {
             transform: [{ scale: this.state.showScaleAnimation }]
           }
         ]}>
-        <ScrollView Style={Style.basketProducts}>
+        
           <FlatList
             windowSize={4}
             removeClippedSubviews={Platform.OS !== 'ios'}
@@ -378,7 +378,7 @@ class OrderHistoryInfoScreen extends React.Component {
             keyExtractor={item => `${generateRandomString()}_${item.Id.toString()}`}
             renderItem={this.renderItem}
           />
-        </ScrollView>
+        
         <View
           style={[
             Style.footer,

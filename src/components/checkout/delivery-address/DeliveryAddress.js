@@ -3,11 +3,9 @@ import {
   View,
   Text,
   TextInput,
-  Picker
 } from 'react-native'
+import { Picker } from '@react-native-community/picker'
 import Style from './style'
-import { getSVGColor } from '../../../helpers/color-helper'
-import IcoDeliveryAddress from '../../../images/font-awesome-svg/truck-loading.svg'
 import { SimpleTextButton } from '../../../components/buttons/SimpleTextButton/SimpleTextButton'
 
 export class DeliveryAddress extends React.Component {

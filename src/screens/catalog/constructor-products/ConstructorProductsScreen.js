@@ -206,6 +206,22 @@ class ConstructorProductsScreen extends React.Component {
         this.props.toggleConstructorProductInBasket(basketConstructorProductModify)
     }
 
+    getFooter = () => {
+        return <View
+            style={[
+                Style.constructorFooter,
+                this.props.style.theme.dividerColor]}>
+            <ConstructorToggleBasket
+                style={this.props.style}
+                count={this.state.count}
+                constructorIngredients={this.state.constructorIngredients}
+                onChangeCount={this.onChangeCount}
+                currencyPrefix={this.props.currencyPrefix}
+                onToggleConstructorProducts={this.toggleConstructorProductInBasket}
+            />
+        </View>
+    }
+
     render() {
         return (
             <View style={{ flex: 1, paddingHorizontal: 12 }}>
@@ -224,7 +240,7 @@ class ConstructorProductsScreen extends React.Component {
                         </View>
                     </View>
                 }
-                <Animated.ScrollView
+                <Animated.View
                     contentContainerStyle={{
                         flexGrow: 1,
                         justifyContent: 'space-between'
@@ -240,21 +256,12 @@ class ConstructorProductsScreen extends React.Component {
                         keyExtractor={item => item.Id.toString()}
                         renderItem={this.renderConstructorCategory}
                         extraData={this.state.constructorIngredients}
+                        ListFooterComponent={this.getFooter}
+                        contentContainerStyle={{flexGrow: 1}}
+                        ListFooterComponentStyle={{justifyContent: 'flex-end', flex: 1}}
                     />
-                    <View
-                        style={[
-                            Style.constructorFooter,
-                            this.props.style.theme.dividerColor]}>
-                        <ConstructorToggleBasket
-                            style={this.props.style}
-                            count={this.state.count}
-                            constructorIngredients={this.state.constructorIngredients}
-                            onChangeCount={this.onChangeCount}
-                            currencyPrefix={this.props.currencyPrefix}
-                            onToggleConstructorProducts={this.toggleConstructorProductInBasket}
-                        />
-                    </View>
-                </Animated.ScrollView>
+
+                </Animated.View>
             </View>
         )
     }

@@ -21,7 +21,7 @@ export const registerAppWithFCM = () => async (dispatch) => {
     dispatch(requestRegisterAppWithFCMPosts())
 
     try {
-        await messaging().registerForRemoteNotifications()
+        await messaging().registerDeviceForRemoteMessages()
        
         dispatch(successRegisterAppWithFCMPosts())
     } catch {

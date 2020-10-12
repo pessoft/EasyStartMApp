@@ -75,13 +75,13 @@ class ShoppingBasketScreen extends React.Component {
       refreshItems: false,
       price: this.getOrderCost()
     }
-
-    this.props.setSelectedProduct({})
   }
 
   goToCashbackScreen = () => this.props.navigation.navigate(CASHBACK_PROFILE)
 
   componentDidMount = () => {
+    this.props.setSelectedProduct({})
+
     if (this.isEmptyBasket())
       timingAnimation(this.state.showScaleAnimationEmptyBasket, 1, 300, true)
     else
@@ -499,13 +499,20 @@ class ShoppingBasketScreen extends React.Component {
     return products
   }
 
+  getFooter = () => {
+    if(this.props.isLogin)
+      return this.renderCheckoutFooter()
+    else 
+      return this.renderLoginInfoFooter()
+  }
+
   keyExtractor = productId => {
     if (this.props.basketProducts[productId]) {
       return `${productId}-${this.props.basketProducts[productId].count}`
     }
 
     return productId.toString()
-  }
+ }
 
   renderBasketContents = () => {
     return (
@@ -519,7 +526,7 @@ class ShoppingBasketScreen extends React.Component {
             transform: [{ scale: this.state.showScaleAnimation }]
           }
         ]}>
-        <ScrollView Style={Style.basketProducts}>
+       
           <FlatList
             windowSize={4}
             removeClippedSubviews={Platform.OS !== 'ios'}
@@ -529,9 +536,8 @@ class ShoppingBasketScreen extends React.Component {
             data={this.getDataFromBasket()}
             renderItem={this.renderItem}
           />
-        </ScrollView>
-        {this.props.isLogin && this.renderCheckoutFooter()}
-        {!this.props.isLogin && this.renderLoginInfoFooter()}
+          {this.getFooter()}
+    
       </Animated.View>
     )
   }

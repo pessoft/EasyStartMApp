@@ -111,13 +111,22 @@ class CashbackInfoScreen extends React.Component {
         data={this.props.cashbackTransactions}
         keyExtractor={item => item.Id.toString()}
         renderItem={this.renderTransaction}
+        ListHeaderComponent={this.getHeader}
       />
     )
   }
 
+  getHeader = () => {
+    return <ViewMoneyBlock
+      style={this.props.style}
+      mainText={priceValid(this.props.virtualMoney)}
+      secondText={this.secondText}
+    />
+  }
+
   renderContent = () => {
     return (
-      <Animated.ScrollView
+      <Animated.View
         style={[
           Style.container,
           {
@@ -126,13 +135,8 @@ class CashbackInfoScreen extends React.Component {
             transform: [{ scale: this.state.showAnimation }]
           }
         ]}>
-        <ViewMoneyBlock
-          style={this.props.style}
-          mainText={priceValid(this.props.virtualMoney)}
-          secondText={this.secondText}
-        />
         {this.renderContentAdditionalBlock()}
-      </Animated.ScrollView>
+      </Animated.View>
     )
   }
 

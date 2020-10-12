@@ -14,15 +14,9 @@ import {
 import { dropFetchFlag } from '../../../store/checkout/actions'
 import {
   Animated,
-  ScrollView,
   Text,
-  TextInput,
   View,
   Button,
-  Picker,
-  TouchableOpacity,
-  StyleSheet,
-  SafeAreaView,
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
   Keyboard,
@@ -30,12 +24,8 @@ import {
 } from 'react-native'
 
 import {
-  Currency,
   Order,
-  Receipt,
-  Failure,
   Cloudipsp,
-  CardInput,
   CardLayout,
   CloudipspWebView
 } from 'react-native-cloudipsp'

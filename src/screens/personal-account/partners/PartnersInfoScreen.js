@@ -116,13 +116,24 @@ class PartnersInfoScreen extends React.Component {
         data={this.props.partnerTransactions}
         keyExtractor={item => item.Id.toString()}
         renderItem={this.renderTransaction}
+        ListHeaderComponent={this.getHeader}
       />
     )
   }
 
+  getHeader = () => {
+    return  <PartnersHeaderBlock
+    style={this.props.style}
+    mainText={this.props.referralCode}
+    secondText={this.secondText}
+    parentReferralClientId={this.props.parentReferralClientId}
+    isFetching={this.props.isFetchingReferalCode}
+    setParentReferral={this.setParentReferral}
+  />
+  }
   renderContent = () => {
     return (
-      <Animated.ScrollView
+      <Animated.View
         keyboardShouldPersistTaps={'handle'}
         style={[
           Style.container,
@@ -132,16 +143,8 @@ class PartnersInfoScreen extends React.Component {
             transform: [{ scale: this.state.showAnimation }]
           }
         ]}>
-        <PartnersHeaderBlock
-          style={this.props.style}
-          mainText={this.props.referralCode}
-          secondText={this.secondText}
-          parentReferralClientId={this.props.parentReferralClientId}
-          isFetching={this.props.isFetchingReferalCode}
-          setParentReferral={this.setParentReferral}
-        />
         {this.renderContentAdditionalBlock()}
-      </Animated.ScrollView>
+      </Animated.View>
     )
   }
 

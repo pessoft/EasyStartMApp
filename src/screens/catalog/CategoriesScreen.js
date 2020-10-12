@@ -4,6 +4,7 @@ import {
     FlatList,
     Animated,
     ScrollView,
+    SafeAreaView,
     Platform
 } from 'react-native'
 import { CategoryItem } from '../../components/category/CategoryItem'
@@ -54,9 +55,6 @@ class CategoriesScreen extends React.Component {
             title: this.props.appSetting.appTitle,
         })
 
-        this.props.setSelectedProduct({})
-        this.props.setSelectedCategory({})
-
         this.state = {
             showScaleAnimation: new Animated.Value(0),
             news: null
@@ -66,6 +64,9 @@ class CategoriesScreen extends React.Component {
     goToCashbackScreen = () => this.props.navigation.navigate(CASHBACK_PROFILE)
 
     componentDidMount = () => {
+        this.props.setSelectedProduct({})
+        this.props.setSelectedCategory({})
+
         this.focusListener = this.props.navigation.addListener('didFocus', () => {
             this.props.setSelectedCategory({})
         });
@@ -191,6 +192,7 @@ class CategoriesScreen extends React.Component {
                 {...this.getFlatListPerformanceProperty()}
                 data={this.categoriesTransform()}
                 renderItem={this.renderListItem}
+                ListHeaderComponent={this.renderBanner}
             />
         )
     }
@@ -204,6 +206,7 @@ class CategoriesScreen extends React.Component {
                 data={this.categoriesTransform()}
                 renderItem={this.renderGridItem}
                 numColumns={2}
+                ListHeaderComponent={this.renderBanner}
             />
         )
     }
@@ -219,6 +222,16 @@ class CategoriesScreen extends React.Component {
 
     onCloseSheetNewsInfo = () => this.setState({ news: null })
 
+    renderBanner = () => {
+        if (this.isShowBanner())
+            return <MainBannerCarousel
+            style={this.props.style}
+            items={this.getDataForBanner()}
+            onPress={this.onPressBanner}
+        />
+        else return null
+    }
+
     render() {
         return (
             <Animated.View
@@ -230,18 +243,9 @@ class CategoriesScreen extends React.Component {
                         transform: [{ scale: this.state.showScaleAnimation }]
                     }]}>
                 <FCMManagerComponent navigation={this.props.navigation} />
-                <ScrollView contentContainerStyle={{ alignItems: 'center' }}>
-                    {
-                        this.isShowBanner() &&
-                        <MainBannerCarousel
-                            style={this.props.style}
-                            items={this.getDataForBanner()}
-                            onPress={this.onPressBanner}
-                        />
-                    }
-
+                <SafeAreaView contentContainerStyle={{ paddingHorizontal: 1, alignItems: 'center' }}>
                     {this.renderContent()}
-                </ScrollView>
+                </SafeAreaView>
 
                 <NewsInfo
                     style={this.props.style}

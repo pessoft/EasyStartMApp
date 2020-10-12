@@ -88,7 +88,7 @@ class OrdersHistoryScreen extends React.Component {
 
   renderHistory = () => {
     return (
-      <Animated.ScrollView
+      <Animated.View
         style={[
           Style.container,
           {
@@ -108,7 +108,7 @@ class OrdersHistoryScreen extends React.Component {
             onPress={this.onSelectOrderId}
           />}
         />
-      </Animated.ScrollView>
+      </Animated.View>
     )
   }
 
