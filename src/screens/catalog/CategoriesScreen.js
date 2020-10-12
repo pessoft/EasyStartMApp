@@ -188,7 +188,6 @@ class CategoriesScreen extends React.Component {
         return (
             <FlatList
                 key={ViewContainerType.list.toString()}
-                style={{ marginTop: 12 }}
                 {...this.getFlatListPerformanceProperty()}
                 data={this.categoriesTransform()}
                 renderItem={this.renderListItem}
@@ -201,7 +200,6 @@ class CategoriesScreen extends React.Component {
         return (
             <FlatList
                 key={ViewContainerType.grid.toString()}
-                style={{ marginTop: 12 }}
                 {...this.getFlatListPerformanceProperty()}
                 data={this.categoriesTransform()}
                 renderItem={this.renderGridItem}
