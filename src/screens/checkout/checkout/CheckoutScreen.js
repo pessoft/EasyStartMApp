@@ -550,7 +550,7 @@ class CheckoutScreen extends React.Component {
   }
 
   completeCheckout = () => {
-    if(!this.isValidDeliveryArea()) {
+    if(this.state.deliveryType == DeliveryType.Delivery && !this.isValidDeliveryArea()) {
       this.showWarningMessage('Выберите район доставки в разделе "Адрес доставки"')
       return
     }
