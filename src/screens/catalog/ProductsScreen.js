@@ -58,8 +58,11 @@ class ProductsScreen extends React.Component {
 
         timingAnimation(this.state.showScaleAnimation, 1, 300, true)
         this.focusListener = this.props.navigation.addListener('didFocus', () => {
-            this.props.setSelectedProduct({})
             this.setState({ refreshItems: !this.state.refreshItems })
+        });
+
+        this.focusListener = this.props.navigation.addListener('willFocus', () => {
+            this.props.setSelectedProduct({})
         });
     }
 
