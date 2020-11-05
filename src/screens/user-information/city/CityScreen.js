@@ -115,7 +115,8 @@ class CityScreen extends React.Component {
   getParamsForMainData = () => {
     return {
       branchId: this.props.branchId,
-      clientId: this.props.clientId
+      clientId: this.props.clientId,
+      appPackageName: this.props.appPackageName
     }
   }
 
@@ -258,6 +259,7 @@ const mapStateToProps = state => {
     user: state.user,
     style: state.style,
     isSuccessClientUpdateData: state.user.isSuccessClientUpdateData,
+    appPackageName: state.appSetting.appPackageName,
   }
 }
 
