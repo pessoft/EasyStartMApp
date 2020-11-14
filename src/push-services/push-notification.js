@@ -41,8 +41,6 @@ export const setupPushNotification = (handleNotification) => {
 
         notification.finish(PushNotificationIOS.FetchResult.NoData);
       }
-
-
     },
   })
 
