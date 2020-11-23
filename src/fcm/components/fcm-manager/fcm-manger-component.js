@@ -56,18 +56,19 @@ class FCMManagerComponent extends React.Component {
   subscribeForegroundMessage = async () => {
     messaging().onMessage(async remoteMessage => {
       let data = null
-
+      
       try {
         data = JSON.parse(remoteMessage.data.payload)
       } catch{ }
 
       if (data)
-        this.sendNotification(data)
+        this.sendNotification(remoteMessage.messageId, data)
     })
   }
 
-  sendNotification = data => {
+  sendNotification = (messageId, data) => {
     this.pushNotification.localNotification({
+      messageId,
       largeIcon: "ic_launcher",
       smallIcon: "ic_notification",
       title: data.title,

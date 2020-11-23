@@ -21,7 +21,6 @@ import { NewsType } from '../../helpers/news-type'
 import ViewContainerCategoryChanger from '../../components/view-container-changer/ViewContainerCategoryChanger'
 import { ViewContainerType } from '../../helpers/view-container-type'
 import { NewsInfo } from '../../components/raw-bottom-sheets/news-info/NewsInfo'
-import { checkUpdate } from '../../check-update'
 
 class CategoriesScreen extends React.Component {
     static navigationOptions = ({ navigation }) => {
