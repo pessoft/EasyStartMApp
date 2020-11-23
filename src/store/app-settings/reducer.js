@@ -15,7 +15,7 @@ export const defaultState = {
   cashbackLabel: getCurrencyCashbackLabel(defaultCurrency),
   appPackageName: 'com.easystartmapp',
   selectedCategoryViewType: ViewContainerType.grid,
-  selectedProductsViewType: ViewContainerType.grid
+  selectedProductsViewType: ViewContainerType.grid,
 }
 
 export const appSettingReducer = (state = defaultState, action) => {
