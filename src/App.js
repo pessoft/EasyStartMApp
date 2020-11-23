@@ -5,7 +5,6 @@ import { PersistGate } from 'redux-persist/integration/react'
 import MainContainer from './main-container/main-container'
 import { checkUpdate } from './check-update'
 
-
 const App = () => {
   useEffect(() => { checkUpdate() }, [])
 

@@ -1,5 +1,5 @@
-import { Alert, BackHandler, Linking } from "react-native"
-import VersionCheck from "react-native-version-check"
+import { Alert, BackHandler, Linking } from 'react-native'
+import VersionCheck from 'react-native-version-check'
 
 export const checkUpdate = async () => {
     const updateNeeded = await VersionCheck.needUpdate()

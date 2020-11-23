@@ -57,6 +57,10 @@ class ProductInfoScreen extends React.Component {
           });
     }
 
+    componentWillUnmount() {
+        this.focusListener.remove();
+    }
+
     componentDidUpdate(prevProps) {
         const category = this.props.main.products[this.state.selectedProduct.CategoryId]
         const product = category.filter(p => p.Id == this.state.selectedProduct.Id)[0]
