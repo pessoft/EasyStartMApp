@@ -18,6 +18,7 @@ const defaultState = {
   isFetchError: false,
   categories: [],
   products: {},
+  recommendedProducts: {},
   additionalOptions: {},
   additionalFillings: {},
   productDictionary: {},
