@@ -31,6 +31,7 @@ import { priceValid } from '../../../helpers/utils'
 import { CategoryType } from '../../../helpers/type-category'
 import { BasketConstructorProductItem } from '../../../components/basket-constructor-product/BasketConstructorProductItem'
 import { cleanCoupon } from '../../../store/main/actions'
+import { RecommendedProductLogic } from '../../../logic/recommended-product/recommended-product-logic'
 
 class ShoppingBasketScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -66,6 +67,8 @@ class ShoppingBasketScreen extends React.Component {
       refreshItems: false,
       price: this.getOrderCost()
     }
+
+    this.recommendedLogic = new RecommendedProductLogic(this.props.recommendedProducts, this.props.productDictionary)
   }
 
   goToCashbackScreen = () => this.props.navigation.navigate(CASHBACK_PROFILE)
@@ -274,6 +277,12 @@ class ShoppingBasketScreen extends React.Component {
     />
   }
 
+  renderRecommendedProducts = productIds => {
+
+
+    return null
+  }
+
   renderItem = ({ item }) => {
     switch (item.type) {
       case CategoryType.Default:
@@ -282,6 +291,8 @@ class ShoppingBasketScreen extends React.Component {
         return this.renderConstructorProduct(item.id)
       case CategoryType.WithOptions:
         return this.renderProductWithOptions(item.id)
+      case CategoryType.Recommended:
+        return this.renderRecommendedProducts(item.ids)
     }
   }
 
@@ -466,34 +477,52 @@ class ShoppingBasketScreen extends React.Component {
 
   getDataFromBasket = () => {
     let products = []
-    const addeddProducts = (items, type) => {
+    const addedProducts = (items, type) => {
       for (const id in items) {
         products.push({ id, type })
       }
     }
 
+    let productIdsForRecommendedLogic = []
+    const addedProductForRecommendedLogic = obj => {
+      const ids = Object.keys(obj)
+      productIdsForRecommendedLogic = [...productIdsForRecommendedLogic, ...ids]
+    }
+
     if (this.props.basketProducts
       && Object.keys(this.props.basketProducts).length > 0) {
-      addeddProducts(this.props.basketProducts, CategoryType.Default)
+      addedProductForRecommendedLogic(this.props.basketProducts)
+      addedProducts(this.props.basketProducts, CategoryType.Default)
     }
 
     if (this.props.basketConstructorProducts
       && Object.keys(this.props.basketConstructorProducts).length > 0) {
-      addeddProducts(this.props.basketConstructorProducts, CategoryType.Constructor)
+      addedProducts(this.props.basketConstructorProducts, CategoryType.Constructor)
     }
 
     if (this.props.basketProductsWithOptions
       && Object.keys(this.props.basketProductsWithOptions).length > 0) {
-      addeddProducts(this.props.basketProductsWithOptions, CategoryType.WithOptions)
+      addedProductForRecommendedLogic(this.props.basketProductsWithOptions)
+      addedProducts(this.props.basketProductsWithOptions, CategoryType.WithOptions)
+    }
+
+    const recommendedProductIds = this.recommendedLogic.getRecommendedProductIds(productIdsForRecommendedLogic)
+    if(products && products.length && recommendedProductIds && recommendedProductIds.length) {
+      const recommendedProductsItem = {
+        ids: recommendedProductIds,
+        type: CategoryType.Recommended
+      }
+
+      products.splice(1, 0, recommendedProductsItem);
     }
 
     return products
   }
 
   getFooter = () => {
-    if(this.props.isLogin)
+    if (this.props.isLogin)
       return this.renderCheckoutFooter()
-    else 
+    else
       return this.renderLoginInfoFooter()
   }
 
@@ -509,19 +538,19 @@ class ShoppingBasketScreen extends React.Component {
             transform: [{ scale: this.state.showScaleAnimation }]
           }
         ]}>
-       
-          <FlatList
-            windowSize={4}
-            removeClippedSubviews={Platform.OS !== 'ios'}
-            initialNumToRender={4}
-            maxToRenderPerBatch={4}
-            keyExtractor={item => item.id.toString()}
-            extraData={this.props.totalCountProducts}
-            data={this.getDataFromBasket()}
-            renderItem={this.renderItem}
-          />
-          {this.getFooter()}
-    
+
+        <FlatList
+          windowSize={4}
+          removeClippedSubviews={Platform.OS !== 'ios'}
+          initialNumToRender={4}
+          maxToRenderPerBatch={4}
+          keyExtractor={item => item.id.toString()}
+          extraData={this.props.totalCountProducts}
+          data={this.getDataFromBasket()}
+          renderItem={this.renderItem}
+        />
+        {this.getFooter()}
+
       </Animated.View>
     )
   }
@@ -635,6 +664,7 @@ const mapStateToProps = state => {
     currencyPrefix: state.appSetting.currencyPrefix,
     products: state.main.products,
     productDictionary: state.main.productDictionary,
+    recommendedProducts: state.main.recommendedProducts,
     additionalOptions: state.main.additionalOptions,
     additionalFillings: state.main.additionalFillings,
     selectedProduct: state.catalog.selectedProduct,
