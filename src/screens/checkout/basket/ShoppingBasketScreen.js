@@ -27,7 +27,7 @@ import { isWorkTime, getWorkTime } from '../../../helpers/work-time'
 import { WorkTimeInfo } from '../../../components/information/work-time/WorkTimeInfo'
 import LottieView from 'lottie-react-native';
 import VirtualMoneyButton from '../../../components/buttons/VirtualMoneyButton/VirtualMoneyButton'
-import { priceValid } from '../../../helpers/utils'
+import { generateRandomString, priceValid } from '../../../helpers/utils'
 import { CategoryType } from '../../../helpers/type-category'
 import { BasketConstructorProductItem } from '../../../components/basket-constructor-product/BasketConstructorProductItem'
 import { cleanCoupon } from '../../../store/main/actions'
@@ -509,6 +509,7 @@ class ShoppingBasketScreen extends React.Component {
     const recommendedProductIds = this.recommendedLogic.getRecommendedProductIds(productIdsForRecommendedLogic)
     if(products && products.length && recommendedProductIds && recommendedProductIds.length) {
       const recommendedProductsItem = {
+        id: generateRandomString(),
         ids: recommendedProductIds,
         type: CategoryType.Recommended
       }

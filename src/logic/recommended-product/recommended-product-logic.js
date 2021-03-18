@@ -6,7 +6,7 @@ export class RecommendedProductLogic {
      *    products: dictionary
      *  } 
      */
-    constructor({ recommendedProducts, products }) {
+    constructor(recommendedProducts, products) {
         this.recommendedProducts = recommendedProducts
         this.products = products
     }
