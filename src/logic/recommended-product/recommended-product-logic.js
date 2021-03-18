@@ -37,4 +37,14 @@ export class RecommendedProductLogic {
 
         return recommendedProductsResult
     }
+
+    /**
+     * 
+     * @param {Array} productIdsFromBasket 
+     */
+     getRecommendedProducts(productIdsFromBasket) {
+        const recommendedProducts = this.getRecommendedProductIds(productIdsFromBasket).map(id => this.products[id])
+
+        return recommendedProducts
+    }
 }

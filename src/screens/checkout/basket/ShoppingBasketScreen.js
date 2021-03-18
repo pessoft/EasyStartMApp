@@ -32,6 +32,7 @@ import { CategoryType } from '../../../helpers/type-category'
 import { BasketConstructorProductItem } from '../../../components/basket-constructor-product/BasketConstructorProductItem'
 import { cleanCoupon } from '../../../store/main/actions'
 import { RecommendedProductLogic } from '../../../logic/recommended-product/recommended-product-logic'
+import { RecommendedProducts } from '../../../components/product/recommended-products/recommended-products'
 
 class ShoppingBasketScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -277,10 +278,18 @@ class ShoppingBasketScreen extends React.Component {
     />
   }
 
-  renderRecommendedProducts = productIds => {
+  renderRecommendedProducts = products => {
+    if (!products || products.length == 0)
+      return null
 
-
-    return null
+    return <RecommendedProducts
+      products={products}
+      additionalOptions={this.props.additionalOptions}
+      style={this.props.style}
+      currencyPrefix={this.props.currencyPrefix}
+      onToggleProduct={this.toggleProductInBasket}
+      onToggleProductWithOptions={this.toggleProductWithOptionsInBasket}
+    />
   }
 
   renderItem = ({ item }) => {
@@ -292,7 +301,7 @@ class ShoppingBasketScreen extends React.Component {
       case CategoryType.WithOptions:
         return this.renderProductWithOptions(item.id)
       case CategoryType.Recommended:
-        return this.renderRecommendedProducts(item.ids)
+        return this.renderRecommendedProducts(item.recommendedProducts)
     }
   }
 
@@ -375,8 +384,10 @@ class ShoppingBasketScreen extends React.Component {
 
   toggleProductInBasket = basketProduct => {
     const basketProductModify = { ...this.props.basketProducts }
+    const productFromBasket = this.props.basketProducts[basketProduct.id]
+    const categoryId = productFromBasket ? productFromBasket.categoryId : basketProduct.categoryId
     basketProductModify[basketProduct.id] = {
-      categoryId: this.props.basketProducts[basketProduct.id].categoryId,
+      categoryId,
       count: basketProduct.count,
       index: basketProduct.index
     }
@@ -479,14 +490,23 @@ class ShoppingBasketScreen extends React.Component {
     let products = []
     const addedProducts = (items, type) => {
       for (const id in items) {
-        products.push({ id, type })
+        products.push({ id, type, isRemoved: items[id].count == 0 })
       }
     }
 
     let productIdsForRecommendedLogic = []
-    const addedProductForRecommendedLogic = obj => {
-      const ids = Object.keys(obj)
-      productIdsForRecommendedLogic = [...productIdsForRecommendedLogic, ...ids]
+
+    const addedProductForRecommendedLogic = items => {
+
+      for (const id in items) {
+        const item = items[id]
+
+        if (item.count == 0)
+          continue
+
+        productIdsForRecommendedLogic.push(id)
+      }
+
     }
 
     if (this.props.basketProducts
@@ -506,15 +526,16 @@ class ShoppingBasketScreen extends React.Component {
       addedProducts(this.props.basketProductsWithOptions, CategoryType.WithOptions)
     }
 
-    const recommendedProductIds = this.recommendedLogic.getRecommendedProductIds(productIdsForRecommendedLogic)
-    if(products && products.length && recommendedProductIds && recommendedProductIds.length) {
+    const recommendedProducts = this.recommendedLogic.getRecommendedProducts(productIdsForRecommendedLogic)
+    if (products && products.length && recommendedProducts && recommendedProducts.length) {
       const recommendedProductsItem = {
         id: generateRandomString(),
-        ids: recommendedProductIds,
+        recommendedProducts,
         type: CategoryType.Recommended
       }
 
-      products.splice(1, 0, recommendedProductsItem);
+      const index = products.findIndex(p => !p.isRemoved) + 1
+      products.splice(index, 0, recommendedProductsItem);
     }
 
     return products
@@ -529,30 +550,43 @@ class ShoppingBasketScreen extends React.Component {
 
   renderBasketContents = () => {
     return (
-      <Animated.View
+      <View
         style={[
           {
             paddingHorizontal: 12,
             marginTop: 5,
-            opacity: this.state.showScaleAnimation,
             flex: 1,
-            transform: [{ scale: this.state.showScaleAnimation }]
           }
-        ]}>
+        ]}
+      >
+        <Animated.View
+          contentContainerStyle={{
+            flexGrow: 1,
+            justifyContent: 'space-between'
+          }}
+          style={[
+            {
+              flex: 1,
+              opacity: this.state.showScaleAnimation,
+              transform: [{ scale: this.state.showScaleAnimation }]
+            }
+          ]}>
 
-        <FlatList
-          windowSize={4}
-          removeClippedSubviews={Platform.OS !== 'ios'}
-          initialNumToRender={4}
-          maxToRenderPerBatch={4}
-          keyExtractor={item => item.id.toString()}
-          extraData={this.props.totalCountProducts}
-          data={this.getDataFromBasket()}
-          renderItem={this.renderItem}
-        />
-        {this.getFooter()}
-
-      </Animated.View>
+          <FlatList
+            windowSize={4}
+            removeClippedSubviews={Platform.OS !== 'ios'}
+            initialNumToRender={4}
+            maxToRenderPerBatch={4}
+            keyExtractor={item => item.id.toString()}
+            extraData={this.props.totalCountProducts}
+            data={this.getDataFromBasket()}
+            renderItem={this.renderItem}
+            ListFooterComponent={this.getFooter()}
+            contentContainerStyle={{flexGrow: 1}}
+            ListFooterComponentStyle={{ justifyContent: 'flex-end', flex: 1 }}
+          />
+        </Animated.View>
+      </View>
     )
   }
 
