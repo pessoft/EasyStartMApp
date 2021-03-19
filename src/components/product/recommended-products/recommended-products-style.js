@@ -16,6 +16,6 @@ export default StyleSheet.create({
     justifyContent: 'center',
     borderTopLeftRadius: 6,
     borderTopRightRadius: 6,
-    borderBottomWidth: 1,
+    borderBottomWidth: 0.5,
   }
 })

@@ -3,31 +3,21 @@ import Carousel from '@webileapps/react-native-banner-carousel'
 import { TouchableWithoutFeedback, Dimensions, View, Image, Text } from 'react-native'
 import { ProductItem } from './ProductItem'
 import Style from './recommended-products-style'
-import { showMessage } from 'react-native-flash-message'
+
 
 const carouselWidth = Dimensions.get('window').width - 24
 
 export class RecommendedProducts extends React.Component {
 
-    successAddedProductMsg = 'Товар добавлен в корзину'
-
-    showSuccessMessage = msg => {
-        showMessage({
-            message: msg,
-            type: 'success',
-        });
-    }
 
     toggleProductHandler = basketProduct => {
         let payload = { ...basketProduct }
         delete payload.withOptions
 
         if (basketProduct.withOptions)
-            this.props.onToggleProductWithOptions(payload)
+            this.props.onToggleProductWithOptions(payload.id)
         else
             this.props.onToggleProduct(payload)
-
-        this.showSuccessMessage(this.successAddedProductMsg)
     }
 
     getData() {
