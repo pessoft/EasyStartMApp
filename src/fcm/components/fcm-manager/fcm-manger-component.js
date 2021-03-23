@@ -31,6 +31,8 @@ class FCMManagerComponent extends React.Component {
     this.pushNotification = setupPushNotification(this.handleNotificationOpen)
   }
 
+  notificationListenerRemove = () => { }
+
   getDeviceData = () => {
     return {
       branchId: this.props.user.branchId,
@@ -53,28 +55,33 @@ class FCMManagerComponent extends React.Component {
     }
   }
 
-  subscribeForegroundMessage = async () => {
-    messaging().onMessage(async remoteMessage => {
-      let data = null
-      
-      try {
-        data = JSON.parse(remoteMessage.data.payload)
-      } catch{ }
+  componentWillUnmount() {
+    this.notificationListenerRemove() //This will remove the listener
+  }
 
-      if (data)
-        this.sendNotification(remoteMessage.messageId, data)
+  subscribeForegroundMessage = async () => {
+    this.notificationListenerRemove = messaging().onMessage(async remoteMessage => {
+      let dataForAndroid = null
+      const dataForIos = remoteMessage.data
+
+      try {
+        dataForAndroid = JSON.parse(remoteMessage.data.payload)
+      } catch { }
+
+      if (dataForAndroid)
+        this.sendNotification(remoteMessage.messageId, dataForAndroid, dataForIos)
     })
   }
 
-  sendNotification = (messageId, data) => {
+  sendNotification = (messageId, dataForAndroid, dataForIos) => {
     this.pushNotification.localNotification({
       messageId,
       largeIcon: "ic_launcher",
       smallIcon: "ic_notification",
-      title: data.title,
-      message: data.message,
-      data: data, // data for android
-      userInfo: data, //data for ios
+      title: dataForAndroid.title,
+      message: dataForAndroid.message,
+      data: dataForAndroid, // data for android
+      userInfo: dataForIos, //data for ios
     })
   }
 
@@ -143,6 +150,8 @@ class FCMManagerComponent extends React.Component {
     if (!isRegisteredForRemoteNotifications) {
       this.props.registerAppWithFCM()
     }
+
+    this.subscribeForegroundMessage()
   }
 
   render() {
