@@ -5,7 +5,8 @@ import {
   FETCH_PRODUCTS_HISTORY_ORDER_SUCCESS,
   FETCH_PRODUCTS_HISTORY_ORDER_REQUEST,
   FETCH_PRODUCTS_HISTORY_ORDER_FAILURE,
-  SET_SELECT_ORDER_ID
+  SET_SELECT_ORDER_ID,
+  SET_GO_TO_ORDER_ID
 } from './actions'
 
 const defaultState = {
@@ -15,12 +16,17 @@ const defaultState = {
   productsHistory: [],
   productsWithOptionsHistory: [],
   constructorProductsHistory: [],
-  selectOrder: {}
+  selectOrder: {},
+  goToOrderIdFromPush: 0,
 }
 
 export const historyOrderReducer = (state = defaultState, action) => {
-
   switch (action.type) {
+    case SET_GO_TO_ORDER_ID:
+      return {
+        ...state,
+        goToOrderIdFromPush: action.payload
+      }
     case SET_SELECT_ORDER_ID:
       return {
         ...state,

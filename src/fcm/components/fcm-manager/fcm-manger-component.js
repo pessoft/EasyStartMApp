@@ -11,13 +11,15 @@ import {
   openPartners,
   openProductInfo,
   openStock,
-  openNews
+  openNews,
+  openOrderHistory
 } from '../../logic/notification-open-actions/actions'
 import PushNotificationIOS from '@react-native-community/push-notification-ios'
 
 import { setSelectedCategory, setSelectedProduct } from '../../../store/catalog/actions'
 import { setSelectedStock } from '../../../store/stock/actions'
 import { setSelectedNews } from '../../../store/news/actions'
+import { setGoToOrderId } from '../../../store/history-order/actions'
 
 const PlatformType = {
   'android': 0,
@@ -140,6 +142,11 @@ class FCMManagerComponent extends React.Component {
           this.props.promotionCashbackSetting.IsUseCashback)
           openCashback(options)
         break
+        case NotificationActionType.OpenOrder:
+          options.setGoToOrderId = this.props.setGoToOrderId
+  
+          openOrderHistory(options)
+          break
     }
   }
 
@@ -183,7 +190,8 @@ const mapDispatchToProps = {
   setSelectedStock,
   setSelectedNews,
   setNotificationActionExecution,
-  registerDevice
+  registerDevice,
+  setGoToOrderId,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(FCMManagerComponent)

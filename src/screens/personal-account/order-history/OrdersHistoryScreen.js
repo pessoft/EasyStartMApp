@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import LottieView from 'lottie-react-native';
 import { Animated, FlatList, Text, ActivityIndicator } from 'react-native'
 import Style from './style'
-import { getHistoryOrders, setSelectOrder } from '../../../store/history-order/actions'
+import { getHistoryOrders, setSelectOrder, setGoToOrderId} from '../../../store/history-order/actions'
 import { timingAnimation } from '../../../animation/timingAnimation'
 import { MenuItemWithoutImage } from '../../../components/menu-item-without-image/MenuItemWithoutImage'
 import { ORDER_HISTORY_INFO_PROFILE } from '../../../navigation/pointsNavigate'
@@ -41,7 +41,7 @@ class OrdersHistoryScreen extends React.Component {
     if (this.props.isFetching)
       timingAnimation(this.state.showLoaderScaleAnimation, 1, 300, true)
     else if (this.props.history.length > 0)
-      timingAnimation(this.state.showHistoryScaleAnimation, 1, 300, true)
+      timingAnimation(this.state.showHistoryScaleAnimation, 1, 300, true, this.goToOrderFromPush)
     else
       timingAnimation(this.state.showHistoryEmptyScaleAnimation, 1, 300, true)
   }
@@ -68,6 +68,13 @@ class OrdersHistoryScreen extends React.Component {
     let findResult = this.props.history.filter(p => p.Id == id)
 
     return findResult && findResult.length > 0 ? findResult[0] : null
+  }
+
+  goToOrderFromPush = () => {
+    if(this.props.goToOrderIdFromPush) {
+      this.onSelectOrderId(this.props.goToOrderIdFromPush)
+      this.props.setGoToOrderId(0)
+    }
   }
 
   onSelectOrderId = orderId => {
@@ -205,6 +212,7 @@ const mapStateToProps = state => {
     style: state.style,
     isFetching: state.historyOrder.isFetching,
     history: state.historyOrder.history,
+    goToOrderIdFromPush: state.historyOrder.goToOrderIdFromPush,
     clientId: state.user.clientId,
     branchId: state.user.branchId,
     currencyPrefix: state.appSetting.currencyPrefix
@@ -213,7 +221,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
   setSelectOrder,
-  getHistoryOrders
+  getHistoryOrders,
+  setGoToOrderId,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(OrdersHistoryScreen)
