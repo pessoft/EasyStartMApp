@@ -45,5 +45,16 @@ export default StyleSheet.create({
   wrongText: {
     position: 'absolute',
     top: top
+  },
+  orderStatusContainer: {
+    paddingVertical: 12,
+    marginBottom: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 6,
+    elevation: 4,
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.3,
+    shadowRadius: 1,
   }
 })

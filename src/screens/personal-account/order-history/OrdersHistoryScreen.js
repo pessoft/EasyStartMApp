@@ -5,15 +5,15 @@ import { Animated, FlatList, Text, ActivityIndicator } from 'react-native'
 import Style from './style'
 import { getHistoryOrders, setSelectOrder } from '../../../store/history-order/actions'
 import { timingAnimation } from '../../../animation/timingAnimation'
-import { MenuItemWithoutImage } from '../../../components/menu-item-without-image/MenuItemWithoutImage';
+import { MenuItemWithoutImage } from '../../../components/menu-item-without-image/MenuItemWithoutImage'
 import { ORDER_HISTORY_INFO_PROFILE } from '../../../navigation/pointsNavigate'
 import { dateFormatted } from '../../../helpers/utils'
-import { MenuItemTwoTextImage } from '../../../components/menu-item-two-text-image/MenuItemTwoTextImage';
+import { MenuItemTwoTextImage } from '../../../components/menu-item-two-text-image/MenuItemTwoTextImage'
 import OrderProcessingIcon from '../../../images/font-awesome-svg/hourglass-start.svg'
 import OrderDeliveryIcon from '../../../images/font-awesome-svg/truck-container.svg'
 import OrderProcessedIcon from '../../../images/font-awesome-svg/check.svg'
 import OrderCancelIcon from '../../../images/font-awesome-svg/trash-alt.svg'
-import { IntegrationOrderStatus, OrderStatus } from '../../../helpers/order-status';
+import { IntegrationOrderStatus, OrderStatus } from '../../../helpers/order-status'
 
 class OrdersHistoryScreen extends React.Component {
   static navigationOptions = {

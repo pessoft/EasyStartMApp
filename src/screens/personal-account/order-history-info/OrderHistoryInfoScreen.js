@@ -26,6 +26,7 @@ import { getProductsHistoryOrder } from '../../../store/history-order/actions'
 import { CategoryType } from '../../../helpers/type-category'
 import { generateRandomString } from '../../../helpers/utils'
 import LottieView from 'lottie-react-native';
+import { IntegrationOrderStatus, OrderStatus } from '../../../helpers/order-status'
 
 class OrderHistoryInfoScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -264,8 +265,8 @@ class OrderHistoryInfoScreen extends React.Component {
       const uniqId = generateRandomString()
       const additionalOptions = {}
 
-      if(Object.keys(product.AdditionalOptions).length > 0) {
-        for(const id in product.AdditionalOptions) {
+      if (Object.keys(product.AdditionalOptions).length > 0) {
+        for (const id in product.AdditionalOptions) {
           const additionalOptionItem = product.AdditionalOptions[id].Items[0]
           additionalOptions[id] = additionalOptionItem.Id
         }
@@ -345,6 +346,49 @@ class OrderHistoryInfoScreen extends React.Component {
     )
   }
 
+  renderHeader = () => {
+    let orderStatusInfo = ''
+    let showIndicator = true
+    if (this.props.selectHistoryOrder.IntegrationOrderStatus == IntegrationOrderStatus.Preparing) {
+      orderStatusInfo = 'Заказ готовится. Ожидайте...'
+    }
+
+    if (this.props.selectHistoryOrder.IntegrationOrderStatus == IntegrationOrderStatus.Deliverid) {
+      orderStatusInfo = 'Заказ в пути. Ожидайте...'
+    }
+
+    if (this.props.selectHistoryOrder.IntegrationOrderStatus == IntegrationOrderStatus.Cancel ||
+      this.props.selectHistoryOrder.OrderStatus == OrderStatus.Cancellation) {
+      orderStatusInfo = 'Заказ отменён'
+      showIndicator = false
+    }
+
+    if (orderStatusInfo)
+      return (
+        <View style={[
+          Style.orderStatusContainer,
+          this.props.style.theme.backdoor,
+          this.props.style.theme.shadowColor,
+          { flexDirection: 'row' }
+        ]}>
+          {showIndicator && <ActivityIndicator size='small' color={this.props.style.theme.primaryTextColor.backgroundColor} />}
+          <Text style={[
+            this.props.style.fontSize.h7,
+            {
+              color: showIndicator ? this.props.style.theme.primaryTextColor.color : this.props.style.theme.errorTextColor.color,
+              marginLeft: showIndicator ? 10 : 0,
+              justifyContent: 'center',
+              alignContent: 'center'
+            }
+          ]}>
+            {orderStatusInfo}
+          </Text>
+        </View>
+      )
+    else
+      return null
+  }
+
   renderHistoryOrders = () => {
     return (
       <Animated.View
@@ -357,17 +401,18 @@ class OrderHistoryInfoScreen extends React.Component {
             transform: [{ scale: this.state.showScaleAnimation }]
           }
         ]}>
-        
-          <FlatList
-            windowSize={4}
-            removeClippedSubviews={Platform.OS !== 'ios'}
-            initialNumToRender={4}
-            maxToRenderPerBatch={1}
-            data={this.getProducts()}
-            keyExtractor={item => `${generateRandomString()}_${item.Id.toString()}`}
-            renderItem={this.renderItem}
-          />
-        
+
+        <FlatList
+          windowSize={4}
+          removeClippedSubviews={Platform.OS !== 'ios'}
+          initialNumToRender={4}
+          maxToRenderPerBatch={1}
+          data={this.getProducts()}
+          keyExtractor={item => `${generateRandomString()}_${item.Id.toString()}`}
+          renderItem={this.renderItem}
+          ListHeaderComponent={this.renderHeader}
+        />
+
         <View
           style={[
             Style.footer,
