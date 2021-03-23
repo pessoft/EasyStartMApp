@@ -8,6 +8,12 @@ import { timingAnimation } from '../../../animation/timingAnimation'
 import { MenuItemWithoutImage } from '../../../components/menu-item-without-image/MenuItemWithoutImage';
 import { ORDER_HISTORY_INFO_PROFILE } from '../../../navigation/pointsNavigate'
 import { dateFormatted } from '../../../helpers/utils'
+import { MenuItemTwoTextImage } from '../../../components/menu-item-two-text-image/MenuItemTwoTextImage';
+import OrderProcessingIcon from '../../../images/font-awesome-svg/hourglass-start.svg'
+import OrderDeliveryIcon from '../../../images/font-awesome-svg/truck-container.svg'
+import OrderProcessedIcon from '../../../images/font-awesome-svg/check.svg'
+import OrderCancelIcon from '../../../images/font-awesome-svg/trash-alt.svg'
+import { IntegrationOrderStatus, OrderStatus } from '../../../helpers/order-status';
 
 class OrdersHistoryScreen extends React.Component {
   static navigationOptions = {
@@ -87,16 +93,70 @@ class OrdersHistoryScreen extends React.Component {
         <FlatList
           data={this.props.history.reverse()}
           keyExtractor={item => item.Id.toString()}
-          renderItem={({ item }) => <MenuItemWithoutImage
-            style={this.props.style}
-            id={item.Id}
-            headerText={this.getHeaderText(item.Id)}
-            text={this.getText(item.Date, item.AmountPay)}
-            onPress={this.onSelectOrderId}
-          />}
+          renderItem={this.renderOrder}
         />
       </Animated.View>
     )
+  }
+
+  getOrderStatusInfo = order => {
+    const status = {
+      icon: {},
+      iconColor: ''
+    }
+
+    if (!order.IntegrationOrderStatus || order.IntegrationOrderStatus == IntegrationOrderStatus.Unknown) {
+      switch (order.OrderStatus) {
+        case OrderStatus.Processing:
+        case OrderStatus.PendingPay:
+          status.icon = OrderProcessingIcon
+          status.iconColor = this.props.style.theme.primaryTextColor.color
+          break
+        case OrderStatus.Processed:
+          status.icon = OrderProcessedIcon
+          status.iconColor = this.props.style.theme.successTextColor.color
+          break
+        case OrderStatus.Cancellation:
+          status.icon = OrderCancelIcon
+          status.iconColor = this.props.style.theme.errorTextColor.color
+          break
+      }
+    } else {
+      switch (order.IntegrationOrderStatus) {
+        case IntegrationOrderStatus.New:
+        case IntegrationOrderStatus.Preparing:
+          status.icon = OrderProcessingIcon
+          status.iconColor = this.props.style.theme.primaryTextColor.color
+          break
+        case IntegrationOrderStatus.Deliverid:
+          status.icon = OrderDeliveryIcon
+          status.iconColor = this.props.style.theme.accentOther.backgroundColor
+          break
+        case IntegrationOrderStatus.Done:
+          status.icon = OrderProcessedIcon
+          status.iconColor = this.props.style.theme.successTextColor.color
+          break
+        case IntegrationOrderStatus.Cancel:
+          status.icon = OrderCancelIcon
+          status.iconColor = this.props.style.theme.errorTextColor.color
+          break
+      }
+    }
+
+    return status
+  }
+
+  renderOrder = ({ item }) => {
+    const status = this.getOrderStatusInfo(item)
+    return <MenuItemTwoTextImage
+      style={this.props.style}
+      id={item.Id}
+      icon={status.icon}
+      iconColor={status.iconColor}
+      headerText={this.getHeaderText(item.Id)}
+      text={this.getText(item.Date, item.AmountPay)}
+      onPress={this.onSelectOrderId}
+    />
   }
 
   renderEmpty = () => {
