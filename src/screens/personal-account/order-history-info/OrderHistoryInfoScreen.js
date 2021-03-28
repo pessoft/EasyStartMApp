@@ -27,6 +27,7 @@ import { CategoryType } from '../../../helpers/type-category'
 import { generateRandomString } from '../../../helpers/utils'
 import LottieView from 'lottie-react-native';
 import { IntegrationOrderStatus, OrderStatus } from '../../../helpers/order-status'
+import { getTimeOrderProcessedInfo } from '../../../logic/complete-order/complete-order-logic'
 
 class OrderHistoryInfoScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -349,18 +350,30 @@ class OrderHistoryInfoScreen extends React.Component {
   renderHeader = () => {
     let orderStatusInfo = ''
     let showIndicator = true
+    let orderCancellation = false
+    const timeInfoMessage = getTimeOrderProcessedInfo(
+      this.props.selectHistoryOrder.DeliveryType,
+      this.props.selectHistoryOrder.ApproximateDeliveryTime,
+    )
+    if (this.props.selectHistoryOrder.IntegrationOrderStatus == IntegrationOrderStatus.Unknown &&
+      this.props.selectHistoryOrder.OrderStatus == OrderStatus.Processing ||
+      this.props.selectHistoryOrder.IntegrationOrderStatus == IntegrationOrderStatus.New) {
+      orderStatusInfo = `Заказ ожидает подтверждения. ${timeInfoMessage}`
+    }
+
     if (this.props.selectHistoryOrder.IntegrationOrderStatus == IntegrationOrderStatus.Preparing) {
-      orderStatusInfo = 'Заказ готовится. Ожидайте...'
+      orderStatusInfo = `Заказ готовится. ${timeInfoMessage || "Ожидайте..."}`
     }
 
     if (this.props.selectHistoryOrder.IntegrationOrderStatus == IntegrationOrderStatus.Deliverid) {
-      orderStatusInfo = 'Заказ в пути. Ожидайте...'
+      orderStatusInfo = `Заказ в пути. ${timeInfoMessage || "Ожидайте..."}`
     }
 
     if (this.props.selectHistoryOrder.IntegrationOrderStatus == IntegrationOrderStatus.Cancel ||
       this.props.selectHistoryOrder.OrderStatus == OrderStatus.Cancellation) {
       orderStatusInfo = 'Заказ отменён'
       showIndicator = false
+      orderCancellation = true
     }
 
     if (orderStatusInfo)
@@ -371,14 +384,21 @@ class OrderHistoryInfoScreen extends React.Component {
           this.props.style.theme.shadowColor,
           { flexDirection: 'row' }
         ]}>
-          {showIndicator && <ActivityIndicator size='small' color={this.props.style.theme.primaryTextColor.backgroundColor} />}
+          {showIndicator &&
+            <View style={Style.activityContainer}>
+              <ActivityIndicator size='small' color={this.props.style.theme.primaryTextColor.backgroundColor} />
+            </View>
+          }
           <Text style={[
-            this.props.style.fontSize.h7,
+            this.props.style.fontSize.h8,
             {
               color: showIndicator ? this.props.style.theme.primaryTextColor.color : this.props.style.theme.errorTextColor.color,
-              marginLeft: showIndicator ? 10 : 0,
+              // marginLeft: showIndicator ? 10 : 0,
               justifyContent: 'center',
-              alignContent: 'center'
+              alignContent: 'center',
+              textAlign: orderCancellation ? 'center' : 'left',
+              flex: 1,
+              flexWrap: 'wrap',
             }
           ]}>
             {orderStatusInfo}

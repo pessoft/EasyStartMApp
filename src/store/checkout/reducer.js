@@ -19,6 +19,8 @@ const defaultState = {
   isErrorCheckOnlinePay: false,
   errorMessageCheckOnlinePay: '',
   lastOrderNumber: 0,
+  completeOrderDeliveryType: 0,
+  completeOrderApproximateDeliveryTime: null,
   lastOrder: {}
 }
 
@@ -50,7 +52,9 @@ export const checkoutReducer = (state = defaultState, action) => {
       return {
         ...state,
         isFetching: false,
-        lastOrderNumber: action.payload
+        lastOrderNumber: action.payload.orderNumber,
+        completeOrderDeliveryType: action.payload.deliveryType,
+        completeOrderApproximateDeliveryTime: action.payload.approximateDeliveryTime
       }
     case FETCH_CHECKOUT_COMPLETE_FAILURE:
       return {
@@ -70,7 +74,9 @@ export const checkoutReducer = (state = defaultState, action) => {
       return {
         ...state,
         isFetchingCheckOnlinePay: false,
-        lastOrderNumber: action.payload
+        lastOrderNumber: action.payload.orderNumber,
+        completeOrderDeliveryType: action.payload.deliveryType,
+        completeOrderApproximateDeliveryTime: action.payload.approximateDeliveryTime
       }
     case FETCH_CHECKOUT_ONLINE_PAY_FAILURE:
       return {

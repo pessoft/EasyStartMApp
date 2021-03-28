@@ -41,6 +41,7 @@ import { SimpleTextButton } from '../../../components/buttons/SimpleTextButton/S
 import { showMessage } from 'react-native-flash-message'
 import { convertRubToKopeks } from '../../../helpers/utils'
 import { FondyPayResponseType } from '../../../helpers/fondy-pay-response-type'
+import { getTimeOrderProcessedInfo } from '../../../logic/complete-order/complete-order-logic'
 
 class CheckoutOnlinePay extends React.Component {
   static navigationOptions = {
@@ -387,6 +388,9 @@ class CheckoutOnlinePay extends React.Component {
           ]}>
           Успешно оформлен
         </Text>
+        {
+          this.getTimeOrderProcessedMessage()
+        }
         {this.renderButtonOk()}
       </Animated.View>
     )
@@ -449,6 +453,22 @@ class CheckoutOnlinePay extends React.Component {
     )
   }
 
+  getTimeOrderProcessedMessage = () => {
+    const timeMsg = getTimeOrderProcessedInfo(this.props.completeOrderDeliveryType, this.props.completeOrderApproximateDeliveryTime)
+
+    if (timeMsg)
+      return <Text
+        style={[
+          this.props.style.theme.primaryTextColor,
+          this.props.style.fontSize.h8,
+          Style.infoText
+        ]}>
+        {timeMsg}
+      </Text>
+
+    return null
+  }
+
   renderDynamicPage = () => {
     if (this.props.isFetching || this.props.isFetchingCheckOnlinePay)
       return this.renderLoader()
@@ -494,6 +514,8 @@ const mapStateToProps = state => {
     isError: state.checkout.isError,
     errorMessage: state.checkout.errorMessage,
     orderNumber: state.checkout.lastOrderNumber,
+    completeOrderDeliveryType: state.checkout.completeOrderDeliveryType,
+    completeOrderApproximateDeliveryTime: state.checkout.completeOrderApproximateDeliveryTime,
     userData: state.user,
     deliverySettings: state.main.deliverySettings,
     isFetchingCheckOnlinePay: state.checkout.isFetchingCheckOnlinePay,

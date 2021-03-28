@@ -58,10 +58,10 @@ const requestPosts = () => {
   }
 }
 
-const successPosts = orderNumber => {
+const successPosts = payload => {
   return {
     type: FETCH_CHECKOUT_COMPLETE_SUCCESS,
-    payload: orderNumber
+    payload
   }
 }
 
@@ -78,10 +78,10 @@ const requestCheckOnlinePayPosts = () => {
   }
 }
 
-const successCheckOnlinePayPosts = orderNumber => {
+const successCheckOnlinePayPosts = payload => {
   return {
     type: FETCH_CHECKOUT_ONLINE_PAY_SUCCESS,
-    payload: orderNumber
+    payload
   }
 }
 

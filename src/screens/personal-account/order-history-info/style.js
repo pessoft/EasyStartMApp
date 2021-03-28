@@ -56,5 +56,9 @@ export default StyleSheet.create({
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.3,
     shadowRadius: 1,
+  },
+  activityContainer: {
+    minWidth: 50,
+    alignItems: 'center'
   }
 })
