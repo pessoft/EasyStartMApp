@@ -161,6 +161,21 @@ const processingMainData = mainData => {
             }
         }
     }
+
+    if (mainData && mainData.recommendedProducts && mainData.recommendedProducts.length > 0) {
+        const recommendedProducts = {}
+        
+        for (const recommendedProduct of mainData.recommendedProducts) {
+            if (recommendedProducts[recommendedProduct.CategoryId]) {
+                recommendedProducts[recommendedProduct.CategoryId].push(recommendedProduct.ProductId)
+            } else {
+                recommendedProducts[recommendedProduct.CategoryId] = [recommendedProduct.ProductId]
+            }
+        }
+
+        mainData.recommendedProducts = recommendedProducts
+    } else
+        mainData.recommendedProducts = {}
 }
 
 const failureMainDataPosts = () => {

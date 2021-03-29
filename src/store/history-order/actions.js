@@ -14,6 +14,14 @@ export const FETCH_PRODUCTS_HISTORY_ORDER_REQUEST = 'FETCH_PRODUCTS_HISTORY_ORDE
 export const FETCH_PRODUCTS_HISTORY_ORDER_FAILURE = 'FETCH_PRODUCTS_HISTORY_ORDER_FAILURE'
 
 export const SET_SELECT_ORDER_ID = 'SET_SELECT_ORDER_ID'
+export const SET_GO_TO_ORDER_ID = 'SET_GO_TO_ORDER_ID'
+
+export const setGoToOrderId = orderId => {
+  return {
+    type: SET_GO_TO_ORDER_ID,
+    payload: orderId
+  }
+}
 
 export const setSelectOrder = order => {
   return {

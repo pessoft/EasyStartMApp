@@ -397,6 +397,15 @@ class CheckoutScreen extends React.Component {
       return this.getCurrentAreaDeliveryPrice()
   }
 
+  getAreaDeliveryId = () => {
+    if (this.state.deliveryType == DeliveryType.TakeYourSelf
+      || this.isFreeDelivery()
+      || this.state.deliveryAddress.areaDeliveryId == -1)
+      return null
+    else
+      return this.state.deliveryAddress.areaDeliveryId
+  }
+
   getLabelDiscount = discountType => {
     let discount = this.state.promotion.getDiscount(discountType)
     const partialDiscount = this.state.promotion.getPartialDiscount(discountType)
@@ -533,6 +542,7 @@ class CheckoutScreen extends React.Component {
       discountPercent: this.getLabelDiscount(DiscountType.Percent),
       discountRuble: this.getLabelDiscount(DiscountType.Ruble),
       deliveryPrice: this.getDeliveryPrice(),
+      areaDeliveryId: this.getAreaDeliveryId(),
       amountPay: this.getOrderPrice(),
       amountPayDiscountDelivery: this.getToPayPrice(),
       productCountJSON: this.getProductCountJson(),

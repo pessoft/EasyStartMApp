@@ -148,9 +148,19 @@ class PartnersInfoScreen extends React.Component {
     )
   }
 
-  renderEmpty = () => {
+renderEmpty = () => {
+  return (
+    <FlatList
+      data={[{key: 'empty-partners-info'}]}
+      renderItem={this.renderEmptyContent}
+      ListHeaderComponent={this.getHeader}
+    />
+  )
+}
+
+  renderEmptyContent = ({item}) => {
     return (
-      <View style={[Style.centerScreen, Style.emptyContainer]}>
+      <View key={item.key} style={[Style.centerScreen, Style.emptyContainer]}>
         <LottieView
           style={Style.loader}
           source={require('../../../animation/src/search-empty.json')}

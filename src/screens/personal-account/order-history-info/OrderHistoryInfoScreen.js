@@ -26,6 +26,8 @@ import { getProductsHistoryOrder } from '../../../store/history-order/actions'
 import { CategoryType } from '../../../helpers/type-category'
 import { generateRandomString } from '../../../helpers/utils'
 import LottieView from 'lottie-react-native';
+import { getTimeOrderProcessedInfo } from '../../../logic/complete-order/complete-order-logic'
+import { IntegrationOrderStatus, OrderStatus } from '../../../helpers/order-status'
 import BasketIcoWithBadge from '../../../components/badges/basket-badge/BasketIcoWithBadge'
 
 class OrderHistoryInfoScreen extends React.Component {
@@ -275,8 +277,8 @@ class OrderHistoryInfoScreen extends React.Component {
       const uniqId = generateRandomString()
       const additionalOptions = {}
 
-      if(Object.keys(product.AdditionalOptions).length > 0) {
-        for(const id in product.AdditionalOptions) {
+      if (Object.keys(product.AdditionalOptions).length > 0) {
+        for (const id in product.AdditionalOptions) {
           const additionalOptionItem = product.AdditionalOptions[id].Items[0]
           additionalOptions[id] = additionalOptionItem.Id
         }
@@ -356,6 +358,68 @@ class OrderHistoryInfoScreen extends React.Component {
     )
   }
 
+  renderHeader = () => {
+    let orderStatusInfo = ''
+    let showIndicator = true
+    let orderCancellation = false
+    const timeInfoMessage = getTimeOrderProcessedInfo(
+      this.props.selectHistoryOrder.DeliveryType,
+      this.props.selectHistoryOrder.ApproximateDeliveryTime,
+    )
+    if (this.props.selectHistoryOrder.IntegrationOrderStatus == IntegrationOrderStatus.Unknown &&
+      this.props.selectHistoryOrder.OrderStatus == OrderStatus.Processing ||
+      this.props.selectHistoryOrder.IntegrationOrderStatus == IntegrationOrderStatus.New) {
+      orderStatusInfo = `Заказ ожидает подтверждения. ${timeInfoMessage}`
+    }
+
+    if (this.props.selectHistoryOrder.IntegrationOrderStatus == IntegrationOrderStatus.Preparing) {
+      orderStatusInfo = `Заказ готовится. ${timeInfoMessage || "Ожидайте..."}`
+    }
+
+    if (this.props.selectHistoryOrder.IntegrationOrderStatus == IntegrationOrderStatus.Deliverid) {
+      orderStatusInfo = `Заказ в пути. ${timeInfoMessage || "Ожидайте..."}`
+    }
+
+    if (this.props.selectHistoryOrder.IntegrationOrderStatus == IntegrationOrderStatus.Cancel ||
+      this.props.selectHistoryOrder.OrderStatus == OrderStatus.Cancellation) {
+      orderStatusInfo = 'Заказ отменён'
+      showIndicator = false
+      orderCancellation = true
+    }
+
+    if (orderStatusInfo)
+      return (
+        <View style={[
+          Style.orderStatusContainer,
+          this.props.style.theme.backdoor,
+          this.props.style.theme.shadowColor,
+          { flexDirection: 'row' }
+        ]}>
+          {showIndicator &&
+            <View style={Style.activityContainer}>
+              <ActivityIndicator size='small' color={this.props.style.theme.primaryTextColor.backgroundColor} />
+            </View>
+          }
+          <Text style={[
+            this.props.style.fontSize.h8,
+            {
+              color: showIndicator ? this.props.style.theme.primaryTextColor.color : this.props.style.theme.errorTextColor.color,
+              // marginLeft: showIndicator ? 10 : 0,
+              justifyContent: 'center',
+              alignContent: 'center',
+              textAlign: orderCancellation ? 'center' : 'left',
+              flex: 1,
+              flexWrap: 'wrap',
+            }
+          ]}>
+            {orderStatusInfo}
+          </Text>
+        </View>
+      )
+    else
+      return null
+  }
+
   renderHistoryOrders = () => {
     return (
       <Animated.View
@@ -368,17 +432,18 @@ class OrderHistoryInfoScreen extends React.Component {
             transform: [{ scale: this.state.showScaleAnimation }]
           }
         ]}>
-        
-          <FlatList
-            windowSize={4}
-            removeClippedSubviews={Platform.OS !== 'ios'}
-            initialNumToRender={4}
-            maxToRenderPerBatch={1}
-            data={this.getProducts()}
-            keyExtractor={item => `${generateRandomString()}_${item.Id.toString()}`}
-            renderItem={this.renderItem}
-          />
-        
+
+        <FlatList
+          windowSize={4}
+          removeClippedSubviews={Platform.OS !== 'ios'}
+          initialNumToRender={4}
+          maxToRenderPerBatch={1}
+          data={this.getProducts()}
+          keyExtractor={item => `${generateRandomString()}_${item.Id.toString()}`}
+          renderItem={this.renderItem}
+          ListHeaderComponent={this.renderHeader}
+        />
+
         <View
           style={[
             Style.footer,

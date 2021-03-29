@@ -1,4 +1,4 @@
-#import <UserNotifications/UserNotifications.h>
+#import <UserNotifications/UNUserNotificationCenter.h>
 #import <React/RCTBridgeDelegate.h>
 #import <UIKit/UIKit.h>
 

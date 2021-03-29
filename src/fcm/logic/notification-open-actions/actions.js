@@ -6,6 +6,7 @@ import {
   NEWS_INFO,
   PARTNERS_PROFILE,
   CASHBACK_PROFILE,
+  ORDER_HISTORY_PROFILE,
 } from '../../../navigation/pointsNavigate'
 import { CategoryType } from '../../../helpers/type-category'
 
@@ -17,6 +18,7 @@ export const NotificationActionType = {
   OpenPartners: 4,
   OpenCashback: 5,
   OpenNews: 6,
+  OpenOrder: 7,
 }
 
 export const openCategory = options => {
@@ -84,6 +86,12 @@ export const openNews = options => {
   options.setSelectedNews(news[0])
 
   options.navigate(NEWS_INFO)
+}
+
+export const openOrderHistory = options => {
+  options.setGoToOrderId(options.targetId)
+
+  options.navigate(ORDER_HISTORY_PROFILE)
 }
 
 export const openPartners = options => {

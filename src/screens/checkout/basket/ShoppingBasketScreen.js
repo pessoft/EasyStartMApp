@@ -27,12 +27,16 @@ import { isWorkTime, getWorkTime } from '../../../helpers/work-time'
 import { WorkTimeInfo } from '../../../components/information/work-time/WorkTimeInfo'
 import LottieView from 'lottie-react-native';
 import VirtualMoneyButton from '../../../components/buttons/VirtualMoneyButton/VirtualMoneyButton'
-import { priceValid } from '../../../helpers/utils'
+import { generateRandomString, priceValid } from '../../../helpers/utils'
 import { CategoryType } from '../../../helpers/type-category'
 import { BasketConstructorProductItem } from '../../../components/basket-constructor-product/BasketConstructorProductItem'
 import { cleanCoupon } from '../../../store/main/actions'
 import { BarsButton } from '../../../components/buttons/Square/BarsButton'
 import BasketIcoWithBadge from '../../../components/badges/basket-badge/BasketIcoWithBadge'
+import { RecommendedProductLogic } from '../../../logic/recommended-product/recommended-product-logic'
+import { RecommendedProducts } from '../../../components/product/recommended-products/recommended-products'
+import ProductWithOptions from '../../../components/raw-bottom-sheets/product-with-options/ProductWithOptions'
+import { showMessage } from 'react-native-flash-message'
 
 class ShoppingBasketScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -73,8 +77,14 @@ class ShoppingBasketScreen extends React.Component {
       showScaleAnimationEmptyBasket: new Animated.Value(0),
       showScaleAnimationWorkTimeInfo: new Animated.Value(0),
       refreshItems: false,
-      price: this.getOrderCost()
+      price: this.getOrderCost(),
+      metadataProductWithOptions: {
+        toggleInfoProductWithOptions: false,
+        selectedProductId: -1
+      }
     }
+
+    this.recommendedLogic = new RecommendedProductLogic(this.props.recommendedProducts, this.props.productDictionary)
   }
 
   goToCashbackScreen = () => this.props.navigation.navigate(CASHBACK_PROFILE)
@@ -102,14 +112,22 @@ class ShoppingBasketScreen extends React.Component {
       && this.props.selectedProduct.Id > 0
       && this.props.navigation.isFocused()) {
       this.props.navigation.navigate(PRODUCT_INFO_FROM_BASKET)
-    } else if (this.isEmptyBasket()) {
+    } else if (this.state.showScaleAnimationEmptyBasket && this.isEmptyBasket()) {
       timingAnimation(this.state.showScaleAnimationEmptyBasket, 1, 300, true)
       this.props.cleanCoupon()
-    } else if (!this.isEmptyBasket()) {
+    } else if (this.state.showScaleAnimation && !this.isEmptyBasket()) {
       timingAnimation(this.state.showScaleAnimation, 1, 300, true)
     }
 
     this.changeTotalCountProductInBasket()
+  }
+
+  successAddedProductMsg = 'Товар добавлен в корзину'
+  showSuccessMessage = msg => {
+    showMessage({
+      message: msg,
+      type: 'success',
+    });
   }
 
   onSelectedProduct = productId => {
@@ -283,6 +301,29 @@ class ShoppingBasketScreen extends React.Component {
     />
   }
 
+  addRecommendProductHandler = basketProduct => {
+    this.toggleProductInBasket(basketProduct)
+    this.showSuccessMessage(this.successAddedProductMsg)
+  }
+
+  addRecommendProductWithOptionsHandler = basketProduct => {
+    this.toggleProductWithOptionsInBasket(basketProduct)
+  }
+
+  renderRecommendedProducts = products => {
+    if (!products || products.length == 0)
+      return null
+
+    return <RecommendedProducts
+      products={products}
+      additionalOptions={this.props.additionalOptions}
+      style={this.props.style}
+      currencyPrefix={this.props.currencyPrefix}
+      onToggleProduct={this.addRecommendProductHandler}
+      onToggleProductWithOptions={this.showSheetProductWithOptions}
+    />
+  }
+
   renderItem = ({ item }) => {
     switch (item.type) {
       case CategoryType.Default:
@@ -291,6 +332,8 @@ class ShoppingBasketScreen extends React.Component {
         return this.renderConstructorProduct(item.id)
       case CategoryType.WithOptions:
         return this.renderProductWithOptions(item.id)
+      case CategoryType.Recommended:
+        return this.renderRecommendedProducts(item.recommendedProducts)
     }
   }
 
@@ -373,8 +416,10 @@ class ShoppingBasketScreen extends React.Component {
 
   toggleProductInBasket = basketProduct => {
     const basketProductModify = { ...this.props.basketProducts }
+    const productFromBasket = this.props.basketProducts[basketProduct.id]
+    const categoryId = productFromBasket ? productFromBasket.categoryId : basketProduct.categoryId
     basketProductModify[basketProduct.id] = {
-      categoryId: this.props.basketProducts[basketProduct.id].categoryId,
+      categoryId,
       count: basketProduct.count,
       index: basketProduct.index
     }
@@ -402,11 +447,13 @@ class ShoppingBasketScreen extends React.Component {
   }
 
   toggleProductWithOptionsInBasket = basketProduct => {
-    const basketConstructorProductModify = { ...this.props.basketProductsWithOptions }
+    const basketProductModify = { ...this.props.basketProductsWithOptions }
 
     if (basketProduct.count > 0) {
-      const item = basketConstructorProductModify[basketProduct.uniqId]
-      basketConstructorProductModify[basketProduct.uniqId] = {
+      let item = basketProductModify[basketProduct.uniqId]
+      item = item ? item : { ...basketProduct, categoryId: this.props.productDictionary[basketProduct.productId].CategoryId }
+
+      basketProductModify[basketProduct.uniqId] = {
         uniqId: item.uniqId,
         categoryId: item.categoryId,
         count: basketProduct.count,
@@ -415,10 +462,10 @@ class ShoppingBasketScreen extends React.Component {
         additionalFillings: item.additionalFillings,
       }
     } else {
-      delete basketConstructorProductModify[basketProduct.uniqId]
+      delete basketProductModify[basketProduct.uniqId]
     }
 
-    this.props.toggleProductWithOptionsInBasket(basketConstructorProductModify)
+    this.props.toggleProductWithOptionsInBasket(basketProductModify)
   }
 
   isEmptyBasket = () => {
@@ -475,34 +522,65 @@ class ShoppingBasketScreen extends React.Component {
 
   getDataFromBasket = () => {
     let products = []
-    const addeddProducts = (items, type) => {
+    const addedProducts = (items, type) => {
       for (const id in items) {
-        products.push({ id, type })
+        products.push({ id, type, isRemoved: items[id].count == 0 })
+      }
+    }
+
+    let productIdsForRecommendedLogic = []
+
+    const addedProductForRecommendedLogic = items => {
+      for (const id in items) {
+        const item = items[id]
+
+        if (item.count == 0)
+          continue
+
+        if (item.productId){
+          productIdsForRecommendedLogic.push(item.productId)
+        }
+        else
+          productIdsForRecommendedLogic.push(id)
       }
     }
 
     if (this.props.basketProducts
       && Object.keys(this.props.basketProducts).length > 0) {
-      addeddProducts(this.props.basketProducts, CategoryType.Default)
+      addedProductForRecommendedLogic(this.props.basketProducts)
+      addedProducts(this.props.basketProducts, CategoryType.Default)
     }
 
     if (this.props.basketConstructorProducts
       && Object.keys(this.props.basketConstructorProducts).length > 0) {
-      addeddProducts(this.props.basketConstructorProducts, CategoryType.Constructor)
+      addedProducts(this.props.basketConstructorProducts, CategoryType.Constructor)
     }
 
     if (this.props.basketProductsWithOptions
       && Object.keys(this.props.basketProductsWithOptions).length > 0) {
-      addeddProducts(this.props.basketProductsWithOptions, CategoryType.WithOptions)
+      addedProductForRecommendedLogic(this.props.basketProductsWithOptions)
+      addedProducts(this.props.basketProductsWithOptions, CategoryType.WithOptions)
+    }
+
+    const recommendedProducts = this.recommendedLogic.getRecommendedProducts(productIdsForRecommendedLogic)
+    if (products && products.length && recommendedProducts && recommendedProducts.length) {
+      const recommendedProductsItem = {
+        id: generateRandomString(),
+        recommendedProducts,
+        type: CategoryType.Recommended
+      }
+
+      const index = products.findIndex(p => !p.isRemoved) + 1
+      products.splice(index, 0, recommendedProductsItem);
     }
 
     return products
   }
 
   getFooter = () => {
-    if(this.props.isLogin)
+    if (this.props.isLogin)
       return this.renderCheckoutFooter()
-    else 
+    else
       return this.renderLoginInfoFooter()
   }
 
@@ -513,20 +591,48 @@ class ShoppingBasketScreen extends React.Component {
 
     return productId.toString()
  }
+  showSheetProductWithOptions = productId => {
+    this.setState({
+      metadataProductWithOptions: {
+        toggleInfoProductWithOptions: true,
+        selectedProductId: productId
+      }
+    })
+  }
+
+  closeSheetProductWithOptions = () => {
+    this.setState({
+      metadataProductWithOptions: {
+        toggleInfoProductWithOptions: false,
+        selectedProductId: -1
+      }
+    })
+  }
 
   renderBasketContents = () => {
     return (
-      <Animated.View
+      <View
         style={[
           {
             paddingHorizontal: 12,
             marginTop: 5,
-            opacity: this.state.showScaleAnimation,
             flex: 1,
-            transform: [{ scale: this.state.showScaleAnimation }]
           }
-        ]}>
-       
+        ]}
+      >
+        <Animated.View
+          contentContainerStyle={{
+            flexGrow: 1,
+            justifyContent: 'space-between'
+          }}
+          style={[
+            {
+              flex: 1,
+              opacity: this.state.showScaleAnimation,
+              transform: [{ scale: this.state.showScaleAnimation }]
+            }
+          ]}>
+
           <FlatList
             windowSize={4}
             removeClippedSubviews={Platform.OS !== 'ios'}
@@ -535,10 +641,18 @@ class ShoppingBasketScreen extends React.Component {
             extraData={this.props.basketProducts}
             data={this.getDataFromBasket()}
             renderItem={this.renderItem}
+            ListFooterComponent={this.getFooter()}
+            contentContainerStyle={{ flexGrow: 1 }}
+            ListFooterComponentStyle={{ justifyContent: 'flex-end', flex: 1 }}
           />
-          {this.getFooter()}
-    
-      </Animated.View>
+          <ProductWithOptions
+            toggle={this.state.metadataProductWithOptions.toggleInfoProductWithOptions}
+            close={this.closeSheetProductWithOptions}
+            productId={this.state.metadataProductWithOptions.selectedProductId}
+            onToggleProduct={this.addRecommendProductWithOptionsHandler}
+          />
+        </Animated.View>
+      </View>
     )
   }
 
@@ -651,6 +765,7 @@ const mapStateToProps = state => {
     currencyPrefix: state.appSetting.currencyPrefix,
     products: state.main.products,
     productDictionary: state.main.productDictionary,
+    recommendedProducts: state.main.recommendedProducts,
     additionalOptions: state.main.additionalOptions,
     additionalFillings: state.main.additionalFillings,
     selectedProduct: state.catalog.selectedProduct,
