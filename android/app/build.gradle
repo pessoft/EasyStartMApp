@@ -132,8 +132,8 @@ android {
         applicationId "com.easystartmapp"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 41
-        versionName "39.5.29"
+        versionCode 42
+        versionName "40.0.0"
 	    multiDexEnabled true
     }
     splits {
