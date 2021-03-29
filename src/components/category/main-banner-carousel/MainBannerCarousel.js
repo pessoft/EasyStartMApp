@@ -1,6 +1,6 @@
 import React from 'react'
 import { TouchableWithoutFeedback, Dimensions, View, Image } from 'react-native'
-import Carousel from 'react-native-banner-carousel'
+import Carousel from '@webileapps/react-native-banner-carousel'
 import Style from './style'
 
 

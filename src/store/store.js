@@ -9,7 +9,7 @@ import { defaultState as defaultAppSetting} from '../store/app-settings/reducer'
 import { defaultState as defaultBasket} from '../store/basket/reducer'
 
 const migrations = {
-  16: (state) => {
+  19: (state) => {
     return {
       ...state,
       style: {
@@ -31,7 +31,7 @@ const migrations = {
 const persistConfig = {
   key: 'root',
   storage,
-  version: 16,
+  version: 19,
   whitelist: ['user', 'style', 'appSetting', 'basket'],
   migrate: createMigrate(migrations, { debug: true }),
 }

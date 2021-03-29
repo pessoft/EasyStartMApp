@@ -80,6 +80,7 @@ export class DatePickerBirthday extends React.Component {
         </View>
         <View style={Style.datePickerContainer}>
           <DatePicker
+            androidVariant='nativeAndroid'
             mode={'date'}
             textColor={this.props.style.theme.primaryTextColor.color}
             fadeToColor={this.props.style.theme.backdoor.backgroundColor}

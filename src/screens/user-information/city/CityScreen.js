@@ -1,16 +1,14 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import {
-  ScrollView,
   FlatList,
   View,
-  Button,
   ActivityIndicator,
   Animated,
   Dimensions,
-  Platform,
-  Picker
+  Platform
 } from 'react-native'
+import { Picker } from '@react-native-community/picker'
 import {
   setCityId,
   setBranchId,
@@ -117,7 +115,8 @@ class CityScreen extends React.Component {
   getParamsForMainData = () => {
     return {
       branchId: this.props.branchId,
-      clientId: this.props.clientId
+      clientId: this.props.clientId,
+      appPackageName: this.props.appPackageName
     }
   }
 
@@ -174,7 +173,7 @@ class CityScreen extends React.Component {
 
   renderCitiesAndroid = () => {
     return (
-      <ScrollView>
+      <View>
         <FlatList
           data={this.citiesToArray()}
           renderItem={({ item }) => <SimpleListItem
@@ -185,7 +184,7 @@ class CityScreen extends React.Component {
             selected={this.props.cityId == item.key}
             onPress={this.setCityId} />}
         />
-      </ScrollView>
+      </View>
     )
   }
 
@@ -260,6 +259,7 @@ const mapStateToProps = state => {
     user: state.user,
     style: state.style,
     isSuccessClientUpdateData: state.user.isSuccessClientUpdateData,
+    appPackageName: state.appSetting.appPackageName,
   }
 }
 

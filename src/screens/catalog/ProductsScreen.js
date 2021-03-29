@@ -41,8 +41,6 @@ class ProductsScreen extends React.Component {
             categoryName: this.props.selectedCategory.Name,
         })
 
-        this.props.setSelectedProduct({})
-
         this.state = {
             showScaleAnimation: new Animated.Value(0),
             refreshItems: false,
@@ -56,10 +54,15 @@ class ProductsScreen extends React.Component {
     goToCashbackScreen = () => this.props.navigation.navigate(CASHBACK_PROFILE)
 
     componentDidMount = () => {
+        this.props.setSelectedProduct({})
+
         timingAnimation(this.state.showScaleAnimation, 1, 300, true)
         this.focusListener = this.props.navigation.addListener('didFocus', () => {
-            this.props.setSelectedProduct({})
             this.setState({ refreshItems: !this.state.refreshItems })
+        });
+
+        this.focusListener = this.props.navigation.addListener('willFocus', () => {
+            this.props.setSelectedProduct({})
         });
     }
 
@@ -349,7 +352,7 @@ class ProductsScreen extends React.Component {
 
     render() {
         return (
-            <Animated.ScrollView
+            <Animated.View
                 contentContainerStyle={{
                     flex: 1,
                     paddingHorizontal: 1,
@@ -368,7 +371,7 @@ class ProductsScreen extends React.Component {
                     productId={this.state.metadataProductWithOptions.selectedProductId}
                     onToggleProduct={this.toggleProductWithOptionsInBasket}
                 />
-            </Animated.ScrollView>
+            </Animated.View>
         )
     }
 }

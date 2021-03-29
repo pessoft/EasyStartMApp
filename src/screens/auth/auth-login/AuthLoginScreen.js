@@ -97,7 +97,8 @@ class AuthLoginScreen extends React.Component {
   getParamsForMainData = () => {
     return {
       branchId: this.props.branchId,
-      clientId: this.props.clientId
+      clientId: this.props.clientId,
+      appPackageName: this.props.appPackageName
     }
   }
 
@@ -271,6 +272,7 @@ const mapStateToProps = state => {
     categories: state.main.categories,
     clientId: state.user.clientId,
     branchId: state.user.branchId,
+    appPackageName: state.appSetting.appPackageName,
   }
 }
 

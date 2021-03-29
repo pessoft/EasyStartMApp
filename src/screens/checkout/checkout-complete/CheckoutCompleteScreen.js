@@ -15,6 +15,7 @@ import {
 } from '../../../store/basket/actions'
 import { showMessage } from "react-native-flash-message"
 import { dropFetchFlag } from '../../../store/checkout/actions'
+import { getTimeOrderProcessedInfo } from '../../../logic/complete-order/complete-order-logic'
 
 class CheckoutCompleteScreen extends React.Component {
   constructor(props) {
@@ -142,6 +143,9 @@ class CheckoutCompleteScreen extends React.Component {
           ]}>
           Успешно оформлен
         </Text>
+        {
+          this.getTimeOrderProcessedMessage()
+        }
         {this.renderButtonOk()}
       </Animated.View>
     )
@@ -199,6 +203,22 @@ class CheckoutCompleteScreen extends React.Component {
     )
   }
 
+  getTimeOrderProcessedMessage = () => {
+    const timeMsg = getTimeOrderProcessedInfo(this.props.completeOrderDeliveryType, this.props.completeOrderApproximateDeliveryTime)
+
+    if (timeMsg)
+      return <Text
+        style={[
+          this.props.style.theme.primaryTextColor,
+          this.props.style.fontSize.h8,
+          Style.infoText
+        ]}>
+        {timeMsg}
+      </Text>
+
+    return null
+  }
+
   render() {
     return (
       <View style={[
@@ -213,6 +233,7 @@ class CheckoutCompleteScreen extends React.Component {
   }
 }
 
+
 const mapStateToProps = state => {
   return {
     style: state.style,
@@ -221,6 +242,8 @@ const mapStateToProps = state => {
     isError: state.checkout.isError,
     errorMessage: state.checkout.errorMessage,
     orderNumber: state.checkout.lastOrderNumber,
+    completeOrderDeliveryType: state.checkout.completeOrderDeliveryType,
+    completeOrderApproximateDeliveryTime: state.checkout.completeOrderApproximateDeliveryTime,
     userData: state.user,
   }
 }

@@ -11,13 +11,15 @@ import {
   openPartners,
   openProductInfo,
   openStock,
-  openNews
+  openNews,
+  openOrderHistory
 } from '../../logic/notification-open-actions/actions'
 import PushNotificationIOS from '@react-native-community/push-notification-ios'
 
 import { setSelectedCategory, setSelectedProduct } from '../../../store/catalog/actions'
 import { setSelectedStock } from '../../../store/stock/actions'
 import { setSelectedNews } from '../../../store/news/actions'
+import { setGoToOrderId } from '../../../store/history-order/actions'
 
 const PlatformType = {
   'android': 0,
@@ -30,6 +32,8 @@ class FCMManagerComponent extends React.Component {
     super(props)
     this.pushNotification = setupPushNotification(this.handleNotificationOpen)
   }
+
+  notificationListenerRemove = () => { }
 
   getDeviceData = () => {
     return {
@@ -53,27 +57,33 @@ class FCMManagerComponent extends React.Component {
     }
   }
 
+  componentWillUnmount() {
+    this.notificationListenerRemove() //This will remove the listener
+  }
+
   subscribeForegroundMessage = async () => {
-    messaging().onMessage(async remoteMessage => {
-      let data = null
+    this.notificationListenerRemove = messaging().onMessage(async remoteMessage => {
+      let dataForAndroid = null
+      const dataForIos = remoteMessage.data
 
       try {
-        data = JSON.parse(remoteMessage.data.payload)
-      } catch{ }
+        dataForAndroid = JSON.parse(remoteMessage.data.payload)
+      } catch { }
 
-      if (data)
-        this.sendNotification(data)
+      if (dataForAndroid)
+        this.sendNotification(remoteMessage.messageId, dataForAndroid, dataForIos)
     })
   }
 
-  sendNotification = data => {
+  sendNotification = (messageId, dataForAndroid, dataForIos) => {
     this.pushNotification.localNotification({
+      messageId,
       largeIcon: "ic_launcher",
       smallIcon: "ic_notification",
-      title: data.title,
-      message: data.message,
-      data: data, // data for android
-      userInfo: data, //data for ios
+      title: dataForAndroid.title,
+      message: dataForAndroid.message,
+      data: dataForAndroid, // data for android
+      userInfo: dataForIos, //data for ios
     })
   }
 
@@ -132,16 +142,23 @@ class FCMManagerComponent extends React.Component {
           this.props.promotionCashbackSetting.IsUseCashback)
           openCashback(options)
         break
+        case NotificationActionType.OpenOrder:
+          options.setGoToOrderId = this.props.setGoToOrderId
+  
+          openOrderHistory(options)
+          break
     }
   }
 
   settingFCMForIOS = () => {
     PushNotificationIOS.removeEventListener('register', this.registerToken)
     PushNotificationIOS.addEventListener('register', this.registerToken)
-    const isRegisteredForRemoteNotifications = firebase.messaging().isRegisteredForRemoteNotifications
+    const isRegisteredForRemoteNotifications = firebase.messaging().isDeviceRegisteredForRemoteMessages
     if (!isRegisteredForRemoteNotifications) {
       this.props.registerAppWithFCM()
     }
+
+    this.subscribeForegroundMessage()
   }
 
   render() {
@@ -173,7 +190,8 @@ const mapDispatchToProps = {
   setSelectedStock,
   setSelectedNews,
   setNotificationActionExecution,
-  registerDevice
+  registerDevice,
+  setGoToOrderId,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(FCMManagerComponent)

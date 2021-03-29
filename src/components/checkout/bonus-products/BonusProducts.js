@@ -120,12 +120,13 @@ export class BonusProducts extends React.Component {
     return productsForRender
   }
 
-  renderItem = ({ item }) => {
+  renderItem = item => {
     return <ProductBonusItem
       backgroundColor={this.props.style.theme.themeBody.backgroundColor}
       style={this.props.style}
       animation={item.animation}
       id={item.id}
+      key={item.key}
       product={item.product}
       limit={this.state.limit}
       maxCount={1}
@@ -174,10 +175,7 @@ export class BonusProducts extends React.Component {
         <View
           style={Style.content}
         >
-          <FlatList
-            renderItem={this.renderItem}
-            data={this.productsTransform()}
-          />
+         {this.productsTransform().map(p => this.renderItem(p))}
         </View>
       </View>
     )

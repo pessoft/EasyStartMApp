@@ -131,7 +131,7 @@ class StocksScreen extends React.Component {
 
   renderStocks = () => {
     return (
-      <Animated.ScrollView
+      <Animated.View
         style={[
           {
             flex: 1,
@@ -155,7 +155,7 @@ class StocksScreen extends React.Component {
             )
           }}
         />
-      </Animated.ScrollView>
+      </Animated.View>
     )
   }
 
