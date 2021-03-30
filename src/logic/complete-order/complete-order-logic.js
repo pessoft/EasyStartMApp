@@ -7,7 +7,8 @@ export const getTimeOrderProcessedInfo = (deliveryType, approximateDeliveryTime)
       const approximateTime = new Date(approximateDeliveryTime)
       const currentDate = new Date();
       const isDateEquals = approximateTime.toDateString() == currentDate.toDateString()
-      const timeStr = `${approximateTime.getHours()}:${approximateTime.getMinutes()}`
+      const minutesStr = approximateTime.getMinutes() < 10 ? `0${approximateTime.getMinutes()}` : `${approximateTime.getMinutes()}`
+      const timeStr = `${approximateTime.getHours()}:${minutesStr}`
       const dateStr = approximateTime.toLocaleDateString()
       const timeInfo = isDateEquals ? timeStr : `${dateStr} ${timeStr}`
       timeInfoMessage = getTimeOrderProcessedInfoTemplateMessage(deliveryType, timeInfo)
