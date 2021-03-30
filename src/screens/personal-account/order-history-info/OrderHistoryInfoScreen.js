@@ -397,7 +397,7 @@ class OrderHistoryInfoScreen extends React.Component {
         ]}>
           {showIndicator &&
             <View style={Style.activityContainer}>
-              <ActivityIndicator size='small' color={this.props.style.theme.primaryTextColor.backgroundColor} />
+              <ActivityIndicator size='small' color={this.props.style.theme.primaryTextColor.color} />
             </View>
           }
           <Text style={[
