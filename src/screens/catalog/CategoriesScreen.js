@@ -21,6 +21,12 @@ import { NewsType } from '../../helpers/news-type'
 import ViewContainerCategoryChanger from '../../components/view-container-changer/ViewContainerCategoryChanger'
 import { ViewContainerType } from '../../helpers/view-container-type'
 import { NewsInfo } from '../../components/raw-bottom-sheets/news-info/NewsInfo'
+import {
+    toggleProductInBasket,
+    toggleProductWithOptionsInBasket,
+    changeTotalCountProductInBasket,
+    toggleConstructorProductInBasket
+} from '../../store/basket/actions'
 
 class CategoriesScreen extends React.Component {
     static navigationOptions = ({ navigation }) => {
@@ -60,6 +66,8 @@ class CategoriesScreen extends React.Component {
     goToCashbackScreen = () => this.props.navigation.navigate(CASHBACK_PROFILE)
 
     componentDidMount = () => {
+        this.checkBasketOnValid()
+
         this.props.setSelectedProduct({})
         this.props.setSelectedCategory({})
 
@@ -216,16 +224,78 @@ class CategoriesScreen extends React.Component {
         }
     }
 
-    onCloseSheetNewsInfo = () => this.setState({news: null})
+    onCloseSheetNewsInfo = () => this.setState({ news: null })
 
     renderBanner = () => {
         if (this.isShowBanner())
             return <MainBannerCarousel
-            style={this.props.style}
-            items={this.getDataForBanner()}
-            onPress={this.onPressBanner}
-        />
+                style={this.props.style}
+                items={this.getDataForBanner()}
+                onPress={this.onPressBanner}
+            />
         else return null
+    }
+
+    checkBasketOnValid = () => {
+        const clearBasket = () => {
+            this.props.toggleProductInBasket({})
+            this.props.toggleProductWithOptionsInBasket({})
+            this.props.toggleConstructorProductInBasket({})
+            this.props.changeTotalCountProductInBasket(0)
+        }
+
+        try {
+            let isValid = true
+
+            if (this.props.basketProducts && Object.keys(this.props.basketProducts).length) {
+                for (const productId in this.props.basketProducts) {
+                    const product = this.props.productDictionary[productId]
+
+                    if (!product) {
+                        isValid = false
+                        break
+                    }
+                }
+            }
+
+            if (isValid &&
+                this.props.basketConstructorProducts && Object.keys(this.props.basketConstructorProducts).length) {
+                for (const uniqId in this.props.basketConstructorProducts) {
+                    if (!isValid)
+                        break
+
+                    const productBasket = this.props.basketConstructorProducts[uniqId]
+
+                    for (const constructorIngredientsCategory in productBasket.constructorIngredients) {
+                        const constructorCategory = this.props.constructorCategories[constructorIngredientsCategory]
+
+                        if (!constructorCategory) {
+                            isValid = false
+                            break
+                        }
+                    }
+                }
+            }
+
+            if (isValid &&
+                this.props.basketProductsWithOptions && Object.keys(this.props.basketProductsWithOptions).length) {
+
+                for (const uniqId in this.props.basketProductsWithOptions) {
+                    const productBasket = this.props.basketProductsWithOptions[uniqId]
+                    const product = this.props.productDictionary[productBasket.productId]
+
+                    if (!product) {
+                        isValid = false
+                        break
+                    }
+                }
+            }
+
+            if (!isValid)
+                clearBasket()
+        } catch(ex) {
+            clearBasket()
+        }
     }
 
     render() {
@@ -266,13 +336,23 @@ const mapStateToProps = state => {
         news: state.main.news,
         fcmNotificationAction: state.fcm.notificationAction,
         selectedCategoryViewType: state.appSetting.selectedCategoryViewType,
+        branchId: state.user.branchId,
+        productDictionary: state.main.productDictionary,
+        constructorCategories: state.main.constructorCategories,
+        basketProducts: state.basket.basketProducts,
+        basketConstructorProducts: state.basket.basketConstructorProducts,
+        basketProductsWithOptions: state.basket.basketProductsWithOptions,
     }
 }
 
 const mapActionToProps = {
     setSelectedCategory,
     setSelectedProduct,
-    notificationActionDone
+    notificationActionDone,
+    toggleProductInBasket,
+    toggleConstructorProductInBasket,
+    toggleProductWithOptionsInBasket,
+    changeTotalCountProductInBasket,
 }
 
 export default connect(mapStateToProps, mapActionToProps)(CategoriesScreen)

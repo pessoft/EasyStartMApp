@@ -43,6 +43,14 @@ export const mainReducer = (state = defaultState, action) => {
     case RESET_DATA:
       return { ...defaultState }
     case FETCH_MAIN_DATA_REQUEST:
+      return {
+        ...state,
+        categories: [],
+        productDictionary: {},
+        constructorCategories: {},
+        isFetching: true,
+        isFetchError: false
+      }
     case FETCH_STOCKS_REQUEST:
       return {
         ...state,
