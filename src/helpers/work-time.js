@@ -69,7 +69,7 @@ export const isWorkTime = (operationMode, date) => {
       splitEndPeriod[0] = 24
       splitEndPeriod[1] = 0
     }
-
+    
     if (splitStartPeriod[0] > splitEndPeriod[0]) {
       if (currentHours < splitEndPeriod[0])
         return true
@@ -108,7 +108,7 @@ export const nearestWorkingStartDate = (timeDeliveryFromSettings, currentDate) =
   const workPeriod = workStartDate.split(':')
   date.setDate(date.getDate() + periodData.shiftDay)
   date.setHours(workPeriod[0], workPeriod[1])
-
+  
   return date
 }
 
@@ -132,7 +132,7 @@ export const nearestWorkingDate = (timeDeliveryFromSettings, currentDate) => {
   if (currentDayWorkPeriod && currentDayWorkPeriod.length == 2) {
     const timeEndDay = currentDayWorkPeriod[1].split(':')
     let dateEndDay = new Date()
-    dateEndDay.setHours(timeEndDay[0], timeEndDay[1])
+    dateEndDay.setHours(timeEndDay[0] == 0 ? 24 : timeEndDay[0], timeEndDay[1], 0, 0)
     
     if (currentDate < dateEndDay) {
       workDatePeriod = currentDayWorkPeriod
