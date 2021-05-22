@@ -5,7 +5,6 @@ import {
   Animated,
 } from 'react-native'
 import Style from './style'
-import { stringLiteralTypeAnnotation } from '@babel/types';
 import { timingAnimation } from '../../animation/timingAnimation'
 
 
