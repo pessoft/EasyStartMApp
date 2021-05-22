@@ -83,7 +83,7 @@ class AuthRegistrationScreen extends React.Component {
   userLogin = () => {
     if (this.props.categories.length > 0) {
       this.goToMainPage()
-    } else {
+    } else if (!this.props.isFetchingMainData) {
       this.props.getLocation()
 
       const params = this.getParamsForMainData()
@@ -268,6 +268,7 @@ const mapStateToProps = state => {
     errorMessage: state.user.errorMessage,
     user: state.user,
     cities: state.location.cities,
+    isFetchingMainData: state.main.isFetching,
     categories: state.main.categories,
     style: state.style,
     clientId: state.user.clientId,
