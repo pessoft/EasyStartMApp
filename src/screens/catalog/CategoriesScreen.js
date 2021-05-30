@@ -93,7 +93,8 @@ class CategoriesScreen extends React.Component {
 
     componentDidUpdate = () => {
         if (Object.keys(this.props.selectedCategory).length > 0
-            && this.props.selectedCategory.Id > 0) {
+            && this.props.selectedCategory.Id > 0
+            && this.props.navigation.isFocused()) {
             switch (this.props.selectedCategory.CategoryType) {
                 case CategoryType.Constructor:
                     this.props.navigation.navigate(CONSTRUCTOR_PRODUCTS)

@@ -73,6 +73,7 @@ class ShoppingBasketScreen extends React.Component {
     })
 
     this.state = {
+      isSelectedProduct: false,
       showScaleAnimation: new Animated.Value(0),
       showScaleAnimationEmptyBasket: new Animated.Value(0),
       showScaleAnimationWorkTimeInfo: new Animated.Value(0),
@@ -90,7 +91,6 @@ class ShoppingBasketScreen extends React.Component {
   goToCashbackScreen = () => this.props.navigation.navigate(CASHBACK_PROFILE)
 
   componentDidMount = () => {
-    this.props.setSelectedProduct({})
 
     if (this.isEmptyBasket())
       timingAnimation(this.state.showScaleAnimationEmptyBasket, 1, 300, true)
@@ -98,9 +98,12 @@ class ShoppingBasketScreen extends React.Component {
       timingAnimation(this.state.showScaleAnimation, 1, 300, true)
 
     this.focusListener = this.props.navigation.addListener('didFocus', () => {
-      this.props.setSelectedProduct({})
       this.setState({ refreshItems: !this.state.refreshItems })
     });
+
+    this.focusListener = this.props.navigation.addListener('willFocus', () => {
+      this.setState({ isSelectedProduct: false })
+  });
   }
 
   componentWillUnmount() {
@@ -110,6 +113,7 @@ class ShoppingBasketScreen extends React.Component {
   componentDidUpdate = () => {
     if (Object.keys(this.props.selectedProduct).length > 0
       && this.props.selectedProduct.Id > 0
+      && this.state.isSelectedProduct
       && this.props.navigation.isFocused()) {
       this.props.navigation.navigate(PRODUCT_INFO_FROM_BASKET)
     } else if (this.state.showScaleAnimationEmptyBasket && this.isEmptyBasket()) {
@@ -138,6 +142,7 @@ class ShoppingBasketScreen extends React.Component {
     this.props.markFromBasket(true)
     this.props.setSelectedProduct({})
     this.props.setSelectedProduct(product)
+    this.setState({ isSelectedProduct: true })
   }
 
   getProductById = (productId, products) => {

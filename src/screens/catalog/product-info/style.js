@@ -25,7 +25,7 @@ export default StyleSheet.create({
     productInfoContainer: {
         flexDirection: 'row',
         alignItems: 'center',
-        height: 90,
+        height: 100,
         paddingHorizontal: 5,
         marginHorizontal: 5,
         paddingBottom: 10,
@@ -37,13 +37,17 @@ export default StyleSheet.create({
         flex: 1.5,
         alignItems: 'flex-start',
         justifyContent: 'space-between',
-        height: 80,
+        height: 90,
+    },
+    ratingBlock: {
+        flex:1,
+        justifyContent: 'flex-start',
     },
     rightBlock: {
         flex: 1,
         alignItems: 'flex-end',
         justifyContent: 'flex-start',
-        height: 80
+        height: 90
     },
     description: {
         alignItems: 'stretch',
@@ -57,6 +61,10 @@ export default StyleSheet.create({
     reviewsButtonWithIcon: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        alignItems: 'center'
+        alignItems: 'center',
+    },
+    basketBlock: {
+        flex: 1,
+        justifyContent: 'flex-end'
     }
 })
