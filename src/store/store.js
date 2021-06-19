@@ -2,7 +2,7 @@ import rootReducer from './reducers'
 import { createStore, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk';
 import { persistStore, persistReducer, createMigrate } from 'redux-persist'
-import storage from 'redux-persist/lib/storage'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { defaultState as defaultStyle } from '../store/style/reducer'
 import { defaultState as defaultUserData } from '../store/user/reducer'
 import { defaultState as defaultAppSetting} from '../store/app-settings/reducer'
@@ -30,7 +30,7 @@ const migrations = {
 
 const persistConfig = {
   key: 'root',
-  storage,
+  storage: AsyncStorage,
   version: 19,
   whitelist: ['user', 'style', 'appSetting', 'basket'],
   migrate: createMigrate(migrations, { debug: true }),

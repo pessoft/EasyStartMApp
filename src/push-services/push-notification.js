@@ -1,10 +1,7 @@
 import PushNotification from 'react-native-push-notification'
 import PushNotificationIOS from '@react-native-community/push-notification-ios'
-import { Platform, DeviceEventEmitter } from 'react-native'
-import AsyncStorage from '@react-native-async-storage/async-storage'
-import { not } from 'react-native-reanimated'
+import { Platform } from 'react-native'
 
-let registerPushOnNotificationIOS = {}
 export const STORAGE_PUSH_KEY = '@STORAGE_PUSH_MESSAGES'
 
 export const setupPushNotification = (handleNotification) => {
