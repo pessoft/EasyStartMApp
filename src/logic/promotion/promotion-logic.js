@@ -271,4 +271,13 @@ export class PromotionLogic {
 
         return true
     }
+
+    getDetailsInfoDiscountPercent() {
+        const stockIds = this.getApplyStockIds()
+
+        if (stockIds.length)
+            return this.stockLogic.getDetailsInfoDiscountPercentByStockIds(stockIds)
+
+        return []
+    }
 }

@@ -587,4 +587,39 @@ export class StockLogic {
 
         return getMaxOfArray(counts)
     }
+
+    /**
+     * Если в процентной скидке есть фильтр на исключение блюд
+     * то тут по каждой скидке считаем процент в рублях исключая стоимость блюд указаных в фильтре,
+     * таким образом процент применяется только к той сумме в которую входят только разрешенные продукты для этой скидки 
+     *
+     */
+     getDetailsInfoDiscountPercentByStockIds(ids) {
+        var targetStocks = this.stocks.filter(p => ids.includes(p.Id)
+            && p.StockExcludedProducts && p.StockExcludedProducts.length
+            && p.DiscountType == DiscountType.Percent)
+        var result = []
+
+        if (targetStocks.length) {
+            for (const stock of targetStocks) {
+                let orderSumExcludedProducts = 0
+
+                for (const productId of stock.StockExcludedProducts) {
+                    const basketProduct = this.basketProducts[productId]
+
+                    if (basketProduct)
+                        orderSumExcludedProducts += this.products[productId].Price * basketProduct.count
+                }
+
+                const orderSum = this.orderSum - orderSumExcludedProducts
+
+                result.push({
+                    percent: stock.DiscountValue,
+                    discountValueRuble: (orderSum * stock.DiscountValue) / 100
+                })
+            }
+        }
+
+        return result
+    }
 }
