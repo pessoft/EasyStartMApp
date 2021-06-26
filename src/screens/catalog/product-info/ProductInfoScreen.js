@@ -4,7 +4,8 @@ import {
     View,
     Text,
     Animated,
-    Image
+    Image,
+    Dimensions
 } from 'react-native'
 import { SimpleTextButton } from '../../../components/buttons/SimpleTextButton/SimpleTextButton'
 import { AirbnbRating } from 'react-native-ratings';
@@ -16,6 +17,10 @@ import { setSelectedProduct } from '../../../store/catalog/actions'
 import { getSVGColor } from '../../../helpers/color-helper'
 import { updateRating } from '../../../store/main/actions'
 import { ProductAdditionalInfoType, ProductAdditionalInfoTypeShortName } from '../../../helpers/product-additional-option'
+import { ShoppingButton } from '../../../components/buttons/ShoppingButton/ShoppingButton';
+import { toggleProductInBasket } from '../../../store/basket/actions'
+
+const min320 = Dimensions.get('window').width <= 320
 
 class ProductInfoScreen extends React.Component {
     static navigationOptions = ({ navigation }) => {
@@ -33,6 +38,7 @@ class ProductInfoScreen extends React.Component {
             selectedProduct: props.selectedProduct,
             fromBasket: props.fromBasket,
             refreshItems: false,
+            selectedCountProduct: this.getSelectedCountProduct(props.selectedProduct)
         }
     }
 
@@ -66,6 +72,24 @@ class ProductInfoScreen extends React.Component {
 
             this.setState({ refreshItems: false })
         }
+
+        const selectedCountProduct = this.getSelectedCountProduct(this.state.selectedProduct)
+        
+        if (selectedCountProduct != this.state.selectedCountProduct)
+            this.setState({ selectedCountProduct })
+    }
+
+    onToggleProduct = countProduct => {
+        const id = this.state.selectedProduct.Id
+        const productIndex = this.props.products[this.state.selectedProduct.CategoryId].findIndex(p => p.Id == id)
+        const basketProductModify = { ...this.props.basketProducts }
+        basketProductModify[id] = {
+            categoryId: this.state.selectedProduct.CategoryId,
+            count: countProduct,
+            index: productIndex
+        }
+
+        this.props.toggleProductInBasket(basketProductModify)
     }
 
     getRatingText() {
@@ -135,9 +159,16 @@ class ProductInfoScreen extends React.Component {
         return additionInfo
     }
 
+    getSelectedCountProduct = (selectedProduct) => {
+        const productInfoFromBasket = this.props.basketProducts[selectedProduct.Id]
+
+        return productInfoFromBasket ? productInfoFromBasket.count : 0
+    }
+
     render() {
         return (
             <Animated.ScrollView
+                key={this.state.selectedCountProduct.toString()}
                 contentContainerStyle={{
                     paddingHorizontal: 12
                 }}
@@ -157,19 +188,21 @@ class ProductInfoScreen extends React.Component {
                         Style.productInfoContainer,
                         this.props.style.theme.dividerColor]}>
                         <View style={Style.leftBlock}>
-                            <AirbnbRating
-                                ratingBackgroundColor={this.props.style.theme.themeBody.backgroundColor}
-                                size={28}
-                                fractions={1}
-                                showRating={false}
-                                defaultRating={this.state.selectedProduct.Rating}
-                                onFinishRating={this.onFinishRating}
-                                isDisabled={!this.props.isLogin}
-                            />
-                            <Text style={[
-                                this.props.style.fontSize.h9,
-                                this.props.style.theme.secondaryTextColor]}>{this.getRatingText()}
-                            </Text>
+                            <View style={Style.ratingBlock}>
+                                <AirbnbRating
+                                    ratingBackgroundColor={this.props.style.theme.themeBody.backgroundColor}
+                                    size={28}
+                                    fractions={1}
+                                    showRating={false}
+                                    defaultRating={this.state.selectedProduct.Rating}
+                                    onFinishRating={this.onFinishRating}
+                                    isDisabled={!this.props.isLogin}
+                                />
+                                <Text style={[
+                                    min320 ? this.props.style.fontSize.h10 : this.props.style.fontSize.h9,
+                                    this.props.style.theme.secondaryTextColor]}>{this.getRatingText()}
+                                </Text>
+                            </View>
                             <View style={Style.reviewsButtonWithIcon}>
                                 <View style={Style.buttonContainer}>
                                     <SimpleTextButton
@@ -183,22 +216,35 @@ class ProductInfoScreen extends React.Component {
                                 <CommentLinesIcon
                                     width={20}
                                     height={20}
-                                    style={{ marginLeft: 5 }}
                                     color={getSVGColor(this.props.style.theme.accentOther.backgroundColor)}
                                 />
                             </View>
                         </View>
                         <View style={Style.rightBlock}>
                             <Text style={[
-                                this.props.style.fontSize.h4,
+                                min320 ? this.props.style.fontSize.h6 : this.props.style.fontSize.h5,
                                 this.props.style.theme.primaryTextColor]}>
                                 {this.getPriceProduct()}
                             </Text>
                             <Text style={[
-                                this.props.style.fontSize.h8,
+                                min320 ? this.props.style.fontSize.h10 : this.props.style.fontSize.h9,
                                 this.props.style.theme.secondaryTextColor]}>
                                 {this.getProductAdditionalInfo()}
                             </Text>
+                            <View style={Style.basketBlock}>
+                                <ShoppingButton
+                                    startCount={this.state.selectedCountProduct}
+                                    limit={this.props.limit}
+                                    maxCount={this.props.maxCount}
+                                    size={20}
+                                    underlayColor={this.props.style.theme.lightPrimaryColor.backgroundColor}
+                                    color={this.props.style.theme.textPrimaryColor.color}
+                                    tintColor={this.props.style.theme.primaryTextColor.color}
+                                    borderColor={this.props.style.theme.dividerColor.borderColor}
+                                    backgroundColor={this.props.style.theme.accentColor.backgroundColor}
+                                    onPress={this.onToggleProduct}
+                                />
+                            </View>
                         </View>
                     </View>
                     <Text style={[
@@ -215,6 +261,7 @@ class ProductInfoScreen extends React.Component {
 
 const mapStateToProps = state => {
     return {
+        basketProducts: state.basket.basketProducts,
         serverDomain: state.appSetting.serverDomain,
         currencyPrefix: state.appSetting.currencyPrefix,
         selectedProduct: state.catalog.selectedProduct,
@@ -224,12 +271,14 @@ const mapStateToProps = state => {
         style: state.style,
         clientId: state.user.clientId,
         additionalOptions: state.main.additionalOptions,
+        products: state.main.products,
     }
 }
 
 const mapDispatchToProps = {
     setSelectedProduct,
-    updateRating
+    updateRating,
+    toggleProductInBasket
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductInfoScreen)
