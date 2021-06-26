@@ -401,40 +401,12 @@ PODS:
     - Firebase/Messaging (= 7.11.0)
     - React-Core
     - RNFBApp
-  - RNGestureHandler (1.10.3):
-    - React-Core
-  - RNReanimated (2.2.0):
-    - DoubleConversion
-    - FBLazyVector
-    - FBReactNativeSpec
-    - glog
-    - RCT-Folly
-    - RCTRequired
-    - RCTTypeSafety
+  - RNGestureHandler (1.8.0):
     - React
-    - React-callinvoker
-    - React-Core
-    - React-Core/DevSupport
-    - React-Core/RCTWebSocket
-    - React-CoreModules
-    - React-cxxreact
-    - React-jsi
-    - React-jsiexecutor
-    - React-jsinspector
-    - React-RCTActionSheet
-    - React-RCTAnimation
-    - React-RCTBlob
-    - React-RCTImage
-    - React-RCTLinking
-    - React-RCTNetwork
-    - React-RCTSettings
-    - React-RCTText
-    - React-RCTVibration
-    - ReactCommon/turbomodule/core
-    - Yoga
-  - RNScreens (3.4.0):
-    - React-Core
-    - React-RCTImage
+  - RNReanimated (1.13.1):
+    - React
+  - RNScreens (2.11.0):
+    - React
   - RNSVG (12.1.1):
     - React
   - Yoga (1.14.0)
@@ -660,9 +632,9 @@ SPEC CHECKSUMS:
   RNFBAnalytics: 3e250066a98d6ea0a7816c52de75f2633f726580
   RNFBApp: 9c90f9d576861947ba75fe0830567c570bcbcf6d
   RNFBMessaging: c873e6c37f69d22de22cab134413030a9c6330a9
-  RNGestureHandler: a479ebd5ed4221a810967000735517df0d2db211
-  RNReanimated: 9c13c86454bfd54dab7505c1a054470bfecd2563
-  RNScreens: 21b73c94c9117e1110a79ee0ee80c93ccefed8ce
+  RNGestureHandler: 7a5833d0f788dbd107fbb913e09aa0c1ff333c39
+  RNReanimated: dd8c286ab5dd4ba36d3a7fef8bff7e08711b5476
+  RNScreens: 0e91da98ab26d5d04c7b59a9b6bd694124caf88c
   RNSVG: 551acb6562324b1d52a4e0758f7ca0ec234e278f
   Yoga: 575c581c63e0d35c9a83f4b46d01d63abc1100ac
 
