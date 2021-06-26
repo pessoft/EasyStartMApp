@@ -417,9 +417,9 @@ class CheckoutScreen extends React.Component {
   }
 
   applyDiscount = orderPrice => {
-    const discountPercent = parseFloat(this.state.promotion.getDiscount(DiscountType.Percent))
+    let discountPercent = parseFloat(this.state.promotion.getDiscount(DiscountType.Percent))
     const discountRuble = parseFloat(this.state.promotion.getDiscount(DiscountType.Ruble))
-
+    
     let partialDiscountPercent = this.state.promotion.getPartialDiscount(DiscountType.Percent)
     partialDiscountPercent = partialDiscountPercent.length == 0 ? [{ discountValueCurrency: 0 }] : partialDiscountPercent
     let partialDiscountRubel = this.state.promotion.getPartialDiscount(DiscountType.Ruble)
@@ -429,10 +429,16 @@ class CheckoutScreen extends React.Component {
 
     let partialDiscountValueCurrency = partialDiscountPercent.reduce(reduce, { partialDiscountValueCurrency: 0 })
     partialDiscountValueCurrency += partialDiscountRubel.reduce(reduce, { partialDiscountValueCurrency: 0 })
-
     let price = orderPrice - discountRuble - partialDiscountValueCurrency
-    price = price - (price * discountPercent / 100)
 
+    var detailsInfoDiscountPercent = this.state.promotion.getDetailsInfoDiscountPercent()
+    for(const discountInfo of detailsInfoDiscountPercent){
+      discountPercent -= discountInfo.percent
+      price -= discountInfo.discountValueRuble
+    }
+
+    price = price - (price * discountPercent / 100)
+    
     return price
   }
 
